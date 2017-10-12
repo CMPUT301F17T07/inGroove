@@ -1,3 +1,3 @@
 # inGroove
 
-inGroove is an app to help you better manage and follow your goals, whatever they may be.
+inGroove is an app to help you better manage, follow, and share your goals, whatever they may be.
