@@ -52,4 +52,26 @@ class Habit {
         this.events = events;
     }
 
+    public Habit(String name, String comment, ArrayList<String> repeatedDays) {
+        this.name = name;
+        this.comment = comment;
+        this.repeatedDays = repeatedDays;
+        this.events = new ArrayList<>();
+    }
+
+    public Habit(String name, String comment) {
+        this.name = name;
+        this.comment = comment;
+        this.repeatedDays = new ArrayList<>();
+        this.events = new ArrayList<>();
+    }
+
+    public String getHabitString() {
+        return "Habit: " + name + "\n Comment: " + comment + "\n";
+    }
+
+    public void addRepatedDay(String day) {
+        this.repeatedDays.add(day);
+    }
+
 }
