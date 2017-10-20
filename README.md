@@ -6,3 +6,4 @@ inGroove is an app to help you better manage, follow, and share your goals, what
 
 ### Project Members
 * Fraser Bulbuc
+* Ashley Holgate
