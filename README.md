@@ -8,3 +8,4 @@ inGroove is an app to help you better manage, follow, and share your goals, what
 * Fraser Bulbuc
 * Ashley Holgate
 * Austin Crapo
+* Adam Otto
