@@ -19,6 +19,6 @@ public class HabitTest {
         assertTrue(habit.getRepeatedDays().contains("Tuesday"));
 
     }
-    
+
 
 }
