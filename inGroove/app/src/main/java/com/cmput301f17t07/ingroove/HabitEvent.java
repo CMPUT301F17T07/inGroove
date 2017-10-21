@@ -1,7 +1,10 @@
 
 package com.cmput301f17t07.ingroove;
 
-import java.text.SimpleDateFormat
+import android.graphics.Bitmap;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 class HabitEvent {
@@ -9,7 +12,7 @@ class HabitEvent {
 	private String name;
 	private String comment;
 	private Date day;
-	private Bitmap photo; 
+	private Bitmap photo;
 	private int id;
 	private String location;
 
@@ -20,7 +23,7 @@ class HabitEvent {
 	public String getComment() { return comment; }
 	public void setComment(String comment) {this.comment = comment;}
 	//Day getter/setter
-	public String getDay() { return day; }
+	public Date getDay() { return day; }
 	public void setDay(Date day) {this.day = day;}
 	//Photo getter/setter
 	public Bitmap getPhoto() { return photo; }
