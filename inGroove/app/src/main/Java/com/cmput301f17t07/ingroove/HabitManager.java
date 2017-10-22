@@ -18,7 +18,6 @@ public class HabitManager {
 
     public HabitManager() { }
 
-
     /**
      * adds habit in elastic search for user
      *
@@ -48,6 +47,7 @@ public class HabitManager {
      */
     public ArrayList<Habit> retrieveHabits(User user) {
         // TODO: retrieve habits from elastic search
+        return new ArrayList<>();
     }
 
 }
