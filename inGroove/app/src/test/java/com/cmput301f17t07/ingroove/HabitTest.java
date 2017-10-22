@@ -7,8 +7,19 @@ import static org.junit.Assert.*;
  * Created by fraserbulbuc on 2017-10-17.
  */
 
+/**
+ *
+ * class responsible for running a series of tests on the Habit entity class
+ *
+ * @author fraserbulbuc
+ *
+ */
 public class HabitTest {
 
+
+    /**
+     * tests the addRepeatedDay method of Habit class
+     */
     @Test
     public void addRepeatedDayTest() {
 
