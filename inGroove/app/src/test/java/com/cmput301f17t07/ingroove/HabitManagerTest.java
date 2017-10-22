@@ -7,8 +7,18 @@ import static org.junit.Assert.*;
  * Created by fraserbulbuc on 2017-10-22.
  */
 
+/**
+ *
+ * Class responsible for running a series of tests on the HabitManager control class
+ *
+ * @author fraserbulbuc
+ *
+ */
 public class HabitManagerTest {
 
+    /**
+     * Tests add habit method of HabitManager class
+     */
     @Test
     public void addHabitTest() {
 
@@ -21,6 +31,10 @@ public class HabitManagerTest {
         assertTrue(HabitManager.retrieveHabits(testUser).contains(testHabit));
     }
 
+    /**
+     * Tests remove method of HabitManager class
+     * @see HabitManager
+     */
     @Test
     public void removeHabitTest() {
 
