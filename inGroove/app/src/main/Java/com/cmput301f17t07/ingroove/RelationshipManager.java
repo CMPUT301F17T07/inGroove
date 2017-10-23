@@ -12,35 +12,47 @@ public class RelationshipManager {
 
     }
 
-    public ArrayList<Integer> getFollowersof(User user) {
+    public ArrayList<Integer> getFollowersOf(int user) {
+        // will query elastic search and get a list of all the other users who
+        // follow the given user
+
+        return new ArrayList<Integer>();
+    }
+
+    public ArrayList<Integer> getRequestsToFollow(int user) {
+        // will query elastic search and get a list of all the users who are
+        // requesting to follow the given user
+
+        return new ArrayList<Integer>();
+    }
+
+    public ArrayList<Integer> getRequestsBy(int user) {
+        // will query elastic search and get a list of all the users the
+        // given user is requesting to follow
+
+        return new ArrayList<Integer>();
+    }
+
+    public ArrayList<Integer> getFollowingFor(int user) {
+        // will query elastic search to get a list of all the users that
+        // the given user is following
+
+        return new ArrayList<Integer>();
+    }
+
+    public Boolean isUserFollowedBy(int follower, int followee) {
+        return Boolean.TRUE;
+    }
+
+    public Boolean isUserFollowing(int follower, int followee) {
+        return Boolean.TRUE;
+    }
+
+    public void sendFollowRequest(int follower, int followee) {
 
     }
 
-    public ArrayList<Integer> getRequestsToFollow(User user) {
-
-    }
-
-    public ArrayList<Integer> getRequestsBy(User user) {
-
-    }
-
-    public ArrayList<Integer> getWhoFollows(User user) {
-
-    }
-
-    public Boolean isUserFollowedBy(User user1, User user2) {
-
-    }
-
-    public Boolean isUserFollowing(User user1, User user2) {
-
-    }
-
-    public void sendFollowRequest(User user1, User user2) {
-
-    }
-
-    public void acceptFollowRequest(User user1, User user2) {
+    public void acceptFollowRequest(int follower, int followee) {
 
     }
 }
