@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Created by fraserbulbuc on 2017-10-17.
  */
 
-class Habit {
+public class Habit {
 
     private String name;
     private String comment;
