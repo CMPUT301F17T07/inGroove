@@ -12,6 +12,7 @@ public class HabitEvent {
     private Bitmap photo;
     private int id;
     private String location;
+    private boolean completed;
 
     //Name getter/setter
     public String getName() { return name; }
@@ -31,34 +32,38 @@ public class HabitEvent {
     //Location getter/setter
     public String getLocation() { return location; }
     public void setLocation(String location) {this.location = location;}
+    //Completed getter/setter
+    public boolean getCompleted() { return completed; }
+    public void setCompleted(String location) {this.completed = completed;}
 
     //Constructors.
-    public HabitEvent(String name, String comment, Date day, Bitmap photo, int id, String location){
+    public HabitEvent(String name, String comment, Date day, Bitmap photo, int id, String location, boolean completed){
         this.name = name;
         this.comment = comment;
         this.day = day;
         this.photo = photo;
         this.id = id;
         this.location = location;
+        this.completed = completed;
     }
     //These are extra constructors. Not really needed/finished but nice to have.
     public HabitEvent(String name, Date day){
-        this(name, "", day, null, 0, "");
+        this(name, "", day, null, 0, "", false);
     }
     public HabitEvent(String name, Date day, String location){
-        this(name, "", day, null, 0, location);
+        this(name, "", day, null, 0, location, false);
     }
     public HabitEvent(String name, String comment, Date day){
-        this(name, comment, day, null, 0, "");
+        this(name, comment, day, null, 0, "", false);
     }
     public HabitEvent(String name, String comment, Date day, String location){
-        this(name, comment, day, null, 0, location);
+        this(name, comment, day, null, 0, location, false);
     }
     public HabitEvent(String name, Date day, Bitmap photo){
-        this(name, "", day, photo, 0, "");
+        this(name, "", day, photo, 0, "", false);
     }
     public HabitEvent(String name, Date day, Bitmap photo, String location){
-        this(name, "", day, photo, 0, location);
+        this(name, "", day, photo, 0, location, false);
     }
 
     public String toString() {
