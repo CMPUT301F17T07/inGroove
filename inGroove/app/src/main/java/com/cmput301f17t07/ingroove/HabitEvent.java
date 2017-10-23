@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-class HabitEvent {
+public class HabitEvent {
 
     private String name;
     private String comment;
