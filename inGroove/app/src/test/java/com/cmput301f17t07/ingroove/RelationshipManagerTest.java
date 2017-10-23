@@ -9,11 +9,21 @@ import static junit.framework.Assert.assertTrue;
  * Created by Ashley on 2017-10-22.
  */
 
+/**
+ *
+ * Class is responsible for testing the RelationshipManager control class
+ *
+ * @author Ashley Holgate
+ *
+ */
 public class RelationshipManagerTest {
 
     // note, at the moment the majority of these tests will not pass because the RelationshipManager.java
     // class is not complete and is not returning meaningful results
 
+    /**
+     * Tests getFollowersOf(user) method in RelationshipManager class
+     */
     @Test
     public void testGetFollowersOf() {
         User user1 = new User("Test1", "test1@test.com", 1);
@@ -30,14 +40,17 @@ public class RelationshipManagerTest {
         assertTrue(RM.getFollowersOf(user2.getUserID()).contains(user1.getUserID()));
     }
 
+    /**
+     * Tests getRequestsToFollow(user) method in RelationshipManager class
+     */
     @Test
     public void testGetRequestsToFollow() {
         User user1 = new User("Test1", "test1@test.com", 1);
         User user2 = new User("Test2", "test2@test.com", 2);
         RelationshipManager RM = new RelationshipManager();
 
-        // get the followers of user2, should be empty
-        assertTrue(RM.getFollowersOf(user2.getUserID()).isEmpty());
+        // check to make sure user1 is not requesting to follow user2
+        assertFalse(RM.getRequestsToFollow(user2.getUserID()).contains(user1.getUserID()));
 
         Follow follow = new Follow(user1.getUserID(), user2.getUserID()); // user1 requests to follow user 2
 
@@ -51,6 +64,9 @@ public class RelationshipManagerTest {
         assertFalse(RM.getRequestsToFollow(user2.getUserID()).contains(user1.getUserID()));
     }
 
+    /**
+     * Tests getRequestsBy(user) method in RelationshipManager class
+     */
     @Test
     public void testGetRequestsBy() {
         User user1 = new User("Test1", "test1@test.com", 1);
@@ -66,6 +82,9 @@ public class RelationshipManagerTest {
         assertTrue(RM.getRequestsBy(user1.getUserID()).contains(user2.getUserID()));
     }
 
+    /**
+     * Tests getFollowingFor(user) method in RelationshipManager class
+     */
     @Test
     public void testGetFollowingFor() {
         User user1 = new User("Test1", "test1@test.com", 1);
@@ -82,6 +101,9 @@ public class RelationshipManagerTest {
         assertTrue(RM.getFollowingFor(user1.getUserID()).contains(user2.getUserID()));
     }
 
+    /**
+     * Tests isUserFollowedBy(follower, followee) method in RelationshipManager class
+     */
     @Test
     public void testIsUserFollowedBy() {
         User user1 = new User("Test1", "test1@test.com", 1);
@@ -97,6 +119,9 @@ public class RelationshipManagerTest {
         assertTrue(RM.isUserFollowedBy(user1.getUserID(), user2.getUserID()));
     }
 
+    /**
+     * Tests isUserFollowing(follower, followee) method in RelationshipManager class
+     */
     @Test
     public void testIsUserFollowing() {
         User user1 = new User("Test1", "test1@test.com", 1);
@@ -112,6 +137,9 @@ public class RelationshipManagerTest {
         assertTrue(RM.isUserFollowing(user1.getUserID(), user2.getUserID()));
     }
 
+    /**
+     * Tests sendFollowRequest(follower, followee) method in RelationshipManager class
+     */
     @Test
     public void testSendFollowRequest() {
         User user1 = new User("Test1", "test1@test.com", 1);
@@ -125,6 +153,9 @@ public class RelationshipManagerTest {
         assertTrue(RM.getRequestsBy(user1.getUserID()).contains(user2.getUserID()));
     }
 
+    /**
+     * Tests getFollowersOf(follower, followee) method in RelationshipManager class
+     */
     @Test
     public void testAcceptFollowRequest() {
         User user1 = new User("Test1", "test1@test.com", 1);
