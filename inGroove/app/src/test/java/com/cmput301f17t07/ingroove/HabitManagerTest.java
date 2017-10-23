@@ -25,7 +25,7 @@ public class HabitManagerTest {
         HabitManager testManager = new HabitManager();
 
         Habit testHabit = new Habit("Drink water", "Cups of water to drink daily");
-        User testUser = new User("Test User", "test@test.com");
+        User testUser = new User("Test User", "test@test.com", 0);
         testManager.addHabit(testUser, testHabit);
 
         assertTrue(HabitManager.hasHabit(testUser, testHabit));
@@ -41,7 +41,7 @@ public class HabitManagerTest {
         HabitManager testManager = new HabitManager();
 
         Habit testHabit = new Habit("Drink water", "Cups of water to drink daily");
-        User testUser = new User("Test User", "test@test.com");
+        User testUser = new User("Test User", "test@test.com", 0);
         testManager.addHabit(testUser, testHabit);
 
         assertTrue(HabitManager.hasHabit(testUser, testHabit));
