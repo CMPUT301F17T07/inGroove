@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">inGroove</string>
+    <string name="title_activity_current_habits">CurrentHabitsActivity</string>
 </resources>
