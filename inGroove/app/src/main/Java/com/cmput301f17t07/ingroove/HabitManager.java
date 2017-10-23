@@ -16,6 +16,8 @@ import java.util.ArrayList;
  */
 public class HabitManager {
 
+    private static ArrayList<Habit> habits = new ArrayList<>();
+
     public HabitManager() { }
 
     /**
@@ -25,6 +27,8 @@ public class HabitManager {
      * @param habit habit to be added
      */
     public void addHabit(User user, Habit habit) {
+        habits.remove(habit);
+
         // TODO: remove habit from elasticsearch
     }
 
@@ -35,19 +39,21 @@ public class HabitManager {
      * @param habit habit to be removed
      */
     public void removeHabit(User user, Habit habit) {
+        habits.add(habit);
+
         // TODO: add habit to elasticsearch
     }
 
     /**
-     * retrieves habits for a user
      *
-     * @param user user to query habits
+     * returns true if the use has a habit
      *
-     * @return arraylist of habit objects for user
+     * @param habit
+     *
+     * @return true if the habit exists
      */
-    public ArrayList<Habit> retrieveHabits(User user) {
-        // TODO: retrieve habits from elastic search
-        return new ArrayList<>();
+    public static boolean hasHabit(User user, Habit habit) {
+        return habits.contains(habit);
     }
 
 }

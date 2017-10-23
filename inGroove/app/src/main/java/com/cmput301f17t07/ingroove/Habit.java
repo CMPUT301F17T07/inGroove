@@ -10,7 +10,7 @@ class Habit {
 
     private String name;
     private String comment;
-    private ArrayList<String> repeatedDays;
+    private ArrayList<Day> repeatedDays;
     private ArrayList<String> events;
 
     public String getName() {
@@ -29,11 +29,11 @@ class Habit {
         this.comment = comment;
     }
 
-    public ArrayList<String> getRepeatedDays() {
-        return repeatedDays;
+    public Boolean hasRepeatedDay(Day day) {
+        return repeatedDays.contains(day);
     }
 
-    public void setRepeatedDays(ArrayList<String> repeatedDays) {
+    public void setRepeatedDays(ArrayList<Day> repeatedDays) {
         this.repeatedDays = repeatedDays;
     }
 
@@ -45,14 +45,14 @@ class Habit {
         this.events = events;
     }
 
-    public Habit(String name, String comment, ArrayList<String> repeatedDays, ArrayList<String> events) {
+    public Habit(String name, String comment, ArrayList<Day> repeatedDays, ArrayList<String> events) {
         this.name = name;
         this.comment = comment;
         this.repeatedDays = repeatedDays;
         this.events = events;
     }
 
-    public Habit(String name, String comment, ArrayList<String> repeatedDays) {
+    public Habit(String name, String comment, ArrayList<Day> repeatedDays) {
         this.name = name;
         this.comment = comment;
         this.repeatedDays = repeatedDays;
@@ -70,7 +70,7 @@ class Habit {
         return "Habit: " + name + "\n Comment: " + comment + "\n";
     }
 
-    public void addRepatedDay(String day) {
+    public void addRepatedDay(Day day) {
         this.repeatedDays.add(day);
     }
 

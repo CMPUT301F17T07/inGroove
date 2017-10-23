@@ -28,7 +28,7 @@ public class HabitManagerTest {
         User testUser = new User("Test User", "test@test.com");
         testManager.addHabit(testUser, testHabit);
 
-        assertTrue(HabitManager.retrieveHabits(testUser).contains(testHabit));
+        assertTrue(HabitManager.hasHabit(testUser, testHabit));
     }
 
     /**
@@ -44,11 +44,11 @@ public class HabitManagerTest {
         User testUser = new User("Test User", "test@test.com");
         testManager.addHabit(testUser, testHabit);
 
-        assertTrue(HabitManager.retrieveHabits(testUser).contains(testHabit));
+        assertTrue(HabitManager.hasHabit(testUser, testHabit));
 
         testManager.removeHabit(testUser, testHabit);
 
-        assertTrue(!HabitManager.retrieveHabits(testUser).contains(testHabit));
+        assertTrue(!HabitManager.hasHabit(testUser, testHabit));
     }
 
 }
