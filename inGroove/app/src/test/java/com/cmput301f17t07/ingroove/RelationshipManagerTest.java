@@ -1,8 +1,6 @@
 package com.cmput301f17t07.ingroove;
 
-import android.test.ActivityInstrumentationTestCase2;
-
-import java.util.ArrayList;
+import org.junit.Test;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
@@ -11,15 +9,12 @@ import static junit.framework.Assert.assertTrue;
  * Created by Ashley on 2017-10-22.
  */
 
-public class RelationshipManagerTest extends ActivityInstrumentationTestCase2 {
-
-    public RelationshipManagerTest(String pkg, Class activityClass) {
-        super(pkg, activityClass);
-    }
+public class RelationshipManagerTest {
 
     // note, at the moment the majority of these tests will not pass because the RelationshipManager.java
     // class is not complete and is not returning meaningful results
 
+    @Test
     public void testGetFollowersOf() {
         User user1 = new User("Test1", "test1@test.com", 1);
         User user2 = new User("Test2", "test2@test.com", 2);
@@ -35,6 +30,7 @@ public class RelationshipManagerTest extends ActivityInstrumentationTestCase2 {
         assertTrue(RM.getFollowersOf(user2.getUserID()).contains(user1.getUserID()));
     }
 
+    @Test
     public void testGetRequestsToFollow() {
         User user1 = new User("Test1", "test1@test.com", 1);
         User user2 = new User("Test2", "test2@test.com", 2);
@@ -55,6 +51,7 @@ public class RelationshipManagerTest extends ActivityInstrumentationTestCase2 {
         assertFalse(RM.getRequestsToFollow(user2.getUserID()).contains(user1.getUserID()));
     }
 
+    @Test
     public void testGetRequestsBy() {
         User user1 = new User("Test1", "test1@test.com", 1);
         User user2 = new User("Test2", "test2@test.com", 2);
@@ -69,6 +66,7 @@ public class RelationshipManagerTest extends ActivityInstrumentationTestCase2 {
         assertTrue(RM.getRequestsBy(user1.getUserID()).contains(user2.getUserID()));
     }
 
+    @Test
     public void testGetFollowingFor() {
         User user1 = new User("Test1", "test1@test.com", 1);
         User user2 = new User("Test2", "test2@test.com", 2);
@@ -84,6 +82,7 @@ public class RelationshipManagerTest extends ActivityInstrumentationTestCase2 {
         assertTrue(RM.getFollowingFor(user1.getUserID()).contains(user2.getUserID()));
     }
 
+    @Test
     public void testIsUserFollowedBy() {
         User user1 = new User("Test1", "test1@test.com", 1);
         User user2 = new User("Test2", "test2@test.com", 2);
@@ -98,6 +97,7 @@ public class RelationshipManagerTest extends ActivityInstrumentationTestCase2 {
         assertTrue(RM.isUserFollowedBy(user1.getUserID(), user2.getUserID()));
     }
 
+    @Test
     public void testIsUserFollowing() {
         User user1 = new User("Test1", "test1@test.com", 1);
         User user2 = new User("Test2", "test2@test.com", 2);
@@ -112,6 +112,7 @@ public class RelationshipManagerTest extends ActivityInstrumentationTestCase2 {
         assertTrue(RM.isUserFollowing(user1.getUserID(), user2.getUserID()));
     }
 
+    @Test
     public void testSendFollowRequest() {
         User user1 = new User("Test1", "test1@test.com", 1);
         User user2 = new User("Test2", "test2@test.com", 2);
@@ -124,6 +125,7 @@ public class RelationshipManagerTest extends ActivityInstrumentationTestCase2 {
         assertTrue(RM.getRequestsBy(user1.getUserID()).contains(user2.getUserID()));
     }
 
+    @Test
     public void testAcceptFollowRequest() {
         User user1 = new User("Test1", "test1@test.com", 1);
         User user2 = new User("Test2", "test2@test.com", 2);
