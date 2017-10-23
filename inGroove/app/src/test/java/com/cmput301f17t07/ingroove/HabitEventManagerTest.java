@@ -20,15 +20,20 @@ public class HabitEventManagerTest {
 
         User user = new User("Test", "test@test.com", 0);
 
-        HabitEvent event = new HabitEvent(User.getUserID(), new Date());
+        HabitEvent event = new HabitEvent("test",null,new Date(), null, )
+                HabitEvent(user.getUserID(), new Date());
+        // TODO: fix errors
 
         eventManager.addHabitEvent(event);
 
-        ArrayList<HabitEvent> events = eventManager.getRecentEvents();
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -7);
+
+        ArrayList<HabitEvent> events = eventManager.getRecentEvents(user,cal.getTime());
 
         assertTrue(events.contains(event));
 
-        // TODO: fix errors
+
     }
 
     public void testRemoveHabitEvent() {
@@ -37,17 +42,18 @@ public class HabitEventManagerTest {
 
         User user = new User("Test", "test@test.com", 0);
 
-        HabitEvent event = new HabitEvent(User.getUserID(), new Date());
+        HabitEvent event = new HabitEvent(user.getUserID(), new Date());
+        // TODO: fix errors
 
         eventManager.addHabitEvent(event);
 
         eventManager.removeHabitEvent(event);
 
-        ArrayList<HabitEvent> events = eventManager.getRecentEvents();
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -7);
+        ArrayList<HabitEvent> events = eventManager.getRecentEvents(user, cal.getTime());
 
         assertTrue(events.isEmpty());
-
-        // finished
     }
 
     public void testGetRecentEvents() {
@@ -56,12 +62,12 @@ public class HabitEventManagerTest {
 
         User user = new User("Test", "test@test.com", 0);
 
-        HabitEvent event = new HabitEvent(User.getUserID(), new Date());
+        HabitEvent event = new HabitEvent(user.getUserID(), new Date());
+        // TODO: fix errors
 
         eventManager.addHabitEvent(event);
 
         Calendar cal = Calendar.getInstance();
-
         cal.add(Calendar.DATE, -7);
 
 
@@ -76,12 +82,12 @@ public class HabitEventManagerTest {
 
         User user = new User("Test", "test@test.com", 0);
 
-        HabitEvent missedEvent = new HabitEvent(User.getUserID(), new Date());
+        HabitEvent missedEvent = new HabitEvent(user.getUserID(), new Date());
         //TODO: set as missed
 
         eventManager.addHabitEvent(missedEvent);
 
-        HabitEvent completedEvent = new HabitEvent(User.getUserID(), new Date());
+        HabitEvent completedEvent = new HabitEvent(user.getUserID(), new Date());
         // TODO: set as completed
 
         Calendar cal = Calendar.getInstance();
@@ -102,12 +108,12 @@ public class HabitEventManagerTest {
 
         User user = new User("Test", "test@test.com", 0);
 
-        HabitEvent missedEvent = new HabitEvent(User.getUserID(), new Date());
+        HabitEvent missedEvent = new HabitEvent(user.getUserID(), new Date());
         //TODO: set as missed
 
         eventManager.addHabitEvent(missedEvent);
 
-        HabitEvent completedEvent = new HabitEvent(User.getUserID(), new Date());
+        HabitEvent completedEvent = new HabitEvent(user.getUserID(), new Date());
         // TODO: set as completed
 
         Calendar cal = Calendar.getInstance();
@@ -126,12 +132,12 @@ public class HabitEventManagerTest {
 
         User user = new User("Test", "test@test.com", 0);
 
-        HabitEvent missedEvent = new HabitEvent(User.getUserID(), new Date());
+        HabitEvent missedEvent = new HabitEvent(user.getUserID(), new Date());
         //TODO: set as missed
 
         eventManager.addHabitEvent(missedEvent);
 
-        HabitEvent completedEvent = new HabitEvent(User.getUserID(), new Date());
+        HabitEvent completedEvent = new HabitEvent(user.getUserID(), new Date());
         // TODO: set as completed
 
         Calendar cal = Calendar.getInstance();
@@ -141,7 +147,7 @@ public class HabitEventManagerTest {
         int percentage = eventManager.getCompletionPercentageSince(user, cal.getTime());
 
         assertEquals(percentage, 50);
-        
+
 
     }
 }
