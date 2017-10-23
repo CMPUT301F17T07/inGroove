@@ -25,9 +25,11 @@ public class HabitTest {
 
         Habit habit = new Habit("Test Habit", "This is a test habit.");
 
-        habit.addRepatedDay("Tuesday");
+        Day testDay = Day.TUESDAY;
 
-        assertTrue(habit.getRepeatedDays().contains("Tuesday"));
+        habit.addRepatedDay(testDay);
+
+        assertTrue(habit.hasRepeatedDay(testDay));
 
     }
 
