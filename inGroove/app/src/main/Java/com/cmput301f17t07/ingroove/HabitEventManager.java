@@ -47,6 +47,8 @@ public class HabitEventManager {
      */
     public ArrayList<HabitEvent> getRecentEvents(User user, Date date) {
         // TODO: get the recent habits
+
+        return null;
     }
 
     /**
@@ -57,6 +59,8 @@ public class HabitEventManager {
      */
     public ArrayList<HabitEvent> getMissedEventsSince(User user, Date date) {
         // TODO: get the missed events
+
+        return null;
     }
 
     /**
@@ -67,6 +71,8 @@ public class HabitEventManager {
      */
     public ArrayList<HabitEvent> getCompletedEventsSince(User user, Date date) {
         // TODO: get the completed events
+
+        return null;
     }
 
     /**
@@ -77,6 +83,8 @@ public class HabitEventManager {
      */
     public int getCompletionPercentageSince(User user, Date date) {
         // TODO: return the completion percentage
+
+        return -1;
     }
 
 
