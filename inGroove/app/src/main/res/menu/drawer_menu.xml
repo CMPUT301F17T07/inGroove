@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item android:id="@+id/navMyHabits" android:title="My Habits" />
+<item android:id="@+id/navPeople" android:title="People" />
+<item android:id="@+id/navYou" android:title="\t\tYou" />
+<item android:id="@+id/navFollowers" android:title="\t\tFollowers" />
+<item android:id="@+id/navFindPeople" android:title="Find People" />
+<item android:id="@+id/navFollowRequests" android:title="Follow Requests" />
+<item android:id="@+id/navMapView" android:title="Map View " />
+</menu>
