@@ -1,4 +1,4 @@
-package com.cmput301f17t07.ingroove;
+package com.cmput301f17t07.ingroove.Model;
 
 import java.util.Date;
 
@@ -59,5 +59,20 @@ public class User {
 
     public void setStreak(int streak) {
         this.streak = streak;
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || obj.getClass() != this.getClass()) {
+            return false;
+        }
+        User temp = (User) obj;
+        if (temp.getUserID() == this.userID) {
+            return true;
+        } else {
+            return false;
+        }
+
     }
 }

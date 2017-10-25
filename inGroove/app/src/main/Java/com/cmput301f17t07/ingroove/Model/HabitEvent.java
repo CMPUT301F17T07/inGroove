@@ -1,4 +1,4 @@
-package com.cmput301f17t07.ingroove;
+package com.cmput301f17t07.ingroove.Model;
 
 import android.graphics.Bitmap;
 import java.text.SimpleDateFormat;
