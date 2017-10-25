@@ -1,7 +1,5 @@
 package com.cmput301f17t07.ingroove.Model;
 
-import com.cmput301f17t07.ingroove.Day;
-
 import java.util.ArrayList;
 
 /**
