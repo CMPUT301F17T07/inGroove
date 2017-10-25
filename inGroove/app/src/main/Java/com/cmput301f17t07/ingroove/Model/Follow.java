@@ -49,4 +49,18 @@ public class Follow {
     public void setAcceptedDate(Date acceptedDate) {
         this.acceptedDate = acceptedDate;
     }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || obj.getClass() != this.getClass()) {
+            return false;
+        }
+        Follow temp = (Follow) obj;
+        if (temp.getFollower() == this.getFollower() && temp.getFollowee() == this.getFollowee()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
