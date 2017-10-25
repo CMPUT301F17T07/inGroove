@@ -1,5 +1,6 @@
 package com.cmput301f17t07.ingroove;
 
+import com.cmput301f17t07.ingroove.DataManagers.HabitEventManager;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.Model.User;
 

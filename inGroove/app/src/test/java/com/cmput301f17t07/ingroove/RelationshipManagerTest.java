@@ -1,5 +1,6 @@
 package com.cmput301f17t07.ingroove;
 
+import com.cmput301f17t07.ingroove.DataManagers.RelationshipManager;
 import com.cmput301f17t07.ingroove.Model.Follow;
 import com.cmput301f17t07.ingroove.Model.User;
 
