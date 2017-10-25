@@ -1,5 +1,8 @@
 package com.cmput301f17t07.ingroove;
 
+import com.cmput301f17t07.ingroove.Model.HabitEvent;
+import com.cmput301f17t07.ingroove.Model.User;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;

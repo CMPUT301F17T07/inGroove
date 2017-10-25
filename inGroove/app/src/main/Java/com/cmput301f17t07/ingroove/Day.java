@@ -5,6 +5,8 @@ package com.cmput301f17t07.ingroove;
  */
 
 
+import com.cmput301f17t07.ingroove.Model.Habit;
+
 /**
  * Represents a repeating occurence of a habit
  *

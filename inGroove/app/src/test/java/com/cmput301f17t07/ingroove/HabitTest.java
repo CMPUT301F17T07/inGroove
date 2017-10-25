@@ -1,5 +1,7 @@
 package com.cmput301f17t07.ingroove;
 
+import com.cmput301f17t07.ingroove.Model.Habit;
+
 import org.junit.Test;
 import static org.junit.Assert.*;
 
