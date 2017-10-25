@@ -13,6 +13,8 @@ public class Habit {
     private ArrayList<Day> repeatedDays;
     private ArrayList<String> events;
     private int habitID;
+    // TODO: habitID is not in a constructor
+
 
     public int getHabitID() {
         return habitID;
