@@ -15,7 +15,7 @@ public class Follow {
     private Date acceptedDate;
 
 
-    Follow(int follower, int followee) {
+    public Follow(int follower, int followee) {
         this.follower = follower;
         this.followee = followee;
         this.accepted = Boolean.FALSE;
