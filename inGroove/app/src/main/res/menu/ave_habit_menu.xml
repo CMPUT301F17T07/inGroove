@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/backbutton"
+        android:icon="@android:drawable/radiobutton_off_background"/>
+
+    <item android:id="@+id/loghabit"
+        android:title="@string/log_habit_event"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/view_stats"
+        android:title="@string/view_habit_stats"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/edit_habit"
+        android:title="@string/edit_habit"
+        app:showAsAction="never"/>
+
+    <item android:id= "@+id/delete_habit"
+        android:title="@string/delete_habit"
+        app:showAsAction="never"/>
+
+</menu>
