@@ -15,6 +15,7 @@
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -24,7 +25,8 @@
         <activity android:name=".ViewMapActivity" />
         <activity android:name=".FollowActivity" />
         <activity android:name=".FollowRequestsActivity" />
-        <activity android:name=".UserActivity" />
+        <activity android:name=".UserActivityPackage.UserActivity" />
+        <activity android:name=".ViewFollowersActivityPackage.ViewFollowersActivity"></activity>
     </application>
 
 </manifest>
