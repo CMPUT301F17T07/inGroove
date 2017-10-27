@@ -3,4 +3,28 @@
     <string name="title_activity_current_habits">CurrentHabitsActivity</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
+
+
+    /* AVEHabit Activity */
+
+    // menu items
+    <string name="log_habit_event">Log Event</string>
+    <string name="view_habit_stats">Stats</string>
+    <string name="edit_habit">Edit</string>
+    <string name="delete_habit">Delete</string>
+
+    // main body
+    <string name="comment_header">Comments</string>
+    <string name="comment_body_test">This is a test habit comment</string>
+
+    /* HabitStatistics Activity */
+
+    // summary headers
+    <string name="completed_habits_header">Completed</string>
+    <string name="missed_habit_header">Missed</string>
+    <string name="completed_habits_test_value">12</string>
+    <string name="missed_habits_test_value">90</string>
+
+
+
 </resources>
