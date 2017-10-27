@@ -1,4 +1,4 @@
-package com.cmput301f17t07.ingroove;
+package com.cmput301f17t07.ingroove.Model;
 
 import java.util.Date;
 
@@ -15,7 +15,7 @@ public class Follow {
     private Date acceptedDate;
 
 
-    Follow(int follower, int followee) {
+    public Follow(int follower, int followee) {
         this.follower = follower;
         this.followee = followee;
         this.accepted = Boolean.FALSE;
@@ -48,5 +48,19 @@ public class Follow {
 
     public void setAcceptedDate(Date acceptedDate) {
         this.acceptedDate = acceptedDate;
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || obj.getClass() != this.getClass()) {
+            return false;
+        }
+        Follow temp = (Follow) obj;
+        if (temp.getFollower() == this.getFollower() && temp.getFollowee() == this.getFollowee()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.cmput301f17t07.ingroove;
+package com.cmput301f17t07.ingroove.Model;
 
 import java.util.ArrayList;
 
@@ -12,6 +12,17 @@ public class Habit {
     private String comment;
     private ArrayList<Day> repeatedDays;
     private ArrayList<String> events;
+    private int habitID;
+    // TODO: habitID is not in a constructor
+
+
+    public int getHabitID() {
+        return habitID;
+    }
+
+    public void setHabitID(int habitID) {
+        this.habitID = habitID;
+    }
 
     public String getName() {
         return name;
@@ -74,4 +85,36 @@ public class Habit {
         this.repeatedDays.add(day);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || obj.getClass() != this.getClass()) {
+            return false;
+        }
+        Habit temp = (Habit) obj;
+        if (temp.getHabitID() == this.getHabitID()) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

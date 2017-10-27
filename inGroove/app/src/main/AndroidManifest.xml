@@ -19,8 +19,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddViewEditHabitActivity" />
-        <activity android:name=".HabitStatsActivity" />
+        <activity android:name=".avehabit.AddViewEditHabitActivity" />
+        <activity android:name=".HabitStats.HabitStatsActivity" />
         <activity android:name=".HabitEventsActivity" />
         <activity android:name=".ViewMapActivity" />
         <activity android:name=".FollowActivity" />

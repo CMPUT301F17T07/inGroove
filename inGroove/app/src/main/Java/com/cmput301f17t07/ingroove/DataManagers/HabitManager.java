@@ -1,8 +1,11 @@
-package com.cmput301f17t07.ingroove;
+package com.cmput301f17t07.ingroove.DataManagers;
 
 /**
  * Created by fraserbulbuc on 2017-10-22.
  */
+
+import com.cmput301f17t07.ingroove.Model.Habit;
+import com.cmput301f17t07.ingroove.Model.User;
 
 import java.util.ArrayList;
 
