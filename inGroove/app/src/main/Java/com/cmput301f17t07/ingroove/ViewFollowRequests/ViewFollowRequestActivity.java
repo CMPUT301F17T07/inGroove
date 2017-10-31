@@ -11,6 +11,9 @@ import com.cmput301f17t07.ingroove.R;
 
 public class ViewFollowRequestActivity extends AppCompatActivity {
 
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle drawerToggle;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
