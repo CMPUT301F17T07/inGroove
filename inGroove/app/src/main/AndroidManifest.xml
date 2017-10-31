@@ -23,7 +23,7 @@
         <activity android:name=".HabitStats.HabitStatsActivity" />
         <activity android:name=".HabitEventsActivity" />
         <activity android:name=".ViewMapActivity" />
-        <activity android:name=".FollowActivity" />
+        <activity android:name=".FollowOtherUsers.FollowActivity" />
         <activity android:name=".FollowRequestsActivity" />
         <activity android:name=".UserActivityPackage.UserActivity" />
         <activity android:name=".ViewFollowersActivityPackage.ViewFollowersActivity"></activity>
