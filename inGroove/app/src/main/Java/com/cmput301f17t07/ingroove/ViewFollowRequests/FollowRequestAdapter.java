@@ -18,6 +18,9 @@ import java.util.List;
 
 public class FollowRequestAdapter extends ArrayAdapter<User> implements View.OnClickListener {
 
+    // https://www.journaldev.com/10416/android-listview-with-custom-adapter-example-tutorial
+    // was referenced while implementing this class
+
     private ArrayList<User> requestingFollowers;
     Context context;
 
@@ -38,8 +41,7 @@ public class FollowRequestAdapter extends ArrayAdapter<User> implements View.OnC
 
         }
     }
-    // https://www.journaldev.com/10416/android-listview-with-custom-adapter-example-tutorial
-    // was referenced while implementing this class
+
 
 
 
