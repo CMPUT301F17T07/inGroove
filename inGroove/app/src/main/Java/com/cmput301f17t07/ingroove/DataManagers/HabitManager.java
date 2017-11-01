@@ -19,9 +19,15 @@ import java.util.ArrayList;
  */
 public class HabitManager {
 
+    private static HabitManager instance = new HabitManager();
+
     private static ArrayList<Habit> habits = new ArrayList<>();
 
-    public HabitManager() { }
+    private HabitManager() { }
+
+    public static HabitManager getInstance() {
+        return instance;
+    }
 
     /**
      * adds habit in elastic search for user

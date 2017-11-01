@@ -19,7 +19,13 @@ import java.util.Date;
  */
 public class HabitEventManager {
 
-    public HabitEventManager() { }
+    private static HabitEventManager instance = new HabitEventManager();
+
+    private HabitEventManager() { }
+
+    public static HabitEventManager getInstance() {
+        return instance;
+    }
 
 
     /**

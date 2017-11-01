@@ -8,8 +8,14 @@ import java.util.ArrayList;
 
 public class RelationshipManager {
 
-    public RelationshipManager() {
+    private static RelationshipManager instance = new RelationshipManager();
 
+    private RelationshipManager() {
+
+    }
+
+    public static RelationshipManager getInstance() {
+        return instance;
     }
 
     public ArrayList<Integer> getFollowersOf(int user) {
