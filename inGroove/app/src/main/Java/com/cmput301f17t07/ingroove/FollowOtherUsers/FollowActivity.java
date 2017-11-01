@@ -5,6 +5,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.ListView;
 
 import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
@@ -15,8 +16,9 @@ public class FollowActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
-    private FollowAdapter adapter;
+    private FollowAdapter followAdapter;
     private ArrayList<User> searchedForUserList = new ArrayList<User>();
+    private ListView searchedForUserListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,13 @@ public class FollowActivity extends AppCompatActivity {
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // get and set adapters for the list view 
+        searchedForUserListView.findViewById(R.id.followUsersListView);
+        followAdapter = new FollowAdapter(this, R.layout.list_item_follow_activity, searchedForUserList);
+        searchedForUserListView.setAdapter(followAdapter);
+
+
     }
 
     @Override
@@ -38,11 +47,5 @@ public class FollowActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        adapter = new FollowAdapter(this, R.layout.list_item_follow_activity, searchedForUserList);
-        // then we need to .setAdapter(adapter) for whatever list we have populating the ListView
-    }
 
 }
