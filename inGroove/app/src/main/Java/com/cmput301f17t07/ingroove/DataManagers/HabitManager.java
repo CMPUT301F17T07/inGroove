@@ -19,8 +19,7 @@ import java.util.ArrayList;
  */
 public class HabitManager {
 
-    private static final String SAVE_FILE = "Save_file.sav";
-
+    private static final String HABITS_FILE = "habits.sav";
 
     private static HabitManager instance = new HabitManager();
 
@@ -39,9 +38,8 @@ public class HabitManager {
      * @param habit habit to be added
      */
     public void addHabit(User user, Habit habit) {
-        habits.remove(habit);
-
-        // TODO: remove habit from elasticsearch
+        habits.add(habit);
+        save();
     }
 
     /**
@@ -51,9 +49,8 @@ public class HabitManager {
      * @param habit habit to be removed
      */
     public void removeHabit(User user, Habit habit) {
-        habits.add(habit);
-
-        // TODO: add habit to elasticsearch
+        habits.remove(habit);
+        save();
     }
 
     /**
@@ -67,6 +64,24 @@ public class HabitManager {
     public static boolean hasHabit(User user, Habit habit) {
         return habits.contains(habit);
     }
+
+    /**
+     * saves the habits locally and update the server if there is a connecction
+     */
+    private void save() {
+        // TODO: convert to JSON
+        // TODO: write JSON to disk
+        // TODO: push JSON to elastic search
+    }
+
+    /**
+     * load the habits from the disk and update the server if there is a connection
+     */
+    private void loadHabits() {
+        // TODO: read from file
+        // TODO: push to server
+    }
+
 
 
 
