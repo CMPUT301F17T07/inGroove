@@ -32,8 +32,6 @@ public class HabitEventManager {
     }
 
 
-
-
     /**
      * Adds a HabitEvent to the server
      * if there's no connection to the server then it stores the change til
@@ -102,5 +100,19 @@ public class HabitEventManager {
         return -1;
     }
 
+
+
+    
+    private void save() {
+        // TODO: convert to JSON
+        // TODO: write JSON to file
+        // TODO: push JSON to server
+    }
+
+    private void loadHabitEvents(){
+        // TODO: read from file to arraylist
+        // TODO: push to server
+
+    }
 
 }
