@@ -9,6 +9,8 @@ package com.cmput301f17t07.ingroove.DataManagers;
  */
 public class DataManager {
 
+
+
     private static DataManager instance = new DataManager();
 
 
@@ -18,7 +20,9 @@ public class DataManager {
 
 
     private DataManager() {
-        // TODO: get the sub managers
+        habitManager = HabitManager.getInstance();
+        habitEventManager = HabitEventManager.getInstance();
+        relationshipManager = RelationshipManager.getInstance();
 
     }
 

@@ -19,6 +19,9 @@ import java.util.ArrayList;
  */
 public class HabitManager {
 
+    private static final String SAVE_FILE = "Save_file.sav";
+
+
     private static HabitManager instance = new HabitManager();
 
     private static ArrayList<Habit> habits = new ArrayList<>();
@@ -64,5 +67,7 @@ public class HabitManager {
     public static boolean hasHabit(User user, Habit habit) {
         return habits.contains(habit);
     }
+
+
 
 }

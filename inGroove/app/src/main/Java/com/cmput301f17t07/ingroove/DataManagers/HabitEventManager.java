@@ -19,13 +19,19 @@ import java.util.Date;
  */
 public class HabitEventManager {
 
+    private static final String FILE_NAME = "habitEvents_File.sav";
+
     private static HabitEventManager instance = new HabitEventManager();
+
+    private ArrayList<HabitEvent> habitEvents = new ArrayList<>();
 
     private HabitEventManager() { }
 
     public static HabitEventManager getInstance() {
         return instance;
     }
+
+
 
 
     /**
