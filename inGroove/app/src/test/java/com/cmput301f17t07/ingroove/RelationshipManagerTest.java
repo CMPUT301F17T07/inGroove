@@ -32,7 +32,7 @@ public class RelationshipManagerTest {
     public void testGetFollowersOf() {
         User user1 = new User("Test1", "test1@test.com", 1);
         User user2 = new User("Test2", "test2@test.com", 2);
-        RelationshipManager RM = new RelationshipManager();
+        RelationshipManager RM = RelationshipManager.getInstance();
 
         // get the followers of user2, should be empty
         assertTrue(RM.getFollowersOf(user2.getUserID()).isEmpty());
@@ -51,7 +51,7 @@ public class RelationshipManagerTest {
     public void testGetRequestsToFollow() {
         User user1 = new User("Test1", "test1@test.com", 1);
         User user2 = new User("Test2", "test2@test.com", 2);
-        RelationshipManager RM = new RelationshipManager();
+        RelationshipManager RM = RelationshipManager.getInstance();
 
         // check to make sure user1 is not requesting to follow user2
         assertFalse(RM.getRequestsToFollow(user2.getUserID()).contains(user1.getUserID()));
@@ -75,7 +75,7 @@ public class RelationshipManagerTest {
     public void testGetRequestsBy() {
         User user1 = new User("Test1", "test1@test.com", 1);
         User user2 = new User("Test2", "test2@test.com", 2);
-        RelationshipManager RM = new RelationshipManager();
+        RelationshipManager RM = RelationshipManager.getInstance();
 
         // make sure that user1 has not requsted to follow user2 yet
         assertFalse(RM.getRequestsBy(user1.getUserID()).contains(user2.getUserID()));
@@ -93,7 +93,7 @@ public class RelationshipManagerTest {
     public void testGetFollowingFor() {
         User user1 = new User("Test1", "test1@test.com", 1);
         User user2 = new User("Test2", "test2@test.com", 2);
-        RelationshipManager RM = new RelationshipManager();
+        RelationshipManager RM = RelationshipManager.getInstance();
 
         // check that user1 is not yet following user2
         assertFalse(RM.getFollowingFor(user1.getUserID()).contains(user2.getUserID()));
@@ -112,7 +112,7 @@ public class RelationshipManagerTest {
     public void testIsUserFollowedBy() {
         User user1 = new User("Test1", "test1@test.com", 1);
         User user2 = new User("Test2", "test2@test.com", 2);
-        RelationshipManager RM = new RelationshipManager();
+        RelationshipManager RM = RelationshipManager.getInstance();
 
         // check to make sure user1 is not following user2
         assertFalse(RM.isUserFollowedBy(user1.getUserID(), user2.getUserID()));
@@ -130,7 +130,7 @@ public class RelationshipManagerTest {
     public void testIsUserFollowing() {
         User user1 = new User("Test1", "test1@test.com", 1);
         User user2 = new User("Test2", "test2@test.com", 2);
-        RelationshipManager RM = new RelationshipManager();
+        RelationshipManager RM = RelationshipManager.getInstance();
 
         // make sure user1 is not following user2
         assertFalse(RM.isUserFollowing(user1.getUserID(), user2.getUserID()));
@@ -148,7 +148,7 @@ public class RelationshipManagerTest {
     public void testSendFollowRequest() {
         User user1 = new User("Test1", "test1@test.com", 1);
         User user2 = new User("Test2", "test2@test.com", 2);
-        RelationshipManager RM = new RelationshipManager();
+        RelationshipManager RM = RelationshipManager.getInstance();
 
         // send the follow request for user1 to follow user2
         RM.sendFollowRequest(user1.getUserID(), user2.getUserID());
@@ -164,7 +164,7 @@ public class RelationshipManagerTest {
     public void testAcceptFollowRequest() {
         User user1 = new User("Test1", "test1@test.com", 1);
         User user2 = new User("Test2", "test2@test.com", 2);
-        RelationshipManager RM = new RelationshipManager();
+        RelationshipManager RM = RelationshipManager.getInstance();
 
         RM.sendFollowRequest(user1.getUserID(), user2.getUserID()); // user1 requests to follow user2
         RM.acceptFollowRequest(user1.getUserID(), user2.getUserID()); // user2 accepts user1's follow request
