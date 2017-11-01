@@ -102,7 +102,7 @@ public class HabitEventManager {
 
 
 
-    
+
     private void save() {
         // TODO: convert to JSON
         // TODO: write JSON to file
