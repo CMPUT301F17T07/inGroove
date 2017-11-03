@@ -39,7 +39,8 @@ public class HabitManager {
      */
     public void addHabit(User user, Habit habit) {
         habits.add(habit);
-        save();
+        saveLocal();
+
     }
 
     /**
@@ -50,7 +51,7 @@ public class HabitManager {
      */
     public void removeHabit(User user, Habit habit) {
         habits.remove(habit);
-        save();
+        saveLocal();
     }
 
     /**
@@ -68,18 +69,18 @@ public class HabitManager {
     /**
      * saves the habits locally and update the server if there is a connecction
      */
-    private void save() {
+    private void saveLocal() {
         // TODO: convert to JSON
         // TODO: write JSON to disk
-        // TODO: push JSON to elastic search
+
     }
 
     /**
-     * load the habits from the disk and update the server if there is a connection
+     * load the habits from the disk
      */
     private void loadHabits() {
         // TODO: read from file
-        // TODO: push to server
+
     }
 
 
