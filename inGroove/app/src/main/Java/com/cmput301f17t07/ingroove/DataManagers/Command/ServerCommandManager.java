@@ -17,7 +17,7 @@ public class ServerCommandManager {
         commands = new ArrayList<>();
     }
 
-    public ServerCommandManager getInstance() {
+    public static ServerCommandManager getInstance() {
         return instance;
     }
 

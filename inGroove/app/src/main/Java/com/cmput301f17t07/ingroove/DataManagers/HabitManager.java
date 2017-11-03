@@ -6,6 +6,7 @@ package com.cmput301f17t07.ingroove.DataManagers;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.AddHabitCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommand;
+import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.User;
 
@@ -43,9 +44,8 @@ public class HabitManager {
         habits.add(habit);
         saveLocal();
 
-        ServerCommand addHabit = new AddHabitCommand(user, habit, this);
-
-
+        ServerCommand addHabitCommand = new AddHabitCommand(user, habit, this);
+        ServerCommandManager.getInstance().addCommand(addHabitCommand);
     }
 
     /**
