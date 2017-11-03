@@ -1,5 +1,6 @@
 package com.cmput301f17t07.ingroove;
 
+import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -21,6 +22,9 @@ import com.cmput301f17t07.ingroove.Fragments.ViewFollowersFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener  {
+
+    protected DrawerLayout mDrawer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +32,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
+        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -101,16 +105,19 @@ public class MainActivity extends AppCompatActivity
                 fragment = new FollowRequestsFragment();
                 break;
             case R.id.nav_menu_map:
-                fragment = new MapFragment();
+                Intent intent = new Intent(getApplicationContext(), ViewMapActivity.class);
+                getApplicationContext().startActivity(intent);
                 break;
         }
 
         //replacing the fragment
+        /*
         if (fragment != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.content_frame, fragment);
             ft.commit();
         }
+        */
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
