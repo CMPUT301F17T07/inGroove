@@ -4,6 +4,8 @@ package com.cmput301f17t07.ingroove.DataManagers;
  * Created by fraserbulbuc on 2017-10-22.
  */
 
+import com.cmput301f17t07.ingroove.DataManagers.Command.AddHabitCommand;
+import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommand;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.User;
 
@@ -40,6 +42,9 @@ public class HabitManager {
     public void addHabit(User user, Habit habit) {
         habits.add(habit);
         saveLocal();
+
+        ServerCommand addHabit = new AddHabitCommand(user, habit, this);
+
 
     }
 
