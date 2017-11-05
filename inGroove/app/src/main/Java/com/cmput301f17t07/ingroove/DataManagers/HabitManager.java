@@ -4,12 +4,25 @@ package com.cmput301f17t07.ingroove.DataManagers;
  * Created by fraserbulbuc on 2017-10-22.
  */
 
+import android.content.Context;
+
 import com.cmput301f17t07.ingroove.DataManagers.Command.AddHabitCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.User;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 /**
@@ -72,11 +85,25 @@ public class HabitManager {
     }
 
     /**
-     * saves the habits locally and update the server if there is a connecction
+     * saves the habit array to a local file
      */
     private void saveLocal() {
         // TODO: convert to JSON
         // TODO: write JSON to disk
+
+        try {
+            FileOutputStream fos = new FileOutputStream(HABITS_FILE, false);
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
+            Gson gson = new Gson();
+            gson.toJson(habits, out);
+            out.flush();
+
+
+        } catch (FileNotFoundException e) {
+
+        } catch (IOException e) {
+
+        }
 
     }
 
@@ -86,9 +113,43 @@ public class HabitManager {
     private void loadHabits() {
         // TODO: read from file
 
+        try {
+            FileInputStream fis = new FileInputStream(HABITS_FILE);
+            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+            Gson gson = new Gson();
+
+            //Taken from https://stackoverflow.com/questions/12384064/gson-convert-from-json-to-a-typed-arraylistt
+            // 2017-09-19
+            Type listType = new TypeToken<ArrayList<Habit>>(){}.getType();
+            habits = gson.fromJson(in, listType);
+
+
+        } catch (FileNotFoundException e) {
+
+        }
+
     }
 
 
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
