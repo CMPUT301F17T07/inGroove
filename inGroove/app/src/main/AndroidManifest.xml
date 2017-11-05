@@ -9,11 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity
-            android:name=".CurrentHabitsActivity"
-            android:label="@string/title_activity_current_habits"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+        <activity android:name=".CurrentHabitsActivity"/>
         <activity android:name=".avehabit.AddViewEditHabitActivity" />
         <activity android:name=".HabitStats.HabitStatsActivity" />
         <activity android:name=".HabitEventsActivity" />

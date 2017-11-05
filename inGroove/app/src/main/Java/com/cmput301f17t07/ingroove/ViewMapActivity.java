@@ -17,14 +17,11 @@ public class ViewMapActivity extends MainActivity
         implements OnMapReadyCallback {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Retrieve the content view that renders the map.
-        super.onCreate(savedInstanceState);
-        LayoutInflater inflater = (LayoutInflater) this
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View contentView = inflater.inflate(R.layout.activity_view_map, null, false);
-        mDrawer.addView(contentView, 0);
+        setContentView(R.layout.activity_view_map);
+        super.onCreateDrawer();
         // Get the SupportMapFragment and request notification
         // when the map is ready to be used.
         //SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);

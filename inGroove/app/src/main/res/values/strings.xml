@@ -1,8 +1,19 @@
 <resources>
     <string name="app_name">inGroove</string>
     <string name="title_activity_current_habits">CurrentHabitsActivity</string>
-    <string name="open">Open</string>
-    <string name="close">Close</string>
+
+    /* Old Navigation Drawer @TODO delete*/
+    <string name="open">Open navigation drawer</string>
+    <string name="close">Close navigation drawer</string>
+
+    /* Navigation Drawer */
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    /* Settings menu
+    See the menu/main.xml, where this menu item is established
+    */
+    <string name="action_settings">Settings</string>
 
 
     /* AVEHabit Activity */
