@@ -98,9 +98,9 @@ public class HabitManager {
 
 
         } catch (FileNotFoundException e) {
-
+            //TODO: implement exception
         } catch (IOException e) {
-
+            //TODO: implement exception
         }
 
     }
