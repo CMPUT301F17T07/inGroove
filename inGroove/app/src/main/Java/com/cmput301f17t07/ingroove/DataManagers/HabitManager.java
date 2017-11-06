@@ -88,8 +88,6 @@ public class HabitManager {
      * saves the habit array to a local file
      */
     private void saveLocal() {
-        // TODO: convert to JSON
-        // TODO: write JSON to disk
 
         try {
             FileOutputStream fos = new FileOutputStream(HABITS_FILE, false);
@@ -111,7 +109,6 @@ public class HabitManager {
      * load the habits from the disk
      */
     private void loadHabits() {
-        // TODO: read from file
 
         try {
             FileInputStream fis = new FileInputStream(HABITS_FILE);
@@ -125,7 +122,7 @@ public class HabitManager {
 
 
         } catch (FileNotFoundException e) {
-
+            //TODO: implement exception
         }
 
     }
