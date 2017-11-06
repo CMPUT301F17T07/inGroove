@@ -19,7 +19,7 @@ import com.cmput301f17t07.ingroove.ViewMapActivity;
  * Created by corey on 2017-11-04.
  */
 
-public class NavigationDrawer extends AppCompatActivity
+public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
 
