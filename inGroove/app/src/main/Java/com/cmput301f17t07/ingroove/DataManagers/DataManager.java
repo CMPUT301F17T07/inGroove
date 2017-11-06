@@ -5,6 +5,7 @@ package com.cmput301f17t07.ingroove.DataManagers;
  */
 
 import com.cmput301f17t07.ingroove.Model.Habit;
+import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.google.gson.Gson;
 
@@ -44,6 +45,11 @@ public class DataManager {
 
     }
 
+    public User getUser() {
+        return user;
+    }
+
+
     /**
      * Used to get access
      * @return the single instance of DataManager
@@ -60,6 +66,17 @@ public class DataManager {
     public void removeHabit(Habit habit) {
         habitManager.removeHabit(user, habit);
     }
+
+
+
+    public void addHabitEvent(HabitEvent event) {
+        habitEventManager.addHabitEvent(event);
+    }
+
+    public void removeHabitEvent(HabitEvent event) {
+        habitEventManager.removeHabitEvent(event);
+    }
+
 
 
 
