@@ -80,7 +80,25 @@ public class HabitEventManager {
     public ArrayList<HabitEvent> getRecentEvents(User user, Date date) {
         // TODO: get the recent habits
 
-        return null;
+        ArrayList<HabitEvent> recentEvents = new ArrayList<>();
+
+        // if looking for the recent events of the devices user
+        if (user == DataManager.getInstance().getUser()) {
+            for (int i = 0; i < habitEvents.size() ; i++) {
+                HabitEvent event = habitEvents.get(i);
+
+                // if event.day is on or after date
+                if (event.getDay().compareTo(date) >= 0) {
+                    recentEvents.add(event);
+                }
+            }
+
+        } else {
+            // TODO: needs server access to get the recent habits of the given user
+            return null;
+        }
+
+        return recentEvents;
     }
 
     /**
