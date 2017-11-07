@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.cmput301f17t07.ingroove.MapsActivity;
 import com.cmput301f17t07.ingroove.R;
 import com.cmput301f17t07.ingroove.ViewMapActivity;
 
@@ -86,7 +87,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
         } else if (id == R.id.nav_menu_find_people) {
         } else if (id == R.id.nav_menu_follow_requests) {
         } else if (id == R.id.nav_menu_map) {
-            Intent intent = new Intent(getApplicationContext(), ViewMapActivity.class);
+            Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
             getApplicationContext().startActivity(intent);
         } else if (id == R.id.nav_share) {
 
