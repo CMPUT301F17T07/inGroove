@@ -9,13 +9,11 @@ import android.widget.ArrayAdapter;
 
 import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
+import com.cmput301f17t07.ingroove.navDrawer.NavigationDrawerActivity;
 
 import java.util.ArrayList;
 
-public class FollowRequestsActivity extends AppCompatActivity {
-
-    private DrawerLayout drawerLayout;
-    private ActionBarDrawerToggle drawerToggle;
+public class FollowRequestsActivity extends NavigationDrawerActivity {
     private FollowRequestAdapter adapter;
     private ArrayList<User> followRequestList = new ArrayList<User>();
 
@@ -23,20 +21,7 @@ public class FollowRequestsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_follow_requests);
-        drawerLayout = (DrawerLayout) findViewById(R.id.follow_requests_layout);
-        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
-        drawerLayout.addDrawerListener(drawerToggle);
-        drawerToggle.syncState();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        if(drawerToggle.onOptionsItemSelected(item)){
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        super.onCreateDrawer();
     }
 
     @Override

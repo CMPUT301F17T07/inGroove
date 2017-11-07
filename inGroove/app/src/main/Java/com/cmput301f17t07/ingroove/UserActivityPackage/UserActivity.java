@@ -7,29 +7,14 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.cmput301f17t07.ingroove.R;
+import com.cmput301f17t07.ingroove.navDrawer.NavigationDrawerActivity;
 
-public class UserActivity extends AppCompatActivity {
-
-    private DrawerLayout drawerLayout;
-    private ActionBarDrawerToggle drawerToggle;
+public class UserActivity extends NavigationDrawerActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
-        drawerLayout.addDrawerListener(drawerToggle);
-        drawerToggle.syncState();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        if(drawerToggle.onOptionsItemSelected(item)){
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        super.onCreateDrawer();
     }
 }

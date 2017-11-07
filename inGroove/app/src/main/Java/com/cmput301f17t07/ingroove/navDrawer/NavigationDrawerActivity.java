@@ -11,8 +11,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.cmput301f17t07.ingroove.CurrentHabitsActivity;
+import com.cmput301f17t07.ingroove.FollowOtherUsers.FollowActivity;
 import com.cmput301f17t07.ingroove.MapsActivity;
 import com.cmput301f17t07.ingroove.R;
+import com.cmput301f17t07.ingroove.UserActivityPackage.UserActivity;
+import com.cmput301f17t07.ingroove.ViewFollowRequests.FollowRequestsActivity;
+import com.cmput301f17t07.ingroove.ViewFollowersActivityPackage.ViewFollowersActivity;
 import com.cmput301f17t07.ingroove.ViewMapActivity;
 
 
@@ -77,15 +82,20 @@ public class NavigationDrawerActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_menu_account) {
-            // Handle the camera action
-            //Intent intent = new Intent(getApplicationContext(), CameraActivity.class);
-            //getApplicationContext().startActivity(intent);
+            Intent intent = new Intent(getApplicationContext(), UserActivity.class);
+            getApplicationContext().startActivity(intent);
         } else if (id == R.id.nav_menu_current_habits) {
-
+            Intent intent = new Intent(getApplicationContext(), CurrentHabitsActivity.class);
+            getApplicationContext().startActivity(intent);
         } else if (id == R.id.nav_menu_view_followers) {
-
+            Intent intent = new Intent(getApplicationContext(), ViewFollowersActivity.class);
+            getApplicationContext().startActivity(intent);
         } else if (id == R.id.nav_menu_find_people) {
+            Intent intent = new Intent(getApplicationContext(), FollowActivity.class);
+            getApplicationContext().startActivity(intent);
         } else if (id == R.id.nav_menu_follow_requests) {
+            Intent intent = new Intent(getApplicationContext(), FollowRequestsActivity.class);
+            getApplicationContext().startActivity(intent);
         } else if (id == R.id.nav_menu_map) {
             Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
             getApplicationContext().startActivity(intent);
