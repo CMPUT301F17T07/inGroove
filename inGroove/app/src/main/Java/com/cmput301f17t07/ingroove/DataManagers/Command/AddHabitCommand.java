@@ -23,12 +23,12 @@ public class AddHabitCommand implements ServerCommand {
 
     @Override
     public void execute() {
-        // TODO: run HabitManager.addHabitToServer
+        habitManager.addHabitToServer(habit, user);
     }
 
     @Override
     public void unexecute() {
-        // TODO: implement unexecute
+        // TODO: implement un-execute
     }
 
     @Override

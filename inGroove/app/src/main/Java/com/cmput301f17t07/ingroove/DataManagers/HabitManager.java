@@ -5,6 +5,7 @@ package com.cmput301f17t07.ingroove.DataManagers;
  */
 
 import android.content.Context;
+import android.util.Log;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.AddHabitCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommand;
@@ -24,6 +25,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+
+import io.searchbox.core.DocumentResult;
+import io.searchbox.core.Index;
 
 /**
  *
@@ -124,6 +128,23 @@ public class HabitManager {
         } catch (FileNotFoundException e) {
             //TODO: implement exception
         }
+
+    }
+
+    public void addHabitToServer(Habit habit, User user) {
+
+        Index index = new Index.Builder(habit).index("cmput301f17t07_ingroove").type("habit").build();
+
+        try
+        {
+            DocumentResult result = ServerCommandManager.getClient().execute(index);
+            if (result.isSucceeded()) {
+                //habit.setHabitID(result.getId());
+            }
+            else {}
+        }
+        catch (Exception e)
+        { }
 
     }
 
