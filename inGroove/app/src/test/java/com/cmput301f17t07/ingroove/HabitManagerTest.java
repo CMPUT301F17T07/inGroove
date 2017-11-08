@@ -26,7 +26,7 @@ public class HabitManagerTest {
     @Test
     public void addHabitTest() {
 
-        HabitManager testManager = new HabitManager();
+        HabitManager testManager = HabitManager.getInstance();
 
         Habit testHabit = new Habit("Drink water", "Cups of water to drink daily");
         User testUser = new User("Test User", "test@test.com", 0);
@@ -42,7 +42,7 @@ public class HabitManagerTest {
     @Test
     public void removeHabitTest() {
 
-        HabitManager testManager = new HabitManager();
+        HabitManager testManager = HabitManager.getInstance();
 
         Habit testHabit = new Habit("Drink water", "Cups of water to drink daily");
         User testUser = new User("Test User", "test@test.com", 0);
