@@ -10,8 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,9 +35,8 @@
         <ImageView
             android:id="@+id/eventImage"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="200dp"
             android:layout_weight="1"
-            android:adjustViewBounds="true"
             android:maxHeight="42dp"
             android:scaleType="fitCenter"
             app:srcCompat="@mipmap/ic_launcher" />
@@ -61,10 +60,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:hint="Type a Comment"
             android:inputType="textPersonName"
-            android:text=""
-            android:hint="Type a Comment"/>
-<!--
+            android:text="" />
+        <!--
         <com.google.android.gms.maps.MapView
             android:id="@+id/mapView"
             android:layout_width="match_parent"
