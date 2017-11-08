@@ -20,14 +20,15 @@ public class FollowActivity extends NavigationDrawerActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_follow);
-    super.onCreateDrawer();
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_follow);
+        super.onCreateDrawer();
 
-    // get and set adapters for the list view
-    searchedForUserListView.findViewById(R.id.followUsersListView);
-    followAdapter = new FollowAdapter(this, R.layout.list_item_follow_activity, searchedForUserList);
-    searchedForUserListView.setAdapter(followAdapter);
+
+        // get and set adapters for the list view
+        searchedForUserListView.findViewById(R.id.followUsersListView);
+        followAdapter = new FollowAdapter(this, R.layout.list_item_follow_activity, searchedForUserList);
+        searchedForUserListView.setAdapter(followAdapter);
     }
 
 
