@@ -16,15 +16,13 @@ import android.widget.GridView;
 
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.avehabit.AddViewEditHabitActivity;
+import com.cmput301f17t07.ingroove.navDrawer.NavigationDrawerActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CurrentHabitsActivity extends AppCompatActivity {
-
-    private DrawerLayout drawerLayout;
-    private ActionBarDrawerToggle drawerToggle;
+public class CurrentHabitsActivity extends NavigationDrawerActivity {
 
     private GridView habitViewer;
 
@@ -38,10 +36,7 @@ public class CurrentHabitsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_habits);
-        drawerLayout = (DrawerLayout) findViewById(R.id.current_habits_layout);
-        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
-        drawerLayout.addDrawerListener(drawerToggle);
-        drawerToggle.syncState();
+        super.onCreateDrawer();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //From the HabitManager, get a list of todays habits
@@ -97,14 +92,5 @@ public class CurrentHabitsActivity extends AppCompatActivity {
                 startActivityForResult(upcomingIntent, 0);
             }
         });
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        if(drawerToggle.onOptionsItemSelected(item)){
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }
