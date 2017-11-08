@@ -48,15 +48,34 @@ public class ServerCommandManager {
 
     public void execute() {
 
-        for (ServerCommand command: commands) {
+        while (!commands.isEmpty()) {
+            ServerCommand command = commands.get(0);
+
             command.execute();
             // TODO: deal with un-executable command
+            commands.remove(command);
         }
     }
 
-    public void removeCommant(ServerCommand command) {
-        commands.remove(command);
-    }
+
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
