@@ -23,7 +23,7 @@ public class FollowActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_follow_requests);
+        setContentView(R.layout.activity_follow);
         drawerLayout = (DrawerLayout) findViewById(R.id.follow_layout);
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(drawerToggle);
