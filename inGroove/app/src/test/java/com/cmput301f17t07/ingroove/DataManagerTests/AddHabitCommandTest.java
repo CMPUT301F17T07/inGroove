@@ -17,7 +17,6 @@ import static junit.framework.Assert.assertTrue;
 public class AddHabitCommandTest {
 
     private DataManager model = DataManager.getInstance();
-    private HabitManager receiver = HabitManager.getInstance();
 
     @Test
     public void addHabitToServerTest() {
