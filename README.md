@@ -15,3 +15,8 @@ Completing habits at their designated time(s) will add to a habit streak. A user
 * Ashley Holgate
 * Austin Crapo
 * Adam Otto
+
+
+### Dependencies  
+* [Google Gson](https://github.com/google/gson)
+
