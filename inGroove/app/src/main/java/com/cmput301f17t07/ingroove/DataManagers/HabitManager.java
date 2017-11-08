@@ -140,11 +140,16 @@ public class HabitManager {
             DocumentResult result = ServerCommandManager.getClient().execute(index);
             if (result.isSucceeded()) {
                 //habit.setHabitID(result.getId());
+                System.out.println("SUCCESS --- addHabitToServer success");
             }
-            else {}
+            else {
+                System.out.println("FAILURE --- addHabitToServer failed");
+            }
         }
         catch (Exception e)
-        { }
+        {
+            System.out.println("FAILURE --- addHabitToServer caught exception: " + "\"" + e + "\"");
+        }
 
     }
 
