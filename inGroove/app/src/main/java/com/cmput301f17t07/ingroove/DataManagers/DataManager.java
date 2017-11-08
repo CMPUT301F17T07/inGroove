@@ -4,6 +4,7 @@ package com.cmput301f17t07.ingroove.DataManagers;
  * Created by Christopher Walter on 2017-10-31.
  */
 
+import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.Model.User;
@@ -17,13 +18,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 
 /**
  * Singleton class
  */
-public class DataManager {
-
-
+public class DataManager implements DataManagerAPI {
 
     private static DataManager instance = new DataManager();
 
@@ -34,7 +34,6 @@ public class DataManager {
     private RelationshipManager relationshipManager;
 
     private User user;
-
 
     private DataManager() {
         habitManager = HabitManager.getInstance();
@@ -49,6 +48,11 @@ public class DataManager {
         return user;
     }
 
+    public int addUser(String userName) { return 0;}
+
+    public int removeUser(User user) {
+        return 0;
+    }
 
     /**
      * Used to get access
@@ -58,30 +62,41 @@ public class DataManager {
         return instance;
     }
 
+    public ArrayList<Habit> getHabit(User user) {
+        return null;
+    }
 
-    public void addHabit(Habit habit) {
+    public ArrayList<HabitEvent> getHabitEvents(Habit habit) {
+        return null;
+    }
+
+    public int addHabit(Habit habit) {
         habitManager.addHabit(user, habit);
+        return 0;
     }
 
-    public void removeHabit(Habit habit) {
+    public int removeHabit(Habit habit) {
         habitManager.removeHabit(user, habit);
+        return 0;
     }
 
+    public int editHabit(Habit oldHabit, Habit newHabit) {
+        return 0;
+    }
 
-
-    public void addHabitEvent(HabitEvent event) {
+    public int addHabitEvent(HabitEvent event) {
         habitEventManager.addHabitEvent(event);
+        return 0;
     }
 
-    public void removeHabitEvent(HabitEvent event) {
+    public int removeHabitEvent(HabitEvent event) {
         habitEventManager.removeHabitEvent(event);
+        return 0;
     }
 
-
-
-
-
-
+    public int editHabitEvent(HabitEvent oldHabitEvent, HabitEvent newHabitEvent) {
+        return 0;
+    }
 
     private void saveLocal() {
 
