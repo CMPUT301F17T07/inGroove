@@ -20,13 +20,16 @@
 
     // menu items
     <string name="log_habit_event">Log Event</string>
-    <string name="view_habit_stats">Stats</string>
-    <string name="edit_habit">Edit</string>
+    <string name="view_habit_stats">See Stats</string>
+    <string name="edit_habit_interval">Change Interval</string>
+    <string name="save_habit">Save</string>
     <string name="delete_habit">Delete</string>
 
     // main body
+    <string name="habit_name_hint">Habit Name</string>
     <string name="comment_header">Comments</string>
     <string name="comment_body_test">This is a test habit comment</string>
+    <string name="habit_events_header">Events from this habit</string>
 
     /* HabitStatistics Activity */
 
