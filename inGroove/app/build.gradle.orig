@@ -3,7 +3,10 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 26
     buildToolsVersion '26.0.2'
+<<<<<<< HEAD
+=======
     useLibrary 'org.apache.http.legacy'
+>>>>>>> master
     defaultConfig {
         applicationId "com.cmput301f17t07.ingroove"
         minSdkVersion 16
@@ -16,8 +19,11 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
         }
     }
+
+
 }
 
 dependencies {
@@ -30,6 +36,10 @@ dependencies {
     compile 'com.android.support:design:26.+'
     compile 'com.jayway.android.robotium:robotium-solo:5.6.3'
     testCompile 'junit:junit:4.12'
+<<<<<<< HEAD
     compile 'com.google.android.gms:play-services-maps:11.0.4'
+}
+=======
     compile files('src/include/jest-droid-2.0.1-SNAPSHOT.jar')
 }
+>>>>>>> master
