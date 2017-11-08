@@ -20,7 +20,7 @@ public class HabitEventManagerTest {
 
     public void testAddHabitEvent() {
 
-        HabitEventManager eventManager = new HabitEventManager();
+        HabitEventManager eventManager = HabitEventManager.getInstance();
 
         User user = new User("Test", "test@test.com", 0);
 
@@ -40,7 +40,7 @@ public class HabitEventManagerTest {
 
     public void testRemoveHabitEvent() {
 
-        HabitEventManager eventManager = new HabitEventManager();
+        HabitEventManager eventManager = HabitEventManager.getInstance();
 
         User user = new User("Test", "test@test.com", 0);
 
@@ -59,7 +59,7 @@ public class HabitEventManagerTest {
 
     public void testGetRecentEvents() {
 
-        HabitEventManager eventManager = new HabitEventManager();
+        HabitEventManager eventManager = HabitEventManager.getInstance();
 
         User user = new User("Test", "test@test.com", 0);
 
@@ -78,7 +78,7 @@ public class HabitEventManagerTest {
 
     public void testGetMissedEventsSince() {
 
-        HabitEventManager eventManager = new HabitEventManager();
+        HabitEventManager eventManager = HabitEventManager.getInstance();
 
         User user = new User("Test", "test@test.com", 0);
 
@@ -102,7 +102,7 @@ public class HabitEventManagerTest {
 
     public void testGetCompletedEventsSince() {
 
-        HabitEventManager eventManager = new HabitEventManager();
+        HabitEventManager eventManager = HabitEventManager.getInstance();
 
         User user = new User("Test", "test@test.com", 0);
 
@@ -124,7 +124,7 @@ public class HabitEventManagerTest {
     }
 
     public void testGetCompletionPercentageSince() {
-        HabitEventManager eventManager = new HabitEventManager();
+        HabitEventManager eventManager = HabitEventManager.getInstance();
 
         User user = new User("Test", "test@test.com", 0);
 
