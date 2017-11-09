@@ -17,6 +17,7 @@ import com.cmput301f17t07.ingroove.HabitEventsActivity;
 import com.cmput301f17t07.ingroove.HabitStats.HabitStatsActivity;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.R;
+import com.cmput301f17t07.ingroove.ViewHabitEvent.ViewHabitEventActivity;
 
 public class AddViewEditHabitActivity extends AppCompatActivity {
 
@@ -63,7 +64,7 @@ public class AddViewEditHabitActivity extends AppCompatActivity {
         log_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // @TODO save current habit changes?
-                Intent intent = new Intent(getApplicationContext(), HabitEventsActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ViewHabitEventActivity.class);
                 getApplicationContext().startActivity(intent);
             }
         });
