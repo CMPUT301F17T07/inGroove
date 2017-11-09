@@ -54,13 +54,10 @@ public class ServerCommandManager {
 
     public void execute() {
 
-        while (!commands.isEmpty()) {
-            ServerCommand command = commands.get(0);
+        ExecuteAsync executeAsync = new ExecuteAsync();
 
-            command.execute();
-            // TODO: deal with un-executable command
-            commands.remove(command);
-        }
+        executeAsync.execute(commands);
+
     }
 
 
@@ -68,19 +65,26 @@ public class ServerCommandManager {
 
 
 
-    public static class ExecuteAsync extends AsyncTask<Index, Void, Void> {
+    public static class ExecuteAsync extends AsyncTask<ArrayList<ServerCommand>, Void, Void> {
         @Override
-        protected Void doInBackground(Index... indices) {
+        protected Void doInBackground(ArrayList<ServerCommand>... commandArrays) {
 
-            for (Index index: indices) {
+            for (ArrayList<ServerCommand> commandArray: commandArrays) {
 
-                try {
-                    DocumentResult result = client.execute(index);
+                while (!commandArray.isEmpty()) {
+                    ServerCommand command = commandArray.get(0);
 
+                    try {
+                        command.execute();
+                    } catch (Exception e) {
+                        break;
+                    }
 
-                } catch (IOException e){
+                    // TODO: deal with un-executable command
+                    commandArray.remove(command);
 
                 }
+
             }
 
 
