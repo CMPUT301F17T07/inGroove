@@ -21,7 +21,7 @@ import com.cmput301f17t07.ingroove.ViewHabitEvent.ViewHabitEventActivity;
 
 public class AddViewEditHabitActivity extends AppCompatActivity {
 
-    DataManagerAPI data = new MockDataManager();
+    DataManagerAPI data = new MockDataManager().getInstance();
 
     Button log_button;
     Button stats_button;

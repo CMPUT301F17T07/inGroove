@@ -6,10 +6,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
+import com.cmput301f17t07.ingroove.DataManagers.MockDataManager;
 import com.cmput301f17t07.ingroove.R;
 import com.cmput301f17t07.ingroove.navDrawer.NavigationDrawerActivity;
 
 public class UserActivity extends NavigationDrawerActivity {
+
+    DataManagerAPI data = new MockDataManager().getInstance();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
