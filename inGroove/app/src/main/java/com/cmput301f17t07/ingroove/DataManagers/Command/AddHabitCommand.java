@@ -15,7 +15,7 @@ public class AddHabitCommand implements ServerCommand {
 
     public AddHabitCommand(User user, Habit habit) {
         this.user = user;
-        this.habit = habit
+        this.habit = habit;
     }
 
     @Override

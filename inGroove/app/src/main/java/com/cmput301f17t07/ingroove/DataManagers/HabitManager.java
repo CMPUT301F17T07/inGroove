@@ -61,7 +61,7 @@ public class HabitManager {
         habits.add(habit);
         saveLocal();
 
-        ServerCommand addHabitCommand = new AddHabitCommand(user, habit, this);
+        ServerCommand addHabitCommand = new AddHabitCommand(user, habit);
         ServerCommandManager.getInstance().addCommand(addHabitCommand);
     }
 
@@ -135,21 +135,25 @@ public class HabitManager {
 
         Index index = new Index.Builder(habit).index("cmput301f17t07_ingroove").type("habit").build();
 
-        try
-        {
-            DocumentResult result = ServerCommandManager.getClient().execute(index);
-            if (result.isSucceeded()) {
-                //habit.setHabitID(result.getId());
-                System.out.println("SUCCESS --- addHabitToServer success");
-            }
-            else {
-                System.out.println("FAILURE --- addHabitToServer failed");
-            }
-        }
-        catch (Exception e)
-        {
-            System.out.println("FAILURE --- addHabitToServer caught exception: " + "\"" + e + "\"");
-        }
+        ServerCommandManager.ExecuteAsync executeAsync = new ServerCommandManager.ExecuteAsync();
+
+        executeAsync.execute(index);
+
+//        try
+//        {
+//            DocumentResult result = ServerCommandManager.getClient().execute(index);
+//            if (result.isSucceeded()) {
+//                //habit.setHabitID(result.getId());
+//                System.out.println("SUCCESS --- addHabitToServer success");
+//            }
+//            else {
+//                System.out.println("FAILURE --- addHabitToServer failed");
+//            }
+//        }
+//        catch (Exception e)
+//        {
+//            System.out.println("FAILURE --- addHabitToServer caught exception: " + "\"" + e + "\"");
+//        }
 
     }
 
