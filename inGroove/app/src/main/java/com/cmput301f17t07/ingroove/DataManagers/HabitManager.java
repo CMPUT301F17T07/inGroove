@@ -131,17 +131,23 @@ public class HabitManager {
 
     }
 
-    public void addHabitToServer(Habit habit, User user) throws Exception {
+    public void addHabitToServer(Habit habit) throws Exception {
 
-        Index index = new Index.Builder(habit).index("cmput301f17t07_ingroove").type("habit").build();
+        Boolean isNew = true;
+
+        Index.Builder builder = new Index.Builder(habit).index("cmput301f17t07_ingroove").type("habit");
+
+        if (habit.getHabitID() != null) {
+            builder.id(habit.getHabitID());
+            isNew = false;
+        }
+
+        Index index = builder.build();
 
         DocumentResult result = ServerCommandManager.getClient().execute(index);
-        if (result.isSucceeded()) {
-            //habit.setHabitID(result.getId());
-            System.out.println("SUCCESS --- addHabitToServer success");
-        }
-        else {
-            System.out.println("FAILURE --- addHabitToServer failed");
+        if (result.isSucceeded() && isNew) {
+            habit.setHabitID(result.getId());
+            saveLocal();
         }
 
 

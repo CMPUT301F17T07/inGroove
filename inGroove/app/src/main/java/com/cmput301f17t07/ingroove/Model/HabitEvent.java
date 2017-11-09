@@ -34,6 +34,14 @@ public class HabitEvent {
     public String getLocation() { return location; }
     public void setLocation(String location) {this.location = location;}
 
+    public String getHabitID() {
+        return habitID;
+    }
+
+    public void setHabitID(String habitID) {
+        this.habitID = habitID;
+    }
+
     //Constructors.
     public HabitEvent(String name, String comment, Date day, Bitmap photo, String HabitID, String UserID, String location){
         this.name = name;

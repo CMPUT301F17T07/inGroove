@@ -20,7 +20,7 @@ public class AddHabitCommand implements ServerCommand {
 
     @Override
     public void execute() throws Exception {
-        HabitManager.getInstance().addHabitToServer(habit, user);
+        HabitManager.getInstance().addHabitToServer(habit);
     }
 
     @Override
