@@ -1,12 +1,13 @@
 package com.cmput301f17t07.ingroove.Model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by Ashley on 2017-10-22.
  */
 
-public class User {
+public class User implements Serializable{
 
     private String name;
     private String email;

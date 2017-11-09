@@ -14,8 +14,12 @@ import java.util.Date;
 
 public class MockDataManager implements DataManagerAPI {
 
+    private static MockDataManager instance = new MockDataManager();
+
     private ArrayList<Habit> habits;
     private ArrayList<HabitEvent> events;
+
+    private ArrayList<User> users;
 
 
     public MockDataManager() {
@@ -30,6 +34,12 @@ public class MockDataManager implements DataManagerAPI {
         events.add(new HabitEvent("Test Habit 2", new Date()));
         events.add(new HabitEvent("Test Habit 3", new Date()));
 
+        users = new ArrayList<User>();
+
+    }
+
+    public MockDataManager getInstance(){
+        return instance;
     }
 
     public ArrayList<Habit> getHabit(User user) {
@@ -69,7 +79,9 @@ public class MockDataManager implements DataManagerAPI {
     }
 
     public int addUser(String userName) {
-        return 0;
+        int id = users.size();
+        users.add(new User(userName, "HARDCODED EMAIL", id));
+        return id;
     }
 
     public int removeUser(User user) {
@@ -77,6 +89,10 @@ public class MockDataManager implements DataManagerAPI {
     }
 
     public User getUser() {
-        return null;
+        // just returning the first user for now, null if unavailable
+        if (users.size() == 0){
+            return null;
+        }
+        return users.get(0);
     }
 }
