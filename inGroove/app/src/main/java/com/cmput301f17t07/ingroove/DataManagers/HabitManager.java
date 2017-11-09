@@ -61,7 +61,7 @@ public class HabitManager {
         habits.add(habit);
         saveLocal();
 
-        ServerCommand addHabitCommand = new AddHabitCommand(user, habit, this);
+        ServerCommand addHabitCommand = new AddHabitCommand(user, habit);
         ServerCommandManager.getInstance().addCommand(addHabitCommand);
     }
 
@@ -131,20 +131,25 @@ public class HabitManager {
 
     }
 
-    public void addHabitToServer(Habit habit, User user) {
+    public void addHabitToServer(Habit habit) throws Exception {
 
-        Index index = new Index.Builder(habit).index("cmput301f17t07_ingroove").type("habit").build();
+        Boolean isNew = true;
 
-        try
-        {
-            DocumentResult result = ServerCommandManager.getClient().execute(index);
-            if (result.isSucceeded()) {
-                //habit.setHabitID(result.getId());
-            }
-            else {}
+        Index.Builder builder = new Index.Builder(habit).index("cmput301f17t07_ingroove").type("habit");
+
+        if (habit.getHabitID() != null) {
+            builder.id(habit.getHabitID());
+            isNew = false;
         }
-        catch (Exception e)
-        { }
+
+        Index index = builder.build();
+
+        DocumentResult result = ServerCommandManager.getClient().execute(index);
+        if (result.isSucceeded() && isNew) {
+            habit.setHabitID(result.getId());
+            saveLocal();
+        }
+
 
     }
 

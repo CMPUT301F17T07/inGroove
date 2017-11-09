@@ -9,7 +9,7 @@ package com.cmput301f17t07.ingroove.DataManagers.Command;
  */
 public interface ServerCommand {
 
-    public void execute();
+    public void execute() throws Exception;
     public void unexecute();
     public Boolean isUndoable();
 

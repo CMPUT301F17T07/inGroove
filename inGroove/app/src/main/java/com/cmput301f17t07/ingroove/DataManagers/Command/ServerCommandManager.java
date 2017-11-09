@@ -1,10 +1,16 @@
 package com.cmput301f17t07.ingroove.DataManagers.Command;
 
+import android.os.AsyncTask;
+
 import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
 import com.searchly.jestdroid.JestDroidClient;
 
+import java.io.IOException;
 import java.util.ArrayList;
+
+import io.searchbox.core.DocumentResult;
+import io.searchbox.core.Index;
 
 
 /**
@@ -48,16 +54,45 @@ public class ServerCommandManager {
 
     public void execute() {
 
-        while (!commands.isEmpty()) {
-            ServerCommand command = commands.get(0);
+        ExecuteAsync executeAsync = new ExecuteAsync();
 
-            command.execute();
-            // TODO: deal with un-executable command
-            commands.remove(command);
-        }
+        executeAsync.execute(commands);
+
     }
 
 
+
+
+
+
+    public static class ExecuteAsync extends AsyncTask<ArrayList<ServerCommand>, Void, Void> {
+        @Override
+        protected Void doInBackground(ArrayList<ServerCommand>... commandArrays) {
+
+            for (ArrayList<ServerCommand> commandArray: commandArrays) {
+
+                while (!commandArray.isEmpty()) {
+                    ServerCommand command = commandArray.get(0);
+
+                    try {
+                        command.execute();
+                    } catch (Exception e) {
+                        break;
+                    }
+
+                    // TODO: deal with un-executable command
+                    commandArray.remove(command);
+
+                }
+
+
+
+            }
+
+
+            return null;
+        }
+    }
 
 
 }

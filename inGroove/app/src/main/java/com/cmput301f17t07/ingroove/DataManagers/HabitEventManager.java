@@ -1,5 +1,8 @@
 package com.cmput301f17t07.ingroove.DataManagers;
 
+import com.cmput301f17t07.ingroove.DataManagers.Command.AddHabitEventCommand;
+import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommand;
+import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.Model.User;
@@ -17,6 +20,9 @@ import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
+
+import io.searchbox.core.DocumentResult;
+import io.searchbox.core.Index;
 
 /**
  * Created by Christopher Walter on 2017-10-22.
@@ -55,7 +61,9 @@ public class HabitEventManager {
     public void addHabitEvent(HabitEvent event) {
         habitEvents.add(event);
         saveLocal();
-        // TODO: add habit to server
+
+        ServerCommand addHabitEventCommand = new AddHabitEventCommand(event);
+        ServerCommandManager.getInstance().addCommand(addHabitEventCommand);
 
     }
 
@@ -177,5 +185,28 @@ public class HabitEventManager {
         }
 
     }
+
+    public void addHabitEventToServer(HabitEvent habitEvent) throws Exception {
+
+        Boolean isNew = true;
+
+        Index.Builder builder = new Index.Builder(habitEvent).index("cmput301f17t07_ingroove").type("habit_event");
+
+        if (habitEvent.getEventID() != null) {
+            builder.id(habitEvent.getEventID());
+            isNew = false;
+        }
+
+        Index index = builder.build();
+
+        DocumentResult result = ServerCommandManager.getClient().execute(index);
+        if (result.isSucceeded() && isNew) {
+            habitEvent.setEventID(result.getId());
+            saveLocal();
+        }
+
+
+    }
+
 
 }

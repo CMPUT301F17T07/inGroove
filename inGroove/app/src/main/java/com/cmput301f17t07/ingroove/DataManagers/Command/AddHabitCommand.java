@@ -13,17 +13,14 @@ public class AddHabitCommand implements ServerCommand {
     private User user;
     private Habit habit;
 
-    private HabitManager habitManager;
-
-    public AddHabitCommand(User user, Habit habit, HabitManager habitManager) {
+    public AddHabitCommand(User user, Habit habit) {
         this.user = user;
         this.habit = habit;
-        this.habitManager = habitManager;
     }
 
     @Override
-    public void execute() {
-        habitManager.addHabitToServer(habit, user);
+    public void execute() throws Exception {
+        HabitManager.getInstance().addHabitToServer(habit);
     }
 
     @Override
