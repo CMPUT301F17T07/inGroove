@@ -79,9 +79,8 @@ public class MockDataManager implements DataManagerAPI {
     }
 
     public int addUser(String userName) {
-        int id = users.size();
-        users.add(new User(userName, "HARDCODED EMAIL", id));
-        return id;
+        users.add(new User(userName, "HARDCODED EMAIL"));
+        return 0;
     }
 
     public int removeUser(User user) {
