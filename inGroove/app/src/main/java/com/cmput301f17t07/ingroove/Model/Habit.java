@@ -15,15 +15,24 @@ public class Habit implements Serializable{
     private String comment;
     private ArrayList<Day> repeatedDays;
     private ArrayList<String> events;
-    private int habitID;
+    private String habitID;
+    private String userID;
     // TODO: habitID is not in a constructor
 
-    public int getHabitID() {
+    public String getHabitID() {
         return habitID;
     }
 
-    public void setHabitID(int habitID) {
+    public void setHabitID(String habitID) {
         this.habitID = habitID;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
     public String getName() {
@@ -63,20 +72,16 @@ public class Habit implements Serializable{
         this.comment = comment;
         this.repeatedDays = repeatedDays;
         this.events = events;
+        this.habitID = null;
+
     }
 
     public Habit(String name, String comment, ArrayList<Day> repeatedDays) {
-        this.name = name;
-        this.comment = comment;
-        this.repeatedDays = repeatedDays;
-        this.events = new ArrayList<>();
+        this(name,comment, repeatedDays, new ArrayList<String>());
     }
 
     public Habit(String name, String comment) {
-        this.name = name;
-        this.comment = comment;
-        this.repeatedDays = new ArrayList<>();
-        this.events = new ArrayList<>();
+        this(name, comment,new ArrayList<Day>(), new ArrayList<String>());
     }
 
     public String getHabitString() {

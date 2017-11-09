@@ -10,14 +10,13 @@ public class User {
 
     private String name;
     private String email;
-    private int userID;
+    private String userID;
     private Date joinDate;
     private int streak;
 
-    public User(String name, String email, int userID) {
+    public User(String name, String email) {
         this.name = name;
         this.email = email;
-        this.userID = userID;
         this.joinDate = new Date();
     }
 
@@ -37,11 +36,11 @@ public class User {
         this.email = email;
     }
 
-    public int getUserID() {
+    public String getUserID() {
         return userID;
     }
 
-    public void setUserID(int userID) {
+    public void setUserID(String userID) {
         this.userID = userID;
     }
 
