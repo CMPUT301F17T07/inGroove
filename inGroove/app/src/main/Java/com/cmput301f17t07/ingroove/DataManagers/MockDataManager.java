@@ -34,6 +34,8 @@ public class MockDataManager implements DataManagerAPI {
         events.add(new HabitEvent("Test Habit 2", new Date()));
         events.add(new HabitEvent("Test Habit 3", new Date()));
 
+        users = new ArrayList<User>();
+
     }
 
     public MockDataManager getInstance(){
@@ -87,7 +89,10 @@ public class MockDataManager implements DataManagerAPI {
     }
 
     public User getUser() {
-        // just returning the first user for now
+        // just returning the first user for now, null if unavailable
+        if (users.size() == 0){
+            return null;
+        }
         return users.get(0);
     }
 }

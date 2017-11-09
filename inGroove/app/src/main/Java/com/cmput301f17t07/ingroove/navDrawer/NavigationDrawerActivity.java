@@ -87,7 +87,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
         if (id == R.id.nav_menu_account) {
             Intent intent = new Intent(getApplicationContext(), UserActivity.class);
-            intent.putExtra()
+            intent.putExtra(UserActivity.user_key, data.getUser());
             getApplicationContext().startActivity(intent);
         } else if (id == R.id.nav_menu_current_habits) {
             Intent intent = new Intent(getApplicationContext(), CurrentHabitsActivity.class);

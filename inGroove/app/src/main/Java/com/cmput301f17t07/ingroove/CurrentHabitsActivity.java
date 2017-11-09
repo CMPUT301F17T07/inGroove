@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CurrentHabitsActivity extends NavigationDrawerActivity {
+public class CurrentHabitsActivity extends NavigationDrawerActivity{
 
     private GridView habitViewer;
 
