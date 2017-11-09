@@ -45,8 +45,8 @@ public class ViewHabitEventActivity extends FragmentActivity implements OnMapRea
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        LatLng sydney = new LatLng(33.8121, -117.919);
+        mMap.addMarker(new MarkerOptions().position(sydney).title("DISNEYLAND!"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 }
