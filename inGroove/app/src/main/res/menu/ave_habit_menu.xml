@@ -14,7 +14,7 @@
         app:showAsAction="never"/>
 
     <item android:id="@+id/edit_habit"
-        android:title="@string/edit_habit"
+        android:title="@string/edit_habit_interval"
         app:showAsAction="never"/>
 
     <item android:id= "@+id/delete_habit"

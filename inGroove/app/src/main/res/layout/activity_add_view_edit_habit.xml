@@ -8,37 +8,74 @@
     tools:context="com.cmput301f17t07.ingroove.avehabit.AddViewEditHabitActivity">
 
 
-    <LinearLayout
+    <EditText
+        android:id="@+id/ave_habit_name"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        android:background="@color/colorPrimary"
-        android:alpha="0.87"
-        android:layout_weight="1">
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/habit_name_hint"
+        android:inputType="textPersonName" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/habit_comment_header"
-            android:text="@string/comment_header"
-            android:textColor="@android:color/white"/>
+    <TextView
+        android:id="@+id/habit_comment_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/comment_header"
+        android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:id="@+id/habit_comment"
-            android:text="@string/comment_body_test"
-            android:textColor="@android:color/white"/>
+    <EditText
+        android:id="@+id/ave_habit_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:hint="comment"
+        android:inputType="textMultiLine"
+        android:text="@string/comment_body_test"
+        android:textAppearance="@android:style/TextAppearance.Material.Small.Inverse" />
 
-    </LinearLayout>
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/habit_events_header"
+        android:textStyle="bold" />
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_weight="1">
 
     </android.support.v7.widget.RecyclerView>
+
+    <Button
+        android:id="@+id/ave_log_event_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/log_habit_event" />
+
+    <Button
+        android:id="@+id/ave_stats_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/view_habit_stats" />
+
+    <Button
+        android:id="@+id/ave_interval_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/edit_habit_interval" />
+
+    <Button
+        android:id="@+id/ave_save_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/save_habit" />
+
+    <Button
+        android:id="@+id/ave_del_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/delete_habit" />
 
 
 </android.support.v7.widget.LinearLayoutCompat>

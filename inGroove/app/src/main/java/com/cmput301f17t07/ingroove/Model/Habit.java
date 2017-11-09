@@ -1,12 +1,15 @@
 package com.cmput301f17t07.ingroove.Model;
 
+import android.os.Parcelable;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by fraserbulbuc on 2017-10-17.
  */
 
-public class Habit {
+public class Habit implements Serializable{
 
     private String name;
     private String comment;
