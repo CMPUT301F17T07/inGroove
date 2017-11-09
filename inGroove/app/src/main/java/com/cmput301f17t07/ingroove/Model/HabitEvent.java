@@ -10,11 +10,10 @@ public class HabitEvent {
     private String comment;
     private Date day;
     private Bitmap photo;
-    private int eventID;
-    private int habitID;
-    private int userID;
+    private String eventID;
+    private String habitID;
+    private String userID;
     private String location;
-    private boolean completed;
 
     //Name getter/setter
     public String getName() { return name; }
@@ -29,45 +28,34 @@ public class HabitEvent {
     public Bitmap getPhoto() { return photo; }
     public void setPhoto(Bitmap photo) {this.photo = photo;}
     //ID getter/setter
-    public int getEventID() { return eventID; }
-    public void setEventID(int id) {this.eventID = id;}
+    public String getEventID() { return eventID; }
+    public void setEventID(String id) {this.eventID = id;}
     //Location getter/setter
     public String getLocation() { return location; }
     public void setLocation(String location) {this.location = location;}
-    //Completed getter/setter
-    public boolean getCompleted() { return completed; }
-    public void setCompleted(String location) {this.completed = completed;}
 
     //Constructors.
-    public HabitEvent(String name, String comment, Date day, Bitmap photo, int id, int HabitID, int UserID, String location, boolean completed){
+    public HabitEvent(String name, String comment, Date day, Bitmap photo, String HabitID, String UserID, String location){
         this.name = name;
         this.comment = comment;
         this.day = day;
         this.photo = photo;
-        this.eventID = id;
         this.habitID = HabitID;
         this.userID = UserID;
         this.location = location;
-        this.completed = completed;
     }
-    //These are extra constructors. Not really needed/finished but nice to have.
-    public HabitEvent(String name, Date day){
-        this(name, "", day, null, 0,0,0, "", false);
+
+    public HabitEvent(String name, String comment, Date day, String habitID, String userID) {
+        this.name = name;
+        this.comment = comment;
+        this.day = day;
+        this.habitID = habitID;
+        this.userID = userID;
     }
-    public HabitEvent(String name, Date day, String location){
-        this(name, "", day, null, 0,0,0, location, false);
-    }
-    public HabitEvent(String name, String comment, Date day){
-        this(name, comment, day, null, 0,0,0, "", false);
-    }
-    public HabitEvent(String name, String comment, Date day, String location){
-        this(name, comment, day, null, 0,0,0, location, false);
-    }
-    public HabitEvent(String name, Date day, Bitmap photo){
-        this(name, "", day, photo, 0,0,0, "", false);
-    }
-    public HabitEvent(String name, Date day, Bitmap photo, String location){
-        this(name, "", day, photo, 0,0,0, location, false);
+
+    public HabitEvent(String name, Date day) {
+        this.name = name;
+        this.day = day;
     }
 
     public String toString() {

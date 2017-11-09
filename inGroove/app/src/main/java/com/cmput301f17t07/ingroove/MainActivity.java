@@ -9,7 +9,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        Intent intent = new Intent(getApplicationContext(), CurrentHabitsActivity.class);
+        Intent intent = new Intent(getApplicationContext(), BackEndTesting.class);
         getApplicationContext().startActivity(intent);
 
 
