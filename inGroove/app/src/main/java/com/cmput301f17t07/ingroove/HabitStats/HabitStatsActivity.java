@@ -11,6 +11,11 @@ import com.cmput301f17t07.ingroove.R;
 
 public class HabitStatsActivity extends AppCompatActivity {
 
+    TextView completedHabits;
+    TextView missedHabits;
+
+    ProgressBar habitProgress;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,44 +23,47 @@ public class HabitStatsActivity extends AppCompatActivity {
 
         Habit passedHabit;
 
-        Log.wtf("wtf","started onCreate");
+        Log.w("TEST TEST TEST","started onCreate");
 
         Bundle bundle = this.getIntent().getExtras();
         if (bundle != null){
             //passedHabit = (Habit) bundle.getSerializable(key:"display_stats_for_habit");
 
             // unbundle or something
-            Log.wtf("wtf","passed bundle != null");
+            Log.w("TEST TEST TEST","passed bundle != null");
 
             // fill in the habit data
-            TextView habitTitle = (TextView) findViewById(R.id.habitStatsTitle);
-            habitTitle.setText("super awesome habit to do");
+            // TextView habitTitle = (TextView) findViewById(R.id.habitStatsTitle);
+            // habitTitle.setText("super awesome habit to do");
 
-            TextView completedHabits = (TextView) findViewById(R.id.completed_value);
+            completedHabits = (TextView) findViewById(R.id.completed_value);
             completedHabits.setText("100");
 
-            TextView missedHabbits = (TextView) findViewById(R.id.missed_value);
-            missedHabbits.setText("42");
+            missedHabits = (TextView) findViewById(R.id.missed_value);
+            missedHabits.setText("42");
 
-            //ProgressBar habitProgress = (ProgressBar) findViewById(R.id.habitStatsProgressBar);
-            //habitProgress.setProgress(50);
+            ProgressBar habitProgress = (ProgressBar) findViewById(R.id.habitStatsProgressBar);
+            habitProgress.setProgress(50);
         }
         else {
             // show blank settings
 
-            Log.wtf("wtf","went to else");
+            Log.w("TEST TEST TEST","went to else");
 
-            TextView habitTitle = (TextView) findViewById(R.id.habitStatsTitle);
-            habitTitle.setText("Habit Stats Unavailable");
 
-            //TextView completedHabits = (TextView) findViewById(R.id.completed_value);
-            //completedHabits.setText("0");
+            // want to include a title for this, but for some reason it's not working
+            // to display right now, will fix later
+            // TextView habitTitle = (TextView) findViewById(R.id.habitStatsTitle);
+            // habitTitle.setText("Habit Stats Unavailable");
 
-            //TextView missedHabbits = (TextView) findViewById(R.id.missed_value);
-            //missedHabbits.setText("0");
+            completedHabits = (TextView) findViewById(R.id.completed_value);
+            completedHabits.setText("0");
 
-            //ProgressBar habitProgress = (ProgressBar) findViewById(R.id.habitStatsProgressBar);
-            //habitProgress.setProgress(0);
+            missedHabits = (TextView) findViewById(R.id.missed_value);
+            missedHabits.setText("0");
+
+            habitProgress = (ProgressBar) findViewById(R.id.habitStatsProgressBar);
+            habitProgress.setProgress(0);
         }
     }
 }
