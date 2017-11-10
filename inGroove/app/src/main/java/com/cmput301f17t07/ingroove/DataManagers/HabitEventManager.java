@@ -1,5 +1,7 @@
 package com.cmput301f17t07.ingroove.DataManagers;
 
+import android.content.Context;
+
 import com.cmput301f17t07.ingroove.DataManagers.Command.AddHabitEventCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
@@ -154,7 +156,9 @@ public class HabitEventManager {
     private void saveLocal() {
 
         try {
-            FileOutputStream fos = new FileOutputStream(HABIT_EVENTS_FILE, false);
+            Context context = InGroove.getInstance();
+
+            FileOutputStream fos = context.openFileOutput(HABIT_EVENTS_FILE, Context.MODE_PRIVATE);
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
             Gson gson = new Gson();
             gson.toJson(habitEvents, out);
@@ -173,7 +177,9 @@ public class HabitEventManager {
         // TODO: read from file to arraylist
 
         try {
-            FileInputStream fis = new FileInputStream(HABIT_EVENTS_FILE);
+            Context context = InGroove.getInstance();
+
+            FileInputStream fis = context.openFileInput(HABIT_EVENTS_FILE);
             BufferedReader in = new BufferedReader(new InputStreamReader(fis));
             Gson gson = new Gson();
 
