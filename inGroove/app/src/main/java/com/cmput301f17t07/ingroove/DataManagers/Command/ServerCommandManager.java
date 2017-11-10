@@ -80,7 +80,6 @@ public class ServerCommandManager {
                         break;
                     }
 
-                    // TODO: deal with un-executable command
                     commandArray.remove(command);
 
                 }

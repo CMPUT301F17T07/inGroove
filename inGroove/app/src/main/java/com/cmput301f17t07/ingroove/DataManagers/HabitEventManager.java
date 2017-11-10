@@ -77,6 +77,9 @@ public class HabitEventManager {
         // TODO: remove habit from server
     }
 
+    public ArrayList<HabitEvent> getHabitEvents() {
+        return habitEvents;
+    }
 
     // TODO: change the name for the date
     /**

@@ -28,7 +28,7 @@ public interface DataManagerAPI {
 
     int editHabitEvent(HabitEvent oldHabitEvent, HabitEvent newHabitEvent);
 
-    int addUser(String userName);
+    int setUser(User user);
 
     int removeUser(User user);
 

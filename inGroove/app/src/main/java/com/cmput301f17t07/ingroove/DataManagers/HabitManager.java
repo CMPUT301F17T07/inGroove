@@ -76,6 +76,10 @@ public class HabitManager {
         saveLocal();
     }
 
+    public ArrayList<Habit> getHabits() {
+        return habits;
+    }
+
     /**
      *
      * returns true if the use has a habit

@@ -48,7 +48,16 @@ public class DataManager implements DataManagerAPI {
         return user;
     }
 
-    public int addUser(String userName) { return 0;}
+    public int setUser(User user) {
+
+        this.user = user;
+        
+        saveLocal();
+
+        // TODO: push to server;
+
+        return 0;
+    }
 
     public int removeUser(User user) {
         return 0;
@@ -63,11 +72,11 @@ public class DataManager implements DataManagerAPI {
     }
 
     public ArrayList<Habit> getHabit(User user) {
-        return null;
+        return habitManager.getHabits();
     }
 
     public ArrayList<HabitEvent> getHabitEvents(Habit habit) {
-        return null;
+        return habitEventManager.getHabitEvents();
     }
 
     public int addHabit(Habit habit) {
