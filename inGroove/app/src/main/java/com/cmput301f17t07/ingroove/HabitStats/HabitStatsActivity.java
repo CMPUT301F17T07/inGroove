@@ -1,5 +1,8 @@
 package com.cmput301f17t07.ingroove.HabitStats;
 
+import android.graphics.drawable.RotateDrawable;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -42,6 +45,7 @@ public class HabitStatsActivity extends AppCompatActivity {
 
     Habit passedHabit;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,10 +94,11 @@ public class HabitStatsActivity extends AppCompatActivity {
             int completedDays = habitEvents.size();
             int progress = (completedDays * 100) / totalPossibleDays;
 
-            // fill in the habit data
-            // TextView habitTitle = (TextView) findViewById(R.id.habitStatsTitle);
-            // habitTitle.setText("super awesome habit to do");
+            Log.wtf("TEST TEST TEST TEST", "totalPossibleDays " + String.valueOf(totalPossibleDays));
+            Log.wtf("TEST TEST TEST TEST", "completedDays " + String.valueOf(completedDays));
+            Log.wtf("TEST TEST TEST TEST", "progress " + String.valueOf(progress));
 
+            // fill in the habit data
             // give completed habits the number of habit events
             completedHabits = (TextView) findViewById(R.id.completed_value);
             completedHabits.setText(String.valueOf(completedDays));
@@ -104,19 +109,13 @@ public class HabitStatsActivity extends AppCompatActivity {
 
             // give the progress the bar the calculated progress level
             habitProgress = (ProgressBar) findViewById(R.id.habitStatsProgressBar);
+            RotateDrawable rotateDrawable = (RotateDrawable) habitProgress.getIndeterminateDrawable();
+            rotateDrawable.setToDegrees(progress);
             habitProgress.setProgress(progress);
 
-            // view the needed calendar
-            //habitCalendar = (CalendarView) findViewById(R.id.habitStatsCalendarView);
-            //habitCalendar.setFirstDayOfWeek(1);
-
         } else {
-            // show blank settings
 
-            // want to include a title for this, but for some reason it's not working
-            // to display right now, will fix later
-            // TextView habitTitle = (TextView) findViewById(R.id.habitStatsTitle);
-            // habitTitle.setText("Habit Stats Unavailable");
+            // shows everything with default blank settings
 
             completedHabits = (TextView) findViewById(R.id.completed_value);
             completedHabits.setText("0");
@@ -125,10 +124,9 @@ public class HabitStatsActivity extends AppCompatActivity {
             missedHabits.setText("0");
 
             habitProgress = (ProgressBar) findViewById(R.id.habitStatsProgressBar);
+            RotateDrawable rotateDrawable = (RotateDrawable) habitProgress.getIndeterminateDrawable();
+            rotateDrawable.setToDegrees(0);
             habitProgress.setProgress(0);
-
-            //habitCalendar = (CalendarView) findViewById(R.id.habitStatsCalendarView);
-            //habitCalendar.setFirstDayOfWeek(1);
 
 
         }
