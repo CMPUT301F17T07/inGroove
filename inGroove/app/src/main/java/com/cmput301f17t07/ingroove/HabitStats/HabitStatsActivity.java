@@ -27,6 +27,7 @@ import static com.cmput301f17t07.ingroove.Model.Day.TUESDAY;
 
 public class HabitStatsActivity extends AppCompatActivity {
 
+    //DataManagerAPI data = new DataManager().getInstance();
     DataManagerAPI data = new MockDataManager().getInstance();
 
     TextView completedHabits;
@@ -88,7 +89,7 @@ public class HabitStatsActivity extends AppCompatActivity {
 
             int totalPossibleDays = repeatedDays * weeks;
             int completedDays = habitEvents.size();
-            float progress = ((completedDays / totalPossibleDays) * 100);
+            int progress = (completedDays * 100) / totalPossibleDays;
 
             Log.w("TEST TEST TEST", "the min day is " + String.valueOf(startDate));
             Log.w("TEST TEST TEST", "total possible days " + String.valueOf(totalPossibleDays));
@@ -109,7 +110,7 @@ public class HabitStatsActivity extends AppCompatActivity {
 
             // give the progress the bar the calculated progress level
             habitProgress = (ProgressBar) findViewById(R.id.habitStatsProgressBar);
-            habitProgress.setProgress(Math.round(progress));
+            habitProgress.setProgress(progress);
 
             // view the needed calendar
             habitCalendar = (CalendarView) findViewById(R.id.habitStatsCalendarView);
