@@ -33,6 +33,7 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
 
 
     private GridView habitViewer;
+    ArrayAdapter<String> gridViewArrayAdapter;
 
     private Button b_upcoming;
     private Button b_finished;
@@ -61,14 +62,7 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
                 (this, android.R.layout.simple_list_item_1, gv_GridItems);
         */
         //Populate an array list with the name of each habit that was fetched.
-        ArrayList<String> gv_GridItems = new ArrayList<String>();
-        for (Habit a : HabitHolder) {
-            gv_GridItems.add(a.getName());
-        }
-        ArrayAdapter<String> gridViewArrayAdapter = new ArrayAdapter<String>
-                (this, android.R.layout.simple_list_item_1, gv_GridItems);
 
-        habitViewer.setAdapter(gridViewArrayAdapter);
         habitViewer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
@@ -101,5 +95,18 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
                 startActivityForResult(upcomingIntent, 0);
             }
         });
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        ArrayList<String> gv_GridItems = new ArrayList<String>();
+        for (Habit a : HabitHolder) {
+            gv_GridItems.add(a.getName());
+        }
+        gridViewArrayAdapter = new ArrayAdapter<String>
+                (this, android.R.layout.simple_list_item_1, gv_GridItems);
+
+        habitViewer.setAdapter(gridViewArrayAdapter);
     }
 }
