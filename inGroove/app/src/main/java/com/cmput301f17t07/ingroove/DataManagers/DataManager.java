@@ -4,6 +4,8 @@ package com.cmput301f17t07.ingroove.DataManagers;
  * Created by Christopher Walter on 2017-10-31.
  */
 
+import android.content.Context;
+
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
@@ -110,7 +112,10 @@ public class DataManager implements DataManagerAPI {
     private void saveLocal() {
 
         try {
-            FileOutputStream fos = new FileOutputStream(USER_FILE, false);
+
+            Context context = InGroove.getInstance();
+
+            FileOutputStream fos = context.openFileOutput(USER_FILE, Context.MODE_PRIVATE);
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
             Gson gson = new Gson();
             gson.toJson(user, out);
@@ -128,7 +133,10 @@ public class DataManager implements DataManagerAPI {
     private void loadUser() {
 
         try {
-            FileInputStream fis = new FileInputStream(USER_FILE);
+
+            Context context = InGroove.getInstance();
+
+            FileInputStream fis = context.openFileInput(USER_FILE);
             BufferedReader in = new BufferedReader(new InputStreamReader(fis));
             Gson gson = new Gson();
 

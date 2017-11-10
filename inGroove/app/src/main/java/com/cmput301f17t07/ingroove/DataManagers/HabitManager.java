@@ -5,7 +5,6 @@ package com.cmput301f17t07.ingroove.DataManagers;
  */
 
 import android.content.Context;
-import android.util.Log;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.AddHabitCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommand;
@@ -45,7 +44,20 @@ public class HabitManager {
 
     private static ArrayList<Habit> habits = new ArrayList<>();
 
-    private HabitManager() { }
+    private HabitManager() {
+        loadHabits();
+
+        if (habits != null) {
+            System.out.println("HABITS LOADED !!!!!!!!!!!!!!!!!!");
+
+            System.out.println("NUMBER OF HABITS !!!!!!!!!!!!!!!!!!");
+            System.out.println(habits.size());
+            System.out.println(habits.get(0).getName());
+        } else {
+            System.out.println("HABITS NOT LOADED !!!!!!!!!!!!!!!!!!");
+
+        }
+    }
 
     public static HabitManager getInstance() {
         return instance;
@@ -58,8 +70,19 @@ public class HabitManager {
      * @param habit habit to be added
      */
     public void addHabit(User user, Habit habit) {
+
+//        loadHabits();
+        System.out.println("NUMBER OF HABITS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        System.out.println(habits.size());
+
         habits.add(habit);
+        System.out.println("NUMBER OF HABITS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        System.out.println(habits.size());
         saveLocal();
+
+        System.out.println("NUMBER OF HABITS AFTER SAVE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        System.out.println(habits.size());
+
 
         ServerCommand addHabitCommand = new AddHabitCommand(user, habit);
         ServerCommandManager.getInstance().addCommand(addHabitCommand);
@@ -98,7 +121,9 @@ public class HabitManager {
     private void saveLocal() {
 
         try {
-            FileOutputStream fos = new FileOutputStream(HABITS_FILE, false);
+            Context context = InGroove.getInstance();
+
+            FileOutputStream fos = context.openFileOutput(HABITS_FILE, Context.MODE_PRIVATE);
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
             Gson gson = new Gson();
             gson.toJson(habits, out);
@@ -107,8 +132,12 @@ public class HabitManager {
 
         } catch (FileNotFoundException e) {
             //TODO: implement exception
+            System.out.println("FAILED IN SAVE FILE NOT FOUND !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
         } catch (IOException e) {
             //TODO: implement exception
+            System.out.println("FAILED IN SAVE IOEXCEPTION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
         }
 
     }
@@ -119,7 +148,9 @@ public class HabitManager {
     private void loadHabits() {
 
         try {
-            FileInputStream fis = new FileInputStream(HABITS_FILE);
+            Context context = InGroove.getInstance();
+
+            FileInputStream fis = context.openFileInput(HABITS_FILE);
             BufferedReader in = new BufferedReader(new InputStreamReader(fis));
             Gson gson = new Gson();
 
@@ -131,6 +162,8 @@ public class HabitManager {
 
         } catch (FileNotFoundException e) {
             //TODO: implement exception
+
+            System.out.println("FAILED IN LOAD FILE NOT FOUND !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         }
 
     }
