@@ -8,6 +8,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
+import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.DataManagers.MockDataManager;
 import com.cmput301f17t07.ingroove.Model.Day;
 import com.cmput301f17t07.ingroove.Model.Habit;
@@ -27,8 +28,8 @@ import static com.cmput301f17t07.ingroove.Model.Day.TUESDAY;
 
 public class HabitStatsActivity extends AppCompatActivity {
 
-    //DataManagerAPI data = new DataManager().getInstance();
-    DataManagerAPI data = new MockDataManager().getInstance();
+    DataManagerAPI data = DataManager.getInstance();
+    //DataManagerAPI data = new MockDataManager().getInstance();
 
     TextView completedHabits;
     TextView missedHabits;
@@ -52,19 +53,17 @@ public class HabitStatsActivity extends AppCompatActivity {
         //if (bundle == null) {       // use this for testing with the mock data manager where things aren't getting passed
 
             // make work for mock data manager
-            data.addUser("test");
-            User user = data.getUser();
-            ArrayList<Habit> habits = data.getHabit(user);
-            passedHabit = habits.get(0);
-            ArrayList<Day> repeat = new ArrayList<Day>();
-            repeat.add(TUESDAY);
-            repeat.add(THURSDAY);
-            repeat.add(FRIDAY);
-            repeat.add(SATURDAY);
-            passedHabit.setRepeatedDays(repeat);
+            //data.addUser("test");
+            //User user = data.getUser();
+            //ArrayList<Habit> habits = data.getHabit(user);
+            //passedHabit = habits.get(0);
+            //ArrayList<Day> repeat = new ArrayList<Day>();
+            //repeat.add(TUESDAY);
+            //repeat.add(THURSDAY);
+            //repeat.add(FRIDAY);
+            //repeat.add(SATURDAY);
+            //passedHabit.setRepeatedDays(repeat);
             // end whats needed for mock data manager
-
-            Log.w("TEST TEST TEST","passed bundle != null");
 
             // for the real data manager
             //passedHabit = (Habit) bundle.getSerializable("display_stats_for_habit");
@@ -91,11 +90,6 @@ public class HabitStatsActivity extends AppCompatActivity {
             int completedDays = habitEvents.size();
             int progress = (completedDays * 100) / totalPossibleDays;
 
-            Log.w("TEST TEST TEST", "the min day is " + String.valueOf(startDate));
-            Log.w("TEST TEST TEST", "total possible days " + String.valueOf(totalPossibleDays));
-            Log.w("TEST TEST TEST", "completed days " + String.valueOf(completedDays));
-            Log.w("TEST TEST TEST", "progress bar " + String.valueOf(progress));
-
             // fill in the habit data
             // TextView habitTitle = (TextView) findViewById(R.id.habitStatsTitle);
             // habitTitle.setText("super awesome habit to do");
@@ -118,9 +112,6 @@ public class HabitStatsActivity extends AppCompatActivity {
 
         } else {
             // show blank settings
-
-            Log.w("TEST TEST TEST","went to else");
-
 
             // want to include a title for this, but for some reason it's not working
             // to display right now, will fix later
