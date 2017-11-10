@@ -28,15 +28,15 @@ import static com.cmput301f17t07.ingroove.Model.Day.TUESDAY;
 
 public class HabitStatsActivity extends AppCompatActivity {
 
-    DataManagerAPI data = DataManager.getInstance();
-    //DataManagerAPI data = new MockDataManager().getInstance();
+    //DataManagerAPI data = DataManager.getInstance();
+    DataManagerAPI data = new MockDataManager().getInstance();
 
     TextView completedHabits;
     TextView missedHabits;
 
     ProgressBar habitProgress;
 
-    CalendarView habitCalendar;
+    //CalendarView habitCalendar;
 
     ArrayList<HabitEvent> habitEvents;
 
@@ -49,20 +49,20 @@ public class HabitStatsActivity extends AppCompatActivity {
 
         Bundle bundle = this.getIntent().getExtras();
 
-        if (bundle != null){      // use this for the real app
-        //if (bundle == null) {       // use this for testing with the mock data manager where things aren't getting passed
+        //if (bundle != null){      // use this for the real app
+        if (bundle == null) {       // use this for testing with the mock data manager where things aren't getting passed
 
             // make work for mock data manager
-            //data.addUser("test");
-            //User user = data.getUser();
-            //ArrayList<Habit> habits = data.getHabit(user);
-            //passedHabit = habits.get(0);
-            //ArrayList<Day> repeat = new ArrayList<Day>();
-            //repeat.add(TUESDAY);
-            //repeat.add(THURSDAY);
-            //repeat.add(FRIDAY);
-            //repeat.add(SATURDAY);
-            //passedHabit.setRepeatedDays(repeat);
+            data.addUser("test");
+            User user = data.getUser();
+            ArrayList<Habit> habits = data.getHabit(user);
+            passedHabit = habits.get(0);
+            ArrayList<Day> repeat = new ArrayList<Day>();
+            repeat.add(TUESDAY);
+            repeat.add(THURSDAY);
+            repeat.add(FRIDAY);
+            repeat.add(SATURDAY);
+            passedHabit.setRepeatedDays(repeat);
             // end whats needed for mock data manager
 
             // for the real data manager
@@ -107,8 +107,8 @@ public class HabitStatsActivity extends AppCompatActivity {
             habitProgress.setProgress(progress);
 
             // view the needed calendar
-            habitCalendar = (CalendarView) findViewById(R.id.habitStatsCalendarView);
-            habitCalendar.setFirstDayOfWeek(1);
+            //habitCalendar = (CalendarView) findViewById(R.id.habitStatsCalendarView);
+            //habitCalendar.setFirstDayOfWeek(1);
 
         } else {
             // show blank settings
@@ -127,8 +127,10 @@ public class HabitStatsActivity extends AppCompatActivity {
             habitProgress = (ProgressBar) findViewById(R.id.habitStatsProgressBar);
             habitProgress.setProgress(0);
 
-            habitCalendar = (CalendarView) findViewById(R.id.habitStatsCalendarView);
-            habitCalendar.setFirstDayOfWeek(1);
+            //habitCalendar = (CalendarView) findViewById(R.id.habitStatsCalendarView);
+            //habitCalendar.setFirstDayOfWeek(1);
+
+
         }
     }
 }
