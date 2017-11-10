@@ -28,8 +28,8 @@ import java.util.List;
 
 public class CurrentHabitsActivity extends NavigationDrawerActivity{
 
-    //DataManagerAPI ServerCommunicator9000 = DataManager.getInstance();
-    DataManagerAPI ServerCommunicator9000 = MockDataManager.getInstance();
+    DataManagerAPI ServerCommunicator9000 = DataManager.getInstance();
+    //DataManagerAPI ServerCommunicator9000 = new MockDataManager().getInstance();
 
 
     private GridView habitViewer;
@@ -50,7 +50,7 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
         //From the HabitManager, get a list of todays habits
         //Ex: HabitHolder = HabitManager.getToday(userID);
         //This code only uses the MockDataManager.  So it will need to be changed later.  In the meantime it should populate HabitHolder with some habits that will be displayed.
-        HabitHolder = ServerCommunicator9000.getHabit(new User("T-Rex Joe", "trexjoe@hotmail.com", 886));
+        HabitHolder = ServerCommunicator9000.getHabit(new User("T-Rex Joe", "trexjoe@hotmail.com"));
 
         //Populate the GridView
         habitViewer = (GridView) findViewById(R.id.HabitViewer);

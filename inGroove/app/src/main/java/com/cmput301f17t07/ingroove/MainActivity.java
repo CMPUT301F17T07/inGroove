@@ -6,12 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
+import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.DataManagers.MockDataManager;
 import com.cmput301f17t07.ingroove.Model.User;
 
 public class MainActivity extends AppCompatActivity {
 
-    DataManagerAPI data = new MockDataManager().getInstance();
+    DataManagerAPI data = DataManager.getInstance();
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -20,7 +21,8 @@ public class MainActivity extends AppCompatActivity {
         // Set up the user if none exists
         User user = data.getUser();
         if (user == null){
-            data.addUser("TEST USER 1");
+            user = new User("Test user 1", "randomemail@random.com");
+            data.setUser(user);
             Log.i("tag", "onCreate: Creating new user");
         }
 

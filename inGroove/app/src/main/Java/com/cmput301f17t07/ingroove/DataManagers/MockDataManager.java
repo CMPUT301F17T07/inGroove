@@ -94,4 +94,10 @@ public class MockDataManager implements DataManagerAPI {
         }
         return users.get(0);
     }
+
+    @Override
+    public int setUser(User user) {
+
+        return 0;
+    }
 }
