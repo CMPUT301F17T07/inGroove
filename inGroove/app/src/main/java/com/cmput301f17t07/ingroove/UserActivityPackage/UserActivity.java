@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
+import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.DataManagers.MockDataManager;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
@@ -27,7 +28,7 @@ public class UserActivity extends NavigationDrawerActivity {
     to it. Otherwise it will simply exit
      */
 
-    DataManagerAPI data = new MockDataManager().getInstance();
+    DataManagerAPI data = DataManager.getInstance();
 
     // Account data to display
     public static String user_key = "USR_ACNT";

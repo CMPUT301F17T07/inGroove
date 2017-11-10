@@ -14,7 +14,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 
+import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
+import com.cmput301f17t07.ingroove.DataManagers.DataManager;
+import com.cmput301f17t07.ingroove.DataManagers.MockDataManager;
 import com.cmput301f17t07.ingroove.Model.Habit;
+import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.avehabit.AddViewEditHabitActivity;
 import com.cmput301f17t07.ingroove.navDrawer.NavigationDrawerActivity;
 
@@ -23,6 +27,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CurrentHabitsActivity extends NavigationDrawerActivity{
+
+    DataManagerAPI ServerCommunicator9000 = DataManager.getInstance();
+    //DataManagerAPI ServerCommunicator9000 = new MockDataManager().getInstance();
+
 
     private GridView habitViewer;
 
@@ -41,7 +49,8 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
 
         //From the HabitManager, get a list of todays habits
         //Ex: HabitHolder = HabitManager.getToday(userID);
-        HabitHolder = new ArrayList<>();
+        //This code only uses the MockDataManager.  So it will need to be changed later.  In the meantime it should populate HabitHolder with some habits that will be displayed.
+        HabitHolder = ServerCommunicator9000.getHabit(new User("T-Rex Joe", "trexjoe@hotmail.com"));
 
         //Populate the GridView
         habitViewer = (GridView) findViewById(R.id.HabitViewer);
