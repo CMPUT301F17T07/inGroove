@@ -78,9 +78,14 @@ public class MockDataManager implements DataManagerAPI {
         return 0;
     }
 
-    public int addUser(String userName) {
-        users.add(new User(userName, "HARDCODED EMAIL"));
+    @Override
+    public int setUser(User user) {
         return 0;
+    }
+
+    public String addUser(String userName) {
+        users.add(new User(userName, "HARDCODED EMAIL"));
+        return userName;
     }
 
     public int removeUser(User user) {
