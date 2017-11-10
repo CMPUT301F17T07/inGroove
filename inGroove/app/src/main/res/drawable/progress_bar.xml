@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<rotate xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fromDegrees="-90"
+    android:pivotX="50%"
+    android:pivotY="50%"
+    android:toDegrees="270" >
 
-</selector>
+    <shape
+        android:shape="ring"
+        android:useLevel="false" >
+        <gradient
+            android:centerY="0.5"
+            android:endColor="#FA5858"
+            android:startColor="#0099CC"
+            android:type="sweep"
+            android:useLevel="false" />
+    </shape>
+
+    <!-- referenced https://stackoverflow.com/questions/21333866/how-to-create-a-circular-progressbar-in-android-which-rotates-on-it -->
+
+</rotate>

@@ -14,16 +14,33 @@
         android:text="Information About Your Habit"
         tools:textSize="24sp" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="457dp">
+
+        <ProgressBar
+            android:id="@+id/habitStatsProgressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_centerInParent="true"
+            android:indeterminate="false"
+            android:max="100"
+            android:progress="0"
+            android:secondaryProgress="0"
+            android:progressDrawable="@drawable/progress_bar" />
+
+        <TextView
+            android:id="@+id/txtProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/habitStatsProgressBar"
+            android:layout_centerInParent="true"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="%" />
+    </RelativeLayout>
 
     <!-- TODO: The headers are not centered with their respective values yet -->
-
-    <ProgressBar
-        android:id="@+id/habitStatsProgressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="match_parent"
-        android:layout_height="182dp" />
-
-
 
     <LinearLayout
         android:layout_width="match_parent"
