@@ -34,4 +34,5 @@ public interface DataManagerAPI {
 
     User getUser();
 
+    String addUser(String s);
 }
