@@ -12,6 +12,7 @@ import com.cmput301f17t07.ingroove.DataManagers.MockDataManager;
 import com.cmput301f17t07.ingroove.Model.Day;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
+import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
 
 import java.util.ArrayList;
@@ -40,8 +41,22 @@ public class HabitStatsActivity extends AppCompatActivity {
         Habit passedHabit;
 
         Bundle bundle = this.getIntent().getExtras();
+
+
         if (bundle != null){
-            passedHabit = (Habit) bundle.getSerializable("display_stats_for_habit");
+        //if (bundle == null) {
+
+            // this isn't working properly yet, but it will be
+            // but right noe the other section in else is running anyway, so it's okayish and doesn't break right away
+            
+            //passedHabit = (Habit) bundle.getSerializable("display_stats_for_habit");
+
+            // make work for mock data manager
+            data.addUser("test");
+            User user = data.getUser();
+            ArrayList<Habit> habits = data.getHabit(user);
+            passedHabit = habits.get(0);
+
 
             // unbundle or something
             Log.w("TEST TEST TEST","passed bundle != null");
