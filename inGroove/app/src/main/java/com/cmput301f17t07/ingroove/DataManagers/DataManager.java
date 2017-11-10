@@ -50,6 +50,11 @@ public class DataManager implements DataManagerAPI {
         return user;
     }
 
+    @Override
+    public String addUser(String s) {
+        return s;
+    }
+
     public int setUser(User user) {
 
         this.user = user;
