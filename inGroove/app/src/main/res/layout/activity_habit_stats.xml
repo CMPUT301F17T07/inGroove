@@ -11,21 +11,37 @@
         android:id="@+id/habitStatsTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/habit_name"
-        tools:textSize="24sp" />
+        android:text="Information On Your Habit"
+        tools:textSize="25dp" />
 
-    <CalendarView
-        android:id="@+id/habitStatsCalendarView"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="457dp">
 
-    <ProgressBar
-        android:id="@+id/habitStatsProgressBar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:progressTint="@color/colorPrimary"/>
+        <ProgressBar
+            android:id="@+id/habitStatsProgressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="350dp"
+            android:layout_height="350dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:indeterminate="false"
+            android:max="100"
+            android:progress="0"
+            android:progressDrawable="@drawable/progress_bar" />
+            <!-- progress bar code references: https://stackoverflow.com/questions/12920397/how-to-make-progressbar-stop-spinning -->
 
+
+        <TextView
+            android:id="@+id/progressLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="@string/progress_level"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textSize="30dp"/>
+    </RelativeLayout>
 
     <!-- TODO: The headers are not centered with their respective values yet -->
 

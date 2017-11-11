@@ -40,6 +40,8 @@
     <string name="missed_habits_test_value">90</string>
     <string name="title_activity_maps">Map</string>
     <string name="habit_name">habit_stats_name</string>
+    <string name="progress_bar_prct">progress_bar_prct</string>
+    <string name="progress_level">progress_level</string>
 
 
 </resources>

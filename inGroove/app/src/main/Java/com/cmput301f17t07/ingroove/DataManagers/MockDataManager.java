@@ -104,5 +104,4 @@ public class MockDataManager implements DataManagerAPI {
         }
         return users.get(0);
     }
-
 }

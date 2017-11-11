@@ -1,9 +1,10 @@
 package com.cmput301f17t07.ingroove.HabitStats;
 
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.CalendarView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -28,20 +29,20 @@ import static com.cmput301f17t07.ingroove.Model.Day.TUESDAY;
 
 public class HabitStatsActivity extends AppCompatActivity {
 
-    DataManagerAPI data = DataManager.getInstance();
-    //DataManagerAPI data = new MockDataManager().getInstance();
+    //DataManagerAPI data = DataManager.getInstance();
+    DataManagerAPI data = new MockDataManager().getInstance();
 
     TextView completedHabits;
     TextView missedHabits;
+    TextView progressText;
 
     ProgressBar habitProgress;
-
-    CalendarView habitCalendar;
 
     ArrayList<HabitEvent> habitEvents;
 
     Habit passedHabit;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,20 +54,20 @@ public class HabitStatsActivity extends AppCompatActivity {
         //if (bundle == null) {       // use this for testing with the mock data manager where things aren't getting passed
 
             // make work for mock data manager
-            //data.addUser("test");
-            //User user = data.getUser();
-            //ArrayList<Habit> habits = data.getHabit(user);
-            //passedHabit = habits.get(0);
-            //ArrayList<Day> repeat = new ArrayList<Day>();
-            //repeat.add(TUESDAY);
-            //repeat.add(THURSDAY);
-            //repeat.add(FRIDAY);
-            //repeat.add(SATURDAY);
-            //passedHabit.setRepeatedDays(repeat);
+            /* data.addUser("test");
+            User user = data.getUser();
+            ArrayList<Habit> habits = data.getHabit(user);
+            passedHabit = habits.get(0);
+            ArrayList<Day> repeat = new ArrayList<Day>();
+            repeat.add(TUESDAY);
+            repeat.add(THURSDAY);
+            repeat.add(FRIDAY);
+            repeat.add(SATURDAY);
+            passedHabit.setRepeatedDays(repeat); */
             // end whats needed for mock data manager
 
             // for the real data manager
-            //passedHabit = (Habit) bundle.getSerializable("display_stats_for_habit");
+            passedHabit = (Habit) bundle.getSerializable("display_stats_for_habit");
             habitEvents = data.getHabitEvents(passedHabit);
 
             // get the first day of the habit
@@ -91,9 +92,6 @@ public class HabitStatsActivity extends AppCompatActivity {
             int progress = (completedDays * 100) / totalPossibleDays;
 
             // fill in the habit data
-            // TextView habitTitle = (TextView) findViewById(R.id.habitStatsTitle);
-            // habitTitle.setText("super awesome habit to do");
-
             // give completed habits the number of habit events
             completedHabits = (TextView) findViewById(R.id.completed_value);
             completedHabits.setText(String.valueOf(completedDays));
@@ -102,21 +100,17 @@ public class HabitStatsActivity extends AppCompatActivity {
             missedHabits = (TextView) findViewById(R.id.missed_value);
             missedHabits.setText(String.valueOf(totalPossibleDays - completedDays));
 
+            // fill in the progress percentage text view
+            progressText = (TextView) findViewById(R.id.progressLevel);
+            progressText.setText(String.valueOf(progress) + "%");
+
             // give the progress the bar the calculated progress level
             habitProgress = (ProgressBar) findViewById(R.id.habitStatsProgressBar);
             habitProgress.setProgress(progress);
 
-            // view the needed calendar
-            habitCalendar = (CalendarView) findViewById(R.id.habitStatsCalendarView);
-            habitCalendar.setFirstDayOfWeek(1);
-
         } else {
-            // show blank settings
 
-            // want to include a title for this, but for some reason it's not working
-            // to display right now, will fix later
-            // TextView habitTitle = (TextView) findViewById(R.id.habitStatsTitle);
-            // habitTitle.setText("Habit Stats Unavailable");
+            // shows everything with default blank settings
 
             completedHabits = (TextView) findViewById(R.id.completed_value);
             completedHabits.setText("0");
@@ -124,11 +118,13 @@ public class HabitStatsActivity extends AppCompatActivity {
             missedHabits = (TextView) findViewById(R.id.missed_value);
             missedHabits.setText("0");
 
+            progressText = (TextView) findViewById(R.id.progressLevel);
+            progressText.setText("0%");
+
             habitProgress = (ProgressBar) findViewById(R.id.habitStatsProgressBar);
             habitProgress.setProgress(0);
 
-            habitCalendar = (CalendarView) findViewById(R.id.habitStatsCalendarView);
-            habitCalendar.setFirstDayOfWeek(1);
+
         }
     }
 }
