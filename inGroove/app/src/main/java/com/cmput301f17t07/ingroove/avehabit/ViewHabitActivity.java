@@ -64,16 +64,8 @@ public class ViewHabitActivity extends AppCompatActivity {
         habit_name = (TextView) findViewById(R.id.view_habit_name);
         habit_comment = (TextView) findViewById(R.id.view_habit_comment);
 
-        // Populate them accordingly
-        if (passed_habit == null){
-            // adding a new habit
-            habitEventsList = new ArrayList<HabitEvent>();
-        } else {
-            // editing a habit
-            habit_name.setText(passed_habit.getName());
-            habit_comment.setText(passed_habit.getComment());
-            habitEventsList = data.getHabitEvents(passed_habit);
-        }
+        // Set the text views
+        setTextFields();
 
         // Get a hook for the habit event list
         habit_events = (ListView) findViewById(R.id.view_habit_events);
@@ -147,12 +139,15 @@ public class ViewHabitActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         if (requestCode == 1 && resultCode == RESULT_OK){
             Habit new_habit = (Habit) data.getSerializableExtra(edited_habit_key);
-            setFieldsTo(new_habit);
+            passed_habit = new_habit;
+            setTextFields();
         }
     }
 
-    private void setFieldsTo(Habit habit) {
-        
+    private void setTextFields() {
+        habit_name.setText(passed_habit.getName());
+        habit_comment.setText(passed_habit.getComment());
+        habitEventsList = data.getHabitEvents(passed_habit);
     }
 
     @Override
