@@ -109,8 +109,8 @@ public class HabitStatsActivity extends AppCompatActivity {
 
             // give the progress the bar the calculated progress level
             habitProgress = (ProgressBar) findViewById(R.id.habitStatsProgressBar);
-            RotateDrawable rotateDrawable = (RotateDrawable) habitProgress.getIndeterminateDrawable();
-            rotateDrawable.setToDegrees(progress);
+            //RotateDrawable rotateDrawable = (RotateDrawable) habitProgress.getIndeterminateDrawable();
+            //rotateDrawable.setToDegrees(progress);
             habitProgress.setProgress(progress);
 
         } else {

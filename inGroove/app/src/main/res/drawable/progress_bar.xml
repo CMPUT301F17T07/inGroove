@@ -1,21 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rotate xmlns:android="http://schemas.android.com/apk/res/android"
-    android:fromDegrees="-90"
-    android:pivotX="50%"
-    android:pivotY="50%"
-    android:toDegrees="270" >
-
-    <shape
-        android:shape="ring"
-        android:useLevel="false" >
-        <gradient
-            android:centerY="0.5"
-            android:endColor="#FA5858"
-            android:startColor="#0099CC"
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@android:id/background">
+        <shape
+            android:innerRadiusRatio="2.3"
+            android:shape="ring"
+            android:useLevel="false"
             android:type="sweep"
-            android:useLevel="false" />
-    </shape>
+            android:thicknessRatio="15.0">
+            <solid android:color="#e0e0e0"/>
+        </shape>
+    </item>
+    <item android:id="@android:id/progress">
+        <rotate
+            android:pivotX="50%"
+            android:pivotY="50%"
+            android:fromDegrees="-90"
+            android:toDegrees="-90">
+            <shape
+                android:innerRadiusRatio="2.3"
+                android:shape="ring"
+                android:angle="0"
+                android:type="sweep"
+                android:thicknessRatio="15.0">
+                <solid android:color="#0b5789"/>
+            </shape>
+        </rotate>
+    </item>
 
-    <!-- referenced https://stackoverflow.com/questions/21333866/how-to-create-a-circular-progressbar-in-android-which-rotates-on-it -->
+    <!-- progress bar code references: https://stackoverflow.com/questions/12920397/how-to-make-progressbar-stop-spinning -->
 
-</rotate>
+</layer-list>
