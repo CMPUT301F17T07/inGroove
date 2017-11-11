@@ -1,9 +1,16 @@
 package com.cmput301f17t07.ingroove.ViewHabitEvent;
 
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
+import com.cmput301f17t07.ingroove.DataManagers.DataManager;
+import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -17,9 +24,22 @@ import com.google.android.gms.maps.model.MarkerOptions;
  */
 
 public class ViewHabitEventActivity extends FragmentActivity implements OnMapReadyCallback {
+    // Key for sending the habit event to this activity for display
+    // This class REQUIRES a habit event be sent to 
+    final String he_key = "HABIT_EVENT_TO_DISPLAY";
+    HabitEvent habitEvent;
 
-    public static String habit_key = "HABIT_TO_VIEW";
+    // Map variables
     GoogleMap mMap;
+
+    // Interface Variables
+    TextView he_title;
+    TextView he_comment;
+    ImageView he_image;
+
+    // Data Manager
+    DataManagerAPI data = DataManager.getInstance();
+
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -29,6 +49,20 @@ public class ViewHabitEventActivity extends FragmentActivity implements OnMapRea
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        // Hook up interface variables
+        he_title = findViewById(R.id.view_he_event_title);
+        he_comment = findViewById(R.id.view_he_event_comment);
+        he_image = findViewById(R.id.view_he_event_image);
+
+        // Get the habit event to display
+        //habitEvent =
+
+        // Set event image
+        //Drawable drawable = getResources().getDrawable(R.drawable.austin);
+        //he_image.setImageDrawable(drawable);
+
+        //he_title =
     }
 
 
