@@ -5,6 +5,7 @@ package com.cmput301f17t07.ingroove.DataManagers;
  */
 
 import android.content.Context;
+import android.util.Log;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.AddHabitCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommand;
@@ -42,21 +43,10 @@ public class HabitManager {
 
     private static HabitManager instance = new HabitManager();
 
-    private static ArrayList<Habit> habits = new ArrayList<>();
+    private static ArrayList<Habit> habits;
 
     private HabitManager() {
         loadHabits();
-
-        if (habits != null) {
-            System.out.println("HABITS LOADED !!!!!!!!!!!!!!!!!!");
-
-            System.out.println("NUMBER OF HABITS !!!!!!!!!!!!!!!!!!");
-            System.out.println(habits.size());
-            System.out.println(habits.get(0).getName());
-        } else {
-            System.out.println("HABITS NOT LOADED !!!!!!!!!!!!!!!!!!");
-
-        }
     }
 
     public static HabitManager getInstance() {
@@ -70,20 +60,8 @@ public class HabitManager {
      * @param habit habit to be added
      */
     public void addHabit(User user, Habit habit) {
-
-//        loadHabits();
-        System.out.println("NUMBER OF HABITS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        System.out.println(habits.size());
-
         habits.add(habit);
-        System.out.println("NUMBER OF HABITS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        System.out.println(habits.size());
         saveLocal();
-
-        System.out.println("NUMBER OF HABITS AFTER SAVE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        System.out.println(habits.size());
-
-
         ServerCommand addHabitCommand = new AddHabitCommand(user, habit);
         ServerCommandManager.getInstance().addCommand(addHabitCommand);
     }
@@ -100,6 +78,23 @@ public class HabitManager {
     }
 
     public ArrayList<Habit> getHabits() {
+
+        if (habits == null) {
+            Log.d("-- RETURNING HABITS --",habits.size() + " habit(s) to return");
+
+            for (Habit habit: habits) {
+                Log.d("----- RETURNED -----", " habit named: " + habit.getName());
+            }
+            loadHabits();
+            return habits;
+        }
+
+        Log.d("-- RETURNING HABITS --",habits.size() + " habit(s) to return");
+
+        for (Habit habit: habits) {
+            Log.d("----- RETURNED -----", " habit named: " + habit.getName());
+        }
+
         return habits;
     }
 
@@ -132,12 +127,11 @@ public class HabitManager {
 
         } catch (FileNotFoundException e) {
             //TODO: implement exception
-            System.out.println("FAILED IN SAVE FILE NOT FOUND !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            Log.d("---- ERROR ----", "Caught Exception:" + e);
 
         } catch (IOException e) {
             //TODO: implement exception
-            System.out.println("FAILED IN SAVE IOEXCEPTION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-
+            Log.d("---- ERROR ----", "Caught Exception:" + e);
         }
 
     }
@@ -159,12 +153,20 @@ public class HabitManager {
             Type listType = new TypeToken<ArrayList<Habit>>(){}.getType();
             habits = gson.fromJson(in, listType);
 
+            Log.d("--- LOADED HABITS --- ", habits.size()+ " habit(s) in memory.");
+
+            for (Habit habit: habits) {
+                Log.d("--- HABIT ---", " named: " + habit.getName());
+            }
+
 
         } catch (FileNotFoundException e) {
             //TODO: implement exception
 
-            System.out.println("FAILED IN LOAD FILE NOT FOUND !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            Log.d("---- ERROR ----", "Caught Exception:" + e);
         }
+
+
 
     }
 
