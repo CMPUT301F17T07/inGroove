@@ -125,6 +125,7 @@ public class ViewHabitActivity extends AppCompatActivity {
         edit_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), EditHabitActivity.class);
+                intent.putExtra(EditHabitActivity.habit_key, passed_habit);
                 getApplicationContext().startActivity(intent);
             }
         });
