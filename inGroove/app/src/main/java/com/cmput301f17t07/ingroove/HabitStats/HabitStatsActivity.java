@@ -4,17 +4,13 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
-import com.cmput301f17t07.ingroove.DataManagers.MockDataManager;
-import com.cmput301f17t07.ingroove.Model.Day;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
-import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
 
 import java.util.ArrayList;
@@ -22,15 +18,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import static com.cmput301f17t07.ingroove.Model.Day.FRIDAY;
-import static com.cmput301f17t07.ingroove.Model.Day.SATURDAY;
-import static com.cmput301f17t07.ingroove.Model.Day.THURSDAY;
-import static com.cmput301f17t07.ingroove.Model.Day.TUESDAY;
 
 public class HabitStatsActivity extends AppCompatActivity {
 
-    //DataManagerAPI data = DataManager.getInstance();
-    DataManagerAPI data = new MockDataManager().getInstance();
+    DataManagerAPI data = DataManager.getInstance();
 
     TextView completedHabits;
     TextView missedHabits;
@@ -51,22 +42,7 @@ public class HabitStatsActivity extends AppCompatActivity {
         Bundle bundle = this.getIntent().getExtras();
 
         if (bundle != null){      // use this for the real app
-        //if (bundle == null) {       // use this for testing with the mock data manager where things aren't getting passed
 
-            // make work for mock data manager
-            /* data.addUser("test");
-            User user = data.getUser();
-            ArrayList<Habit> habits = data.getHabit(user);
-            passedHabit = habits.get(0);
-            ArrayList<Day> repeat = new ArrayList<Day>();
-            repeat.add(TUESDAY);
-            repeat.add(THURSDAY);
-            repeat.add(FRIDAY);
-            repeat.add(SATURDAY);
-            passedHabit.setRepeatedDays(repeat); */
-            // end whats needed for mock data manager
-
-            // for the real data manager
             passedHabit = (Habit) bundle.getSerializable("display_stats_for_habit");
             habitEvents = data.getHabitEvents(passedHabit);
 
