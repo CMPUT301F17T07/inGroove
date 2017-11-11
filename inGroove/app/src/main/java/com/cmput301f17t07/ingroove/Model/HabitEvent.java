@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class HabitEvent {
+public class HabitEvent implements Identifiable {
 
     private String name;
     private String comment;
@@ -28,7 +28,7 @@ public class HabitEvent {
     public Bitmap getPhoto() { return photo; }
     public void setPhoto(Bitmap photo) {this.photo = photo;}
     //ID getter/setter
-    public String getEventID() { return eventID; }
+    public String getID() { return eventID; }
     public void setEventID(String id) {this.eventID = id;}
     //Location getter/setter
     public String getLocation() { return location; }
@@ -78,7 +78,7 @@ public class HabitEvent {
             return false;
         }
         HabitEvent temp = (HabitEvent) obj;
-        if(temp.getName() == this.name && temp.getDay() == this.day && temp.getEventID() == this.eventID)
+        if(temp.getName() == this.name && temp.getDay() == this.day && temp.getID() == this.eventID)
             return true;
         else
             return false;

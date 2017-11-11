@@ -11,6 +11,7 @@ import com.cmput301f17t07.ingroove.DataManagers.Command.AddHabitCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
 import com.cmput301f17t07.ingroove.Model.Habit;
+import com.cmput301f17t07.ingroove.Model.Identifiable;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -60,6 +61,12 @@ public class HabitManager {
      * @param habit habit to be added
      */
     public void addHabit(User user, Habit habit) {
+
+        UniqueIDGenerator generator = new UniqueIDGenerator(habits);
+        String id = generator.generateNewID();
+        habit.setHabitID(id);
+        Log.d("--- NEW ID ---"," generated unique ID of: " + id );
+
         habits.add(habit);
         saveLocal();
         ServerCommand addHabitCommand = new AddHabitCommand(user, habit);
@@ -184,8 +191,8 @@ public class HabitManager {
 
         DocumentResult result = ServerCommandManager.getClient().execute(index);
         if (result.isSucceeded() && isNew) {
-            habit.setHabitID(result.getId());
-            saveLocal();
+            //habit.setHabitID(result.getId());
+            //saveLocal();
         }
 
 

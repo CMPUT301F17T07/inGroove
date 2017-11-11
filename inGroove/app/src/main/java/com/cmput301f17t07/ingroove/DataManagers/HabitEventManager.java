@@ -201,8 +201,8 @@ public class HabitEventManager {
 
         Index.Builder builder = new Index.Builder(habitEvent).index("cmput301f17t07_ingroove").type("habit_event");
 
-        if (habitEvent.getEventID() != null) {
-            builder.id(habitEvent.getEventID());
+        if (habitEvent.getID() != null) {
+            builder.id(habitEvent.getID());
             isNew = false;
         }
 
