@@ -43,7 +43,7 @@ public class HabitManager {
 
     private static HabitManager instance = new HabitManager();
 
-    private static ArrayList<Habit> habits;
+    private static ArrayList<Habit> habits = new ArrayList<>();
 
     private HabitManager() {
         loadHabits();
@@ -79,7 +79,7 @@ public class HabitManager {
 
     public ArrayList<Habit> getHabits() {
 
-        if (habits == null) {
+        if (habits.size() == 0) {
             Log.d("-- RETURNING HABITS --",habits.size() + " habit(s) to return");
 
             for (Habit habit: habits) {
@@ -153,16 +153,15 @@ public class HabitManager {
             Type listType = new TypeToken<ArrayList<Habit>>(){}.getType();
             habits = gson.fromJson(in, listType);
 
+            Log.d("--- DEBUG POINT ---", "here");
+
             Log.d("--- LOADED HABITS --- ", habits.size()+ " habit(s) in memory.");
 
             for (Habit habit: habits) {
                 Log.d("--- HABIT ---", " named: " + habit.getName());
             }
-
-
+            
         } catch (FileNotFoundException e) {
-            //TODO: implement exception
-
             Log.d("---- ERROR ----", "Caught Exception:" + e);
         }
 
