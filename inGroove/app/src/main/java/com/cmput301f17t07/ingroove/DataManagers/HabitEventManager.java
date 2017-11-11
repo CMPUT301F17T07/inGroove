@@ -61,20 +61,22 @@ public class HabitEventManager {
      * there is connection
      * @param event the new HabitEvent
      */
-    public void addHabitEvent(HabitEvent event) {
+    public int addHabitEvent(Habit habit, HabitEvent event) {
 
         // TODO: leave the line below commented out, until the params are changed by Austin in the interface
         // need to pull from master once he pushes
-        //event.setHabitID(habit.getID());
+        event.setHabitID(habit.getHabitID());
         UniqueIDGenerator generator = new UniqueIDGenerator(habitEvents);
         String id = generator.generateNewID();
-        event.setHabitID(id);
+        event.setEventID(id);
         Log.d("--- NEW ID ---"," generated unique ID of: " + id );
         habitEvents.add(event);
         saveLocal();
 
         ServerCommand addHabitEventCommand = new AddHabitEventCommand(event);
         ServerCommandManager.getInstance().addCommand(addHabitEventCommand);
+
+        return 0;
 
     }
 
@@ -109,12 +111,21 @@ public class HabitEventManager {
             loadHabitEvents();
         }
 
+        Log.d("-- getHabitEvents --"," NUMBER OF EVENTS " + habitEvents.size());
+
         ArrayList<HabitEvent> forHabitList = new ArrayList<>();
         for (HabitEvent event: habitEvents) {
-            if (event.getID().equals(forHabit.getID())) {
+            if (event.getHabitID() == null || forHabit.getHabitID() == null) {
+                continue;
+            }
+
+
+            if (event.getHabitID().equals(forHabit.getHabitID())) {
                 forHabitList.add(event);
             }
         }
+
+        Log.d("-- getHabitEvents --"," NUMBER OF EVENTS RETURNED " + forHabitList.size());
 
         return forHabitList;
     }
@@ -234,8 +245,11 @@ public class HabitEventManager {
 
             //Taken from https://stackoverflow.com/questions/12384064/gson-convert-from-json-to-a-typed-arraylistt
             // 2017-09-19
-            Type listType = new TypeToken<ArrayList<Habit>>(){}.getType();
+            Type listType = new TypeToken<ArrayList<HabitEvent>>(){}.getType();
             habitEvents = gson.fromJson(in, listType);
+
+            Log.d("--LOAD HABIT EVENTS--"," NUMBER OF EVENTS " + habitEvents.size());
+
 
 
         } catch (FileNotFoundException e) {
