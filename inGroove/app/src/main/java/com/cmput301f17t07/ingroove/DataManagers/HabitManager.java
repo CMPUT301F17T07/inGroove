@@ -5,11 +5,13 @@ package com.cmput301f17t07.ingroove.DataManagers;
  */
 
 import android.content.Context;
+import android.util.Log;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.AddHabitCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
 import com.cmput301f17t07.ingroove.Model.Habit;
+import com.cmput301f17t07.ingroove.Model.Identifiable;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -42,21 +44,10 @@ public class HabitManager {
 
     private static HabitManager instance = new HabitManager();
 
-    private static ArrayList<Habit> habits = new ArrayList<>();
+    private ArrayList<Habit> habits = new ArrayList<>();
 
     private HabitManager() {
         loadHabits();
-
-        if (habits != null) {
-            System.out.println("HABITS LOADED !!!!!!!!!!!!!!!!!!");
-
-            System.out.println("NUMBER OF HABITS !!!!!!!!!!!!!!!!!!");
-            System.out.println(habits.size());
-            System.out.println(habits.get(0).getName());
-        } else {
-            System.out.println("HABITS NOT LOADED !!!!!!!!!!!!!!!!!!");
-
-        }
     }
 
     public static HabitManager getInstance() {
@@ -71,19 +62,13 @@ public class HabitManager {
      */
     public void addHabit(User user, Habit habit) {
 
-//        loadHabits();
-        System.out.println("NUMBER OF HABITS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        System.out.println(habits.size());
+        UniqueIDGenerator generator = new UniqueIDGenerator(habits);
+        String id = generator.generateNewID();
+        habit.setHabitID(id);
+        Log.d("--- NEW ID ---"," generated unique ID of: " + id );
 
         habits.add(habit);
-        System.out.println("NUMBER OF HABITS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        System.out.println(habits.size());
         saveLocal();
-
-        System.out.println("NUMBER OF HABITS AFTER SAVE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        System.out.println(habits.size());
-
-
         ServerCommand addHabitCommand = new AddHabitCommand(user, habit);
         ServerCommandManager.getInstance().addCommand(addHabitCommand);
     }
@@ -99,7 +84,36 @@ public class HabitManager {
         saveLocal();
     }
 
+    public int editHabit(Habit oldHabit, Habit newHabit) {
+        int index = habits.indexOf(oldHabit);
+        if (index == -1) {
+            return -1;
+        }
+        habits.remove(oldHabit);
+        newHabit.setHabitID(oldHabit.getHabitID());
+        habits.add(index, newHabit);
+        saveLocal();
+        return 0;
+    }
+
     public ArrayList<Habit> getHabits() {
+
+        if (habits.size() == 0) {
+            Log.d("-- RETURNING HABITS --",habits.size() + " habit(s) to return");
+
+            for (Habit habit: habits) {
+                Log.d("----- RETURNED -----", " habit named: " + habit.getName());
+            }
+            loadHabits();
+            return habits;
+        }
+
+        Log.d("-- RETURNING HABITS --",habits.size() + " habit(s) to return");
+
+        for (Habit habit: habits) {
+            Log.d("----- RETURNED -----", " habit named: " + habit.getName());
+        }
+
         return habits;
     }
 
@@ -111,7 +125,7 @@ public class HabitManager {
      *
      * @return true if the habit exists
      */
-    public static boolean hasHabit(User user, Habit habit) {
+    public  boolean hasHabit(User user, Habit habit) {
         return habits.contains(habit);
     }
 
@@ -129,15 +143,18 @@ public class HabitManager {
             gson.toJson(habits, out);
             out.flush();
 
+            for (Habit habit: habits) {
+                Log.d("--- HABITS SAVED ---", " named: " + habit.getName());
+            }
+
 
         } catch (FileNotFoundException e) {
             //TODO: implement exception
-            System.out.println("FAILED IN SAVE FILE NOT FOUND !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            Log.d("---- ERROR ----", "Caught Exception:" + e);
 
         } catch (IOException e) {
             //TODO: implement exception
-            System.out.println("FAILED IN SAVE IOEXCEPTION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-
+            Log.d("---- ERROR ----", "Caught Exception:" + e);
         }
 
     }
@@ -159,12 +176,19 @@ public class HabitManager {
             Type listType = new TypeToken<ArrayList<Habit>>(){}.getType();
             habits = gson.fromJson(in, listType);
 
+            Log.d("--- DEBUG POINT ---", "here");
+
+            Log.d("--- LOADED HABITS --- ", habits.size()+ " habit(s) in memory.");
+
+            for (Habit habit: habits) {
+                Log.d("--- HABIT ---", " named: " + habit.getName());
+            }
 
         } catch (FileNotFoundException e) {
-            //TODO: implement exception
-
-            System.out.println("FAILED IN LOAD FILE NOT FOUND !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            Log.d("---- ERROR ----", "Caught Exception:" + e);
         }
+
+
 
     }
 
@@ -183,8 +207,8 @@ public class HabitManager {
 
         DocumentResult result = ServerCommandManager.getClient().execute(index);
         if (result.isSucceeded() && isNew) {
-            habit.setHabitID(result.getId());
-            saveLocal();
+            //habit.setHabitID(result.getId());
+            //saveLocal();
         }
 
 

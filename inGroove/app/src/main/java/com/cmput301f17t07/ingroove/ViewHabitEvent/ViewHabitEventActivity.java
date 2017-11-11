@@ -1,9 +1,16 @@
 package com.cmput301f17t07.ingroove.ViewHabitEvent;
 
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
+import com.cmput301f17t07.ingroove.DataManagers.DataManager;
+import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -17,8 +24,22 @@ import com.google.android.gms.maps.model.MarkerOptions;
  */
 
 public class ViewHabitEventActivity extends FragmentActivity implements OnMapReadyCallback {
+    // Key for sending the habit event to this activity for display
+    // This class REQUIRES a habit event be sent to 
+    public static final String he_key = "HABIT_EVENT_TO_DISPLAY";
+    HabitEvent habitEvent;
 
+    // Map variables
     GoogleMap mMap;
+
+    // Interface Variables
+    TextView he_title;
+    TextView he_comment;
+    ImageView he_image;
+
+    // Data Manager
+    DataManagerAPI data = DataManager.getInstance();
+
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -28,6 +49,23 @@ public class ViewHabitEventActivity extends FragmentActivity implements OnMapRea
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        // Hook up interface variables
+        he_title = findViewById(R.id.view_he_event_title);
+        he_comment = findViewById(R.id.view_he_event_comment);
+        he_image = findViewById(R.id.view_he_event_image);
+
+        // Get the habit event to display
+        Bundle bundle = this.getIntent().getExtras();
+        habitEvent = (HabitEvent) bundle.getSerializable(this.he_key);
+
+        // Set event image
+        Drawable drawable = getResources().getDrawable(R.drawable.austin);
+        he_image.setImageDrawable(drawable);
+
+        // Set the text fields
+        he_title.setText(habitEvent.getName());
+        he_comment.setText(habitEvent.getComment());
     }
 
 
@@ -45,8 +83,14 @@ public class ViewHabitEventActivity extends FragmentActivity implements OnMapRea
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(33.8121, -117.919);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("DISNEYLAND!"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        //LatLng sydney = new LatLng(33.8121, -117.919);
+        //mMap.addMarker(new MarkerOptions().position(sydney).title("DISNEYLAND!"));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+        // Add a marker for the location of this event
+        LatLng loc = new LatLng(53.5232, -113.5263); // @TODO habitEvent.getLocation();
+        mMap.addMarker(new MarkerOptions().position(loc).title("Event Location"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
+
     }
 }

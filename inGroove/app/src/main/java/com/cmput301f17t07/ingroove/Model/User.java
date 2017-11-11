@@ -21,6 +21,10 @@ public class User implements Serializable{
         this.joinDate = new Date();
     }
 
+    public User(String name) {
+        this(name, "");
+    }
+
     public String getName() {
         return name;
     }

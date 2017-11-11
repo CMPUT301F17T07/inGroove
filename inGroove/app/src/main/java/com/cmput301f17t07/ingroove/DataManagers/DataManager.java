@@ -5,8 +5,11 @@ package com.cmput301f17t07.ingroove.DataManagers;
  */
 
 import android.content.Context;
+import android.os.AsyncTask;
+import android.util.Log;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
+import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.Model.User;
@@ -21,6 +24,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+
+import io.searchbox.core.DocumentResult;
+import io.searchbox.core.Index;
 
 /**
  * Singleton class
@@ -47,11 +53,28 @@ public class DataManager implements DataManagerAPI {
     }
 
     public User getUser() {
-        return user;
+        if (user == null ) {
+            loadUser(); return user;
+        }
+        else {
+            return user;
+        }
     }
 
     @Override
     public String addUser(String s) {
+
+        // TODO: Verify there is a network connection before attempting.
+
+
+        user = new User(s);
+        ServerCommandManager.AddUserAsync addUserTask = new ServerCommandManager.AddUserAsync();
+        System.out.println("---- NEW USER ---- with name " + user.getName());
+        addUserTask.execute(user);
+        System.out.println("---- NEW USER ---- with name " + user.getName());
+
+        saveLocal();
+
         return s;
     }
 
@@ -82,8 +105,13 @@ public class DataManager implements DataManagerAPI {
         return habitManager.getHabits();
     }
 
-    public ArrayList<HabitEvent> getHabitEvents(Habit habit) {
-        return habitEventManager.getHabitEvents();
+    public ArrayList<HabitEvent> getHabitEvents(Habit forHabit) {
+        return habitEventManager.getHabitEvents(forHabit);
+    }
+
+    @Override
+    public ArrayList<HabitEvent> getHabitEvents(User forUser) {
+        return habitEventManager.getHabitEvents(forUser);
     }
 
     public int addHabit(Habit habit) {
@@ -97,12 +125,11 @@ public class DataManager implements DataManagerAPI {
     }
 
     public int editHabit(Habit oldHabit, Habit newHabit) {
-        return 0;
+        return HabitManager.getInstance().editHabit(oldHabit, newHabit);
     }
 
-    public int addHabitEvent(HabitEvent event) {
-        habitEventManager.addHabitEvent(event);
-        return 0;
+    public int addHabitEvent(Habit habit, HabitEvent event) {
+        return habitEventManager.addHabitEvent(habit, event);
     }
 
     public int removeHabitEvent(HabitEvent event) {
@@ -111,7 +138,7 @@ public class DataManager implements DataManagerAPI {
     }
 
     public int editHabitEvent(HabitEvent oldHabitEvent, HabitEvent newHabitEvent) {
-        return 0;
+        return habitEventManager.editHabitEvent(oldHabitEvent, newHabitEvent);
     }
 
     private void saveLocal() {
@@ -126,10 +153,13 @@ public class DataManager implements DataManagerAPI {
             gson.toJson(user, out);
             out.flush();
 
+            Log.d("---- USER ----"," Successfully saved user with name, " + user.getName());
+
+
         } catch (FileNotFoundException e) {
-            //TODO: implement exception
+            Log.d("---- ERRROR ----"," Could not save user. Caught Exception " + e);
         } catch (IOException e) {
-            //TODO: implement exception
+            Log.d("---- ERRROR ----"," Could not save user. Caught Exception " + e);
         }
 
     }
@@ -147,11 +177,34 @@ public class DataManager implements DataManagerAPI {
 
             user = gson.fromJson(in, User.class);
 
+            Log.d("---- USER ----"," Successfully loaded user with name, " + user.getName());
+            Log.d("---- USER ----"," Successfully loaded user with id, " + user.getUserID());
+
+
         } catch (FileNotFoundException e) {
-            //TODO: implement exception
+            Log.d("---- ERRROR ----"," Could not load user. Caught Exception " + e);
         }
 
     }
+
+    public void addUserToServer(User user) {
+
+        Index index = new Index.Builder(user).index("cmput301f17t07_ingroove").type("user").build();
+
+        try {
+            DocumentResult result = ServerCommandManager.getClient().execute(index);
+            if (result.isSucceeded()) {
+                user.setUserID(result.getId());
+                saveLocal();
+            }
+        }
+        catch (Exception e) {
+            Log.d("---- USER ----"," Failed to add user with name " + user.getName() + " to server. Caught " + e);
+        }
+
+
+    }
+
 
 }
 

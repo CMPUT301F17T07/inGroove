@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.cmput301f17t07.ingroove.avehabit.AddViewEditHabitActivity">
+    tools:context="com.cmput301f17t07.ingroove.avehabit.AddHabitActivity">
 
 
     <EditText
-        android:id="@+id/ave_habit_name"
+        android:id="@+id/add_habit_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -17,74 +17,72 @@
         android:inputType="textPersonName" />
 
     <TextView
-        android:id="@+id/habit_comment_header"
+        android:id="@+id/add_habit_comment_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/comment_header"
         android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/ave_habit_comment"
+        android:id="@+id/add_habit_comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="comment"
-        android:inputType="textMultiLine"
-        android:text="@string/comment_body_test" />
+        android:inputType="textMultiLine" />
 
     <TextView
-        android:id="@+id/textView13"
+        android:id="@+id/add_habit_days_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/habit_events_header"
-        android:textStyle="bold" />
+        android:text="Habit should be performed on:" />
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <ListView
-                android:id="@+id/ave_habit_events"
-                android:layout_width="match_parent"
-                android:layout_height="180dp">
-
-            </ListView>
-        </LinearLayout>
-    </ScrollView>
-
-    <Button
-        android:id="@+id/ave_log_event_btn"
+    <CheckBox
+        android:id="@+id/add_habit_day_mon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/log_habit_event" />
+        android:text="Monday" />
 
-    <Button
-        android:id="@+id/ave_stats_btn"
+    <CheckBox
+        android:id="@+id/add_habit_day_tues"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/view_habit_stats" />
+        android:text="Tuesday" />
 
-    <Button
-        android:id="@+id/ave_interval_btn"
+    <CheckBox
+        android:id="@+id/add_habit_day_wed"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/edit_habit_interval" />
+        android:text="Wednesday" />
+
+    <CheckBox
+        android:id="@+id/add_habit_day_thur"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Thursday" />
+
+    <CheckBox
+        android:id="@+id/add_habit_day_fri"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Friday" />
+
+    <CheckBox
+        android:id="@+id/add_habit_day_sat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Saturday" />
+
+    <CheckBox
+        android:id="@+id/add_habit_day_sun"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sunday" />
 
     <Button
-        android:id="@+id/ave_save_btn"
+        android:id="@+id/add_save_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/save_habit" />
-
-    <Button
-        android:id="@+id/ave_del_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/delete_habit" />
 
 
 </LinearLayout>

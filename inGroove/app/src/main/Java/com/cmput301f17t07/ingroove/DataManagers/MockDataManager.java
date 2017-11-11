@@ -46,7 +46,12 @@ public class MockDataManager implements DataManagerAPI {
         return habits;
     }
 
-    public ArrayList<HabitEvent> getHabitEvents(Habit habit) {
+    public ArrayList<HabitEvent> getHabitEvents(Habit forHabit) {
+        return events;
+    }
+
+    @Override
+    public ArrayList<HabitEvent> getHabitEvents(User forUser) {
         return events;
     }
 
@@ -64,7 +69,7 @@ public class MockDataManager implements DataManagerAPI {
         return 0;
     }
 
-    public int addHabitEvent(HabitEvent habitEvent) {
+    public int addHabitEvent(Habit habit, HabitEvent habitEvent) {
         events.add(habitEvent);
         return 0;
     }

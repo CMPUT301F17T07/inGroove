@@ -8,28 +8,28 @@
     tools:context="com.cmput301f17t07.ingroove.avehabit.AddViewEditHabitActivity">
 
 
-    <EditText
-        android:id="@+id/ave_habit_name"
+    <TextView
+        android:id="@+id/view_habit_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/habit_name_hint"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:textSize="24sp" />
 
     <TextView
-        android:id="@+id/habit_comment_header"
+        android:id="@+id/view_habit_comment_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/comment_header"
         android:textStyle="bold" />
 
-    <EditText
-        android:id="@+id/ave_habit_comment"
+    <TextView
+        android:id="@+id/view_habit_comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="comment"
-        android:inputType="textMultiLine"
-        android:text="@string/comment_body_test" />
+        android:inputType="textMultiLine" />
 
     <TextView
         android:id="@+id/textView13"
@@ -48,7 +48,7 @@
             android:orientation="vertical">
 
             <ListView
-                android:id="@+id/ave_habit_events"
+                android:id="@+id/view_habit_events"
                 android:layout_width="match_parent"
                 android:layout_height="180dp">
 
@@ -57,31 +57,25 @@
     </ScrollView>
 
     <Button
-        android:id="@+id/ave_log_event_btn"
+        android:id="@+id/view_habit_log_event_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/log_habit_event" />
 
     <Button
-        android:id="@+id/ave_stats_btn"
+        android:id="@+id/view_habit_stats_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/view_habit_stats" />
 
     <Button
-        android:id="@+id/ave_interval_btn"
+        android:id="@+id/view_habit_edit_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/edit_habit_interval" />
+        android:text="Edit" />
 
     <Button
-        android:id="@+id/ave_save_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/save_habit" />
-
-    <Button
-        android:id="@+id/ave_del_btn"
+        android:id="@+id/view_habit_del_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/delete_habit" />

@@ -14,7 +14,9 @@ public interface DataManagerAPI {
 
     ArrayList<Habit> getHabit(User user);
 
-    ArrayList<HabitEvent> getHabitEvents(Habit habit);
+    ArrayList<HabitEvent> getHabitEvents(Habit forHabit);
+
+    ArrayList<HabitEvent> getHabitEvents(User forUser);
 
     int addHabit(Habit habit);
 
@@ -22,7 +24,7 @@ public interface DataManagerAPI {
 
     int editHabit(Habit oldHabit, Habit newHabit);
 
-    int addHabitEvent(HabitEvent habitEvent);
+    int addHabitEvent(Habit habit, HabitEvent habitEvent);
 
     int removeHabitEvent(HabitEvent habitEvent);
 

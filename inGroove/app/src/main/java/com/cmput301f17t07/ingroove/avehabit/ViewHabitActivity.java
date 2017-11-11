@@ -1,24 +1,18 @@
 package com.cmput301f17t07.ingroove.avehabit;
 
 import android.content.Intent;
-import android.os.Parcelable;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
-import com.cmput301f17t07.ingroove.DataManagers.MockDataManager;
-import com.cmput301f17t07.ingroove.HabitEventsActivity;
 import com.cmput301f17t07.ingroove.HabitStats.HabitStatsActivity;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
@@ -27,16 +21,18 @@ import com.cmput301f17t07.ingroove.ViewHabitEvent.ViewHabitEventActivity;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-public class AddViewEditHabitActivity extends AppCompatActivity {
+public class ViewHabitActivity extends AppCompatActivity {
 
     DataManagerAPI data = DataManager.getInstance();
 
-    // Information for getting habits that are passed to this activity
-    public static String habit_key = "habit_to_edit";
+    // Information for getting habits that are passed to this activity from it's parent
+    public static String habit_to_view_key = "habit_to_edit";
     Habit passed_habit = null;
     ArrayList<HabitEvent> habitEventsList;
+
+    // Information for getting habits from its children
+    public static String edited_habit_key = "edited_habit";
 
     // Adaptor for the habit events list view
     ArrayList<String> hEL_Strings;
@@ -45,12 +41,11 @@ public class AddViewEditHabitActivity extends AppCompatActivity {
     // Interface variables
     Button log_button;
     Button stats_button;
-    Button interval_button;
-    Button save_button;
+    Button edit_button;
     Button del_button;
 
-    EditText habit_name;
-    EditText habit_comment;
+    TextView habit_name;
+    TextView habit_comment;
 
     ListView habit_events;
 
@@ -59,29 +54,21 @@ public class AddViewEditHabitActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_view_edit_habit);
+        setContentView(R.layout.activity_view_habit);
         Bundle bundle = this.getIntent().getExtras();
         if (bundle != null){
-            passed_habit = (Habit) bundle.getSerializable(habit_key);
+            passed_habit = (Habit) bundle.getSerializable(habit_to_view_key);
         }
 
         // Link up the text views
-        habit_name = (EditText) findViewById(R.id.ave_habit_name);
-        habit_comment = (EditText) findViewById(R.id.ave_habit_comment);
+        habit_name = (TextView) findViewById(R.id.view_habit_name);
+        habit_comment = (TextView) findViewById(R.id.view_habit_comment);
 
-        // Populate them accordingly
-        if (passed_habit == null){
-            // adding a new habit
-            habitEventsList = new ArrayList<HabitEvent>();
-        } else {
-            // editing a habit
-            habit_name.setText(passed_habit.getName());
-            habit_comment.setText(passed_habit.getComment());
-            habitEventsList = data.getHabitEvents(passed_habit);
-        }
+        // Set the text views
+        setTextFields();
 
         // Get a hook for the habit event list
-        habit_events = (ListView) findViewById(R.id.ave_habit_events);
+        habit_events = (ListView) findViewById(R.id.view_habit_events);
 
         // Handle clicks on habit event items in the list
         habit_events.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -95,11 +82,10 @@ public class AddViewEditHabitActivity extends AppCompatActivity {
         });
 
         // Get the buttons to add on click listeners
-        log_button = (Button) findViewById(R.id.ave_log_event_btn);
-        stats_button = (Button) findViewById(R.id.ave_stats_btn);
-        interval_button = (Button) findViewById(R.id.ave_interval_btn);
-        save_button = (Button) findViewById(R.id.ave_save_btn);
-        del_button = (Button) findViewById(R.id.ave_del_btn);
+        log_button = (Button) findViewById(R.id.view_habit_log_event_btn);
+        stats_button = (Button) findViewById(R.id.view_habit_stats_btn);
+        edit_button = (Button) findViewById(R.id.view_habit_edit_btn);
+        del_button = (Button) findViewById(R.id.view_habit_del_btn);
 
         // add on click listeners
         log_button.setOnClickListener(new View.OnClickListener() {
@@ -126,20 +112,15 @@ public class AddViewEditHabitActivity extends AppCompatActivity {
         });
         stats_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // @TODO save current habit changes?
                 Intent intent = new Intent(getApplicationContext(), HabitStatsActivity.class);
                 getApplicationContext().startActivity(intent);
             }
         });
-        interval_button.setOnClickListener(new View.OnClickListener() {
+        edit_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // @TODO we have no activity or action for this
-            }
-        });
-        save_button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                saveHabit();
-                finish();
+                Intent intent = new Intent(getApplicationContext(), EditHabitActivity.class);
+                intent.putExtra(EditHabitActivity.habit_key, passed_habit);
+                startActivityForResult(intent, 1);
             }
         });
         del_button.setOnClickListener(new View.OnClickListener() {
@@ -152,6 +133,21 @@ public class AddViewEditHabitActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        if (requestCode == 1 && resultCode == RESULT_OK){
+            Habit new_habit = (Habit) data.getSerializableExtra(edited_habit_key);
+            passed_habit = new_habit;
+            setTextFields();
+        }
+    }
+
+    private void setTextFields() {
+        habit_name.setText(passed_habit.getName());
+        habit_comment.setText(passed_habit.getComment());
+        habitEventsList = data.getHabitEvents(passed_habit);
     }
 
     @Override
@@ -178,26 +174,4 @@ public class AddViewEditHabitActivity extends AppCompatActivity {
             finish();
         }
     }
-
-
-    private void saveHabit(){
-
-        String name = habit_name.getText().toString();
-        String comment = habit_comment.getText().toString();
-        // create a new habit object
-        Habit new_habit = new Habit(name, comment);
-
-        //
-        if (passed_habit == null){
-            // create a new habit, then set ourselves to edit this habit later
-            data.addHabit(new_habit);
-            passed_habit = new_habit;
-        } else {
-            data.editHabit(passed_habit, new_habit);
-        }
-
-    }
-
-
-
 }
