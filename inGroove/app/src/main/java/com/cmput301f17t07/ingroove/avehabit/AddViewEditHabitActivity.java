@@ -89,7 +89,7 @@ public class AddViewEditHabitActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 // @TODO change this to an edit view, or leave as just view?
                 Intent upcomingIntent = new Intent(v.getContext(), ViewHabitEventActivity.class);
-                upcomingIntent.putExtra(ViewHabitEventActivity.habit_key, habitEventsList.get(position));
+                upcomingIntent.putExtra(ViewHabitEventActivity.he_key, habitEventsList.get(position));
                 startActivityForResult(upcomingIntent, 0);
             }
         });
@@ -111,12 +111,15 @@ public class AddViewEditHabitActivity extends AppCompatActivity {
                 HabitEvent event = new HabitEvent("Test Event", new Date());
 
                 // This temporary code is so that we can see habit events being added
-                // @TODO delete if this works
+                // @TODO delete if this works since the add habit event view should be taking care of it
                 data.addHabitEvent(passed_habit, event);
 
                 // This temporary code just shows that the adaptor is working
-                habitEventsList.add(event);
-                hEL_Strings.add(event.getName());
+                habitEventsList = data.getHabitEvents(passed_habit);
+                hEL_Strings.clear();
+                for (HabitEvent a : habitEventsList) {
+                    hEL_Strings.add(a.getName());
+                }
                 hEL_adaptor.notifyDataSetChanged();
 
             }
