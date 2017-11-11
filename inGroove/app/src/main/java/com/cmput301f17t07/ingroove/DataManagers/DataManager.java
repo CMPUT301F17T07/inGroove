@@ -82,8 +82,13 @@ public class DataManager implements DataManagerAPI {
         return habitManager.getHabits();
     }
 
-    public ArrayList<HabitEvent> getHabitEvents(Habit habit) {
-        return habitEventManager.getHabitEvents();
+    public ArrayList<HabitEvent> getHabitEvents(Habit forHabit) {
+        return habitEventManager.getHabitEvents(forHabit);
+    }
+
+    @Override
+    public ArrayList<HabitEvent> getHabitEvents(User forUser) {
+        return HabitEventManager.getInstance().getHabitEvents(forUser);
     }
 
     public int addHabit(Habit habit) {

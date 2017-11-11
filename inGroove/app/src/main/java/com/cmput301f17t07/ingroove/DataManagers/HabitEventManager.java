@@ -101,7 +101,7 @@ public class HabitEventManager {
 
         ArrayList<HabitEvent> forHabitList = new ArrayList<>();
         for (HabitEvent event: habitEvents) {
-            if (event.getID().equals(forHabit.getID()) {
+            if (event.getID().equals(forHabit.getID())) {
                 forHabitList.add(event);
             }
         }
