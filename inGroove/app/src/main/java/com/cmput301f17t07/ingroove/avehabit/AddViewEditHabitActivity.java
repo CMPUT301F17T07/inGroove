@@ -115,8 +115,11 @@ public class AddViewEditHabitActivity extends AppCompatActivity {
                 data.addHabitEvent(passed_habit, event);
 
                 // This temporary code just shows that the adaptor is working
-                habitEventsList.add(event);
-                hEL_Strings.add(event.getName());
+                habitEventsList = data.getHabitEvents(passed_habit);
+                hEL_Strings = new ArrayList<String>();
+                for (HabitEvent a : habitEventsList) {
+                    hEL_Strings.add(a.getName());
+                }
                 hEL_adaptor.notifyDataSetChanged();
 
             }

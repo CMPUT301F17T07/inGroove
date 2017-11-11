@@ -67,7 +67,7 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 Intent upcomingIntent = new Intent(v.getContext(), AddViewEditHabitActivity.class);
-                upcomingIntent.putExtra("ID", HabitHolder.get(position).getHabitID());
+                upcomingIntent.putExtra(AddViewEditHabitActivity.habit_key, HabitHolder.get(position));
                 startActivityForResult(upcomingIntent, 0);
             }
         });
