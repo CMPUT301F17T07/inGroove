@@ -64,7 +64,7 @@ public class MockDataManager implements DataManagerAPI {
         return 0;
     }
 
-    public int addHabitEvent(HabitEvent habitEvent) {
+    public int addHabitEvent(Habit habit, HabitEvent habitEvent) {
         events.add(habitEvent);
         return 0;
     }

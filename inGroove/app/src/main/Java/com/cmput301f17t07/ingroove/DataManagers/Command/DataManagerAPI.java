@@ -22,7 +22,7 @@ public interface DataManagerAPI {
 
     int editHabit(Habit oldHabit, Habit newHabit);
 
-    int addHabitEvent(HabitEvent habitEvent);
+    int addHabitEvent(Habit habit, HabitEvent habitEvent);
 
     int removeHabitEvent(HabitEvent habitEvent);
 

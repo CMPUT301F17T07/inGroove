@@ -1,10 +1,12 @@
 package com.cmput301f17t07.ingroove.Model;
 
 import android.graphics.Bitmap;
+
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class HabitEvent {
+public class HabitEvent implements Serializable{
 
     private String name;
     private String comment;
