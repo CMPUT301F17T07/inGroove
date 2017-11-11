@@ -55,6 +55,16 @@ public class HabitEvent implements Serializable, Identifiable{
         this.location = location;
     }
 
+    public HabitEvent() {
+        this.name = "";
+        this.comment = "";
+        this.day = new Date();
+        this.photo = null;
+        this.habitID = "";
+        this.userID = "";
+        this.location = "";
+    }
+
     public HabitEvent(String name, String comment, Date day, String habitID, String userID) {
         this.name = name;
         this.comment = comment;
