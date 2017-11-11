@@ -52,7 +52,7 @@ public class AddViewEditHabitActivity extends AppCompatActivity {
     EditText habit_name;
     EditText habit_comment;
 
-    Habit passed_habit = null;
+//    Habit passed_habit = null;
     ListView habit_events;
 
 

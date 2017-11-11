@@ -108,8 +108,7 @@ public class DataManager implements DataManagerAPI {
     }
 
     public int editHabit(Habit oldHabit, Habit newHabit) {
-        HabitManager.getInstance().editHabit(oldHabit, newHabit);
-        return 0;
+        return HabitManager.getInstance().editHabit(oldHabit, newHabit);
     }
 
     public int addHabitEvent(Habit habit, HabitEvent event) {

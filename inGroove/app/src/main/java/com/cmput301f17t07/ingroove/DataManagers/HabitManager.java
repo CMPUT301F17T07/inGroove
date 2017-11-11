@@ -84,11 +84,15 @@ public class HabitManager {
         saveLocal();
     }
 
-    public void editHabit(Habit oldHabit, Habit newHabit) {
+    public int editHabit(Habit oldHabit, Habit newHabit) {
         int index = habits.indexOf(oldHabit);
+        if (index == -1) {
+            return -1;
+        }
         habits.remove(oldHabit);
         habits.add(index, newHabit);
         saveLocal();
+        return 0;
     }
 
     public ArrayList<Habit> getHabits() {
