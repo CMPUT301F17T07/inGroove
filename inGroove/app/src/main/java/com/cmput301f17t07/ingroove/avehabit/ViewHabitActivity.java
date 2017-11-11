@@ -52,15 +52,15 @@ public class ViewHabitActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_habit);
+        setContentView(R.layout.activity_view_habit);
         Bundle bundle = this.getIntent().getExtras();
         if (bundle != null){
             passed_habit = (Habit) bundle.getSerializable(habit_key);
         }
 
         // Link up the text views
-        habit_name = (TextView) findViewById(R.id.ave_habit_name);
-        habit_comment = (TextView) findViewById(R.id.ave_habit_comment);
+        habit_name = (TextView) findViewById(R.id.view_habit_name);
+        habit_comment = (TextView) findViewById(R.id.view_habit_comment);
 
         // Populate them accordingly
         if (passed_habit == null){
@@ -74,7 +74,7 @@ public class ViewHabitActivity extends AppCompatActivity {
         }
 
         // Get a hook for the habit event list
-        habit_events = (ListView) findViewById(R.id.ave_habit_events);
+        habit_events = (ListView) findViewById(R.id.view_habit_events);
 
         // Handle clicks on habit event items in the list
         habit_events.setOnItemClickListener(new AdapterView.OnItemClickListener() {

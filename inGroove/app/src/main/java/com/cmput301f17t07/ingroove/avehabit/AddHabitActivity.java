@@ -58,11 +58,11 @@ public class AddHabitActivity extends AppCompatActivity {
         sun = (CheckBox) findViewById(R.id.add_habit_day_sun);
 
         // Link up the text views
-        habit_name = (EditText) findViewById(R.id.ave_habit_name);
-        habit_comment = (EditText) findViewById(R.id.ave_habit_comment);
+        habit_name = (EditText) findViewById(R.id.add_habit_name);
+        habit_comment = (EditText) findViewById(R.id.add_habit_comment);
 
         // Get the buttons to add on click listeners
-        save_button = (Button) findViewById(R.id.ave_save_btn);
+        save_button = (Button) findViewById(R.id.add_save_btn);
 
         // add on click listeners
         save_button.setOnClickListener(new View.OnClickListener() {

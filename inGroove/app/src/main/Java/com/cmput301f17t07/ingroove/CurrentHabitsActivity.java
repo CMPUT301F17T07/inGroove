@@ -21,6 +21,8 @@ import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.avehabit.AddHabitActivity;
 import com.cmput301f17t07.ingroove.avehabit.AddViewEditHabitActivity;
+import com.cmput301f17t07.ingroove.avehabit.EditHabitActivity;
+import com.cmput301f17t07.ingroove.avehabit.ViewHabitActivity;
 import com.cmput301f17t07.ingroove.navDrawer.NavigationDrawerActivity;
 
 import java.util.ArrayList;
@@ -67,8 +69,8 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
         habitViewer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                Intent upcomingIntent = new Intent(v.getContext(), AddViewEditHabitActivity.class);
-                upcomingIntent.putExtra(AddViewEditHabitActivity.habit_key, HabitHolder.get(position));
+                Intent upcomingIntent = new Intent(v.getContext(), ViewHabitActivity.class);
+                upcomingIntent.putExtra(ViewHabitActivity.habit_key, HabitHolder.get(position));
                 startActivityForResult(upcomingIntent, 0);
             }
         });

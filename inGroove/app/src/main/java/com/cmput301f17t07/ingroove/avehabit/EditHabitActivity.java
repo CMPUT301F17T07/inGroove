@@ -64,17 +64,48 @@ public class EditHabitActivity extends AppCompatActivity {
             finish();
         }
 
+        // Link up the CheckBoxes
+        mon = (CheckBox) findViewById(R.id.edit_habit_day_mon);
+        tues = (CheckBox) findViewById(R.id.edit_habit_day_tues);
+        wed = (CheckBox) findViewById(R.id.edit_habit_day_wed);
+        thur = (CheckBox) findViewById(R.id.edit_habit_day_thur);
+        fri = (CheckBox) findViewById(R.id.edit_habit_day_fri);
+        sat = (CheckBox) findViewById(R.id.edit_habit_day_sat);
+        sun = (CheckBox) findViewById(R.id.edit_habit_day_sun);
+
         // Link up the text views
-        habit_name = (EditText) findViewById(R.id.ave_habit_name);
-        habit_comment = (EditText) findViewById(R.id.ave_habit_comment);
+        habit_name = (EditText) findViewById(R.id.edit_habit_name);
+        habit_comment = (EditText) findViewById(R.id.edit_habit_comment);
 
 
-        // editing a habit
+        // editing a habit, so fill in the values to the different inputs
         habit_name.setText(passed_habit.getName());
         habit_comment.setText(passed_habit.getComment());
 
+        if (passed_habit.getRepeatedDays().contains(Day.MONDAY)){
+            mon.setChecked(true);
+        }
+        if (passed_habit.getRepeatedDays().contains(Day.TUESDAY)){
+            tues.setChecked(true);
+        }
+        if (passed_habit.getRepeatedDays().contains(Day.WEDNESDAY)){
+            wed.setChecked(true);
+        }
+        if (passed_habit.getRepeatedDays().contains(Day.THURSDAY)){
+            thur.setChecked(true);
+        }
+        if (passed_habit.getRepeatedDays().contains(Day.FRIDAY)){
+            fri.setChecked(true);
+        }
+        if (passed_habit.getRepeatedDays().contains(Day.SATURDAY)){
+            sat.setChecked(true);
+        }
+        if (passed_habit.getRepeatedDays().contains(Day.SUNDAY)){
+            sun.setChecked(true);
+        }
+
         // Get the button to add on click listeners
-        save_button = (Button) findViewById(R.id.ave_save_btn);
+        save_button = (Button) findViewById(R.id.edit_save_btn);
 
         // add on click listeners
         save_button.setOnClickListener(new View.OnClickListener() {
