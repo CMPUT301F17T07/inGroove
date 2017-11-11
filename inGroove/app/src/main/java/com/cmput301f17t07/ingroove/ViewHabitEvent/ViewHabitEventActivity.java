@@ -18,6 +18,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class ViewHabitEventActivity extends FragmentActivity implements OnMapReadyCallback {
 
+    public static String habit_key = "HABIT_TO_VIEW";
     GoogleMap mMap;
 
     @Override

@@ -101,7 +101,7 @@ public class DataManager implements DataManagerAPI {
         return 0;
     }
 
-    public int addHabitEvent(HabitEvent event) {
+    public int addHabitEvent(Habit habit, HabitEvent event) {
         habitEventManager.addHabitEvent(event);
         return 0;
     }
