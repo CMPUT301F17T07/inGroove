@@ -1,12 +1,10 @@
 package com.cmput301f17t07.ingroove.HabitStats;
 
-import android.graphics.drawable.RotateDrawable;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.CalendarView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -36,10 +34,9 @@ public class HabitStatsActivity extends AppCompatActivity {
 
     TextView completedHabits;
     TextView missedHabits;
+    TextView progressText;
 
     ProgressBar habitProgress;
-
-    //CalendarView habitCalendar;
 
     ArrayList<HabitEvent> habitEvents;
 
@@ -53,11 +50,11 @@ public class HabitStatsActivity extends AppCompatActivity {
 
         Bundle bundle = this.getIntent().getExtras();
 
-        //if (bundle != null){      // use this for the real app
-        if (bundle == null) {       // use this for testing with the mock data manager where things aren't getting passed
+        if (bundle != null){      // use this for the real app
+        //if (bundle == null) {       // use this for testing with the mock data manager where things aren't getting passed
 
             // make work for mock data manager
-            data.addUser("test");
+            /* data.addUser("test");
             User user = data.getUser();
             ArrayList<Habit> habits = data.getHabit(user);
             passedHabit = habits.get(0);
@@ -66,11 +63,11 @@ public class HabitStatsActivity extends AppCompatActivity {
             repeat.add(THURSDAY);
             repeat.add(FRIDAY);
             repeat.add(SATURDAY);
-            passedHabit.setRepeatedDays(repeat);
+            passedHabit.setRepeatedDays(repeat); */
             // end whats needed for mock data manager
 
             // for the real data manager
-            //passedHabit = (Habit) bundle.getSerializable("display_stats_for_habit");
+            passedHabit = (Habit) bundle.getSerializable("display_stats_for_habit");
             habitEvents = data.getHabitEvents(passedHabit);
 
             // get the first day of the habit
@@ -94,10 +91,6 @@ public class HabitStatsActivity extends AppCompatActivity {
             int completedDays = habitEvents.size();
             int progress = (completedDays * 100) / totalPossibleDays;
 
-            Log.wtf("TEST TEST TEST TEST", "totalPossibleDays " + String.valueOf(totalPossibleDays));
-            Log.wtf("TEST TEST TEST TEST", "completedDays " + String.valueOf(completedDays));
-            Log.wtf("TEST TEST TEST TEST", "progress " + String.valueOf(progress));
-
             // fill in the habit data
             // give completed habits the number of habit events
             completedHabits = (TextView) findViewById(R.id.completed_value);
@@ -107,10 +100,12 @@ public class HabitStatsActivity extends AppCompatActivity {
             missedHabits = (TextView) findViewById(R.id.missed_value);
             missedHabits.setText(String.valueOf(totalPossibleDays - completedDays));
 
+            // fill in the progress percentage text view
+            progressText = (TextView) findViewById(R.id.progressLevel);
+            progressText.setText(String.valueOf(progress) + "%");
+
             // give the progress the bar the calculated progress level
             habitProgress = (ProgressBar) findViewById(R.id.habitStatsProgressBar);
-            //RotateDrawable rotateDrawable = (RotateDrawable) habitProgress.getIndeterminateDrawable();
-            //rotateDrawable.setToDegrees(progress);
             habitProgress.setProgress(progress);
 
         } else {
@@ -123,9 +118,10 @@ public class HabitStatsActivity extends AppCompatActivity {
             missedHabits = (TextView) findViewById(R.id.missed_value);
             missedHabits.setText("0");
 
+            progressText = (TextView) findViewById(R.id.progressLevel);
+            progressText.setText("0%");
+
             habitProgress = (ProgressBar) findViewById(R.id.habitStatsProgressBar);
-            RotateDrawable rotateDrawable = (RotateDrawable) habitProgress.getIndeterminateDrawable();
-            rotateDrawable.setToDegrees(0);
             habitProgress.setProgress(0);
 
 
