@@ -122,7 +122,7 @@ public class DataManager implements DataManagerAPI {
     }
 
     public int editHabitEvent(HabitEvent oldHabitEvent, HabitEvent newHabitEvent) {
-        return 0;
+        return habitEventManager.editHabitEvent(oldHabitEvent, newHabitEvent);
     }
 
     private void saveLocal() {

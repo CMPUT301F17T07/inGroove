@@ -87,6 +87,17 @@ public class HabitEventManager {
         saveLocal();
     }
 
+    public int editHabitEvent(HabitEvent oldHE, HabitEvent newHE) {
+        int index = habitEvents.indexOf(oldHE);
+        if (index == -1) {
+            return -1;
+        }
+        habitEvents.remove(oldHE);
+        habitEvents.add(index, newHE);
+        saveLocal();
+        return 0;
+    }
+
     /**
      * Returns an list of HabitEvents for a particular habit a User has
      *
@@ -210,13 +221,6 @@ public class HabitEventManager {
             Log.d("---- ERROR -----"," Could not save habit events locally, caught exception: " + e);
         }
 
-    }
-
-    public void editHabitEvent(HabitEvent oldHE, HabitEvent newHE) {
-        int index = habitEvents.indexOf(oldHE);
-        habitEvents.remove(oldHE);
-        habitEvents.add(index, newHE);
-        saveLocal();
     }
 
     private void loadHabitEvents(){
