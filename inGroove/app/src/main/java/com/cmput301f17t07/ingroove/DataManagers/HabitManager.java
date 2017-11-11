@@ -88,6 +88,7 @@ public class HabitManager {
         int index = habits.indexOf(oldHabit);
         habits.remove(oldHabit);
         habits.add(index, newHabit);
+        saveLocal();
     }
 
     public ArrayList<Habit> getHabits() {
