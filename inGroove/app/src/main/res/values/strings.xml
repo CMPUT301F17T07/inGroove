@@ -39,6 +39,7 @@
     <string name="completed_habits_test_value">12</string>
     <string name="missed_habits_test_value">90</string>
     <string name="title_activity_maps">Map</string>
+    <string name="habit_name">habit_stats_name</string>
 
 
 </resources>

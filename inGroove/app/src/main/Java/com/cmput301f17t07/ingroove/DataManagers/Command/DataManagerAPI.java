@@ -22,16 +22,17 @@ public interface DataManagerAPI {
 
     int editHabit(Habit oldHabit, Habit newHabit);
 
-    int addHabitEvent(HabitEvent habitEvent);
+    int addHabitEvent(Habit habit, HabitEvent habitEvent);
 
     int removeHabitEvent(HabitEvent habitEvent);
 
     int editHabitEvent(HabitEvent oldHabitEvent, HabitEvent newHabitEvent);
 
-    int addUser(String userName);
+    int setUser(User user);
 
     int removeUser(User user);
 
     User getUser();
 
+    String addUser(String s);
 }

@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Created by fraserbulbuc on 2017-10-17.
  */
 
-public class Habit implements Serializable{
+public class Habit implements Serializable, Identifiable {
 
     private String name;
     private String comment;
@@ -27,7 +27,7 @@ public class Habit implements Serializable{
         this.habitID = habitID;
     }
 
-    public String getUserID() {
+    public String getID() {
         return userID;
     }
 
@@ -58,6 +58,8 @@ public class Habit implements Serializable{
     public void setRepeatedDays(ArrayList<Day> repeatedDays) {
         this.repeatedDays = repeatedDays;
     }
+
+    public ArrayList<Day> getRepeatedDays() { return repeatedDays; }
 
     public ArrayList<String> getEvents() {
         return events;

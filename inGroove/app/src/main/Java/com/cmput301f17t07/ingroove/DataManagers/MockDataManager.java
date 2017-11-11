@@ -64,7 +64,7 @@ public class MockDataManager implements DataManagerAPI {
         return 0;
     }
 
-    public int addHabitEvent(HabitEvent habitEvent) {
+    public int addHabitEvent(Habit habit, HabitEvent habitEvent) {
         events.add(habitEvent);
         return 0;
     }
@@ -78,9 +78,14 @@ public class MockDataManager implements DataManagerAPI {
         return 0;
     }
 
-    public int addUser(String userName) {
-        users.add(new User(userName, "HARDCODED EMAIL"));
+    @Override
+    public int setUser(User user) {
         return 0;
+    }
+
+    public String addUser(String userName) {
+        users.add(new User(userName, "HARDCODED EMAIL"));
+        return userName;
     }
 
     public int removeUser(User user) {
@@ -94,4 +99,5 @@ public class MockDataManager implements DataManagerAPI {
         }
         return users.get(0);
     }
+
 }
