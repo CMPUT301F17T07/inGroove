@@ -56,13 +56,13 @@ public class ViewHabitEventActivity extends FragmentActivity implements OnMapRea
         he_image = findViewById(R.id.view_he_event_image);
 
         // Get the habit event to display
-        habitEvent =
+        //habitEvent =
 
         // Set event image
-        Drawable drawable = getResources().getDrawable(R.drawable.austin);
-        he_image.setImageDrawable(drawable);
+        //Drawable drawable = getResources().getDrawable(R.drawable.austin);
+        //he_image.setImageDrawable(drawable);
 
-        he_title =
+        //he_title =
     }
 
 
