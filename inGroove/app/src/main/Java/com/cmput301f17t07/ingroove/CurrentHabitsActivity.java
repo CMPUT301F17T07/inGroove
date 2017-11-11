@@ -19,6 +19,7 @@ import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.DataManagers.MockDataManager;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.User;
+import com.cmput301f17t07.ingroove.avehabit.AddHabitActivity;
 import com.cmput301f17t07.ingroove.avehabit.AddViewEditHabitActivity;
 import com.cmput301f17t07.ingroove.navDrawer.NavigationDrawerActivity;
 
@@ -91,7 +92,7 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
 
         b_addHabit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent upcomingIntent = new Intent(v.getContext(), AddViewEditHabitActivity.class);
+                Intent upcomingIntent = new Intent(v.getContext(), AddHabitActivity.class);
                 startActivityForResult(upcomingIntent, 0);
             }
         });
