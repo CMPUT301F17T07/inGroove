@@ -51,6 +51,7 @@
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
         <activity android:name=".BackEndTesting" />
+        <activity android:name=".DataManagerTestingActivity"></activity>
         <activity android:name=".avehabit.AddHabitActivity" />
         <activity android:name=".avehabit.EditHabitActivity" />
         <activity android:name=".avehabit.ViewHabitActivity"></activity>
