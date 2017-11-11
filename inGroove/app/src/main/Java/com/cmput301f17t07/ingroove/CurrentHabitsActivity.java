@@ -3,11 +3,7 @@ package com.cmput301f17t07.ingroove;
 
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,18 +12,13 @@ import android.widget.GridView;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
-import com.cmput301f17t07.ingroove.DataManagers.MockDataManager;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.avehabit.AddHabitActivity;
-import com.cmput301f17t07.ingroove.avehabit.AddViewEditHabitActivity;
-import com.cmput301f17t07.ingroove.avehabit.EditHabitActivity;
 import com.cmput301f17t07.ingroove.avehabit.ViewHabitActivity;
 import com.cmput301f17t07.ingroove.navDrawer.NavigationDrawerActivity;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class CurrentHabitsActivity extends NavigationDrawerActivity{
 
@@ -70,7 +61,7 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 Intent upcomingIntent = new Intent(v.getContext(), ViewHabitActivity.class);
-                upcomingIntent.putExtra(ViewHabitActivity.habit_key, HabitHolder.get(position));
+                upcomingIntent.putExtra(ViewHabitActivity.habit_to_view_key, HabitHolder.get(position));
                 startActivityForResult(upcomingIntent, 0);
             }
         });
