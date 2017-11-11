@@ -5,9 +5,11 @@ package com.cmput301f17t07.ingroove.DataManagers;
  */
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
+import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.Model.User;
@@ -22,6 +24,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+
+import io.searchbox.core.DocumentResult;
+import io.searchbox.core.Index;
 
 /**
  * Singleton class
@@ -58,6 +63,9 @@ public class DataManager implements DataManagerAPI {
 
     @Override
     public String addUser(String s) {
+
+        // TODO: Verify there is a network connection before attempting.
+        addUserToServer(new User(s));
         return s;
     }
 
@@ -137,10 +145,13 @@ public class DataManager implements DataManagerAPI {
             gson.toJson(user, out);
             out.flush();
 
+            Log.d("---- USER ----"," Successfully saved user with name, " + user.getName());
+
+
         } catch (FileNotFoundException e) {
-            //TODO: implement exception
+            Log.d("---- ERRROR ----"," Could not save user. Caught Exception " + e);
         } catch (IOException e) {
-            //TODO: implement exception
+            Log.d("---- ERRROR ----"," Could not save user. Caught Exception " + e);
         }
 
     }
@@ -165,6 +176,15 @@ public class DataManager implements DataManagerAPI {
         }
 
     }
+
+    private void addUserToServer(User user) {
+        ServerCommandManager.AddUserAsync addUserTask = new ServerCommandManager.AddUserAsync();
+        System.out.println("---- NEW USER ---- with name " + user.getName());
+        addUserTask.execute(user);
+        System.out.println("---- NEW USER ---- with name " + user.getName());
+        saveLocal();
+    }
+
 
 }
 

@@ -1,7 +1,9 @@
 package com.cmput301f17t07.ingroove.DataManagers.Command;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
+import com.cmput301f17t07.ingroove.Model.User;
 import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
 import com.searchly.jestdroid.JestDroidClient;
@@ -58,6 +60,27 @@ public class ServerCommandManager {
 
         executeAsync.execute(commands);
 
+    }
+
+    public static class AddUserAsync extends AsyncTask<User, Void, Void> {
+        @Override
+        protected Void doInBackground(User... users) {
+
+            for (User user: users) {
+                Index index = new Index.Builder(user).index("cmput301f17t07_ingroove").type("user").build();
+
+                try {
+                    DocumentResult result = ServerCommandManager.getClient().execute(index);
+                    if (result.isSucceeded()) {
+                        user.setUserID(result.getId());
+                    }
+                }
+                catch (Exception e) {
+                    Log.d("---- USER ----"," Failed to add user with name " + user.getName() + " to server. Caught " + e);
+                }
+            }
+            return null;
+        }
     }
 
 

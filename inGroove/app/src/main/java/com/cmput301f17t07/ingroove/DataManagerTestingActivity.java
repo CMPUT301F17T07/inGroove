@@ -32,7 +32,7 @@ public class DataManagerTestingActivity extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Do something for testing here
+                dataManager.addUser(topET.getText().toString());
             }
         });
 
