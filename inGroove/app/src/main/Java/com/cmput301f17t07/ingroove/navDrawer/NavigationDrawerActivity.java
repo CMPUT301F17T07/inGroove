@@ -12,6 +12,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.cmput301f17t07.ingroove.CurrentHabitsActivity;
+import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
+import com.cmput301f17t07.ingroove.DataManagers.MockDataManager;
 import com.cmput301f17t07.ingroove.FollowOtherUsers.FollowActivity;
 import com.cmput301f17t07.ingroove.MapsActivity;
 import com.cmput301f17t07.ingroove.R;
@@ -27,6 +29,8 @@ import com.cmput301f17t07.ingroove.ViewMapActivity;
 
 public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
+
+    DataManagerAPI data = new MockDataManager().getInstance();
 
 
     protected void onCreateDrawer() {
@@ -83,6 +87,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
         if (id == R.id.nav_menu_account) {
             Intent intent = new Intent(getApplicationContext(), UserActivity.class);
+            intent.putExtra(UserActivity.user_key, data.getUser());
             getApplicationContext().startActivity(intent);
         } else if (id == R.id.nav_menu_current_habits) {
             Intent intent = new Intent(getApplicationContext(), CurrentHabitsActivity.class);

@@ -7,13 +7,6 @@
     android:orientation="vertical"
     tools:context="com.cmput301f17t07.ingroove.HabitStats.HabitStatsActivity">
 
-    <TextView
-        android:id="@+id/habitStatsTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/habit_name"
-        tools:textSize="24sp" />
-
     <CalendarView
         android:id="@+id/habitStatsCalendarView"
         android:layout_width="match_parent"
@@ -58,7 +51,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/completed_habits_test_value"
+                android:text="@string/missed_habits_test_value"
                 android:textAppearance="@android:style/TextAppearance.Material.Display1" />
 
         </LinearLayout>
@@ -85,7 +78,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/missed_habits_test_value"
+                android:text="@string/completed_habits_test_value"
                 android:textAppearance="@android:style/TextAppearance.Material.Display1" />
 
         </LinearLayout>

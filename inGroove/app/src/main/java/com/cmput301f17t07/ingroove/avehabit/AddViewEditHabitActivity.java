@@ -21,7 +21,10 @@ import com.cmput301f17t07.ingroove.ViewHabitEvent.ViewHabitEventActivity;
 
 public class AddViewEditHabitActivity extends AppCompatActivity {
 
-    DataManagerAPI data = new MockDataManager();
+    DataManagerAPI data = DataManager.getInstance();
+
+    // Information for getting habits that are passed to this activity
+    public String habit_key = "habit_to_edit";
 
     Button log_button;
     Button stats_button;
@@ -40,18 +43,20 @@ public class AddViewEditHabitActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_view_edit_habit);
         Bundle bundle = this.getIntent().getExtras();
         if (bundle != null){
-            passed_habit = (Habit) bundle.getSerializable("habit_to_edit");
-        }
-
-        if (passed_habit == null){
-            // @TODO adding a new habit
-        } else {
-            // @TODO editing a current habit
+            passed_habit = (Habit) bundle.getSerializable(habit_key);
         }
 
         // Link up the text views
         habit_name = (EditText) findViewById(R.id.ave_habit_name);
         habit_comment = (EditText) findViewById(R.id.ave_habit_comment);
+
+        // Populate them accordingly
+        if (passed_habit == null){
+            // @TODO adding a new habit
+        } else {
+            habit_name.setText(passed_habit.getName());
+            habit_comment.setText(passed_habit.getComment());
+        }
 
         // Get the buttons to add on click listeners
         log_button = (Button) findViewById(R.id.ave_log_event_btn);

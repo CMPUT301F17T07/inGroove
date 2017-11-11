@@ -59,6 +59,8 @@ public class Habit implements Serializable{
         this.repeatedDays = repeatedDays;
     }
 
+    public ArrayList<Day> getRepeatedDays() { return repeatedDays; }
+
     public ArrayList<String> getEvents() {
         return events;
     }

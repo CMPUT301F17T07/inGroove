@@ -43,9 +43,11 @@ public class HabitManager {
 
     private static HabitManager instance = new HabitManager();
 
-    private static ArrayList<Habit> habits = new ArrayList<>();
+    private static ArrayList<Habit> habits;
 
-    private HabitManager() { }
+    private HabitManager() {
+        loadHabits();
+    }
 
     public static HabitManager getInstance() {
         return instance;
@@ -60,7 +62,6 @@ public class HabitManager {
     public void addHabit(User user, Habit habit) {
         habits.add(habit);
         saveLocal();
-
         ServerCommand addHabitCommand = new AddHabitCommand(user, habit);
         ServerCommandManager.getInstance().addCommand(addHabitCommand);
     }
@@ -74,6 +75,27 @@ public class HabitManager {
     public void removeHabit(User user, Habit habit) {
         habits.remove(habit);
         saveLocal();
+    }
+
+    public ArrayList<Habit> getHabits() {
+
+        if (habits == null) {
+            Log.d("-- RETURNING HABITS --",habits.size() + " habit(s) to return");
+
+            for (Habit habit: habits) {
+                Log.d("----- RETURNED -----", " habit named: " + habit.getName());
+            }
+            loadHabits();
+            return habits;
+        }
+
+        Log.d("-- RETURNING HABITS --",habits.size() + " habit(s) to return");
+
+        for (Habit habit: habits) {
+            Log.d("----- RETURNED -----", " habit named: " + habit.getName());
+        }
+
+        return habits;
     }
 
     /**
@@ -94,7 +116,9 @@ public class HabitManager {
     private void saveLocal() {
 
         try {
-            FileOutputStream fos = new FileOutputStream(HABITS_FILE, false);
+            Context context = InGroove.getInstance();
+
+            FileOutputStream fos = context.openFileOutput(HABITS_FILE, Context.MODE_PRIVATE);
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
             Gson gson = new Gson();
             gson.toJson(habits, out);
@@ -103,8 +127,11 @@ public class HabitManager {
 
         } catch (FileNotFoundException e) {
             //TODO: implement exception
+            Log.d("---- ERROR ----", "Caught Exception:" + e);
+
         } catch (IOException e) {
             //TODO: implement exception
+            Log.d("---- ERROR ----", "Caught Exception:" + e);
         }
 
     }
@@ -115,7 +142,9 @@ public class HabitManager {
     private void loadHabits() {
 
         try {
-            FileInputStream fis = new FileInputStream(HABITS_FILE);
+            Context context = InGroove.getInstance();
+
+            FileInputStream fis = context.openFileInput(HABITS_FILE);
             BufferedReader in = new BufferedReader(new InputStreamReader(fis));
             Gson gson = new Gson();
 
@@ -124,10 +153,20 @@ public class HabitManager {
             Type listType = new TypeToken<ArrayList<Habit>>(){}.getType();
             habits = gson.fromJson(in, listType);
 
+            Log.d("--- LOADED HABITS --- ", habits.size()+ " habit(s) in memory.");
+
+            for (Habit habit: habits) {
+                Log.d("--- HABIT ---", " named: " + habit.getName());
+            }
+
 
         } catch (FileNotFoundException e) {
             //TODO: implement exception
+
+            Log.d("---- ERROR ----", "Caught Exception:" + e);
         }
+
+
 
     }
 

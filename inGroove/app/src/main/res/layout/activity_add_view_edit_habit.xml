@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -27,11 +27,9 @@
         android:id="@+id/ave_habit_comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:hint="comment"
         android:inputType="textMultiLine"
-        android:text="@string/comment_body_test"
-        android:textAppearance="@android:style/TextAppearance.Material.Small.Inverse" />
+        android:text="@string/comment_body_test" />
 
     <TextView
         android:id="@+id/textView13"
@@ -42,8 +40,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_height="wrap_content">
 
     </android.support.v7.widget.RecyclerView>
 
@@ -78,4 +75,4 @@
         android:text="@string/delete_habit" />
 
 
-</android.support.v7.widget.LinearLayoutCompat>
+</LinearLayout>
