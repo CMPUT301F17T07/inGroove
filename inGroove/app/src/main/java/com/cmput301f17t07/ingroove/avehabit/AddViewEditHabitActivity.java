@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -51,6 +52,7 @@ public class AddViewEditHabitActivity extends AppCompatActivity {
     EditText habit_name;
     EditText habit_comment;
 
+    Habit passed_habit = null;
     ListView habit_events;
 
 
@@ -163,6 +165,15 @@ public class AddViewEditHabitActivity extends AppCompatActivity {
                     (this, android.R.layout.simple_list_item_1, hEL_Strings);
 
             habit_events.setAdapter(hEL_adaptor);
+        }
+    }
+    private void deleteHabit() {
+
+
+        if (passed_habit != null) {
+            Log.d("--- REMOVING ---", " Habit named: " + passed_habit.getName());
+            data.removeHabit(passed_habit);
+            finish();
         }
     }
 
