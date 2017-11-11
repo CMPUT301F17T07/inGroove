@@ -100,11 +100,7 @@ public class Habit implements Serializable, Identifiable {
             return false;
         }
         Habit temp = (Habit) obj;
-        if (temp.getHabitID().equals(this.getHabitID())) {
-            return true;
-        } else {
-            return false;
-        }
+        return temp.getHabitID().equals(this.getHabitID());
 
     }
 }
