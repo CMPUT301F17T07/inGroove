@@ -1,5 +1,6 @@
 package com.cmput301f17t07.ingroove.avehabit;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -32,6 +33,9 @@ public class EditHabitActivity extends AppCompatActivity {
     public static String habit_key = "habit_to_edit";
     Habit passed_habit = null;
 
+    // Information for passing habits back to the view habits acitivty
+    Habit new_habit;
+
     // Adaptor for the habit events list view
     ArrayList<String> hEL_Strings;
     ArrayAdapter<String> hEL_adaptor;
@@ -61,6 +65,7 @@ public class EditHabitActivity extends AppCompatActivity {
             passed_habit = (Habit) bundle.getSerializable(habit_key);
         } else {
             // We must have a habit to edit, we might crash otherwise
+            setResult(RESULT_CANCELED);
             finish();
         }
 
@@ -108,9 +113,13 @@ public class EditHabitActivity extends AppCompatActivity {
         save_button = (Button) findViewById(R.id.edit_save_btn);
 
         // add on click listeners
+        final Context context = this.getApplicationContext();
         save_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 saveHabit();
+                Intent returnIntent = new Intent(context, EditHabitActivity.class);
+                returnIntent.putExtra(ViewHabitActivity.edited_habit_key, new_habit);
+                setResult(RESULT_OK, returnIntent);
                 finish();
             }
         });
@@ -148,7 +157,7 @@ public class EditHabitActivity extends AppCompatActivity {
         }
 
         // create a new habit object
-        Habit new_habit = new Habit(name, comment, days);
+        new_habit = new Habit(name, comment, days);
 
         // send the habit to overwrite the old habit
         data.editHabit(passed_habit, new_habit);

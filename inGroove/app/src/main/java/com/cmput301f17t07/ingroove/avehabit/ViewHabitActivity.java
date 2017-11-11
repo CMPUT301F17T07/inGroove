@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -27,10 +26,13 @@ public class ViewHabitActivity extends AppCompatActivity {
 
     DataManagerAPI data = DataManager.getInstance();
 
-    // Information for getting habits that are passed to this activity
-    public static String habit_key = "habit_to_edit";
+    // Information for getting habits that are passed to this activity from it's parent
+    public static String habit_to_view_key = "habit_to_edit";
     Habit passed_habit = null;
     ArrayList<HabitEvent> habitEventsList;
+
+    // Information for getting habits from its children
+    public static String edited_habit_key = "edited_habit";
 
     // Adaptor for the habit events list view
     ArrayList<String> hEL_Strings;
@@ -55,23 +57,15 @@ public class ViewHabitActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_habit);
         Bundle bundle = this.getIntent().getExtras();
         if (bundle != null){
-            passed_habit = (Habit) bundle.getSerializable(habit_key);
+            passed_habit = (Habit) bundle.getSerializable(habit_to_view_key);
         }
 
         // Link up the text views
         habit_name = (TextView) findViewById(R.id.view_habit_name);
         habit_comment = (TextView) findViewById(R.id.view_habit_comment);
 
-        // Populate them accordingly
-        if (passed_habit == null){
-            // adding a new habit
-            habitEventsList = new ArrayList<HabitEvent>();
-        } else {
-            // editing a habit
-            habit_name.setText(passed_habit.getName());
-            habit_comment.setText(passed_habit.getComment());
-            habitEventsList = data.getHabitEvents(passed_habit);
-        }
+        // Set the text views
+        setTextFields();
 
         // Get a hook for the habit event list
         habit_events = (ListView) findViewById(R.id.view_habit_events);
@@ -126,7 +120,7 @@ public class ViewHabitActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), EditHabitActivity.class);
                 intent.putExtra(EditHabitActivity.habit_key, passed_habit);
-                getApplicationContext().startActivity(intent);
+                startActivityForResult(intent, 1);
             }
         });
         del_button.setOnClickListener(new View.OnClickListener() {
@@ -139,6 +133,21 @@ public class ViewHabitActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        if (requestCode == 1 && resultCode == RESULT_OK){
+            Habit new_habit = (Habit) data.getSerializableExtra(edited_habit_key);
+            passed_habit = new_habit;
+            setTextFields();
+        }
+    }
+
+    private void setTextFields() {
+        habit_name.setText(passed_habit.getName());
+        habit_comment.setText(passed_habit.getComment());
+        habitEventsList = data.getHabitEvents(passed_habit);
     }
 
     @Override
