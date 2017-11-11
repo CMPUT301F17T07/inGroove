@@ -66,11 +66,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
         }
+        ArrayList<LatLng> points = new ArrayList<>();
+        int i = 0;
         Random rand = new Random(9);
         for (HabitEvent e : close_events){
             // @TODO Use the actual location instead of a random jitter around the U of A
             LatLng loc = new LatLng(53.5232 + rand.nextDouble()/100.1, -113.5263 + rand.nextDouble()/100.1);
-            mMap.addMarker(new MarkerOptions().position(loc).title(e.getName()));
+            points.add(i, loc);
+            mMap.addMarker(new MarkerOptions().position(points.get(i)).title(e.getName()));
         }
         LatLng university = new LatLng(53.5232, -113.5263);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(university));
