@@ -43,7 +43,7 @@ public class HabitManager {
 
     private static HabitManager instance = new HabitManager();
 
-    private static ArrayList<Habit> habits = new ArrayList<>();
+    private ArrayList<Habit> habits = new ArrayList<>();
 
     private HabitManager() {
         loadHabits();
@@ -106,7 +106,7 @@ public class HabitManager {
      *
      * @return true if the habit exists
      */
-    public static boolean hasHabit(User user, Habit habit) {
+    public  boolean hasHabit(User user, Habit habit) {
         return habits.contains(habit);
     }
 
@@ -160,7 +160,7 @@ public class HabitManager {
             for (Habit habit: habits) {
                 Log.d("--- HABIT ---", " named: " + habit.getName());
             }
-            
+
         } catch (FileNotFoundException e) {
             Log.d("---- ERROR ----", "Caught Exception:" + e);
         }
