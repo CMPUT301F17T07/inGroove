@@ -30,18 +30,6 @@
         android:hint="comment"
         android:inputType="textMultiLine" />
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-        </LinearLayout>
-    </ScrollView>
-
     <TextView
         android:id="@+id/add_habit_days_text"
         android:layout_width="match_parent"
