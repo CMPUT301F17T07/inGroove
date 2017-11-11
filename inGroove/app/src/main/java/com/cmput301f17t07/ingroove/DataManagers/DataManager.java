@@ -179,6 +179,8 @@ public class DataManager implements DataManagerAPI {
             user = gson.fromJson(in, User.class);
 
             Log.d("---- USER ----"," Successfully loaded user with name, " + user.getName());
+            Log.d("---- USER ----"," Successfully loaded user with id, " + user.getUserID());
+
 
         } catch (FileNotFoundException e) {
             Log.d("---- ERRROR ----"," Could not load user. Caught Exception " + e);
