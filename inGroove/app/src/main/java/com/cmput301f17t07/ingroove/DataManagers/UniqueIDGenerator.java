@@ -22,7 +22,7 @@ public class UniqueIDGenerator {
             String uniqueID = UUID.randomUUID().toString();
             uniqueID = uniqueID.replace("-","");
 
-            if (objs.size()>0 && isUnique(uniqueID)) {
+            if (objs.size()>=0 && isUnique(uniqueID)) {
                 return uniqueID;
             }
         }
