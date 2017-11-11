@@ -5,6 +5,7 @@ package com.cmput301f17t07.ingroove.DataManagers;
  */
 
 import android.content.Context;
+import android.util.Log;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.Model.Habit;
@@ -47,7 +48,12 @@ public class DataManager implements DataManagerAPI {
     }
 
     public User getUser() {
-        return user;
+        if (user == null ) {
+            loadUser(); return user;
+        }
+        else {
+            return user;
+        }
     }
 
     @Override
@@ -153,8 +159,10 @@ public class DataManager implements DataManagerAPI {
 
             user = gson.fromJson(in, User.class);
 
+            Log.d("---- USER ----"," Successfully loaded user with name, " + user.getName());
+
         } catch (FileNotFoundException e) {
-            //TODO: implement exception
+            Log.d("---- ERRROR ----"," Could not load user. Caught Exception " + e);
         }
 
     }
