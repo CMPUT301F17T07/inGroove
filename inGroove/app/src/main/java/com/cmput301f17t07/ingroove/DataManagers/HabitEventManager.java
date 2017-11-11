@@ -1,6 +1,7 @@
 package com.cmput301f17t07.ingroove.DataManagers;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.AddHabitEventCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommand;
@@ -61,6 +62,14 @@ public class HabitEventManager {
      * @param event the new HabitEvent
      */
     public void addHabitEvent(HabitEvent event) {
+
+        // TODO: leave the line below commented out, until the params are changed by Austin in the interface
+        // need to pull from master once he pushes
+        //event.setHabitID(habit.getID());
+        UniqueIDGenerator generator = new UniqueIDGenerator(habitEvents);
+        String id = generator.generateNewID();
+        event.setHabitID(id);
+        Log.d("--- NEW ID ---"," generated unique ID of: " + id );
         habitEvents.add(event);
         saveLocal();
 
@@ -76,10 +85,51 @@ public class HabitEventManager {
     public void removeHabitEvent(HabitEvent event) {
         habitEvents.remove(event);
         saveLocal();
-        // TODO: remove habit from server
     }
 
-    public ArrayList<HabitEvent> getHabitEvents() {
+    public int editHabitEvent(HabitEvent oldHE, HabitEvent newHE) {
+        int index = habitEvents.indexOf(oldHE);
+        if (index == -1) {
+            return -1;
+        }
+        habitEvents.remove(oldHE);
+        habitEvents.add(index, newHE);
+        saveLocal();
+        return 0;
+    }
+
+    /**
+     * Returns an list of HabitEvents for a particular habit a User has
+     *
+     * @param forHabit the habit for which the event history will be returned
+     * @return a list of events for the specific habit
+     */
+    public ArrayList<HabitEvent> getHabitEvents(Habit forHabit) {
+        if (habitEvents.size() == 0) {
+            loadHabitEvents();
+        }
+
+        ArrayList<HabitEvent> forHabitList = new ArrayList<>();
+        for (HabitEvent event: habitEvents) {
+            if (event.getID().equals(forHabit.getID())) {
+                forHabitList.add(event);
+            }
+        }
+
+        return forHabitList;
+    }
+
+    /**
+     * Returns a list of all the HabitEvents a user has, not specific to a particular habit
+     *
+     * @param forUser the user for which the event history will be returned
+     * @return a list of all events the user has logged
+     */
+    public ArrayList<HabitEvent> getHabitEvents(User forUser) {
+        if (habitEvents.size() == 0) {
+            loadHabitEvents();
+            return habitEvents;
+        }
         return habitEvents;
     }
 
@@ -166,15 +216,14 @@ public class HabitEventManager {
 
 
         } catch (FileNotFoundException e) {
-            //TODO: implement exception
+            Log.d("---- ERROR -----"," Could not save habit events locally, caught exception: " + e);
         } catch (IOException e) {
-            //TODO: implement exception
+            Log.d("---- ERROR -----"," Could not save habit events locally, caught exception: " + e);
         }
 
     }
 
     private void loadHabitEvents(){
-        // TODO: read from file to arraylist
 
         try {
             Context context = InGroove.getInstance();
@@ -190,7 +239,7 @@ public class HabitEventManager {
 
 
         } catch (FileNotFoundException e) {
-            //TODO: implement exception
+            Log.d("---- ERROR -----"," Could not load habit events from memory, caught exception: " + e);
         }
 
     }
@@ -210,11 +259,12 @@ public class HabitEventManager {
 
         DocumentResult result = ServerCommandManager.getClient().execute(index);
         if (result.isSucceeded() && isNew) {
-            habitEvent.setEventID(result.getId());
-            saveLocal();
+            Log.d("---- ES -----"," Successfully saved event named " + habitEvent.getName() + " to ES.");
+            //habitEvent.setEventID(result.getId());
+            //saveLocal();
+        } else if (result.isSucceeded()) {
+            Log.d("---- ES -----","Successfully updated event name: " + habitEvent.getName() + " to ES.");
         }
-
-
     }
 
 

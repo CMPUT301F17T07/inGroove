@@ -84,11 +84,16 @@ public class HabitManager {
         saveLocal();
     }
 
-    public void editHabit(Habit oldHabit, Habit newHabit) {
+    public int editHabit(Habit oldHabit, Habit newHabit) {
         int index = habits.indexOf(oldHabit);
+        if (index == -1) {
+            return -1;
+        }
         habits.remove(oldHabit);
+        newHabit.setHabitID(oldHabit.getHabitID());
         habits.add(index, newHabit);
         saveLocal();
+        return 0;
     }
 
     public ArrayList<Habit> getHabits() {
@@ -137,6 +142,10 @@ public class HabitManager {
             Gson gson = new Gson();
             gson.toJson(habits, out);
             out.flush();
+
+            for (Habit habit: habits) {
+                Log.d("--- HABITS SAVED ---", " named: " + habit.getName());
+            }
 
 
         } catch (FileNotFoundException e) {
