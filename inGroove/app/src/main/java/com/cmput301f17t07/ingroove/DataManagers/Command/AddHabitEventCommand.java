@@ -28,6 +28,6 @@ public class AddHabitEventCommand implements ServerCommand {
 
     @Override
     public Boolean isUndoable() {
-        return null;
+        return false;
     }
 }

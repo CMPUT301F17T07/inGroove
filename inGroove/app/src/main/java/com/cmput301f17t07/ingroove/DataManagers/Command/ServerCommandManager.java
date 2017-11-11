@@ -1,7 +1,10 @@
 package com.cmput301f17t07.ingroove.DataManagers.Command;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
+import com.cmput301f17t07.ingroove.DataManagers.DataManager;
+import com.cmput301f17t07.ingroove.Model.User;
 import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
 import com.searchly.jestdroid.JestDroidClient;
@@ -58,6 +61,17 @@ public class ServerCommandManager {
 
         executeAsync.execute(commands);
 
+    }
+
+    public static class AddUserAsync extends AsyncTask<User, Void, Void> {
+        @Override
+        protected Void doInBackground(User... users) {
+
+            for (User user: users) {
+                DataManager.getInstance().addUserToServer(user);
+            }
+            return null;
+        }
     }
 
 

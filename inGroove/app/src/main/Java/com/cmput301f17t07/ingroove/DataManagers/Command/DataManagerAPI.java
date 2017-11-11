@@ -14,7 +14,9 @@ public interface DataManagerAPI {
 
     ArrayList<Habit> getHabit(User user);
 
-    ArrayList<HabitEvent> getHabitEvents(Habit habit);
+    ArrayList<HabitEvent> getHabitEvents(Habit forHabit);
+
+    ArrayList<HabitEvent> getHabitEvents(User forUser);
 
     int addHabit(Habit habit);
 

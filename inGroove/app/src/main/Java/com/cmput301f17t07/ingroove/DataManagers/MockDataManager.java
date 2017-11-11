@@ -46,7 +46,12 @@ public class MockDataManager implements DataManagerAPI {
         return habits;
     }
 
-    public ArrayList<HabitEvent> getHabitEvents(Habit habit) {
+    public ArrayList<HabitEvent> getHabitEvents(Habit forHabit) {
+        return events;
+    }
+
+    @Override
+    public ArrayList<HabitEvent> getHabitEvents(User forUser) {
         return events;
     }
 
