@@ -113,6 +113,7 @@ public class ViewHabitActivity extends AppCompatActivity {
         stats_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), HabitStatsActivity.class);
+                intent.putExtra("display_stats_for_habit", passed_habit);
                 getApplicationContext().startActivity(intent);
             }
         });
