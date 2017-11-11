@@ -3,6 +3,10 @@ package com.cmput301f17t07.ingroove;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
+import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
+import com.cmput301f17t07.ingroove.DataManagers.DataManager;
+import com.cmput301f17t07.ingroove.Model.Habit;
+import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -10,7 +14,12 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+
+    DataManagerAPI data = DataManager.getInstance();
 
     private GoogleMap mMap;
 
@@ -39,8 +48,36 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        //LatLng sydney = new LatLng(-34, 151);
+        //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+        // @TODO One of the use cases is to see habit events of those the user follows within 5km
+        // since this version doesn't support social aspects this code finds the events within
+        // 5km of the user from the user him/her self.
+        ArrayList<Habit> habits = data.getHabit(data.getUser());
+        ArrayList<HabitEvent> close_events = new ArrayList<>();
+        ArrayList<HabitEvent> events;
+        for ( Habit h : habits){
+            events = data.getHabitEvents(h);
+            for (HabitEvent e : events){
+                if (isClose(e)){
+                    close_events.add(e);
+                }
+            }
+        }
+        Random rand = new Random(9);
+        for (HabitEvent e : close_events){
+            // @TODO Use the actual location instead of a random jitter around the U of A
+            LatLng loc = new LatLng(53.5232 + rand.nextDouble()/100.1, -113.5263 + rand.nextDouble()/100.1);
+            mMap.addMarker(new MarkerOptions().position(loc).title(e.getName()));
+        }
+        LatLng university = new LatLng(53.5232, -113.5263);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(university));
+    }
+
+    private boolean isClose(HabitEvent event){
+        // @TODO check if event is within 5km of location
+        return true;
     }
 }
