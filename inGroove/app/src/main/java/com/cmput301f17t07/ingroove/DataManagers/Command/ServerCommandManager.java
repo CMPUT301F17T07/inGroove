@@ -3,6 +3,7 @@ package com.cmput301f17t07.ingroove.DataManagers.Command;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
@@ -67,17 +68,7 @@ public class ServerCommandManager {
         protected Void doInBackground(User... users) {
 
             for (User user: users) {
-                Index index = new Index.Builder(user).index("cmput301f17t07_ingroove").type("user").build();
-
-                try {
-                    DocumentResult result = ServerCommandManager.getClient().execute(index);
-                    if (result.isSucceeded()) {
-                        user.setUserID(result.getId());
-                    }
-                }
-                catch (Exception e) {
-                    Log.d("---- USER ----"," Failed to add user with name " + user.getName() + " to server. Caught " + e);
-                }
+                DataManager.getInstance().addUserToServer(user);
             }
             return null;
         }

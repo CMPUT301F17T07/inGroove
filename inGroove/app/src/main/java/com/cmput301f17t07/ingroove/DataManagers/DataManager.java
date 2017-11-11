@@ -65,7 +65,16 @@ public class DataManager implements DataManagerAPI {
     public String addUser(String s) {
 
         // TODO: Verify there is a network connection before attempting.
-        addUserToServer(new User(s));
+
+
+        user = new User(s);
+        ServerCommandManager.AddUserAsync addUserTask = new ServerCommandManager.AddUserAsync();
+        System.out.println("---- NEW USER ---- with name " + user.getName());
+        addUserTask.execute(user);
+        System.out.println("---- NEW USER ---- with name " + user.getName());
+
+        saveLocal();
+
         return s;
     }
 
@@ -177,12 +186,22 @@ public class DataManager implements DataManagerAPI {
 
     }
 
-    private void addUserToServer(User user) {
-        ServerCommandManager.AddUserAsync addUserTask = new ServerCommandManager.AddUserAsync();
-        System.out.println("---- NEW USER ---- with name " + user.getName());
-        addUserTask.execute(user);
-        System.out.println("---- NEW USER ---- with name " + user.getName());
-        saveLocal();
+    public void addUserToServer(User user) {
+
+        Index index = new Index.Builder(user).index("cmput301f17t07_ingroove").type("user").build();
+
+        try {
+            DocumentResult result = ServerCommandManager.getClient().execute(index);
+            if (result.isSucceeded()) {
+                user.setUserID(result.getId());
+                saveLocal();
+            }
+        }
+        catch (Exception e) {
+            Log.d("---- USER ----"," Failed to add user with name " + user.getName() + " to server. Caught " + e);
+        }
+
+
     }
 
 
