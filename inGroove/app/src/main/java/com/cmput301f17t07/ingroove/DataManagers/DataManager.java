@@ -88,7 +88,7 @@ public class DataManager implements DataManagerAPI {
 
     @Override
     public ArrayList<HabitEvent> getHabitEvents(User forUser) {
-        return HabitEventManager.getInstance().getHabitEvents(forUser);
+        return habitEventManager.getHabitEvents(forUser);
     }
 
     public int addHabit(Habit habit) {

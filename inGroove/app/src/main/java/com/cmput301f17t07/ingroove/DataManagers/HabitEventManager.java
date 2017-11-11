@@ -85,7 +85,6 @@ public class HabitEventManager {
     public void removeHabitEvent(HabitEvent event) {
         habitEvents.remove(event);
         saveLocal();
-        // TODO: remove habit from server
     }
 
     /**
@@ -213,6 +212,13 @@ public class HabitEventManager {
 
     }
 
+    public void editHabitEvent(HabitEvent oldHE, HabitEvent newHE) {
+        int index = habitEvents.indexOf(oldHE);
+        habitEvents.remove(oldHE);
+        habitEvents.add(index, newHE);
+        saveLocal();
+    }
+
     private void loadHabitEvents(){
 
         try {
@@ -252,9 +258,9 @@ public class HabitEventManager {
             Log.d("---- ES -----"," Successfully saved event named " + habitEvent.getName() + " to ES.");
             //habitEvent.setEventID(result.getId());
             //saveLocal();
+        } else if (result.isSucceeded()) {
+            Log.d("---- ES -----","Successfully updated event name: " + habitEvent.getName() + " to ES.");
         }
-
-
     }
 
 
