@@ -26,7 +26,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class ViewHabitEventActivity extends FragmentActivity implements OnMapReadyCallback {
     // Key for sending the habit event to this activity for display
     // This class REQUIRES a habit event be sent to 
-    final String he_key = "HABIT_EVENT_TO_DISPLAY";
+    public static final String he_key = "HABIT_EVENT_TO_DISPLAY";
     HabitEvent habitEvent;
 
     // Map variables
@@ -56,13 +56,16 @@ public class ViewHabitEventActivity extends FragmentActivity implements OnMapRea
         he_image = findViewById(R.id.view_he_event_image);
 
         // Get the habit event to display
-        //habitEvent =
+        Bundle bundle = this.getIntent().getExtras();
+        habitEvent = (HabitEvent) bundle.getSerializable(this.he_key);
 
         // Set event image
-        //Drawable drawable = getResources().getDrawable(R.drawable.austin);
-        //he_image.setImageDrawable(drawable);
+        Drawable drawable = getResources().getDrawable(R.drawable.austin);
+        he_image.setImageDrawable(drawable);
 
-        //he_title =
+        // Set the text fields
+        he_title.setText(habitEvent.getName());
+        he_comment.setText(habitEvent.getComment());
     }
 
 
@@ -80,8 +83,14 @@ public class ViewHabitEventActivity extends FragmentActivity implements OnMapRea
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(33.8121, -117.919);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("DISNEYLAND!"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        //LatLng sydney = new LatLng(33.8121, -117.919);
+        //mMap.addMarker(new MarkerOptions().position(sydney).title("DISNEYLAND!"));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+        // Add a marker for the location of this event
+        LatLng loc = new LatLng(53.5232, -113.5263); // @TODO habitEvent.getLocation();
+        mMap.addMarker(new MarkerOptions().position(loc).title("Event Location"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
+
     }
 }
