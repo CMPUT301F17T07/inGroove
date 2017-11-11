@@ -6,6 +6,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -92,11 +93,20 @@ public class AddViewEditHabitActivity extends AppCompatActivity {
         });
         del_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // @TODO delete
+
             }
         });
 
 
+    }
+
+    private void deleteHabit() {
+
+        if (passed_habit != null) {
+            Log.d("--- REMOVING ---", " Habit named: " + passed_habit.getName());
+            data.removeHabit(passed_habit);
+            finish();
+        }
     }
 
 

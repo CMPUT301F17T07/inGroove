@@ -11,6 +11,7 @@ import com.cmput301f17t07.ingroove.DataManagers.Command.AddHabitCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
 import com.cmput301f17t07.ingroove.Model.Habit;
+import com.cmput301f17t07.ingroove.Model.Identifiable;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -43,7 +44,7 @@ public class HabitManager {
 
     private static HabitManager instance = new HabitManager();
 
-    private static ArrayList<Habit> habits = new ArrayList<>();
+    private ArrayList<Habit> habits = new ArrayList<>();
 
     private HabitManager() {
         loadHabits();
@@ -60,6 +61,12 @@ public class HabitManager {
      * @param habit habit to be added
      */
     public void addHabit(User user, Habit habit) {
+
+        UniqueIDGenerator generator = new UniqueIDGenerator(habits);
+        String id = generator.generateNewID();
+        habit.setHabitID(id);
+        Log.d("--- NEW ID ---"," generated unique ID of: " + id );
+
         habits.add(habit);
         saveLocal();
         ServerCommand addHabitCommand = new AddHabitCommand(user, habit);
@@ -74,6 +81,13 @@ public class HabitManager {
      */
     public void removeHabit(User user, Habit habit) {
         habits.remove(habit);
+        saveLocal();
+    }
+
+    public void editHabit(Habit oldHabit, Habit newHabit) {
+        int index = habits.indexOf(oldHabit);
+        habits.remove(oldHabit);
+        habits.add(index, newHabit);
         saveLocal();
     }
 
@@ -106,7 +120,7 @@ public class HabitManager {
      *
      * @return true if the habit exists
      */
-    public static boolean hasHabit(User user, Habit habit) {
+    public  boolean hasHabit(User user, Habit habit) {
         return habits.contains(habit);
     }
 
@@ -160,7 +174,7 @@ public class HabitManager {
             for (Habit habit: habits) {
                 Log.d("--- HABIT ---", " named: " + habit.getName());
             }
-            
+
         } catch (FileNotFoundException e) {
             Log.d("---- ERROR ----", "Caught Exception:" + e);
         }
@@ -184,8 +198,8 @@ public class HabitManager {
 
         DocumentResult result = ServerCommandManager.getClient().execute(index);
         if (result.isSucceeded() && isNew) {
-            habit.setHabitID(result.getId());
-            saveLocal();
+            //habit.setHabitID(result.getId());
+            //saveLocal();
         }
 
 
