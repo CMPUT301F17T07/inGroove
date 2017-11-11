@@ -112,10 +112,7 @@ public class HabitEvent implements Serializable, Identifiable{
             return false;
         }
         HabitEvent temp = (HabitEvent) obj;
-        if(temp.getName() == this.name && temp.getDay() == this.day && temp.getID() == this.eventID)
-            return true;
-        else
-            return false;
+        return temp.getName().equals(this.name) && temp.getDay() == this.day && temp.getID().equals(this.eventID);
     }
 
     public LatLng locationToLatLng() {
