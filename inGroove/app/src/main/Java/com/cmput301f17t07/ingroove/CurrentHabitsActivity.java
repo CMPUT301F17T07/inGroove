@@ -51,7 +51,7 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
         //From the HabitManager, get a list of todays habits
         //Ex: HabitHolder = HabitManager.getToday(userID);
         //This code only uses the MockDataManager.  So it will need to be changed later.  In the meantime it should populate HabitHolder with some habits that will be displayed.
-        HabitHolder = ServerCommunicator9000.getHabit(new User("T-Rex Joe", "trexjoe@hotmail.com"));
+
         HabitEventHolder = new ArrayList<HabitEvent>();
 
         //Populate the GridView
@@ -200,7 +200,8 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
     @Override
     public void onStart(){
         super.onStart();
-        if(HabitHolder.size() > 0)
-            PopulateGridView_Habits(HabitHolder);
+
+        HabitHolder = ServerCommunicator9000.getHabit(new User("T-Rex Joe", "trexjoe@hotmail.com"));
+        PopulateGridView_Habits(HabitHolder);
     }
 }
