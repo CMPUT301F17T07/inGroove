@@ -8,6 +8,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -53,28 +54,36 @@ public class UserActivity extends NavigationDrawerActivity {
 
         if (user == null){
             // We don't have a user to display, just go back to the prior activity
-            finish();
+            //finish();
+        } else {
+
+            Log.w("TEST TEST TEST", user.toString());
+
+            // Setup layout vars
+            user_picture = (ImageView) findViewById(R.id.usr_act_picture);
+            name = (TextView) findViewById(R.id.usr_act_real_name);
+            username = (TextView) findViewById(R.id.usr_act_username);
+            streak_txt = (TextView) findViewById(R.id.usr_act_streak_txt);
+            start_date_txt = (TextView) findViewById(R.id.usr_act_start_date);
+            friends_list = (ListView) findViewById(R.id.usr_act_friends);
+
+            // Load the layout with the user's data
+            Drawable drawable = getResources().getDrawable(R.drawable.austin);
+            user_picture.setImageDrawable(drawable);
+
+            Log.w("TEST TEST TEST", "!!!!!!!!!!!!!!!!!!!" + String.valueOf(user.getName()));
+            name.setText(user.getName());
+            Log.w("TEST TEST TEST", "!!!!!!!!!!!!!!!!!! done setting name");
+            // @TODO THIS IS NOT THE USERNAME, the user object does not have a username field yet
+            username.setText(user.getName());
+            Log.w("TEST TEST TEST", "!!!!!!!!!!!!!!!!!! done setting username");
+            streak_txt.setText("You've had " + Integer.valueOf(user.getStreak()) + " perfect days!");
+            Log.w("TEST TEST TEST", "!!!!!!!!!!!!!!!!!! done setting streak");
+            start_date_txt.setText("You've been getting in groove since " + user.getJoinDate().toString());
+
+            Log.w("TEST TEST TEST", "!!!!!!!!!!!!!!!!!! 6");
+
+            super.onCreateDrawer();
         }
-
-        // Setup layout vars
-        user_picture = (ImageView) findViewById(R.id.usr_act_picture);
-        name = (TextView) findViewById(R.id.usr_act_real_name);
-        username = (TextView) findViewById(R.id.usr_act_username);
-        streak_txt = (TextView) findViewById(R.id.usr_act_streak_txt);
-        start_date_txt = (TextView) findViewById(R.id.usr_act_start_date);
-        friends_list = (ListView) findViewById(R.id.usr_act_friends);
-
-        // Load the layout with the user's data
-        Drawable drawable = getResources().getDrawable(R.drawable.austin);
-        user_picture.setImageDrawable(drawable);
-
-        name.setText(user.getName());
-        // @TODO THIS IS NOT THE USERNAME, the user object does not have a username field yet
-        username.setText(user.getName());
-        streak_txt.setText("You've had " + Integer.valueOf(user.getStreak()) + " perfect days!");
-        start_date_txt.setText("You've been getting in groove since " + user.getJoinDate().toString());
-
-
-        super.onCreateDrawer();
     }
 }

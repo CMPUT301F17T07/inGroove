@@ -103,7 +103,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:text="Social Activites not supported in this version"
+                android:text="UNABLE TO DISPLAY FOLLOWERS IN THIS VERSION"
                 android:textAllCaps="true"
                 android:textStyle="bold|italic"
                 app:layout_constraintLeft_toLeftOf="parent"

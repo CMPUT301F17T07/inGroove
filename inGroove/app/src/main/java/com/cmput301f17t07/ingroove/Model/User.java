@@ -1,6 +1,7 @@
 package com.cmput301f17t07.ingroove.Model;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -78,5 +79,11 @@ public class User implements Serializable{
             return false;
         }
 
+    }
+
+    @Override
+    public String toString(){
+        String strDate = new SimpleDateFormat("yyyy-MM-dd").format(joinDate);
+        return name + "|" + email + "|" + userID + "|" + strDate + "|" + String.valueOf(streak) ;
     }
 }
