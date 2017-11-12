@@ -5,13 +5,16 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.SimpleAdapter;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
+import com.cmput301f17t07.ingroove.Model.Day;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.Model.User;
@@ -19,7 +22,16 @@ import com.cmput301f17t07.ingroove.avehabit.AddHabitActivity;
 import com.cmput301f17t07.ingroove.avehabit.ViewHabitActivity;
 import com.cmput301f17t07.ingroove.navDrawer.NavigationDrawerActivity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CurrentHabitsActivity extends NavigationDrawerActivity{
 
@@ -54,15 +66,8 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
 
         HabitEventHolder = new ArrayList<HabitEvent>();
 
-        //Populate the GridView
+        //Initilize the GridView
         habitViewer = (GridView) findViewById(R.id.HabitViewer);
-        /*//Just a test, nothing to see here.
-        String[] gvTest = new String[] {"This", "Is", "A", "Test", "0_0"};
-        List<String> gv_GridItems = new ArrayList<String>(Arrays.asList(gvTest));
-        ArrayAdapter<String> gridViewArrayAdapter = new ArrayAdapter<String>
-                (this, android.R.layout.simple_list_item_1, gv_GridItems);
-        */
-        //Populate an array list with the name of each habit that was fetched.
 
         habitViewer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -79,12 +84,13 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
         b_upcoming.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //Habit Manager: Grab Future Habits
+                upcomingButtonClick();
             }
         });
 
         b_finished.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //Habit Manager: Grab Past Habits
+                //Habit Manager: Grab Past Habit events
                 finishedButtonClick();
             }
         });
@@ -106,25 +112,43 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
     private void gridViewOnClickEvent(View v, int position)
     {
         if(habitsLoaded) {
+            String habitName = "";
+            Object ob = habitViewer.getAdapter().getItem(position);
+            if(ob instanceof String)
+            {
+                habitName = ((String)ob);
+            }
+            else if (ob instanceof Map)
+            {
+                habitName = ((Map<String, String>)ob).get("title").toString();
+            }
+            else
+                return;
             Intent upcomingIntent = new Intent(v.getContext(), ViewHabitActivity.class);
-            upcomingIntent.putExtra(ViewHabitActivity.habit_to_view_key, HabitHolder.get(position));
+            upcomingIntent.putExtra(ViewHabitActivity.habit_to_view_key, findHabit(habitName));
             startActivityForResult(upcomingIntent, 0);
         }
         else {
             Intent upcomingIntent = new Intent(v.getContext(), HabitEventsActivity.class);
             upcomingIntent.putExtra(HabitEventsActivity.habitevent_key, HabitEventHolder.get(position));
-            //Find the parent Habit of the habitID
-            for (int i = 0; i < HabitHolder.size(); i++)
-            {
-                if(HabitHolder.get(i).getHabitID() == HabitEventHolder.get(position).getHabitID()) {
-                    upcomingIntent.putExtra(HabitEventsActivity.habit_key, HabitHolder.get(i));
-                    break;
-                }
-            }
-
+            upcomingIntent.putExtra(HabitEventsActivity.habit_key, findHabit(HabitEventHolder.get(position).getName()));
             startActivityForResult(upcomingIntent, 0);
             habitsLoaded = true;
         }
+    }
+
+    /**
+     *This method is used to find the habit given the habits name.
+     */
+    private Habit findHabit(String name)
+    {
+        for (int i = 0; i < HabitHolder.size(); i++)
+        {
+            if(HabitHolder.get(i).getName().equals(name)) {
+                return HabitHolder.get(i);
+            }
+        }
+        return null;
     }
 
     /**
@@ -151,9 +175,115 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
             if (i > 20)
                 break;
         }
-        if(HabitEventHolder.size() == 0)
-            return;
         PopulateGridView_HabitEvents(HabitEventHolder);
+    }
+
+    /**
+     *This method sorts the users habits so they can view them chronologically.
+     */
+    private void upcomingButtonClick() {
+        habitsLoaded = true;
+        habitViewer.setAdapter(sortHabitsByDay(HabitHolder));
+    }
+
+    /**
+     * A selection sort for the habits based on dates.  Used for the upcoming button.
+     * @param HabitList
+     */
+    private SimpleAdapter sortHabitsByDay(ArrayList<Habit> HabitList)
+    {
+        ArrayList<String> Monday = new ArrayList<String>();
+        ArrayList<String> Tuesday = new ArrayList<String>();
+        ArrayList<String> Wednesday = new ArrayList<String>();
+        ArrayList<String> Thursday = new ArrayList<String>();
+        ArrayList<String> Friday = new ArrayList<String>();
+        ArrayList<String> Saturday = new ArrayList<String>();
+        ArrayList<String> Sunday = new ArrayList<String>();
+        SimpleDateFormat format = new SimpleDateFormat("EEEE");
+        String today = format.format(new Date()).toLowerCase();
+        int dayNumber, count;
+        List<Map<String, String>> data = new ArrayList<Map<String, String>>();
+
+        //Sort the habits into the seven days of the week.
+        for (int i = 0; i < HabitList.size(); i++) {
+            ArrayList<Day> days = HabitList.get(i).getRepeatedDays();
+            for (int j = 0; j < days.size(); j++) {
+                switch (days.get(j).name().toLowerCase())
+                {
+                    case "monday":
+                        Monday.add(HabitList.get(i).getName());
+                        break;
+                    case "tuesday":
+                        Tuesday.add(HabitList.get(i).getName());
+                        break;
+                    case "wednesday":
+                        Wednesday.add(HabitList.get(i).getName());
+                        break;
+                    case "thursday":
+                        Thursday.add(HabitList.get(i).getName());
+                        break;
+                    case "friday":
+                        Friday.add(HabitList.get(i).getName());
+                        break;
+                    case "saturday":
+                        Saturday.add(HabitList.get(i).getName());
+                        break;
+                    case "sunday":
+                        Sunday.add(HabitList.get(i).getName());
+                        break;
+                }
+            }
+        }
+
+        //Find out what today is and map it to dayNumber.
+        dayNumber = 0;
+        switch (today)
+        {
+            case "monday": dayNumber = 0; break;
+            case "tuesday": dayNumber = 1; break;
+            case "wednesday": dayNumber = 2; break;
+            case "thursday": dayNumber = 3; break;
+            case "friday": dayNumber = 4; break;
+            case "saturday": dayNumber = 5; break;
+            case "sunday": dayNumber = 6; break;
+        }
+
+        //Create an adapter that will display the sorted dates.
+        count = 0;
+        while(count < 7)
+        {
+            ArrayList<String> Current = new ArrayList<String>();
+            String day = "";
+            switch (dayNumber)
+            {
+                case 0: Current = Monday; day = "Monday"; break;
+                case 1: Current = Tuesday; day = "Tuesday"; break;
+                case 2: Current = Wednesday; day = "Wednesday"; break;
+                case 3: Current = Thursday; day = "Thursday"; break;
+                case 4: Current = Friday; day = "Friday"; break;
+                case 5: Current = Saturday; day = "Saturday"; break;
+                case 6: Current = Sunday; day = "Sunday"; break;
+            }
+            if(today.equals(day.toLowerCase()))
+                day = "today";
+            for (String habit : Current) {
+                Map<String, String> datum = new HashMap<String, String>(2);
+                datum.put("title", habit);
+                datum.put("date", day);
+                data.add(datum);
+            }
+            count++;
+            dayNumber++;
+            if(dayNumber >= 7)
+                dayNumber = 0;
+        }
+
+        SimpleAdapter adapter = new SimpleAdapter(this, data,
+                android.R.layout.simple_list_item_2,
+                new String[] {"title", "date"},
+                new int[] {android.R.id.text1,
+                        android.R.id.text2});
+        return adapter;
     }
 
     /**
@@ -167,7 +297,7 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
         for (int i = 0; i < HabitList.size(); i++) {
             gv_GridItems.add(HabitList.get(i).getName());
         }
-        fillGrivView(gv_GridItems);
+        fillGridView(gv_GridItems);
     }
 
     /**
@@ -183,7 +313,7 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
             else
                 gv_GridItems.add("Nameless HabitEvent");
         }
-        fillGrivView(gv_GridItems);
+        fillGridView(gv_GridItems);
     }
 
     /**
@@ -191,12 +321,15 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
      *
      * @param gridItems: A list of strings that will be used to populate the gridview.
      */
-    private void fillGrivView(ArrayList<String> gridItems) {
+    private void fillGridView(ArrayList<String> gridItems) {
         gridViewArrayAdapter = new ArrayAdapter<String>
                 (this, android.R.layout.simple_list_item_1, gridItems);
         habitViewer.setAdapter(gridViewArrayAdapter);
     }
 
+    /**
+     * Override the onStart method so that it will re-populate the gridview.
+     */
     @Override
     public void onStart(){
         super.onStart();
