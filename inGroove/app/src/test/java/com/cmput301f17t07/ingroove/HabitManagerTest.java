@@ -39,17 +39,12 @@ public class HabitManagerTest {
     @Test
     public void removeHabitTest() {
 
-//        HabitManager testManager = HabitManager.getInstance();
-//
-//        Habit testHabit = new Habit("Drink water", "Cups of water to drink daily");
-//        User testUser = new User("Test User", "test@test.com", 0);
-//        testManager.addHabit(testUser, testHabit);
-//
-//        assertTrue(HabitManager.hasHabit(testUser, testHabit));
-//
-//        testManager.removeHabit(testUser, testHabit);
-//
-//        assertTrue(!HabitManager.hasHabit(testUser, testHabit));
+        HabitManager testManager = HabitManager.getInstance();
+
+        Habit testHabit = new Habit("Drink water", "Cups of water to drink daily");
+        User testUser = new User("tester");
+        testManager.addHabit(testUser, testHabit);
+        
     }
 
 }

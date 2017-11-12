@@ -27,12 +27,27 @@ public class User implements Serializable {
      *
      * @param name the user's username
      * @param email the user's email
+     * @param joinDate join date for user
+     * @param streak current streak
+     * @see Date
+     */
+    public User(String name, String email, Date joinDate, int streak, String uid) {
+        this.name = name;
+        this.email = email;
+        this.joinDate = joinDate;
+        this.streak = streak;
+        this.userID = uid;
+    }
+
+    /**
+     * Alternate constructor, make a new user
+     *
+     * @param name the user's username
+     * @param email the user's email
      * @see Date
      */
     public User(String name, String email) {
-        this.name = name;
-        this.email = email;
-        this.joinDate = new Date();
+        this(name, email, new Date(), 0, "");
     }
 
     /**
@@ -150,11 +165,7 @@ public class User implements Serializable {
             return false;
         }
         User temp = (User) obj;
-        if (temp.getUserID() == this.userID) {
-            return true;
-        } else {
-            return false;
-        }
-
+        return temp.getUserID().equals(this.getUserID()) && temp.getName().equals(this.getName())
+                && temp.getEmail().equals(this.getEmail()) && temp.getStreak() == this.getStreak();
     }
 }
