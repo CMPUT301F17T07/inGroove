@@ -27,22 +27,84 @@ public class HabitEvent implements Serializable, Identifiable{
     private String userID;
     private String location;
 
-    //Name getter/setter
+    /**
+     * Access to the event name
+     *
+     * @return a String representing the name
+     */
     public String getName() { return name; }
+
+    /**
+     * Update the name
+     *
+     * @param name a String representing the new name
+     */
     public void setName(String name) {this.name = name;}
-    //Comment getter/setter
+
+    /**
+     * Access to the comment description of an event
+     *
+     * @return a String representing the comment description
+     */
     public String getComment() { return comment; }
+
+    /**
+     * Update the comment description
+     *
+     * @param comment a String representing the new comment description
+     */
     public void setComment(String comment) {this.comment = comment;}
-    //Day getter/setter
+
+    /**
+     * Access to the date of completion
+     *
+     * @return a Date representing the day of completion
+     */
     public Date getDay() { return day; }
+
+    /**
+     * Update the date of completion
+     *
+     * @param day a Date representing the new completion date
+     */
     public void setDay(Date day) {this.day = day;}
-    //Photo getter/setter
+
+    /**
+     * Return the photo of the event
+     *
+     * @return a Bitmap object of the photo
+     * @see Bitmap
+     */
     public Bitmap getPhoto() { return photo; }
+
+    /**
+     * Update the photo of the event
+     *
+     * @param photo a Bitmap of the new photo
+     * @see Bitmap
+     */
     public void setPhoto(Bitmap photo) {this.photo = photo;}
-    //ID getter/setter
+
+    /**
+     * Access to the ID, required method to be Identifiable
+     *
+     * @return a String representing the ID
+     * @see Identifiable
+     */
     public String getID() { return eventID; }
+
+    /**
+     * Update the event ID
+     *
+     * @param id a String representing the new ID
+     */
     public void setEventID(String id) {this.eventID = id;}
-    //Location getter/setter
+
+    /**
+     * Access to the location as a string
+     *
+     * @return a String representing the location of the event completion
+     */
     public String getLocation() {
         if (location == null) {
             return "";
@@ -50,12 +112,51 @@ public class HabitEvent implements Serializable, Identifiable{
             return location;
         }
     }
+
+    /**
+     * Access to the user who completed the event
+     *
+     * @return a String representing the user's ID
+     * @see User
+     */
+    public String getUserID() {
+        return userID;
+    }
+
+    /**
+     * Update the user who completed the event ID
+     *
+     * @param userID a String representing the user ID
+     * @see User
+     */
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
+    /**
+     * Update the location of the event
+     *
+     * @param location a String representing the new location
+     */
     public void setLocation(String location) {  this.location = location;}
 
+    /**
+     * Access to the habit for which the even was logged
+     *
+     * @return a String representing the Habit ID
+     * @see Habit
+     */
     public String getHabitID() {
         return habitID;
     }
 
+    /**
+     * Modify the habit for which the event was logged
+     *
+     * @param habitID a String representing the habit ID
+     * @see Habit
+     */
+    // TODO: THIS METHOD SHOULD NEVER BE USED, ONCE AN EVENT IS LOGGED IT SHOULD NOT BE CHANGED
     public void setHabitID(String habitID) {
         this.habitID = habitID;
     }
