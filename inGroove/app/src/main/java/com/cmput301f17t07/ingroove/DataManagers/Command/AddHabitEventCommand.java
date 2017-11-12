@@ -8,6 +8,9 @@ import com.cmput301f17t07.ingroove.Model.HabitEvent;
  * the data for a new habitEvent to be added for a particular user. It also contains a reference to
  * its receiver which does the work of adding the habitEvent when execute() is called.
  *
+ * @see ServerCommandManager
+ * @see ServerCommand
+ *
  * Created by Christopher Walter on 2017-11-09.
  */
 
@@ -21,6 +24,7 @@ public class AddHabitEventCommand implements ServerCommand {
      * Constructs a new instance of the AddHabitCommand, needs user data and habit data
      *
      * @param habitEvent the habitEvent being created
+     * @see HabitEvent
      */
     public AddHabitEventCommand(HabitEvent habitEvent) {
         this.habitEvent = habitEvent;
@@ -32,6 +36,7 @@ public class AddHabitEventCommand implements ServerCommand {
      * adds the habit to server storage
      *
      * @throws Exception if the habit cannot be added to the server
+     * @see HabitEvent
      */
     @Override
     public void execute() throws Exception {

@@ -10,6 +10,9 @@ import com.cmput301f17t07.ingroove.Model.User;
  * the data for a new habit to be added for a particular user. It also contains a reference to
  * its receiver which does the work of adding the habit when execute() is called.
  *
+ * @see ServerCommand
+ * @see ServerCommandManager
+ *
  * Created by Christopher Walter on 2017-11-03.
  */
 
@@ -25,6 +28,8 @@ public class AddHabitCommand implements ServerCommand {
      *
      * @param user the user creating the habit
      * @param habit the habit being created
+     * @see Habit
+     * @see User
      */
     public AddHabitCommand(User user, Habit habit) {
         this.user = user;
@@ -37,6 +42,7 @@ public class AddHabitCommand implements ServerCommand {
      * adds the habit to server storage
      *
      * @throws Exception if the habit cannot be added to the server
+     * @see Habit
      */
     @Override
     public void execute() throws Exception {
