@@ -164,7 +164,7 @@ public class MockDataManager implements DataManagerAPI {
 
     // TODO: CAN WE REMOVE THIS?
     @Override
-    public int setUser(User user) {
+    public int editUser(User user) {
         return 0;
     }
 
