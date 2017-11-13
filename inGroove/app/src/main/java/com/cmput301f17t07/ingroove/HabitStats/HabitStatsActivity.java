@@ -18,7 +18,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-
+/**
+ * Displays some statistics for a given habit.
+ *
+ * @see com.cmput301f17t07.ingroove.avehabit.ViewHabitActivity
+ * @see com.cmput301f17t07.ingroove.avehabit.AddViewEditHabitActivity
+ */
 public class HabitStatsActivity extends AppCompatActivity {
 
     DataManagerAPI data = DataManager.getInstance();
@@ -33,6 +38,11 @@ public class HabitStatsActivity extends AppCompatActivity {
 
     Habit passedHabit;
 
+    /**
+     * Starts  displaying all the habit statistics
+     * 
+     * @param savedInstanceState
+     */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +73,19 @@ public class HabitStatsActivity extends AppCompatActivity {
                 weeks++;
             }
 
-            int totalPossibleDays = repeatedDays * weeks;
+            // calculate the needed info
+            int totalExpectedDays = repeatedDays * weeks;
             int completedDays = habitEvents.size();
-            int progress = (completedDays * 100) / totalPossibleDays;
+            int progress = (completedDays * 100) / totalExpectedDays;
+            int missingEvents = totalExpectedDays - completedDays;
+
+            // check to make sure the stats are valid
+            if (progress > 100){
+                progress = 100;
+            }
+            if (missingEvents < 0) {
+                missingEvents = 0;
+            }
 
             // fill in the habit data
             // give completed habits the number of habit events
@@ -74,7 +94,7 @@ public class HabitStatsActivity extends AppCompatActivity {
 
             // give the missed habits the number of calculate missed habit events
             missedHabits = (TextView) findViewById(R.id.missed_value);
-            missedHabits.setText(String.valueOf(totalPossibleDays - completedDays));
+            missedHabits.setText(String.valueOf(missingEvents));
 
             // fill in the progress percentage text view
             progressText = (TextView) findViewById(R.id.progressLevel);
