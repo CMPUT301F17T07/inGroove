@@ -28,19 +28,19 @@ public class HabitStatsActivity extends AppCompatActivity {
 
     DataManagerAPI data = DataManager.getInstance();
 
+    // elements on the habit stats page
     TextView completedHabits;
     TextView missedHabits;
     TextView progressText;
-
     ProgressBar habitProgress;
 
     ArrayList<HabitEvent> habitEvents;
 
     Habit passedHabit;
 
-    /**
+    /**git
      * Starts  displaying all the habit statistics
-     * 
+     *
      * @param savedInstanceState
      */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
