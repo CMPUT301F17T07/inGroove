@@ -63,12 +63,18 @@ public class HabitStatsActivity extends AppCompatActivity {
             habitEvents = data.getHabitEvents(passedHabit);
 
             // get the first day of the habit
+
             Date startDate = new Date();
+            /* By using a search for the earliest logged event
             for (HabitEvent event : habitEvents) {
                 if (event.getDay() != null && startDate.compareTo(event.getDay()) < 0) {
                     startDate = event.getDay();
                 }
             }
+            */
+
+            startDate = passedHabit.getStartDate();
+
 
             // check to see how many habit events we should have
             int repeatedDays = passedHabit.getRepeatedDays().size(); // get number of days per week that we repeat
