@@ -30,6 +30,7 @@ public class MockDataManager implements DataManagerAPI {
     private ArrayList<HabitEvent> events;
     private ArrayList<User> users;
 
+    private User passedUser;
     private Habit passedHabit;
     private HabitEvent passedHabitEvent;
 
@@ -205,6 +206,15 @@ public class MockDataManager implements DataManagerAPI {
         return users.get(0);
     }
 
+    public User getPassedUser() {
+        User temp = passedUser;
+        passedUser = null;
+        return temp;
+    }
+
+    public void setPassedUser(User passedUser) {
+        this.passedUser = passedUser;
+    }
 
     public Habit getPassedHabit() {
         Habit temp = passedHabit;

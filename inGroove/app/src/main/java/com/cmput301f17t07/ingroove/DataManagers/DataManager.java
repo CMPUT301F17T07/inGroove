@@ -45,6 +45,7 @@ public class DataManager implements DataManagerAPI {
     // current user
     private User user;
 
+    private User passedUser;
     private Habit passedHabit;
     private HabitEvent passedHabitEvent;
 
@@ -238,6 +239,15 @@ public class DataManager implements DataManagerAPI {
         return habitEventManager.editHabitEvent(oldHabitEvent, newHabitEvent);
     }
 
+    public User getPassedUser() {
+        User temp = passedUser;
+        passedUser = null;
+        return temp;
+    }
+
+    public void setPassedUser(User passedUser) {
+        this.passedUser = passedUser;
+    }
 
     public Habit getPassedHabit() {
         Habit temp = passedHabit;
