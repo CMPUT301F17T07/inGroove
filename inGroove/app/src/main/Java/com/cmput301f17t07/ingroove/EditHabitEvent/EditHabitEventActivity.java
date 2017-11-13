@@ -119,7 +119,7 @@ public class EditHabitEventActivity extends AppCompatActivity {
     private void SaveHabitEvent()
     {
         HabitEvent he = GetEventInfoFromActivityElements();
-        ServerCommunicator.addHabitEvent(passed_habit, he);
+        ServerCommunicator.editHabitEvent(passed_habitEvent, he);
     }
 
     private HabitEvent GetEventInfoFromActivityElements()
