@@ -92,6 +92,7 @@ public class ViewHabitActivity extends AppCompatActivity {
         log_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), HabitEventsActivity.class);
+                intent.putExtra(HabitEventsActivity.habit_key, passed_habit);
                 getApplicationContext().startActivity(intent);
 
             }
