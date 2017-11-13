@@ -62,7 +62,7 @@ public class MockDataManager implements DataManagerAPI {
      *
      * @return a singleton Instance of the MockDataManager
      */
-    public MockDataManager getInstance(){
+    public static MockDataManager getInstance(){
         return instance;
     }
 
