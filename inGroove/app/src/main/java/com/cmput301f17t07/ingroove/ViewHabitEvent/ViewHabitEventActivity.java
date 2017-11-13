@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
+import com.cmput301f17t07.ingroove.EditHabitEvent.EditHabitEventActivity;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.R;
 import com.cmput301f17t07.ingroove.UserActivityPackage.EditUserActivity;
@@ -80,7 +81,7 @@ public class ViewHabitEventActivity extends FragmentActivity implements OnMapRea
         he_edit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), EditHabitEventActivity.class);
-                intent.putExtra(EditUserActivity.habit_event_key, habitEvent);
+                intent.putExtra(EditHabitEventActivity.habitevent_key, habitEvent);
                 getApplicationContext().startActivity(intent);
 
             }
@@ -107,7 +108,7 @@ public class ViewHabitEventActivity extends FragmentActivity implements OnMapRea
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
         // Add a marker for the location of this event
-        LatLng loc = habitEvent.locationToLatLng();
+        LatLng loc = new LatLng(0,0); //habitEvent.locationToLatLng();
         mMap.addMarker(new MarkerOptions().position(loc).title("Event Location"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
 

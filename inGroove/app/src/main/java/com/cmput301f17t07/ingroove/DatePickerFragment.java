@@ -6,14 +6,15 @@ import android.support.v4.app.DialogFragment;
 import android.os.Bundle;
 import android.widget.DatePicker;
 
+import com.cmput301f17t07.ingroove.avehabit.AddHabitActivity;
+
 import java.util.Calendar;
 
 /**
  * Created by corey on 2017-11-13.
  */
 
-public class DatePickerFragment extends DialogFragment
-        implements DatePickerDialog.OnDateSetListener {
+public class DatePickerFragment extends DialogFragment{
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -24,10 +25,8 @@ public class DatePickerFragment extends DialogFragment
         int day = c.get(Calendar.DAY_OF_MONTH);
 
         // Create a new instance of DatePickerDialog and return it
-        return new DatePickerDialog(getActivity(), this, year, month, day);
+        return new DatePickerDialog(getActivity(), (AddHabitActivity)getActivity(), year, month, day);
     }
 
-    public void onDateSet(DatePicker view, int year, int month, int day) {
-        // Do something with the date chosen by the user
-    }
+
 }
