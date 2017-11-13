@@ -239,32 +239,65 @@ public class DataManager implements DataManagerAPI {
         return habitEventManager.editHabitEvent(oldHabitEvent, newHabitEvent);
     }
 
+    /**
+     * used to pass users between activities
+     * only returns the user once and then returns null til a new user is set by setPassedUser(User passedUser)
+     *
+     * @return the last user passed using setPassedUser(User passedUser)
+     */
     public User getPassedUser() {
         User temp = passedUser;
         passedUser = null;
         return temp;
     }
 
+    /**
+     * used to pass users between activities
+     *
+     * @param passedUser the user to be passed, is return by getPassedUser()
+     */
     public void setPassedUser(User passedUser) {
         this.passedUser = passedUser;
     }
 
+    /**
+     * used to pass habit between activities
+     * only returns the habit once and then returns null til a new user is set by setPassedHabit(Habit passedHabit)
+     *
+     * @return the last habit passed using setPassedHabit(Habit passedHabit)
+     */
     public Habit getPassedHabit() {
         Habit temp = passedHabit;
         passedHabit = null;
         return temp;
     }
 
+    /**
+     * used to pass users between activities
+     *
+     * @param passedHabit the user to be passed, is return by getPassedHabit()
+     */
     public void setPassedHabit(Habit passedHabit) {
         this.passedHabit = passedHabit;
     }
 
+    /**
+     * used to pass habitEvents between activities
+     * only returns the habitEvent once and then returns null til a new user is set by setPassedHabitEvent(HabitEvent passedHabitEvent)
+     *
+     * @return the last habit passed using setPassedHabitEvent(HabitEvent passedHabitEvent)
+     */
     public HabitEvent getPassedHabitEvent() {
         HabitEvent temp = passedHabitEvent;
         passedHabitEvent = null;
         return temp;
     }
 
+    /**
+     * used to pass users between activities
+     *
+     * @param passedHabitEvent the user to be passed, is return by getPassedHabitEvent()
+     */
     public void setPassedHabitEvent(HabitEvent passedHabitEvent) {
         this.passedHabitEvent = passedHabitEvent;
     }
