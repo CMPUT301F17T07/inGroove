@@ -44,5 +44,16 @@
     <string name="progress_bar_prct">progress_bar_prct</string>
     <string name="progress_level">progress_level</string>
 
+    /* Content descriptions */
+    <string name="event_image">A picture used to describe the event</string>
+    <string name="search_btn">Use this button to search for users</string>
+    <string name="usr_photo">A photo of the user</string>
+    <string name="edit_usr_btn">Edit the user with this button</string>
+    <string name="accept_request">Accept the request by this user to follow you</string>
+    <string name="reject_request">Reject the request by this user to follow you</string>
+    <string name="send_request">Send a request to follow this user</string>
+    <string name="streak_image">Picture to describe the users streak level</string>
+
+
 
 </resources>

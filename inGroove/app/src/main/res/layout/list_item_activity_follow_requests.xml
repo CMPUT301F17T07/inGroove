@@ -14,7 +14,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
         android:textStyle="bold"
-        android:textSize="22dp"
+        android:textSize="22sp"
         android:textColor="#000000"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
@@ -22,12 +22,14 @@
 
     <ImageButton
         android:id="@+id/acceptFollowRequestButton"
+        android:contentDescription="@string/accept_request"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@android:drawable/ic_input_add" />
 
     <ImageButton
         android:id="@+id/rejectFollowRequestButton"
+        android:contentDescription="@string/reject_request"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@android:drawable/ic_delete" />
