@@ -3,7 +3,6 @@ package com.cmput301f17t07.ingroove.avehabit;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -21,7 +20,6 @@ import com.cmput301f17t07.ingroove.R;
 import com.cmput301f17t07.ingroove.ViewHabitEvent.ViewHabitEventActivity;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class ViewHabitActivity extends AppCompatActivity {
 
@@ -34,6 +32,8 @@ public class ViewHabitActivity extends AppCompatActivity {
 
     // Information for getting habits from its children
     public static String edited_habit_key = "edited_habit";
+
+
 
     // Adaptor for the habit events list view
     ArrayList<String> hEL_Strings;
@@ -52,6 +52,8 @@ public class ViewHabitActivity extends AppCompatActivity {
     ListView habit_events;
 
     // Request codes
+    int HANDLE_EVENT_EDITS = 0;
+    int EDIT_HABIT = 1;
     int REQUEST_LOG_EVENT = 2;
 
 
@@ -81,7 +83,7 @@ public class ViewHabitActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 Intent upcomingIntent = new Intent(v.getContext(), ViewHabitEventActivity.class);
                 data.setPassedHabitEvent(habitEventsList.get(position));
-                startActivityForResult(upcomingIntent, 0);
+                startActivityForResult(upcomingIntent, HANDLE_EVENT_EDITS);
             }
         });
 
@@ -111,7 +113,7 @@ public class ViewHabitActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), EditHabitActivity.class);
                 data.setPassedHabit(passed_habit);
-                startActivityForResult(intent, 1);
+                startActivityForResult(intent, EDIT_HABIT);
             }
         });
         del_button.setOnClickListener(new View.OnClickListener() {
@@ -128,11 +130,17 @@ public class ViewHabitActivity extends AppCompatActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
-        if (requestCode == 1 && resultCode == RESULT_OK){
+        if (requestCode == EDIT_HABIT && resultCode == RESULT_OK){
             Habit new_habit = this.data.getPassedHabit();
             passed_habit = new_habit;
             setTextFields();
         } else if (requestCode == REQUEST_LOG_EVENT && resultCode == RESULT_OK){
+            habitEventsList = this.data.getHabitEvents(passed_habit);
+            hEL_Strings.clear();
+            for (HabitEvent a : habitEventsList) {
+                hEL_Strings.add(a.getName());
+            }
+        } else if (requestCode == HANDLE_EVENT_EDITS && resultCode == RESULT_OK){
             habitEventsList = this.data.getHabitEvents(passed_habit);
             hEL_Strings.clear();
             for (HabitEvent a : habitEventsList) {
@@ -161,15 +169,6 @@ public class ViewHabitActivity extends AppCompatActivity {
                     (this, android.R.layout.simple_list_item_1, hEL_Strings);
 
             habit_events.setAdapter(hEL_adaptor);
-        }
-    }
-    private void deleteHabit() {
-
-
-        if (passed_habit != null) {
-            Log.d("--- REMOVING ---", " Habit named: " + passed_habit.getName());
-            data.removeHabit(passed_habit);
-            finish();
         }
     }
 }

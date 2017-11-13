@@ -133,16 +133,49 @@ public interface DataManagerAPI {
     // TODO: WHY ARE WE RETURNING A STRING?
     String addUser(String s);
 
+    /**
+     * used to pass users between activities
+     * only returns the user once and then returns null til a new user is set by setPassedUser(User passedUser)
+     *
+     * @return the last user passed using setPassedUser(User passedUser)
+     */
     User getPassedUser();
 
+    /**
+     * used to pass users between activities
+     *
+     * @param passedUser the user to be passed, is return by getPassedUser()
+     */
     void setPassedUser(User passedUser);
 
+    /**
+     * used to pass habit between activities
+     * only returns the habit once and then returns null til a new user is set by setPassedHabit(Habit passedHabit)
+     *
+     * @return the last habit passed using setPassedHabit(Habit passedHabit)
+     */
     Habit getPassedHabit();
 
+    /**
+     * used to pass users between activities
+     *
+     * @param passedHabit the user to be passed, is return by getPassedHabit()
+     */
     void setPassedHabit(Habit passedHabit);
 
+    /**
+     * used to pass habitEvents between activities
+     * only returns the habitEvent once and then returns null til a new user is set by setPassedHabitEvent(HabitEvent passedHabitEvent)
+     *
+     * @return the last habit passed using setPassedHabitEvent(HabitEvent passedHabitEvent)
+     */
     HabitEvent getPassedHabitEvent();
 
+    /**
+     * used to pass users between activities
+     *
+     * @param passedHabitEvent the user to be passed, is return by getPassedHabitEvent()
+     */
     void setPassedHabitEvent(HabitEvent passedHabitEvent);
 
 }

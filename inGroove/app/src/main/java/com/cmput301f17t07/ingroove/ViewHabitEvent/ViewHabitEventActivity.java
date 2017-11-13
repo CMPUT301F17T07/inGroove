@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.EditHabitEvent.EditHabitEventActivity;
+import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.R;
 import com.cmput301f17t07.ingroove.UserActivityPackage.EditUserActivity;
@@ -43,11 +45,14 @@ public class ViewHabitEventActivity extends FragmentActivity implements OnMapRea
     TextView he_title;
     TextView he_comment;
     ImageView he_image;
-    ImageButton he_edit;
-    ImageButton he_del;
+    Button he_edit;
+    Button he_del;
 
     // Data Manager
     DataManagerAPI data = DataManager.getInstance();
+
+    // Request Codes
+    int EDIT_EVENT = 0;
 
 
     @Override
@@ -69,6 +74,38 @@ public class ViewHabitEventActivity extends FragmentActivity implements OnMapRea
         // Get the habit event to display
         habitEvent = data.getPassedHabitEvent();
 
+        // Set up the views
+        setViewFields();
+
+        // Set the on click listeners for the buttons
+        he_edit.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), EditHabitEventActivity.class);
+                data.setPassedHabitEvent(habitEvent);
+                startActivityForResult(intent, EDIT_EVENT);
+
+            }
+        });
+        he_del.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                data.removeHabitEvent(habitEvent);
+                setResult(RESULT_OK);
+                finish();
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        if (requestCode == EDIT_EVENT && resultCode == RESULT_OK){
+            HabitEvent newHabitEvent = this.data.getPassedHabitEvent();
+            habitEvent = newHabitEvent;
+            setViewFields();
+            setResult(RESULT_OK);
+        }
+    }
+
+    private void setViewFields(){
         // Set event image
         Bitmap photo = habitEvent.getPhoto();
         if (photo != null) {
@@ -81,16 +118,6 @@ public class ViewHabitEventActivity extends FragmentActivity implements OnMapRea
         // Set the text fields
         he_title.setText(habitEvent.getName());
         he_comment.setText(habitEvent.getComment());
-
-        // Set the on click listeners for the buttons
-        he_edit.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), EditHabitEventActivity.class);
-                data.setPassedHabitEvent(habitEvent);
-                getApplicationContext().startActivity(intent);
-
-            }
-        });
     }
 
 
