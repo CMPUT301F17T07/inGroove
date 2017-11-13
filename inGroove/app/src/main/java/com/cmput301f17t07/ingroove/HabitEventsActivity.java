@@ -35,6 +35,7 @@ public class HabitEventsActivity extends AppCompatActivity {
 
     DataManagerAPI ServerCommunicator = DataManager.getInstance();
 
+    //Initilize variables.
     Button b_addImageButton;
     Button b_Cancel;
     Button b_Save;
@@ -69,7 +70,7 @@ public class HabitEventsActivity extends AppCompatActivity {
         {
             imageBlock.setImageDrawable(getResources().getDrawable(R.drawable.default_event_image));
         }
-        //This should create an activity which will allow the user to pick an image.
+        //This creates an activity which will allow the user to pick an image.
         b_addImageButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
@@ -78,6 +79,7 @@ public class HabitEventsActivity extends AppCompatActivity {
             }
         });
 
+        //Button listeners.
         b_Cancel.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 CancelButtonClick();
@@ -100,23 +102,37 @@ public class HabitEventsActivity extends AppCompatActivity {
         CancelButtonClick();
     }
 
+    /**
+     * This method is used when the save button is clicked.  It saves the habit event then exits.
+     */
     private void SaveButtonClick() {
         SaveHabitEvent();
         setResult(RESULT_OK);
         CancelButtonClick();
     }
 
+    /**
+     * This method Is used to close the activity and return to the previous activity.
+     * It is directly tied to the cancel button.
+     */
     private void CancelButtonClick() {
         finish();
         return;
     }
 
+    /**
+     * This method saves the habitevent with updated values from the phone screen.
+     */
     private void SaveHabitEvent()
     {
         HabitEvent he = GetEventInfoFromActivityElements();
         ServerCommunicator.addHabitEvent(passed_habit, he);
     }
 
+    /**
+     * Creates a habit event and populates it with data from the activity elements.
+     * @return: A new habit that can be used to update/create with the datamanagers.
+     */
     private HabitEvent GetEventInfoFromActivityElements()
     {
         HabitEvent he = new HabitEvent();
@@ -128,7 +144,13 @@ public class HabitEventsActivity extends AppCompatActivity {
         return he;
     }
 
-    //After an image is chosen, it is set to the imageBlock.
+    /**
+     * This method is used to load an image from the phone.  It also checks to see if the image is
+     * within a certain size.
+     * @param reqCode: Override variable.
+     * @param resultCode: Override variable.
+     * @param data: Override variable.
+     */
     @Override
     protected void onActivityResult(int reqCode, int resultCode, Intent data) {
         super.onActivityResult(reqCode, resultCode, data);
