@@ -30,6 +30,10 @@ public class MockDataManager implements DataManagerAPI {
     private ArrayList<HabitEvent> events;
     private ArrayList<User> users;
 
+    private User passedUser;
+    private Habit passedHabit;
+    private HabitEvent passedHabitEvent;
+
     /**
      * Constructor to make the singleton instance of the MockDataManager, adds some data to the arrays
      *
@@ -200,5 +204,35 @@ public class MockDataManager implements DataManagerAPI {
             return null;
         }
         return users.get(0);
+    }
+
+    public User getPassedUser() {
+        User temp = passedUser;
+        passedUser = null;
+        return temp;
+    }
+
+    public void setPassedUser(User passedUser) {
+        this.passedUser = passedUser;
+    }
+
+    public Habit getPassedHabit() {
+        Habit temp = passedHabit;
+        passedHabit = null;
+        return temp;
+    }
+
+    public void setPassedHabit(Habit passedHabit) {
+        this.passedHabit = passedHabit;
+    }
+
+    public HabitEvent getPassedHabitEvent() {
+        HabitEvent temp = passedHabitEvent;
+        passedHabitEvent = null;
+        return temp;
+    }
+
+    public void setPassedHabitEvent(HabitEvent passedHabitEvent) {
+        this.passedHabitEvent = passedHabitEvent;
     }
 }

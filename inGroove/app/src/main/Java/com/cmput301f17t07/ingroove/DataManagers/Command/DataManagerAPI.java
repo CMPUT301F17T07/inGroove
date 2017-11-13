@@ -132,4 +132,17 @@ public interface DataManagerAPI {
      */
     // TODO: WHY ARE WE RETURNING A STRING?
     String addUser(String s);
+
+    User getPassedUser();
+
+    void setPassedUser(User passedUser);
+
+    Habit getPassedHabit();
+
+    void setPassedHabit(Habit passedHabit);
+
+    HabitEvent getPassedHabitEvent();
+
+    void setPassedHabitEvent(HabitEvent passedHabitEvent);
+
 }

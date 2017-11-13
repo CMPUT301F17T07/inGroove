@@ -132,12 +132,12 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
             else
                 return;
             Intent upcomingIntent = new Intent(v.getContext(), ViewHabitActivity.class);
-            upcomingIntent.putExtra(ViewHabitActivity.habit_to_view_key, findHabit(habitName));
+            ServerCommunicator9000.setPassedHabit(findHabit(habitName));
             startActivityForResult(upcomingIntent, 0);
         }
         else {
             Intent upcomingIntent = new Intent(v.getContext(), ViewHabitEventActivity.class);
-            upcomingIntent.putExtra(ViewHabitEventActivity.he_key, HabitEventHolder.get(position));
+            ServerCommunicator9000.setPassedHabitEvent(HabitEventHolder.get(position));
             startActivityForResult(upcomingIntent, 0);
             habitsLoaded = true;
         }

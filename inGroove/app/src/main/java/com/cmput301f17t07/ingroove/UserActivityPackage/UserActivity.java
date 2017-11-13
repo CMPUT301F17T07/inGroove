@@ -90,7 +90,7 @@ public class UserActivity extends NavigationDrawerActivity {
             edit_user_button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     Intent upcomingIntent = new Intent(v.getContext(), EditUserActivity.class);
-                    upcomingIntent.putExtra(EditUserActivity.user_key, user);
+                    data.setPassedUser(user);
                     UserActivity.super.startActivityForResult(upcomingIntent, 1);
                 }
             });
@@ -112,8 +112,7 @@ public class UserActivity extends NavigationDrawerActivity {
         if (requestCode == 1 && resultCode == RESULT_OK){
 
             // get returned info
-            User changedUser = (User) data.getSerializableExtra(return_user_key);
-            user = changedUser;
+            user = this.data.getPassedUser();;
 
             // update view
             name.setText(user.getName());

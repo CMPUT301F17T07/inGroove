@@ -60,10 +60,9 @@ public class EditHabitActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_habit);
-        Bundle bundle = this.getIntent().getExtras();
-        if (bundle != null){
-            passed_habit = (Habit) bundle.getSerializable(habit_key);
-        } else {
+        passed_habit = data.getPassedHabit();
+
+        if (passed_habit == null ){
             // We must have a habit to edit, we might crash otherwise
             setResult(RESULT_CANCELED);
             finish();
@@ -118,7 +117,7 @@ public class EditHabitActivity extends AppCompatActivity {
             public void onClick(View v) {
                 saveHabit();
                 Intent returnIntent = new Intent(context, EditHabitActivity.class);
-                returnIntent.putExtra(ViewHabitActivity.edited_habit_key, new_habit);
+                data.setPassedHabit(new_habit);
                 setResult(RESULT_OK, returnIntent);
                 finish();
             }
