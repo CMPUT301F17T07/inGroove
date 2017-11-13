@@ -85,7 +85,7 @@ public class EditUserActivity extends AppCompatActivity {
 
                     // return back to UserActivity
                     Intent returnIntent = new Intent(context, UserActivity.class);
-                    returnIntent.putExtra(UserActivity.return_user_key, user);
+                    data.setPassedUser(user);
                     setResult(RESULT_OK, returnIntent);
                     finish();
                 }
