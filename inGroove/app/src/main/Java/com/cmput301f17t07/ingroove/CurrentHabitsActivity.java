@@ -36,8 +36,8 @@ import java.util.Map;
 
 public class CurrentHabitsActivity extends NavigationDrawerActivity{
 
+    //Initilize variables.
     DataManagerAPI ServerCommunicator9000 = DataManager.getInstance();
-    //DataManagerAPI ServerCommunicator9000 = new MockDataManager().getInstance();
 
     private GridView habitViewer;
     ArrayAdapter<String> gridViewArrayAdapter;
@@ -47,6 +47,7 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
     private Button b_listHabits;
     private FloatingActionButton b_addHabit;
 
+    //These two lists are used to hold the users habits and habit events.
     private ArrayList<Habit> HabitHolder;
     private ArrayList<HabitEvent> HabitEventHolder;
     //This bool is used to determine if we edit Habits or Habit Events.
@@ -61,11 +62,6 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         habitsLoaded = true;
-
-        //From the HabitManager, get a list of todays habits
-        //Ex: HabitHolder = HabitManager.getToday(userID);
-        //This code only uses the MockDataManager.  So it will need to be changed later.  In the meantime it should populate HabitHolder with some habits that will be displayed.
-
         HabitEventHolder = new ArrayList<HabitEvent>();
 
         //Initilize the GridView
@@ -199,10 +195,14 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
 
     /**
      * A selection sort for the habits based on dates.  Used for the upcoming button.
+     * Creates a list of habits showing what day of the week they need to be done, chonologically.
+     * It only shows the habits that need to be compeleted in the following week.
+     * Returns an adapter that can be used to update a listview/gridview.
      * @param HabitList
      */
     private SimpleAdapter sortHabitsByDay(ArrayList<Habit> HabitList)
     {
+        //Initilize variables
         ArrayList<String> Monday = new ArrayList<String>();
         ArrayList<String> Tuesday = new ArrayList<String>();
         ArrayList<String> Wednesday = new ArrayList<String>();
