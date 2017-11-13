@@ -38,6 +38,12 @@ public class HabitStatsActivity extends AppCompatActivity {
 
     Habit passedHabit;
 
+    // statistics variables
+    int totalExpectedDays;
+    int completedDays;
+    int progress;
+    int missingEvents;
+
     /**git
      * Starts  displaying all the habit statistics
      *
@@ -57,12 +63,18 @@ public class HabitStatsActivity extends AppCompatActivity {
             habitEvents = data.getHabitEvents(passedHabit);
 
             // get the first day of the habit
+
             Date startDate = new Date();
+            /* By using a search for the earliest logged event
             for (HabitEvent event : habitEvents) {
                 if (event.getDay() != null && startDate.compareTo(event.getDay()) < 0) {
                     startDate = event.getDay();
                 }
             }
+            */
+
+            startDate = passedHabit.getStartDate();
+
 
             // check to see how many habit events we should have
             int repeatedDays = passedHabit.getRepeatedDays().size(); // get number of days per week that we repeat
@@ -74,10 +86,16 @@ public class HabitStatsActivity extends AppCompatActivity {
             }
 
             // calculate the needed info
-            int totalExpectedDays = repeatedDays * weeks;
-            int completedDays = habitEvents.size();
-            int progress = (completedDays * 100) / totalExpectedDays;
-            int missingEvents = totalExpectedDays - completedDays;
+            totalExpectedDays = repeatedDays * weeks;
+            completedDays = habitEvents.size();
+            if (totalExpectedDays == 0 && completedDays == 0) {
+                progress = 0;
+            } else if (totalExpectedDays == 0 && completedDays > 0) {
+                progress = 100;
+            } else {
+                progress = (completedDays * 100) / totalExpectedDays;
+            }
+            missingEvents = totalExpectedDays - completedDays;
 
             // check to make sure the stats are valid
             if (progress > 100){

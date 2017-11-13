@@ -18,6 +18,7 @@ import com.cmput301f17t07.ingroove.Model.Day;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.Model.User;
+import com.cmput301f17t07.ingroove.ViewHabitEvent.ViewHabitEventActivity;
 import com.cmput301f17t07.ingroove.avehabit.AddHabitActivity;
 import com.cmput301f17t07.ingroove.avehabit.ViewHabitActivity;
 import com.cmput301f17t07.ingroove.navDrawer.NavigationDrawerActivity;
@@ -43,6 +44,7 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
 
     private Button b_upcoming;
     private Button b_finished;
+    private Button b_listHabits;
     private FloatingActionButton b_addHabit;
 
     private ArrayList<Habit> HabitHolder;
@@ -80,6 +82,7 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
         b_upcoming = (Button) findViewById(R.id.Upcomingbutton);
         b_finished = (Button) findViewById(R.id.FinishedButton);
         b_addHabit = (FloatingActionButton) findViewById(R.id.AddHabitButton);
+        b_listHabits = (Button) findViewById(R.id.ListHabitsButton);
 
         b_upcoming.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -101,11 +104,19 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
                 startActivityForResult(upcomingIntent, 0);
             }
         });
+
+        b_listHabits.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                habitsLoaded = true;
+                HabitHolder = ServerCommunicator9000.getHabit(new User("T-Rex Joe", "trexjoe@hotmail.com"));
+                PopulateGridView_Habits(HabitHolder);
+            }
+        });
     }
 
     /**
      * This method handles the on click event for the gridview.
-     * It behaves differently based on wheter the user is looking at habits or habit events.
+     * It behaves differently based on whether the user is looking at habits or habit events.
      * @param position: The position in either the HabitHolder or HabitEventHolder array list we are looking in.
      * @param v: The view needed to start a new activity.
      */
@@ -129,9 +140,8 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
             startActivityForResult(upcomingIntent, 0);
         }
         else {
-            Intent upcomingIntent = new Intent(v.getContext(), HabitEventsActivity.class);
-            upcomingIntent.putExtra(HabitEventsActivity.habitevent_key, HabitEventHolder.get(position));
-            upcomingIntent.putExtra(HabitEventsActivity.habit_key, findHabit(HabitEventHolder.get(position).getName()));
+            Intent upcomingIntent = new Intent(v.getContext(), ViewHabitEventActivity.class);
+            upcomingIntent.putExtra(ViewHabitEventActivity.he_key, HabitEventHolder.get(position));
             startActivityForResult(upcomingIntent, 0);
             habitsLoaded = true;
         }

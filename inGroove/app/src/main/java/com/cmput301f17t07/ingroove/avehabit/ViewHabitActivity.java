@@ -47,8 +47,12 @@ public class ViewHabitActivity extends AppCompatActivity {
 
     TextView habit_name;
     TextView habit_comment;
+    TextView habit_start_date;
 
     ListView habit_events;
+
+    // Request codes
+    int REQUEST_LOG_EVENT = 2;
 
 
 
@@ -64,6 +68,7 @@ public class ViewHabitActivity extends AppCompatActivity {
         // Link up the text views
         habit_name = (TextView) findViewById(R.id.view_habit_name);
         habit_comment = (TextView) findViewById(R.id.view_habit_comment);
+        habit_start_date = (TextView) findViewById(R.id.view_habit_start_date_text);
 
         // Set the text views
         setTextFields();
@@ -75,7 +80,6 @@ public class ViewHabitActivity extends AppCompatActivity {
         habit_events.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                // @TODO change this to an edit view, or leave as just view?
                 Intent upcomingIntent = new Intent(v.getContext(), ViewHabitEventActivity.class);
                 upcomingIntent.putExtra(ViewHabitEventActivity.he_key, habitEventsList.get(position));
                 startActivityForResult(upcomingIntent, 0);
@@ -92,7 +96,8 @@ public class ViewHabitActivity extends AppCompatActivity {
         log_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), HabitEventsActivity.class);
-                getApplicationContext().startActivity(intent);
+                intent.putExtra(HabitEventsActivity.habit_key, passed_habit);
+                startActivityForResult(intent, REQUEST_LOG_EVENT);
 
             }
         });
@@ -128,6 +133,12 @@ public class ViewHabitActivity extends AppCompatActivity {
             Habit new_habit = (Habit) data.getSerializableExtra(edited_habit_key);
             passed_habit = new_habit;
             setTextFields();
+        } else if (requestCode == REQUEST_LOG_EVENT && resultCode == RESULT_OK){
+            habitEventsList = this.data.getHabitEvents(passed_habit);
+            hEL_Strings.clear();
+            for (HabitEvent a : habitEventsList) {
+                hEL_Strings.add(a.getName());
+            }
         }
     }
 
@@ -135,6 +146,7 @@ public class ViewHabitActivity extends AppCompatActivity {
         habit_name.setText(passed_habit.getName());
         habit_comment.setText(passed_habit.getComment());
         habitEventsList = data.getHabitEvents(passed_habit);
+        habit_start_date.setText(passed_habit.getStartDate().toString());
     }
 
     @Override

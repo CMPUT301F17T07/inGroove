@@ -1,6 +1,7 @@
 package com.cmput301f17t07.ingroove.navDrawer;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -28,6 +29,7 @@ import com.cmput301f17t07.ingroove.ViewFollowersActivityPackage.ViewFollowersAct
  * Created by corey on 2017-11-04.
  */
 
+@SuppressLint("Registered")
 public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
