@@ -60,9 +60,9 @@ public class EditHabitActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_habit);
-        if (data.getPassedHabit() != null ){
-            passed_habit = data.getPassedHabit();
-        } else {
+        passed_habit = data.getPassedHabit();
+
+        if (passed_habit == null ){
             // We must have a habit to edit, we might crash otherwise
             setResult(RESULT_CANCELED);
             finish();
