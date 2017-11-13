@@ -35,13 +35,13 @@ import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class AddEventTest {
+public class EditHabitTest {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void addEventTest() {
+    public void editHabitTest() {
         ViewInteraction floatingActionButton = onView(
                 allOf(withId(R.id.AddHabitButton),
                         childAtPosition(
@@ -60,7 +60,7 @@ public class AddEventTest {
                                         0),
                                 0),
                         isDisplayed()));
-        appCompatEditText.perform(replaceText("Drink Water"), closeSoftKeyboard());
+        appCompatEditText.perform(replaceText("One"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText2 = onView(
                 allOf(withId(R.id.add_habit_comment),
@@ -70,19 +70,9 @@ public class AddEventTest {
                                         0),
                                 2),
                         isDisplayed()));
-        appCompatEditText2.perform(replaceText("alot of it"), closeSoftKeyboard());
+        appCompatEditText2.perform(replaceText("1"), closeSoftKeyboard());
 
         ViewInteraction appCompatCheckBox = onView(
-                allOf(withId(R.id.add_habit_day_mon), withText("Monday"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                4),
-                        isDisplayed()));
-        appCompatCheckBox.perform(click());
-
-        ViewInteraction appCompatCheckBox2 = onView(
                 allOf(withId(R.id.add_habit_day_tues), withText("Tuesday"),
                         childAtPosition(
                                 childAtPosition(
@@ -90,57 +80,7 @@ public class AddEventTest {
                                         0),
                                 5),
                         isDisplayed()));
-        appCompatCheckBox2.perform(click());
-
-        ViewInteraction appCompatCheckBox3 = onView(
-                allOf(withId(R.id.add_habit_day_wed), withText("Wednesday"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                6),
-                        isDisplayed()));
-        appCompatCheckBox3.perform(click());
-
-        ViewInteraction appCompatCheckBox4 = onView(
-                allOf(withId(R.id.add_habit_day_thur), withText("Thursday"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                7),
-                        isDisplayed()));
-        appCompatCheckBox4.perform(click());
-
-        ViewInteraction appCompatCheckBox5 = onView(
-                allOf(withId(R.id.add_habit_day_fri), withText("Friday"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                8),
-                        isDisplayed()));
-        appCompatCheckBox5.perform(click());
-
-        ViewInteraction appCompatCheckBox6 = onView(
-                allOf(withId(R.id.add_habit_day_sat), withText("Saturday"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                9),
-                        isDisplayed()));
-        appCompatCheckBox6.perform(click());
-
-        ViewInteraction appCompatCheckBox7 = onView(
-                allOf(withId(R.id.add_habit_day_sun), withText("Sunday"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                10),
-                        isDisplayed()));
-        appCompatCheckBox7.perform(click());
+        appCompatCheckBox.perform(click());
 
         ViewInteraction appCompatButton = onView(
                 allOf(withId(R.id.add_save_btn), withText("Save"),
@@ -152,17 +92,6 @@ public class AddEventTest {
                         isDisplayed()));
         appCompatButton.perform(click());
 
-        ViewInteraction textView = onView(
-                allOf(withId(android.R.id.text1), withText("Drink Water"),
-                        childAtPosition(
-                                allOf(withId(R.id.HabitViewer),
-                                        childAtPosition(
-                                                IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
-                                                1)),
-                                0),
-                        isDisplayed()));
-        textView.check(matches(withText("Drink Water")));
-
         DataInteraction appCompatTextView = onData(anything())
                 .inAdapterView(allOf(withId(R.id.HabitViewer),
                         childAtPosition(
@@ -171,76 +100,78 @@ public class AddEventTest {
                 .atPosition(0);
         appCompatTextView.perform(click());
 
-        ViewInteraction textView2 = onView(
-                allOf(withId(R.id.view_habit_name), withText("Drink Water"),
+        ViewInteraction appCompatButton2 = onView(
+                allOf(withId(R.id.view_habit_edit_btn), withText("Edit"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                9),
+                        isDisplayed()));
+        appCompatButton2.perform(click());
+
+        ViewInteraction appCompatEditText3 = onView(
+                allOf(withId(R.id.edit_habit_name), withText("One"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
                                 0),
                         isDisplayed()));
-        textView2.check(matches(withText("Drink Water")));
+        appCompatEditText3.perform(replaceText("Two"));
 
-        ViewInteraction textView3 = onView(
-                allOf(withId(R.id.view_habit_comment), withText("alot of it"),
+        ViewInteraction appCompatEditText4 = onView(
+                allOf(withId(R.id.edit_habit_name), withText("Two"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                0),
+                        isDisplayed()));
+        appCompatEditText4.perform(closeSoftKeyboard());
+
+        ViewInteraction appCompatButton3 = onView(
+                allOf(withId(R.id.edit_save_btn), withText("Save"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                11),
+                        isDisplayed()));
+        appCompatButton3.perform(click());
+
+        ViewInteraction textView = onView(
+                allOf(withId(R.id.view_habit_name), withText("Two"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                0),
+                        isDisplayed()));
+        textView.check(matches(withText("Two")));
+
+        ViewInteraction textView2 = onView(
+                allOf(withId(R.id.view_habit_comment), withText("1"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
                                 2),
                         isDisplayed()));
-        textView3.check(matches(withText("alot of it")));
+        textView2.check(matches(withText("1")));
 
-        ViewInteraction appCompatButton2 = onView(
-                allOf(withId(R.id.view_habit_log_event_btn), withText("Log Event"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                7),
-                        isDisplayed()));
-        appCompatButton2.perform(click());
+        pressBack();
 
-        ViewInteraction appCompatEditText3 = onView(
-                allOf(withId(R.id.nameTextBox),
+        ViewInteraction textView3 = onView(
+                allOf(withId(android.R.id.text1), withText("Two"),
                         childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.LinearLayout")),
-                                        0),
-                                1),
-                        isDisplayed()));
-        appCompatEditText3.perform(replaceText("Drank"), closeSoftKeyboard());
-
-        ViewInteraction appCompatEditText4 = onView(
-                allOf(withId(R.id.commentText),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.support.constraint.ConstraintLayout")),
-                                        0),
-                                4),
-                        isDisplayed()));
-        appCompatEditText4.perform(replaceText("yus"), closeSoftKeyboard());
-
-        ViewInteraction appCompatButton3 = onView(
-                allOf(withId(R.id.SaveButton), withText("Save"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.LinearLayout")),
-                                        5),
-                                1),
-                        isDisplayed()));
-        appCompatButton3.perform(click());
-
-        ViewInteraction textView4 = onView(
-                allOf(withId(android.R.id.text1), withText("Drank"),
-                        childAtPosition(
-                                allOf(withId(R.id.view_habit_events),
+                                allOf(withId(R.id.HabitViewer),
                                         childAtPosition(
                                                 IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
-                                                0)),
+                                                1)),
                                 0),
                         isDisplayed()));
-        textView4.check(matches(withText("Drank")));
+        textView3.check(matches(withText("Two")));
 
     }
 

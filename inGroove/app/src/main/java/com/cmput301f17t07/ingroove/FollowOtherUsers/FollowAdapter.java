@@ -13,7 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Ashley on 2017-10-30.
+ * Displays a User's followers
+ *
+ * @see com.cmput301f17t07.ingroove.Model.Follow
+ * @see User
  */
 
 public class FollowAdapter extends ArrayAdapter<User> implements View.OnClickListener {

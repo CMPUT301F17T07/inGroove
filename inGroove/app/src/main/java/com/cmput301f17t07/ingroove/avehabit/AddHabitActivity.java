@@ -26,6 +26,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * Boundary class to allow the user to add a new habit
+ *
+ * @see Habit
+ */
 public class AddHabitActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     DataManagerAPI data = DataManager.getInstance();
@@ -49,8 +54,6 @@ public class AddHabitActivity extends AppCompatActivity implements DatePickerDia
 
     EditText habit_name;
     EditText habit_comment;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +114,12 @@ public class AddHabitActivity extends AppCompatActivity implements DatePickerDia
         date_text.setText(start_date.toString());
     }
 
+    /**
+     * Saves the habit to storage through the DataManager
+     *
+     * @return true if successful
+     * @see DataManagerAPI
+     */
     private boolean saveHabit(){
         // @TODO boundary check the text inputs
         String name = habit_name.getText().toString();
