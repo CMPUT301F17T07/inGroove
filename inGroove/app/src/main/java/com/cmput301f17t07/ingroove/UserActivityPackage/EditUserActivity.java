@@ -17,7 +17,7 @@ import com.cmput301f17t07.ingroove.R;
  * Created by Ashley on 2017-11-12.
  */
 
-public class AddEditUserActivity extends AppCompatActivity {
+public class EditUserActivity extends AppCompatActivity {
 
     DataManagerAPI data = DataManager.getInstance();
 
@@ -33,7 +33,7 @@ public class AddEditUserActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_add_edit);
+        setContentView(R.layout.activity_user_edit);
 
         if (user != null) {
 
@@ -46,7 +46,7 @@ public class AddEditUserActivity extends AppCompatActivity {
             final Context context = this.getApplicationContext();
             saveUser.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    //Intent intent = new Intent(getApplicationContext(), AddEditUserActivity.class);
+                    //Intent intent = new Intent(getApplicationContext(), EditUserActivity.class);
                     //intent.putExtra("user_key", user);
                     //getApplicationContext().startActivity(intent);
 

@@ -2,16 +2,9 @@ package com.cmput301f17t07.ingroove.UserActivityPackage;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -20,15 +13,9 @@ import android.widget.TextView;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
-import com.cmput301f17t07.ingroove.DataManagers.MockDataManager;
-import com.cmput301f17t07.ingroove.HabitStats.HabitStatsActivity;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
-import com.cmput301f17t07.ingroove.avehabit.EditHabitActivity;
-import com.cmput301f17t07.ingroove.avehabit.ViewHabitActivity;
 import com.cmput301f17t07.ingroove.navDrawer.NavigationDrawerActivity;
-
-import org.w3c.dom.Text;
 
 public class UserActivity extends NavigationDrawerActivity {
     /* IMPORTANT
@@ -93,7 +80,7 @@ public class UserActivity extends NavigationDrawerActivity {
             final Context context = this.getApplicationContext();
             edit_user_button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    Intent intent = new Intent(getApplicationContext(), AddEditUserActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), EditUserActivity.class);
                     intent.putExtra(user_key, user);
                     getApplicationContext().startActivity(intent);
 
