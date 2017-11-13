@@ -25,6 +25,11 @@ import com.cmput301f17t07.ingroove.ViewHabitEvent.ViewHabitEventActivity;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * Boundary class to allow users to edit habits
+ *
+ * @see Habit
+ */
 public class EditHabitActivity extends AppCompatActivity {
 
     DataManagerAPI data = DataManager.getInstance();
@@ -126,6 +131,11 @@ public class EditHabitActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Save the edits to storage through the data manager
+     *
+     * @see DataManagerAPI
+     */
     private void saveHabit(){
 
         String name = habit_name.getText().toString();
