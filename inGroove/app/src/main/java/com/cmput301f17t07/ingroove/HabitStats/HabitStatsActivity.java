@@ -55,12 +55,12 @@ public class HabitStatsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_habit_stats);
 
-        Bundle bundle = this.getIntent().getExtras();
+        passedHabit = data.getPassedHabit();
 
-        if (bundle != null){      // use this for the real app
+        if (passedHabit != null){      // use this for the real app
 
-            passedHabit = data.getPassedHabit();
             habitEvents = data.getHabitEvents(passedHabit);
+
 
             // get the first day of the habit
             Date startDate = new Date();
