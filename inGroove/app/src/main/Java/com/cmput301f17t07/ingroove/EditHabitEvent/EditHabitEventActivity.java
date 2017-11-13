@@ -28,7 +28,6 @@ public class EditHabitEventActivity extends AppCompatActivity {
     public static String habitevent_key = "habitevent_to_edit";
     public static String habit_key = "habit_to_edit";
     HabitEvent passed_habitEvent;
-    Habit passed_habit;
 
     DataManagerAPI ServerCommunicator = DataManager.getInstance();
 
@@ -46,7 +45,6 @@ public class EditHabitEventActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_habit_event);
 
         passed_habitEvent = ServerCommunicator.getPassedHabitEvent();
-        passed_habit = ServerCommunicator.getPassedHabit();
 
         //Initialize All the elements of this activity
         imageBlock = (ImageView) findViewById(R.id.eventImage);
