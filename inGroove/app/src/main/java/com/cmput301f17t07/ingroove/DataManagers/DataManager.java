@@ -104,7 +104,7 @@ public class DataManager implements DataManagerAPI {
     }
 
     // TODO: CAN WE REMOVE THIS?
-    public int setUser(User user) {
+    public int editUser(User user) {
 
         this.user = user;
         

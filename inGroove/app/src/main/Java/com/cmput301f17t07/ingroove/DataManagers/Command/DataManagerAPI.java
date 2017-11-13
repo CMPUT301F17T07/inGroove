@@ -104,7 +104,7 @@ public interface DataManagerAPI {
     int editHabitEvent(HabitEvent oldHabitEvent, HabitEvent newHabitEvent);
 
     // TODO: CAN WE REMOVE THIS METHOD? WE DO NOT NEED IT.
-    int setUser(User user);
+    int editUser(User user);
 
     /**
      * Removes a user from the application, all data will be lost for that user
