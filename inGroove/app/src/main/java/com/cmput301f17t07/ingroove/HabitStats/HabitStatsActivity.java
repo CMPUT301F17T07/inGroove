@@ -17,15 +17,23 @@ import org.joda.time.DateTime;
 import org.joda.time.Weeks;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 /**
  * Displays some statistics for a given habit.
  *
+ * Takes a passed habit and grabs the associated habit events. From there it
+ * looks at how often this habit should be completed and and how this
+ * compares the users habit events. From there we calculate the total
+ * completed habit events, the missed habit events (noting that a user
+ * is able to make up for any missed events on other days), and the
+ * percentage of completed habit events. This information is then displayed
+ * for the user to see.
+ *
+ * @see Habit
+ * @see HabitEvent
  * @see com.cmput301f17t07.ingroove.avehabit.ViewHabitActivity
- * @see com.cmput301f17t07.ingroove.avehabit.AddViewEditHabitActivity
+ *
  */
 public class HabitStatsActivity extends AppCompatActivity {
 
@@ -50,8 +58,8 @@ public class HabitStatsActivity extends AppCompatActivity {
     int repeatedDays;
     Date startDate;
 
-    /**git
-     * Starts  displaying all the habit statistics
+    /**
+     * Gets and displays all the habit statistics. 
      *
      * @param savedInstanceState
      */
@@ -69,18 +77,7 @@ public class HabitStatsActivity extends AppCompatActivity {
 
 
             // get the first day of the habit
-
            startDate = passedHabit.getStartDate();
-            /* By using a search for the earliest logged event
-            for (HabitEvent event : habitEvents) {
-                if (event.getDay() != null && startDate.compareTo(event.getDay()) < 0) {
-                    startDate = event.getDay();
-                }
-            }
-            */
-
-            // startDate = passedHabit.getStartDate();
-
 
             // check to see how many habit events we should have
             repeatedDays = passedHabit.getRepeatedDays().size(); // get number of days per week that we repeat
@@ -133,8 +130,7 @@ public class HabitStatsActivity extends AppCompatActivity {
 
         } else {
 
-            // shows everything with default blank settings
-
+            // shows everything with default blank settings of being zero
             completedHabits = (TextView) findViewById(R.id.completed_value);
             completedHabits.setText("0");
 
@@ -146,7 +142,6 @@ public class HabitStatsActivity extends AppCompatActivity {
 
             habitProgress = (ProgressBar) findViewById(R.id.habitStatsProgressBar);
             habitProgress.setProgress(0);
-
 
         }
     }
