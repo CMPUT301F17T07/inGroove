@@ -59,7 +59,7 @@ public class HabitStatsActivity extends AppCompatActivity {
 
         if (bundle != null){      // use this for the real app
 
-            passedHabit = (Habit) bundle.getSerializable("display_stats_for_habit");
+            passedHabit = data.getPassedHabit();
             habitEvents = data.getHabitEvents(passedHabit);
 
             // get the first day of the habit
