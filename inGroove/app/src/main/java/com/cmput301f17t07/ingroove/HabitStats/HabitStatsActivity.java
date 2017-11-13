@@ -13,6 +13,9 @@ import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.R;
 
+import org.joda.time.DateTime;
+import org.joda.time.Weeks;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -43,6 +46,9 @@ public class HabitStatsActivity extends AppCompatActivity {
     int completedDays;
     int progress;
     int missingEvents;
+    int weeks;
+    int repeatedDays;
+    Date startDate;
 
     /**git
      * Starts  displaying all the habit statistics
@@ -64,7 +70,7 @@ public class HabitStatsActivity extends AppCompatActivity {
 
             // get the first day of the habit
 
-            Date startDate = new Date();
+           startDate = passedHabit.getStartDate();
             /* By using a search for the earliest logged event
             for (HabitEvent event : habitEvents) {
                 if (event.getDay() != null && startDate.compareTo(event.getDay()) < 0) {
@@ -73,21 +79,23 @@ public class HabitStatsActivity extends AppCompatActivity {
             }
             */
 
-            startDate = passedHabit.getStartDate();
+            // startDate = passedHabit.getStartDate();
 
 
             // check to see how many habit events we should have
-            int repeatedDays = passedHabit.getRepeatedDays().size(); // get number of days per week that we repeat
-            int weeks = 1;
-            Calendar cal = new GregorianCalendar();
-            while (cal.getTime().before(new Date())) {
-                cal.add(Calendar.WEEK_OF_YEAR, 1);
-                weeks++;
+            repeatedDays = passedHabit.getRepeatedDays().size(); // get number of days per week that we repeat
+
+            // get the number of weeks we are expecting
+            weeks = Weeks.weeksBetween(new DateTime(startDate), new DateTime()).getWeeks();
+            if (weeks < 1) {
+                weeks = 1;
             }
 
             // calculate the needed info
-            totalExpectedDays = repeatedDays * weeks;
-            completedDays = habitEvents.size();
+            totalExpectedDays = repeatedDays * weeks;               // expected number of days we should have habit events
+            completedDays = habitEvents.size();                     // number of habit events we have
+
+            // make sure we don't try to divide by zero
             if (totalExpectedDays == 0 && completedDays == 0) {
                 progress = 0;
             } else if (totalExpectedDays == 0 && completedDays > 0) {
@@ -95,14 +103,15 @@ public class HabitStatsActivity extends AppCompatActivity {
             } else {
                 progress = (completedDays * 100) / totalExpectedDays;
             }
-            missingEvents = totalExpectedDays - completedDays;
+
+            missingEvents = totalExpectedDays - completedDays;      // number of missing habit events
 
             // check to make sure the stats are valid
-            if (progress > 100){
+            if (progress > 100){                                    // make sure we only have up to 100%
                 progress = 100;
             }
-            if (missingEvents < 0) {
-                missingEvents = 0;
+            if (missingEvents < 0) {                                // make sure if user has extra habit events
+                missingEvents = 0;                                  // we don't get negative values
             }
 
             // fill in the habit data
