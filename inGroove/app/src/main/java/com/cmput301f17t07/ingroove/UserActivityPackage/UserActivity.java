@@ -58,14 +58,13 @@ public class UserActivity extends NavigationDrawerActivity {
         // Get the user to display
         user = data.getUser();
 
-
+        // make sure that the user is valid, else do activity
         if (user == null){
             // We don't have a user to display, just go back to the prior activity
             Log.w("Warning/User:", "Issue with initializing the user.");
             finish();
             //data.addUser("test");
         } else {
-
 
             // Setup layout vars
             user_picture = (ImageView) findViewById(R.id.usr_act_picture);
@@ -87,7 +86,7 @@ public class UserActivity extends NavigationDrawerActivity {
             streak_txt.setText("You've had " + Integer.valueOf(user.getStreak()) + " perfect days!");
             start_date_txt.setText("You've been getting in groove since " + user.getJoinDate().toString());
 
-            //final Context context = this.getApplicationContext();
+            // for when the edit button is clicked
             edit_user_button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     Intent upcomingIntent = new Intent(v.getContext(), EditUserActivity.class);
@@ -109,10 +108,14 @@ public class UserActivity extends NavigationDrawerActivity {
      */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
+        // make sure return was good
         if (requestCode == 1 && resultCode == RESULT_OK){
+
+            // get returned info
             User changedUser = (User) data.getSerializableExtra(return_user_key);
             user = changedUser;
 
+            // update view
             name.setText(user.getName());
             username.setText(user.getEmail());
         }

@@ -24,17 +24,18 @@ import com.cmput301f17t07.ingroove.R;
  */
 public class EditUserActivity extends AppCompatActivity {
 
-    // account related things
     DataManagerAPI data = DataManager.getInstance();
-    User user;
 
+    // account related things
+    User user;
     public static String user_key = "USR_ACNT";
+
     String nameText;
     String emailText;
 
+    // elements on the page
     EditText userName;
     EditText userEmail;
-
     Button saveUser;
 
     /**
@@ -49,24 +50,29 @@ public class EditUserActivity extends AppCompatActivity {
 
         if (user != null) {
 
+            // find the needed elements
             userName = (EditText) findViewById(R.id.userName);
             userEmail = (EditText) findViewById(R.id.userEmail);
             saveUser = (Button) findViewById(R.id.saveUser);
 
+            // fill them in with the current info for user
             userName.setText(user.getName());
             userEmail.setText(user.getEmail());
 
+            // if save button clicked then save and return back to UserActivity
             final Context context = this.getApplicationContext();
             saveUser.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
+                    // grab the text view elements
                     nameText = userName.getText().toString();
                     emailText = userEmail.getText().toString();
 
+                    // update the user
                     user.setName(nameText);
                     user.setEmail(emailText);
-
                     data.editUser(user);
 
+                    // return back to UserActivity
                     Intent returnIntent = new Intent(context, UserActivity.class);
                     returnIntent.putExtra(UserActivity.return_user_key, user);
                     setResult(RESULT_OK, returnIntent);
