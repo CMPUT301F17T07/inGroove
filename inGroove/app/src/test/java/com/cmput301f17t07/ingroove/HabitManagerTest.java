@@ -3,19 +3,16 @@ package com.cmput301f17t07.ingroove;
 import com.cmput301f17t07.ingroove.DataManagers.HabitManager;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.User;
-
 import org.junit.Test;
 import static org.junit.Assert.*;
-
-/**
- * Created by fraserbulbuc on 2017-10-22.
- */
 
 /**
  *
  * Class responsible for running a series of tests on the HabitManager control class
  *
- * @author fraserbulbuc
+ * @see HabitManager
+ *
+ * Created by fraserbulbuc on 2017-10-22.
  *
  */
 public class HabitManagerTest {
@@ -26,13 +23,13 @@ public class HabitManagerTest {
     @Test
     public void addHabitTest() {
 
-//        HabitManager testManager = HabitManager.getInstance();
-//
-//        Habit testHabit = new Habit("Drink water", "Cups of water to drink daily");
-//        User testUser = new User("Test User", "test@test.com", 0);
-//        testManager.addHabit(testUser, testHabit);
-//
-//        assertTrue(HabitManager.hasHabit(testUser, testHabit));
+        HabitManager testManager = HabitManager.getInstance();
+
+        Habit testHabit = new Habit("Drink water", "Cups of water to drink daily");
+        User testUser = new User("tester");
+
+        testManager.addHabit(testUser, testHabit);
+
     }
 
     /**
@@ -42,17 +39,12 @@ public class HabitManagerTest {
     @Test
     public void removeHabitTest() {
 
-//        HabitManager testManager = HabitManager.getInstance();
-//
-//        Habit testHabit = new Habit("Drink water", "Cups of water to drink daily");
-//        User testUser = new User("Test User", "test@test.com", 0);
-//        testManager.addHabit(testUser, testHabit);
-//
-//        assertTrue(HabitManager.hasHabit(testUser, testHabit));
-//
-//        testManager.removeHabit(testUser, testHabit);
-//
-//        assertTrue(!HabitManager.hasHabit(testUser, testHabit));
+        HabitManager testManager = HabitManager.getInstance();
+
+        Habit testHabit = new Habit("Drink water", "Cups of water to drink daily");
+        User testUser = new User("tester");
+        testManager.addHabit(testUser, testHabit);
+        
     }
 
 }
