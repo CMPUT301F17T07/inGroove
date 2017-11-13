@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
@@ -89,6 +90,26 @@ public class AddHabitActivity extends AppCompatActivity {
         String name = habit_name.getText().toString();
         String comment = habit_comment.getText().toString();
 
+        Boolean string_warn = false;
+        if(name == ""){
+            Toast toast = Toast.makeText(this,
+                    "You cannot have a habit without a name", Toast.LENGTH_SHORT);
+            toast.show();
+            return false;
+        } else if (name.length() > 20){
+            name = name.substring(0, 19);
+            string_warn = true;
+        } else if (comment.length() > 20){
+            comment = comment.substring(0, 19);
+            string_warn = true;
+        }
+
+        if (string_warn){
+            Toast toast = Toast.makeText(this,
+                    "Max string lengths are 20, cutting...", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+
         ArrayList<Day> days = new ArrayList<>();
 
         if (mon.isChecked()){
@@ -118,6 +139,8 @@ public class AddHabitActivity extends AppCompatActivity {
 
         // send the habit to be saved
         data.addHabit(new_habit);
+
+        return true;
 
     }
 }
