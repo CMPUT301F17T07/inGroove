@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Information On Your Habit"
-        tools:textSize="25dp" />
+        tools:textSize="25sp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -40,7 +40,7 @@
             android:layout_centerVertical="true"
             android:text="@string/progress_level"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textSize="30dp"/>
+            android:textSize="30sp" />
     </RelativeLayout>
 
     <!-- TODO: The headers are not centered with their respective values yet -->
