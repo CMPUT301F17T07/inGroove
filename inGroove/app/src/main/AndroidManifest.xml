@@ -29,7 +29,6 @@
         <activity android:name=".UserActivityPackage.EditUserActivity" />
         <activity android:name=".ViewFollowersActivityPackage.ViewFollowersActivity" />
         <activity android:name=".ViewHabitEvent.ViewHabitEventActivity" />
-        <activity android:name=".FollowRequestsActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
