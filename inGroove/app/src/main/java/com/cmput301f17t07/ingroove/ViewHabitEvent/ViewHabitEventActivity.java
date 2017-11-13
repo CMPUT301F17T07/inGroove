@@ -80,7 +80,7 @@ public class ViewHabitEventActivity extends FragmentActivity implements OnMapRea
         he_edit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), EditHabitEventActivity.class);
-                intent.putExtra(EditHabitEventActivity.habitevent_key, habitEvent);
+                data.setPassedHabitEvent(habitEvent);
                 getApplicationContext().startActivity(intent);
 
             }

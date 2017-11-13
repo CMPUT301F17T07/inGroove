@@ -45,11 +45,9 @@ public class EditHabitEventActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_habit_event);
 
-        passed_habitEvent = null;
-        if (ServerCommunicator.getPassedHabitEvent() != null && ServerCommunicator.getPassedHabit() != null) {
-            passed_habitEvent = ServerCommunicator.getPassedHabitEvent();
-            passed_habit = ServerCommunicator.getPassedHabit();
-        }
+        passed_habitEvent = ServerCommunicator.getPassedHabitEvent();
+        passed_habit = ServerCommunicator.getPassedHabit();
+
         //Initialize All the elements of this activity
         imageBlock = (ImageView) findViewById(R.id.eventImage);
         b_addImageButton = (Button) findViewById(R.id.uploadPictureButton);
