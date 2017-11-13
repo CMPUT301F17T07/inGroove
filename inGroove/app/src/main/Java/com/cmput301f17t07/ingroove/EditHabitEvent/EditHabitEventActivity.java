@@ -28,7 +28,6 @@ public class EditHabitEventActivity extends AppCompatActivity {
     public static String habitevent_key = "habitevent_to_edit";
     public static String habit_key = "habit_to_edit";
     HabitEvent passed_habitEvent;
-    Habit passed_habit;
 
     DataManagerAPI ServerCommunicator = DataManager.getInstance();
 
@@ -45,12 +44,8 @@ public class EditHabitEventActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_habit_event);
 
-        Bundle bundle = this.getIntent().getExtras();
-        passed_habitEvent = null;
-        if (bundle != null) {
-            passed_habitEvent = (HabitEvent) bundle.getSerializable(habitevent_key);
-            passed_habit = (Habit) bundle.getSerializable(habit_key);
-        }
+        passed_habitEvent = ServerCommunicator.getPassedHabitEvent();
+
         //Initialize All the elements of this activity
         imageBlock = (ImageView) findViewById(R.id.eventImage);
         b_addImageButton = (Button) findViewById(R.id.uploadPictureButton);
@@ -122,7 +117,7 @@ public class EditHabitEventActivity extends AppCompatActivity {
     private void SaveHabitEvent()
     {
         HabitEvent he = GetEventInfoFromActivityElements();
-        ServerCommunicator.addHabitEvent(passed_habit, he);
+        ServerCommunicator.editHabitEvent(passed_habitEvent, he);
     }
 
     private HabitEvent GetEventInfoFromActivityElements()

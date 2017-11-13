@@ -1,6 +1,7 @@
 package com.cmput301f17t07.ingroove.ViewHabitEvent;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -66,12 +67,16 @@ public class ViewHabitEventActivity extends FragmentActivity implements OnMapRea
         he_del = findViewById(R.id.view_he_delete_button);
 
         // Get the habit event to display
-        Bundle bundle = this.getIntent().getExtras();
-        habitEvent = (HabitEvent) bundle.getSerializable(this.he_key);
+        habitEvent = data.getPassedHabitEvent();
 
         // Set event image
-        Drawable drawable = getResources().getDrawable(R.drawable.default_event_image);
-        he_image.setImageDrawable(drawable);
+        Bitmap photo = habitEvent.getPhoto();
+        if (photo != null) {
+            he_image.setImageBitmap(photo);
+        } else {
+            Drawable drawable = getResources().getDrawable(R.drawable.default_event_image);
+            he_image.setImageDrawable(drawable);
+        }
 
         // Set the text fields
         he_title.setText(habitEvent.getName());
@@ -81,7 +86,7 @@ public class ViewHabitEventActivity extends FragmentActivity implements OnMapRea
         he_edit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), EditHabitEventActivity.class);
-                intent.putExtra(EditHabitEventActivity.habitevent_key, habitEvent);
+                data.setPassedHabitEvent(habitEvent);
                 getApplicationContext().startActivity(intent);
 
             }

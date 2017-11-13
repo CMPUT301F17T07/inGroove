@@ -47,12 +47,9 @@ public class HabitEventsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_habit_events);
 
-        Bundle bundle = this.getIntent().getExtras();
-        passed_habitEvent = null;
-        if (bundle != null){
-            passed_habitEvent = (HabitEvent) bundle.getSerializable(habitevent_key);
-            passed_habit = (Habit) bundle.getSerializable(habit_key);
-        }
+        passed_habitEvent = ServerCommunicator.getPassedHabitEvent();
+        passed_habit = ServerCommunicator.getPassedHabit();
+
         //Initialize All the elements of this activity
         imageBlock = (ImageView) findViewById(R.id.eventImage);
         b_addImageButton = (Button) findViewById(R.id.uploadPictureButton);
