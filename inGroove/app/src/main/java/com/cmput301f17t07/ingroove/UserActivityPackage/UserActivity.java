@@ -44,18 +44,16 @@ public class UserActivity extends NavigationDrawerActivity {
         setContentView(R.layout.activity_user);
 
         // Get the user to display
-        //Bundle bundle = this.getIntent().getExtras();
-        //user = (User) bundle.getSerializable(user_key);
-        //for testing
-        user = new User("test");
+        user = data.getUser();
 
 
         if (user == null){
             // We don't have a user to display, just go back to the prior activity
+            Log.w("Warning/User:", "Issue with initializing the user.");
             finish();
+            //data.addUser("test");
         } else {
 
-            Log.w("TEST TEST TEST", user.toString());
 
             // Setup layout vars
             user_picture = (ImageView) findViewById(R.id.usr_act_picture);
@@ -77,21 +75,37 @@ public class UserActivity extends NavigationDrawerActivity {
             streak_txt.setText("You've had " + Integer.valueOf(user.getStreak()) + " perfect days!");
             start_date_txt.setText("You've been getting in groove since " + user.getJoinDate().toString());
 
-            final Context context = this.getApplicationContext();
+            //final Context context = this.getApplicationContext();
             edit_user_button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    Intent intent = new Intent(getApplicationContext(), EditUserActivity.class);
-                    intent.putExtra(user_key, user);
-                    getApplicationContext().startActivity(intent);
+                    //Intent intent = new Intent(getApplicationContext(), EditUserActivity.class);
+                    //intent.putExtra(user_key, user);
+                    //getApplicationContext().startActivity(intent);
 
-                    //Intent returnIntent = new Intent(context, UserActivity.class);
-                    //returnIntent.putExtra(UserActivity.user_key, user);
-                    //setResult(RESULT_OK, returnIntent);
+                    Intent upcomingIntent = new Intent(v.getContext(), EditUserActivity.class);
+                    upcomingIntent.putExtra(EditUserActivity.user_key, user);
+                    startActivityForResult(upcomingIntent, 0);
+
                 }
             });
 
 
             super.onCreateDrawer();
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        if (requestCode == 1 && resultCode == RESULT_OK){
+            User new_habit = (User) data.getSerializableExtra(user_key);
+            user = new_habit;
+            setTextFields();
+        }
+    }
+
+    private void setTextFields() {
+        name.setText(user.getName());
+        username.setText(user.getEmail());
+        //habitEventsList = data.getHabitEvents(passed_habit);
     }
 }

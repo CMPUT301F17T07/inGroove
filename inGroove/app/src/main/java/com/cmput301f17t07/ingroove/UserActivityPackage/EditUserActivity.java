@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +22,10 @@ public class EditUserActivity extends AppCompatActivity {
 
     DataManagerAPI data = DataManager.getInstance();
 
+    public static String user_key = "USR_ACNT";
+    String nameText;
+    String emailText;
+
     User user = null;
 
     EditText userName;
@@ -28,17 +33,17 @@ public class EditUserActivity extends AppCompatActivity {
 
     Button saveUser;
 
-    String nameText;
-    String emailText;
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_edit);
+
+        user = data.getUser();
 
         if (user != null) {
 
             userName = (EditText) findViewById(R.id.userName);
             userEmail = (EditText) findViewById(R.id.userEmail);
+            saveUser = (Button) findViewById(R.id.saveUser);
 
             userName.setText(user.getName());
             userEmail.setText(user.getEmail());
@@ -46,12 +51,15 @@ public class EditUserActivity extends AppCompatActivity {
             final Context context = this.getApplicationContext();
             saveUser.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    //Intent intent = new Intent(getApplicationContext(), EditUserActivity.class);
-                    //intent.putExtra("user_key", user);
-                    //getApplicationContext().startActivity(intent);
-
                     nameText = userName.getText().toString();
                     emailText = userEmail.getText().toString();
+
+                    user.setName(nameText);
+                    user.setEmail(emailText);
+
+                    Log.w("TEST TEST TEST", user.getName() + "|" + user.getEmail());
+
+                    data.editUser(user);
 
                     Intent returnIntent = new Intent(context, UserActivity.class);
                     returnIntent.putExtra(UserActivity.user_key, user);
