@@ -72,8 +72,6 @@ public class CheckHabitStatsTest {
                         isDisplayed()));
         appCompatEditText2.perform(replaceText("?"), closeSoftKeyboard());
 
-        pressBack();
-
         ViewInteraction appCompatCheckBox = onView(
                 allOf(withId(R.id.add_habit_day_thur), withText("Thursday"),
                         childAtPosition(
