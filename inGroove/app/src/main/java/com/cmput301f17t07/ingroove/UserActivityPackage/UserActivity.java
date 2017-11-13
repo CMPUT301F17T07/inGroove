@@ -118,6 +118,9 @@ public class UserActivity extends NavigationDrawerActivity {
             // update view
             name.setText(user.getName());
             username.setText(user.getEmail());
+
+            // update navigation menu
+            super.updateHeader(user.getName());
         }
     }
 }

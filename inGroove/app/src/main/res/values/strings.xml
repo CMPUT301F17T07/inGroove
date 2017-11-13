@@ -24,6 +24,7 @@
     <string name="edit_habit_interval">Change Interval</string>
     <string name="save_habit">Save</string>
     <string name="delete_habit">Delete</string>
+    <string name="cancel_habit">Cancel</string>
 
     // main body
     <string name="habit_name_hint">Habit Name</string>
