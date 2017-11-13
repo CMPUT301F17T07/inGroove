@@ -33,27 +33,27 @@ import java.util.Date;
  */
 public class AddHabitActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
-    DataManagerAPI data = DataManager.getInstance();
+    private final DataManagerAPI data = DataManager.getInstance();
 
     // Interface variables
-    CheckBox mon;
-    CheckBox tues;
-    CheckBox wed;
-    CheckBox thur;
-    CheckBox fri;
-    CheckBox sat;
-    CheckBox sun;
-    Button save_button;
-    Button cancel_button;
-    Button date_pick_button;
-    TextView date_text;
+    private CheckBox mon;
+    private CheckBox tues;
+    private CheckBox wed;
+    private CheckBox thur;
+    private CheckBox fri;
+    private CheckBox sat;
+    private CheckBox sun;
+    private Button save_button;
+    private Button cancel_button;
+    private Button date_pick_button;
+    private TextView date_text;
 
     // Temporary Date storage while the user has not yet chosen a date
-    Date start_date;
+    private Date start_date;
 
 
-    EditText habit_name;
-    EditText habit_comment;
+    private EditText habit_name;
+    private EditText habit_comment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
