@@ -56,9 +56,9 @@ public class ViewHabitActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_habit);
-        Bundle bundle = this.getIntent().getExtras();
-        if (bundle != null){
-            passed_habit = (Habit) bundle.getSerializable(habit_to_view_key);
+
+        if (data.getPassedHabit() != null){
+            passed_habit = data.getPassedHabit();
         }
 
         // Link up the text views
@@ -77,7 +77,7 @@ public class ViewHabitActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 // @TODO change this to an edit view, or leave as just view?
                 Intent upcomingIntent = new Intent(v.getContext(), ViewHabitEventActivity.class);
-                upcomingIntent.putExtra(ViewHabitEventActivity.he_key, habitEventsList.get(position));
+                data.setPassedHabitEvent(habitEventsList.get(position));
                 startActivityForResult(upcomingIntent, 0);
             }
         });
@@ -92,7 +92,7 @@ public class ViewHabitActivity extends AppCompatActivity {
         log_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), HabitEventsActivity.class);
-                intent.putExtra(HabitEventsActivity.habit_key, passed_habit);
+                data.setPassedHabit(passed_habit);
                 getApplicationContext().startActivity(intent);
 
             }
@@ -100,14 +100,14 @@ public class ViewHabitActivity extends AppCompatActivity {
         stats_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), HabitStatsActivity.class);
-                intent.putExtra("display_stats_for_habit", passed_habit);
+                data.setPassedHabit(passed_habit);
                 getApplicationContext().startActivity(intent);
             }
         });
         edit_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), EditHabitActivity.class);
-                intent.putExtra(EditHabitActivity.habit_key, passed_habit);
+                data.setPassedHabit(passed_habit);
                 startActivityForResult(intent, 1);
             }
         });
@@ -126,7 +126,7 @@ public class ViewHabitActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         if (requestCode == 1 && resultCode == RESULT_OK){
-            Habit new_habit = (Habit) data.getSerializableExtra(edited_habit_key);
+            Habit new_habit = this.data.getPassedHabit();
             passed_habit = new_habit;
             setTextFields();
         }
