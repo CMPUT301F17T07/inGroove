@@ -281,7 +281,7 @@ public class HabitEvent implements Serializable, Identifiable{
             return false;
         }
         HabitEvent temp = (HabitEvent) obj;
-        return temp.getName().equals(this.name) && temp.getDay() == this.day && temp.getID().equals(this.eventID);
+        return temp.getName().equals(this.name) && temp.getDay().compareTo(this.day) == 0 && temp.getID().equals(this.eventID);
     }
 
     /**

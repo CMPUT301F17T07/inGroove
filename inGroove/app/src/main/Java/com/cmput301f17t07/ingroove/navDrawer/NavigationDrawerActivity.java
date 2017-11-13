@@ -30,6 +30,8 @@ import com.cmput301f17t07.ingroove.ViewMapActivity;
 public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
+
+    //TODO: change to real DataManager
     DataManagerAPI data = new MockDataManager().getInstance();
 
 
