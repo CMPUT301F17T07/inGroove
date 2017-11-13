@@ -1,21 +1,14 @@
 package com.cmput301f17t07.ingroove.DataManagers;
 
-/**
- * Created by fraserbulbuc on 2017-10-22.
- */
-
 import android.content.Context;
 import android.util.Log;
-
 import com.cmput301f17t07.ingroove.DataManagers.Command.AddHabitCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
 import com.cmput301f17t07.ingroove.Model.Habit;
-import com.cmput301f17t07.ingroove.Model.Identifiable;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
@@ -26,30 +19,40 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-
 import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
 
 /**
+ * All responsibilities of data facade related to retrieving, creating, or modifying habit data are
+ * relayed to the habit manager.
  *
- * Class to handle modifying habit data in elastic search
+ * Represents the receiver for habit commands, saves and load data locally and in elastic search
+ * data base as required.
  *
- * @author fraserbulbuc
  * @see Habit
  *
+ * Created by fraserbulbuc on 2017-10-22.
  */
 public class HabitManager {
 
+    // file name on disk for storing habits added during offline usage
     private static final String HABITS_FILE = "habits.sav";
 
     private static HabitManager instance = new HabitManager();
-
     private ArrayList<Habit> habits = new ArrayList<>();
 
+    /**
+     * Private constructor to ensure only one instance application wide
+     */
     private HabitManager() {
         loadHabits();
     }
 
+    /**
+     * Public access to singleton instance
+     *
+     * @return the singleton instance of this class
+     */
     public static HabitManager getInstance() {
         return instance;
     }
@@ -84,6 +87,14 @@ public class HabitManager {
         saveLocal();
     }
 
+    /**
+     * Update the contents of a habit in storage with new information
+     *
+     * @param oldHabit the habit to be updated
+     * @param newHabit the new habit data to replace the old data
+     * @return 0 if success, -1 if any issues
+     * @see Habit
+     */
     public int editHabit(Habit oldHabit, Habit newHabit) {
         int index = habits.indexOf(oldHabit);
         if (index == -1) {
@@ -96,6 +107,12 @@ public class HabitManager {
         return 0;
     }
 
+    /**
+     * Relays habit to be added to the habit manager
+     *
+     * @return a list of habit objects
+     * @see Habit
+     */
     public ArrayList<Habit> getHabits() {
 
         if (habits.size() == 0) {
@@ -119,9 +136,10 @@ public class HabitManager {
 
     /**
      *
-     * returns true if the use has a habit
+     * Checks if the user has a particular habit
      *
-     * @param habit
+     * @param habit the habit to look for
+     * @param user the user whose habits should be checked
      *
      * @return true if the habit exists
      */
@@ -130,7 +148,11 @@ public class HabitManager {
     }
 
     /**
-     * saves the habit array to a local file
+     * Save a local copy of the user habits on the disk for offline use of the application
+     *
+     * @see Gson
+     * @see FileOutputStream
+     * @see BufferedWriter
      */
     private void saveLocal() {
 
@@ -160,7 +182,11 @@ public class HabitManager {
     }
 
     /**
-     * load the habits from the disk
+     * Load the local copy of the user habits from the disk if offline use of application
+     *
+     * @see Gson
+     * @see FileInputStream
+     * @see BufferedReader
      */
     private void loadHabits() {
 
@@ -188,10 +214,15 @@ public class HabitManager {
             Log.d("---- ERROR ----", "Caught Exception:" + e);
         }
 
-
-
     }
 
+    /**
+     * Add the user to the server for the first time when they install the application
+     *
+     * @param habit the habit to add to the server storage
+     * @see ServerCommandManager
+     * @see Habit
+     */
     public void addHabitToServer(Habit habit) throws Exception {
 
         Boolean isNew = true;
@@ -211,11 +242,7 @@ public class HabitManager {
             //saveLocal();
         }
 
-
     }
-
-
-
 
 }
 
