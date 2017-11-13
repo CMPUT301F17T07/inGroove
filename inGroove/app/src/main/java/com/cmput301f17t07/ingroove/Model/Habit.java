@@ -153,7 +153,7 @@ public class Habit implements Serializable, Identifiable {
         this.comment = comment;
         this.repeatedDays = repeatedDays;
         this.events = events;
-        this.habitID = null;
+        this.habitID = "";
 
     }
 
@@ -214,8 +214,8 @@ public class Habit implements Serializable, Identifiable {
             return false;
         }
         Habit temp = (Habit) obj;
-        return temp.getHabitID().equals(this.getHabitID());
-
+        return temp.getHabitID().equals(this.getHabitID()) && temp.getName().equals(this.getName())
+                && temp.getComment().equals(this.getComment()) && temp.getRepeatedDays().equals(this.getRepeatedDays());
     }
 }
 

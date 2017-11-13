@@ -59,6 +59,7 @@
 
     <ImageButton
         android:id="@+id/searchForUsersButton"
+        android:contentDescription="@string/search_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@android:drawable/ic_menu_search"

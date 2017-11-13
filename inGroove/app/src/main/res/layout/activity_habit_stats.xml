@@ -7,16 +7,21 @@
     android:orientation="vertical"
     tools:context="com.cmput301f17t07.ingroove.HabitStats.HabitStatsActivity">
 
+    <include
+        layout="@layout/app_bar_main"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize" />
+
     <TextView
         android:id="@+id/habitStatsTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Information On Your Habit"
-        tools:textSize="25dp" />
+        tools:textSize="25sp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="457dp">
+        android:layout_height="397dp">
 
         <ProgressBar
             android:id="@+id/habitStatsProgressBar"
@@ -29,7 +34,7 @@
             android:max="100"
             android:progress="0"
             android:progressDrawable="@drawable/progress_bar" />
-            <!-- progress bar code references: https://stackoverflow.com/questions/12920397/how-to-make-progressbar-stop-spinning -->
+        <!-- progress bar code references: https://stackoverflow.com/questions/12920397/how-to-make-progressbar-stop-spinning -->
 
 
         <TextView
@@ -40,7 +45,7 @@
             android:layout_centerVertical="true"
             android:text="@string/progress_level"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textSize="30dp"/>
+            android:textSize="30sp" />
     </RelativeLayout>
 
     <!-- TODO: The headers are not centered with their respective values yet -->
