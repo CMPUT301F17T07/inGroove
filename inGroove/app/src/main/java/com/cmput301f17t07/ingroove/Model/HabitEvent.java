@@ -75,7 +75,13 @@ public class HabitEvent implements Serializable, Identifiable{
      * @return a Bitmap object of the photo
      * @see Bitmap
      */
-    public Bitmap getPhoto() { return new BitMapHelper().stringToBitMap(photo); }
+    public Bitmap getPhoto() {
+        if (photo != null) {
+            return new BitMapHelper().stringToBitMap(photo);
+        } else {
+            return null;
+        }
+    }
 
     /**
      * Update the photo of the event
@@ -180,7 +186,7 @@ public class HabitEvent implements Serializable, Identifiable{
         this.userID = UserID;
         this.location = location;
         if (photo == null ) {
-            this.photo = "";
+            this.photo = null;
         } else {
             this.photo = new BitMapHelper().bitMapToString(photo);
         }
