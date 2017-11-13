@@ -57,9 +57,8 @@ public class ViewHabitActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_habit);
 
-        if (data.getPassedHabit() != null){
-            passed_habit = data.getPassedHabit();
-        }
+        passed_habit = data.getPassedHabit();
+
 
         // Link up the text views
         habit_name = (TextView) findViewById(R.id.view_habit_name);
