@@ -53,6 +53,8 @@
     <string name="reject_request">Reject the request by this user to follow you</string>
     <string name="send_request">Send a request to follow this user</string>
     <string name="streak_image">Picture to describe the users streak level</string>
+    <string name="view_he_del_btn">Delete this habit event</string>
+    <string name="view_he_edit_btn">Edit this habit event</string>
 
 
 
