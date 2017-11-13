@@ -1,6 +1,7 @@
 package com.cmput301f17t07.ingroove.avehabit;
 
 import android.content.Intent;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
+import com.cmput301f17t07.ingroove.DatePickerFragment;
 import com.cmput301f17t07.ingroove.HabitStats.HabitStatsActivity;
 import com.cmput301f17t07.ingroove.Model.Day;
 import com.cmput301f17t07.ingroove.Model.Habit;
@@ -39,6 +41,7 @@ public class AddHabitActivity extends AppCompatActivity {
     CheckBox sun;
     Button save_button;
     Button cancel_button;
+    Button date_pick;
 
     EditText habit_name;
     EditText habit_comment;
@@ -66,6 +69,7 @@ public class AddHabitActivity extends AppCompatActivity {
         // Get the buttons to add on click listeners
         save_button = (Button) findViewById(R.id.add_save_btn);
         cancel_button = (Button) findViewById(R.id.add_cancel_btn);
+        date_pick = (Button) findViewById(R.id.add_date_pick);
 
         // add on click listeners
         save_button.setOnClickListener(new View.OnClickListener() {
@@ -81,6 +85,12 @@ public class AddHabitActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // return to the previous activity
                 finish();
+            }
+        });
+        cancel_button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                DialogFragment newFragment = new DatePickerFragment();
+                newFragment.show(getSupportFragmentManager(), "datePicker");
             }
         });
     }
