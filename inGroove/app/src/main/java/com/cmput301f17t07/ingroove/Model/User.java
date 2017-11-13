@@ -80,10 +80,4 @@ public class User implements Serializable{
         }
 
     }
-
-    @Override
-    public String toString(){
-        String strDate = new SimpleDateFormat("yyyy-MM-dd").format(joinDate);
-        return name + "|" + email + "|" + userID + "|" + strDate + "|" + String.valueOf(streak) ;
-    }
 }

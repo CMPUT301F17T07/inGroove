@@ -94,7 +94,7 @@ public class UserActivity extends NavigationDrawerActivity {
             edit_user_button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     Intent intent = new Intent(getApplicationContext(), AddEditUserActivity.class);
-                    intent.putExtra("user_key", user);
+                    intent.putExtra(user_key, user);
                     getApplicationContext().startActivity(intent);
 
                     //Intent returnIntent = new Intent(context, UserActivity.class);
@@ -102,6 +102,7 @@ public class UserActivity extends NavigationDrawerActivity {
                     //setResult(RESULT_OK, returnIntent);
                 }
             });
+
 
             super.onCreateDrawer();
         }
