@@ -1,17 +1,23 @@
 package com.cmput301f17t07.ingroove.ViewHabitEvent;
 
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
+import com.cmput301f17t07.ingroove.EditHabitEvent.EditHabitEventActivity;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.R;
+import com.cmput301f17t07.ingroove.UserActivityPackage.EditUserActivity;
+import com.cmput301f17t07.ingroove.UserActivityPackage.UserActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -36,6 +42,8 @@ public class ViewHabitEventActivity extends FragmentActivity implements OnMapRea
     TextView he_title;
     TextView he_comment;
     ImageView he_image;
+    ImageButton he_edit;
+    ImageButton he_del;
 
     // Data Manager
     DataManagerAPI data = DataManager.getInstance();
@@ -54,6 +62,8 @@ public class ViewHabitEventActivity extends FragmentActivity implements OnMapRea
         he_title = findViewById(R.id.view_he_event_title);
         he_comment = findViewById(R.id.view_he_event_comment);
         he_image = findViewById(R.id.view_he_event_image);
+        he_edit = findViewById(R.id.view_he_edit_button);
+        he_del = findViewById(R.id.view_he_delete_button);
 
         // Get the habit event to display
         Bundle bundle = this.getIntent().getExtras();
@@ -66,6 +76,16 @@ public class ViewHabitEventActivity extends FragmentActivity implements OnMapRea
         // Set the text fields
         he_title.setText(habitEvent.getName());
         he_comment.setText(habitEvent.getComment());
+
+        // Set the on click listeners for the buttons
+        he_edit.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), EditHabitEventActivity.class);
+                intent.putExtra(EditHabitEventActivity.habitevent_key, habitEvent);
+                getApplicationContext().startActivity(intent);
+
+            }
+        });
     }
 
 
@@ -88,7 +108,7 @@ public class ViewHabitEventActivity extends FragmentActivity implements OnMapRea
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
         // Add a marker for the location of this event
-        LatLng loc = new LatLng(53.5232, -113.5263); // @TODO habitEvent.getLocation();
+        LatLng loc = new LatLng(0,0); //habitEvent.locationToLatLng();
         mMap.addMarker(new MarkerOptions().position(loc).title("Event Location"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
 

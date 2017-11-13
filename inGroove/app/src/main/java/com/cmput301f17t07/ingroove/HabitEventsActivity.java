@@ -105,6 +105,7 @@ public class HabitEventsActivity extends AppCompatActivity {
 
     private void SaveButtonClick() {
         SaveHabitEvent();
+        setResult(RESULT_OK);
         CancelButtonClick();
     }
 
