@@ -160,6 +160,7 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
     {
         //ArrayList<HabitEvent> he_list = ServerCommunicator9000.getHabitEvents();
         habitsLoaded = false;
+        HabitEventHolder = new ArrayList<>();
         int i = 1;
         for (Habit a : HabitHolder) {
             ArrayList<HabitEvent> he_list = ServerCommunicator9000.getHabitEvents(a);
