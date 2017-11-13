@@ -107,6 +107,7 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
 
         b_listHabits.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                habitsLoaded = true;
                 HabitHolder = ServerCommunicator9000.getHabit(new User("T-Rex Joe", "trexjoe@hotmail.com"));
                 PopulateGridView_Habits(HabitHolder);
             }
@@ -115,7 +116,7 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
 
     /**
      * This method handles the on click event for the gridview.
-     * It behaves differently based on wheter the user is looking at habits or habit events.
+     * It behaves differently based on whether the user is looking at habits or habit events.
      * @param position: The position in either the HabitHolder or HabitEventHolder array list we are looking in.
      * @param v: The view needed to start a new activity.
      */
