@@ -93,6 +93,12 @@ public class NavigationDrawerActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Creates a new intent based on what the user selected in the navigation drawer.
+     * Can be used to quickly navigate through the app, instead using buttons or the back button.
+     * @param item
+     * @return
+     */
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {

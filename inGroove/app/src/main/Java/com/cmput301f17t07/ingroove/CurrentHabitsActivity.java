@@ -34,6 +34,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This activity is the main page of the app. It displays the users habits as well as passed habits completed, presented by their habit events.
+ */
 public class CurrentHabitsActivity extends NavigationDrawerActivity{
 
     //Initilize variables.

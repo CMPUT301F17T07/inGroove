@@ -27,6 +27,9 @@ import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+/**
+ * This class is used to add new habit events to habits
+ */
 public class HabitEventsActivity extends AppCompatActivity {
     public static String habitevent_key = "habitevent_to_edit";
     public static String habit_key = "habit_to_edit";

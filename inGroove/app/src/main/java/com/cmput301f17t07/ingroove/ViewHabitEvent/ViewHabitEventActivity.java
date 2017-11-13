@@ -105,6 +105,9 @@ public class ViewHabitEventActivity extends FragmentActivity implements OnMapRea
         }
     }
 
+    /**
+     * Sets the fields in the activity with data from the passed in habit event.
+     */
     private void setViewFields(){
         // Set event image
         Bitmap photo = habitEvent.getPhoto();

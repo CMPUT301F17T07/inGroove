@@ -9,6 +9,9 @@ import android.widget.EditText;
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 
+/**
+ * This acitivity is used to test the data manager.
+ */
 public class DataManagerTestingActivity extends AppCompatActivity {
 
     DataManagerAPI dataManager = DataManager.getInstance();

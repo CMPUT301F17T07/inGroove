@@ -11,6 +11,9 @@ import com.cmput301f17t07.ingroove.Model.HabitEvent;
 
 import java.util.Date;
 
+/**
+ * This activity is used to help test the back end of the program.
+ */
 public class BackEndTesting extends AppCompatActivity {
 
     @Override

@@ -11,7 +11,8 @@ import com.cmput301f17t07.ingroove.avehabit.AddHabitActivity;
 import java.util.Calendar;
 
 /**
- * Created by corey on 2017-11-13.
+ * This class is used to select a date from a calendar.  Useful for selecting when a habit should start or
+ * When a habit should occur.
  */
 
 public class DatePickerFragment extends DialogFragment{
