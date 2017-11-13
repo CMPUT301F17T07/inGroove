@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -31,6 +32,8 @@ public class HabitEventsActivity extends AppCompatActivity {
     DataManagerAPI ServerCommunicator = DataManager.getInstance();
 
     Button b_addImageButton;
+    Button b_Cancel;
+    Button b_Save;
     ImageView imageBlock;
     TextView commentBlock;
     TextView nameBlock;
@@ -49,6 +52,8 @@ public class HabitEventsActivity extends AppCompatActivity {
         //Initialize All the elements of this activity
         imageBlock = (ImageView) findViewById(R.id.eventImage);
         b_addImageButton = (Button) findViewById(R.id.uploadPictureButton);
+        b_Cancel = (Button) findViewById(R.id.CancelButton);
+        b_Save = (Button) findViewById(R.id.SaveButton);
         commentBlock = (EditText) findViewById(R.id.commentText);
         nameBlock = (EditText) findViewById(R.id.nameTextBox);
 
@@ -59,6 +64,10 @@ public class HabitEventsActivity extends AppCompatActivity {
             commentBlock.setText(passed_habitEvent.getComment());
             //todo: find out how locations in the maps are done.
         }
+        else
+        {
+            imageBlock.setImageDrawable(getResources().getDrawable(R.drawable.default_event_image));
+        }
         //This should create an activity which will allow the user to pick an image.
         b_addImageButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -67,28 +76,41 @@ public class HabitEventsActivity extends AppCompatActivity {
                 startActivityForResult(photoPickerIntent, 0);
             }
         });
+
+        b_Cancel.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                CancelButtonClick();
+            }
+        });
+
+        b_Save.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                SaveButtonClick();
+            }
+        });
     }
 
     //Overrides the back press so that it also saves changes made.
     @Override
     public void onBackPressed() {
         //SaveHabitEvent();
-        editHabitEvent();
+        CancelButtonClick();
+    }
+
+    private void SaveButtonClick() {
+        SaveHabitEvent();
+        CancelButtonClick();
+    }
+
+    private void CancelButtonClick() {
         finish();
         return;
     }
 
     private void SaveHabitEvent()
     {
-        ServerCommunicator.addHabitEvent(passed_habit, GetEventInfoFromActivityElements());
-    }
-
-    private void editHabitEvent()
-    {
         HabitEvent he = GetEventInfoFromActivityElements();
-        he.setHabitID(passed_habitEvent.getHabitID());
-        he.setEventID(passed_habitEvent.getHabitID());
-        ServerCommunicator.editHabitEvent(passed_habitEvent, he);
+        ServerCommunicator.addHabitEvent(passed_habit, he);
     }
 
     private HabitEvent GetEventInfoFromActivityElements()
@@ -97,7 +119,6 @@ public class HabitEventsActivity extends AppCompatActivity {
         he.setName(nameBlock.getText().toString());
         he.setComment(commentBlock.getText().toString());
         he.setPhoto(((BitmapDrawable)imageBlock.getDrawable()).getBitmap());
-        he.setHabitID(passed_habitEvent.getHabitID());
         //todo: find out how locations in the maps are done.
         //he.setLocation();
         return he;

@@ -83,6 +83,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/save_habit" />
+    <Button
+        android:id="@+id/add_cancel_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/cancel_habit" />
 
 
 </LinearLayout>

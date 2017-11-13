@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="73dp"
         android:text="Enter Your Information"
-        tools:textSize="24dp" />
+        tools:textSize="24sp" />
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
+import com.cmput301f17t07.ingroove.HabitEventsActivity;
 import com.cmput301f17t07.ingroove.HabitStats.HabitStatsActivity;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
@@ -90,23 +91,9 @@ public class ViewHabitActivity extends AppCompatActivity {
         // add on click listeners
         log_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // @TODO save current habit changes?
-                // @TODO pass this onto the create habit event activity instead
-                // Intent intent = new Intent(getApplicationContext(), ViewHabitEventActivity.class);
-                // getApplicationContext().startActivity(intent);
-                HabitEvent event = new HabitEvent("Test Event", new Date());
-
-                // This temporary code is so that we can see habit events being added
-                // @TODO delete if this works since the add habit event view should be taking care of it
-                data.addHabitEvent(passed_habit, event);
-
-                // This temporary code just shows that the adaptor is working
-                habitEventsList = data.getHabitEvents(passed_habit);
-                hEL_Strings.clear();
-                for (HabitEvent a : habitEventsList) {
-                    hEL_Strings.add(a.getName());
-                }
-                hEL_adaptor.notifyDataSetChanged();
+                Intent intent = new Intent(getApplicationContext(), HabitEventsActivity.class);
+                intent.putExtra(HabitEventsActivity.habit_key, passed_habit);
+                getApplicationContext().startActivity(intent);
 
             }
         });
