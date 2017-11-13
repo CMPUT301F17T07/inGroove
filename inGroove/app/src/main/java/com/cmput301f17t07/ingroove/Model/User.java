@@ -151,7 +151,7 @@ public class User implements Serializable {
             return false;
         }
         User temp = (User) obj;
-        if (temp.getUserID() == this.userID) {
+        if (temp.getUserID().equals(this.userID)) {
             return true;
         } else {
             return false;

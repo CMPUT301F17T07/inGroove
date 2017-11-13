@@ -153,6 +153,7 @@ public class HabitManager {
      * @see Gson
      * @see FileOutputStream
      * @see BufferedWriter
+     * @see InGroove
      */
     private void saveLocal() {
 
@@ -182,11 +183,12 @@ public class HabitManager {
     }
 
     /**
-     * Load the local copy of the user habits from the disk if offline use of application
+     * Load the local copy of the user habits from the disk for offline use of application
      *
      * @see Gson
      * @see FileInputStream
      * @see BufferedReader
+     * @see InGroove
      */
     private void loadHabits() {
 
@@ -217,7 +219,8 @@ public class HabitManager {
     }
 
     /**
-     * Add the user to the server for the first time when they install the application
+     * method to add a habit to the server
+     * !!!!!Must be called Async!!!!!
      *
      * @param habit the habit to add to the server storage
      * @see ServerCommandManager
