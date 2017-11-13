@@ -71,20 +71,21 @@
 
         <ImageView
             android:id="@+id/userImageView"
+            android:contentDescription="@string/usr_photo"
             android:layout_width="match_parent"
             android:layout_height="236dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentTop="true"
-            app:srcCompat="@mipmap/ic_launcher_round" />
+            app:srcCompat="@android:drawable/btn_star_big_on" />
 
-        <ImageButton
+        <!-- <ImageButton
             android:id="@+id/editImageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            app:srcCompat="@android:drawable/ic_menu_edit" />
+            app:srcCompat="@android:drawable/ic_menu_edit" /> -->
     </RelativeLayout>
 
     <LinearLayout

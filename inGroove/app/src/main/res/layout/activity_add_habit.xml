@@ -78,6 +78,23 @@
         android:layout_height="wrap_content"
         android:text="Sunday" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="This habit starts on:" />
+
+    <TextView
+        android:id="@+id/add_date_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
+    <Button
+        android:id="@+id/add_date_pick_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/pick_habit_start" />
+
     <Button
         android:id="@+id/add_save_btn"
         android:layout_width="match_parent"

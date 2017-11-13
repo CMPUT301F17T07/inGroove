@@ -2,6 +2,7 @@ package com.cmput301f17t07.ingroove.UserActivityPackage;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -41,10 +42,11 @@ public class EditUserActivity extends AppCompatActivity {
     EditText userEmail;
     Button saveUser;
     Button goBack;
-    ImageButton editUserImage;
+    //ImageButton editUserImage;
     ImageView userImage;
 
     /**
+     * Allows the user to change their info or return to the user activity page
      *
      * @param savedInstanceState
      */
@@ -61,13 +63,14 @@ public class EditUserActivity extends AppCompatActivity {
             userEmail = (EditText) findViewById(R.id.userEmail);
             saveUser = (Button) findViewById(R.id.saveUser);
             goBack = (Button) findViewById(R.id.editUserBackButton);
-            editUserImage = (ImageButton) findViewById(R.id.editImageButton);
+            // editUserImage = (ImageButton) findViewById(R.id.editImageButton);
             userImage = (ImageView) findViewById(R.id.userImageView);
 
             // fill them in with the current info for user
             userName.setText(user.getName());
             userEmail.setText(user.getEmail());
-
+            Drawable drawable = getResources().getDrawable(R.drawable.austin);
+            userImage.setImageDrawable(drawable);
 
             final Context context = this.getApplicationContext();
 
@@ -104,11 +107,11 @@ public class EditUserActivity extends AppCompatActivity {
             });
 
             // change the image for the user
-            editUserImage.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-
-                }
-            });
+            // editUserImage.setOnClickListener(new View.OnClickListener() {
+            //    public void onClick(View v) {
+            //
+            //    }
+            // });
 
         }
 
