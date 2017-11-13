@@ -2,6 +2,7 @@ package com.cmput301f17t07.ingroove.Model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Representing a recurring action to be done. Habits have names and optional descriptions. They may
@@ -19,6 +20,7 @@ public class Habit implements Serializable, Identifiable {
     private String comment;
     private ArrayList<Day> repeatedDays;
     private ArrayList<String> events;
+    private Date startDate;
     private String habitID;
     private String userID;
 
@@ -38,6 +40,22 @@ public class Habit implements Serializable, Identifiable {
      */
     public void setHabitID(String habitID) {
         this.habitID = habitID;
+    }
+
+    /**
+     * Get the start date of the habit
+     * @return the start date of the habit
+     */
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    /**
+     * Set the start date of the habit
+     * @param start_date
+     */
+    public void setStartDate(Date start_date) {
+        this.startDate = start_date;
     }
 
     /**
@@ -148,13 +166,28 @@ public class Habit implements Serializable, Identifiable {
      * @see HabitEvent
      * @see Day
      */
-    public Habit(String name, String comment, ArrayList<Day> repeatedDays, ArrayList<String> events) {
+    public Habit(String name, String comment, ArrayList<Day> repeatedDays, ArrayList<String> events, Date startDate) {
         this.name = name;
         this.comment = comment;
         this.repeatedDays = repeatedDays;
         this.events = events;
         this.habitID = "";
+        this.startDate = startDate;
 
+    }
+
+    /**
+     * Alternative constructor
+     *
+     * @param name a String representing the name
+     * @param comment a String representing the comment description
+     * @param repeatedDays a list of repeating Days
+     * @param startDate a day the habit should start from
+     *
+     * @see Day
+     */
+    public Habit(String name, String comment, ArrayList<Day> repeatedDays, Date startDate) {
+        this(name,comment, repeatedDays, new ArrayList<String>(), startDate);
     }
 
     /**
@@ -167,7 +200,7 @@ public class Habit implements Serializable, Identifiable {
      * @see Day
      */
     public Habit(String name, String comment, ArrayList<Day> repeatedDays) {
-        this(name,comment, repeatedDays, new ArrayList<String>());
+        this(name,comment, repeatedDays, new ArrayList<String>(), new Date());
     }
 
     /**
@@ -179,7 +212,7 @@ public class Habit implements Serializable, Identifiable {
      * @see Day
      */
     public Habit(String name, String comment) {
-        this(name, comment,new ArrayList<Day>(), new ArrayList<String>());
+        this(name, comment,new ArrayList<Day>(), new ArrayList<String>(), new Date());
     }
 
     /**
