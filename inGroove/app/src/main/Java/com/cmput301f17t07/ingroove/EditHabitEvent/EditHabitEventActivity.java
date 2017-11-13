@@ -34,7 +34,6 @@ public class EditHabitEventActivity extends AppCompatActivity {
     Button b_addImageButton;
     Button b_Cancel;
     Button b_Save;
-    Button b_Delete;
     ImageView imageBlock;
     TextView commentBlock;
     TextView nameBlock;
@@ -51,7 +50,6 @@ public class EditHabitEventActivity extends AppCompatActivity {
         b_addImageButton = (Button) findViewById(R.id.uploadPictureButton);
         b_Cancel = (Button) findViewById(R.id.CancelButton);
         b_Save = (Button) findViewById(R.id.SaveButton);
-        b_Delete = (Button) findViewById(R.id.DeleteButton);
         commentBlock = (EditText) findViewById(R.id.commentText);
         nameBlock = (EditText) findViewById(R.id.nameTextBox);
 
@@ -83,29 +81,17 @@ public class EditHabitEventActivity extends AppCompatActivity {
                 SaveButtonClick();
             }
         });
-
-        b_Delete.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                DeleteButtonClick();
-            }
-        });
     }
-    /**
-     * Overrides the back press so that it also saves changes made.
-     */
+
+
     @Override
     public void onBackPressed() {
-        //SaveHabitEvent();
-        CancelButtonClick();
-    }
-
-    private void DeleteButtonClick(){
-        ServerCommunicator.removeHabitEvent(passed_habitEvent);
         CancelButtonClick();
     }
 
     private void SaveButtonClick() {
         SaveHabitEvent();
+        setResult(RESULT_OK);
         CancelButtonClick();
     }
 
@@ -118,6 +104,7 @@ public class EditHabitEventActivity extends AppCompatActivity {
     {
         HabitEvent he = GetEventInfoFromActivityElements();
         ServerCommunicator.editHabitEvent(passed_habitEvent, he);
+        ServerCommunicator.setPassedHabitEvent(he);
     }
 
     private HabitEvent GetEventInfoFromActivityElements()
