@@ -1,10 +1,9 @@
-package com.cmput301f17t07.ingroove;
+package com.cmput301f17t07.ingroove.EditHabitEvent;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,11 +18,13 @@ import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
+import com.cmput301f17t07.ingroove.R;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-public class HabitEventsActivity extends AppCompatActivity {
+public class EditHabitEventActivity extends AppCompatActivity {
+
     public static String habitevent_key = "habitevent_to_edit";
     public static String habit_key = "habit_to_edit";
     HabitEvent passed_habitEvent;
@@ -34,6 +35,7 @@ public class HabitEventsActivity extends AppCompatActivity {
     Button b_addImageButton;
     Button b_Cancel;
     Button b_Save;
+    Button b_Delete;
     ImageView imageBlock;
     TextView commentBlock;
     TextView nameBlock;
@@ -41,11 +43,11 @@ public class HabitEventsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_habit_events);
+        setContentView(R.layout.activity_edit_habit_event);
 
         Bundle bundle = this.getIntent().getExtras();
         passed_habitEvent = null;
-        if (bundle != null){
+        if (bundle != null) {
             passed_habitEvent = (HabitEvent) bundle.getSerializable(habitevent_key);
             passed_habit = (Habit) bundle.getSerializable(habit_key);
         }
@@ -54,19 +56,17 @@ public class HabitEventsActivity extends AppCompatActivity {
         b_addImageButton = (Button) findViewById(R.id.uploadPictureButton);
         b_Cancel = (Button) findViewById(R.id.CancelButton);
         b_Save = (Button) findViewById(R.id.SaveButton);
+        b_Delete = (Button) findViewById(R.id.DeleteButton);
         commentBlock = (EditText) findViewById(R.id.commentText);
         nameBlock = (EditText) findViewById(R.id.nameTextBox);
 
-        if(passed_habitEvent != null)
-        {
+        if (passed_habitEvent != null) {
             nameBlock.setText(passed_habitEvent.getName());
             imageBlock.setImageBitmap(passed_habitEvent.getPhoto());
             commentBlock.setText(passed_habitEvent.getComment());
             //todo: find out how locations in the maps are done.
-        }
-        else
-        {
-            imageBlock.setImageDrawable(getResources().getDrawable(R.drawable.default_event_image));
+        } else {
+            Toast.makeText(this, "ERROR: No HabitEvent was passed in.",Toast.LENGTH_LONG).show();
         }
         //This should create an activity which will allow the user to pick an image.
         b_addImageButton.setOnClickListener(new View.OnClickListener() {
@@ -88,14 +88,24 @@ public class HabitEventsActivity extends AppCompatActivity {
                 SaveButtonClick();
             }
         });
-    }
 
+        b_Delete.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                DeleteButtonClick();
+            }
+        });
+    }
     /**
      * Overrides the back press so that it also saves changes made.
      */
     @Override
     public void onBackPressed() {
         //SaveHabitEvent();
+        CancelButtonClick();
+    }
+
+    private void DeleteButtonClick(){
+        ServerCommunicator.removeHabitEvent(passed_habitEvent);
         CancelButtonClick();
     }
 
@@ -150,5 +160,4 @@ public class HabitEventsActivity extends AppCompatActivity {
             Toast.makeText(this, "You haven't picked an image",Toast.LENGTH_LONG).show();
         }
     }
-
 }
