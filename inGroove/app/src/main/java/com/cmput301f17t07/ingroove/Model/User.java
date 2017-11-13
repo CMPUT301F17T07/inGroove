@@ -1,6 +1,7 @@
 package com.cmput301f17t07.ingroove.Model;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**

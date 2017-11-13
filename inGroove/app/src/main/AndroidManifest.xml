@@ -26,6 +26,7 @@
         <activity android:name=".FollowOtherUsers.FollowActivity" />
         <activity android:name=".ViewFollowRequests.FollowRequestsActivity" />
         <activity android:name=".UserActivityPackage.UserActivity" />
+        <activity android:name=".UserActivityPackage.EditUserActivity" />
         <activity android:name=".ViewFollowersActivityPackage.ViewFollowersActivity" />
         <activity android:name=".ViewHabitEvent.ViewHabitEventActivity" />
         <activity android:name=".MainActivity">
