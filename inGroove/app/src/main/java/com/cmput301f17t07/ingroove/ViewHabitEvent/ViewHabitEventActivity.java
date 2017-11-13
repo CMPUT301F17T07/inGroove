@@ -1,6 +1,7 @@
 package com.cmput301f17t07.ingroove.ViewHabitEvent;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -69,8 +70,13 @@ public class ViewHabitEventActivity extends FragmentActivity implements OnMapRea
         habitEvent = data.getPassedHabitEvent();
 
         // Set event image
-        Drawable drawable = getResources().getDrawable(R.drawable.default_event_image);
-        he_image.setImageDrawable(drawable);
+        Bitmap photo = habitEvent.getPhoto();
+        if (photo != null) {
+            he_image.setImageBitmap(photo);
+        } else {
+            Drawable drawable = getResources().getDrawable(R.drawable.default_event_image);
+            he_image.setImageDrawable(drawable);
+        }
 
         // Set the text fields
         he_title.setText(habitEvent.getName());
