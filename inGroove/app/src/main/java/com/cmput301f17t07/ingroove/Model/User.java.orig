@@ -1,6 +1,7 @@
 package com.cmput301f17t07.ingroove.Model;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -165,11 +166,16 @@ public class User implements Serializable {
             return false;
         }
         User temp = (User) obj;
-        if (temp.getUserID() == this.userID) {
+<<<<<<< HEAD
+        return temp.getUserID().equals(this.getUserID()) && temp.getName().equals(this.getName())
+                && temp.getEmail().equals(this.getEmail()) && temp.getStreak() == this.getStreak();
+=======
+        if (temp.getUserID().equals(this.userID)) {
             return true;
         } else {
             return false;
         }
 
+>>>>>>> master
     }
 }

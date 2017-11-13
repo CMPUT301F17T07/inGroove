@@ -60,7 +60,7 @@ public class ViewHabitEventActivity extends FragmentActivity implements OnMapRea
         habitEvent = (HabitEvent) bundle.getSerializable(this.he_key);
 
         // Set event image
-        Drawable drawable = getResources().getDrawable(R.drawable.austin);
+        Drawable drawable = getResources().getDrawable(R.drawable.default_event_image);
         he_image.setImageDrawable(drawable);
 
         // Set the text fields
