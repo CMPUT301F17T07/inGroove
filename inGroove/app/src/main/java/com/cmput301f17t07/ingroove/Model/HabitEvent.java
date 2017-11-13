@@ -86,9 +86,9 @@ public class HabitEvent implements Serializable, Identifiable{
     public void setPhoto(Bitmap photo) {this.photo = photo;}
 
     /**
-     * Access to the ID, required method to be Identifiable
+     * Access to the eventID, required method to be Identifiable
      *
-     * @return a String representing the ID
+     * @return a String representing the eventID
      * @see Identifiable
      */
     public String getID() { return eventID; }

@@ -89,11 +89,20 @@ public class HabitEventManager {
         saveLocal();
     }
 
+    /**
+     * used to edit a habitEvent from the old oldHE to the newHE
+     * @param oldHE the original HabitEvent
+     * @param newHE the modified HabitEvent
+     * @return 0 for success, -1 for habitEvent not found
+     */
     public int editHabitEvent(HabitEvent oldHE, HabitEvent newHE) {
         int index = habitEvents.indexOf(oldHE);
         if (index == -1) {
             return -1;
         }
+        newHE.setEventID(oldHE.getID());
+        newHE.setHabitID(oldHE.getHabitID());
+        newHE.setUserID(oldHE.getUserID());
         habitEvents.remove(oldHE);
         habitEvents.add(index, newHE);
         saveLocal();
@@ -213,7 +222,14 @@ public class HabitEventManager {
 
 
 
-
+    /**
+     * Save a local copy of the user HabitEvents on the disk for offline use of the application
+     *
+     * @see Gson
+     * @see FileOutputStream
+     * @see BufferedWriter
+     * @see InGroove
+     */
     private void saveLocal() {
 
         try {
@@ -234,6 +250,14 @@ public class HabitEventManager {
 
     }
 
+    /**
+     * Load the local copy of the user HabitEvents from the disk for offline use of application
+     *
+     * @see Gson
+     * @see FileInputStream
+     * @see BufferedReader
+     * @see InGroove
+     */
     private void loadHabitEvents(){
 
         try {
@@ -258,6 +282,14 @@ public class HabitEventManager {
 
     }
 
+    /**
+     * method to add a HabitEvent to the server
+     * !!!!!Must be called Async!!!!!
+     *
+     * @param habitEvent the HabtEvent to add to the server storage
+     * @see ServerCommandManager
+     * @see HabitEvent
+     */
     public void addHabitEventToServer(HabitEvent habitEvent) throws Exception {
 
         Boolean isNew = true;

@@ -3,9 +3,18 @@ package com.cmput301f17t07.ingroove.DataManagers;
 import android.app.Application;
 
 /**
+ *
+ * Used to get a Context for save/Loading from files
+ *
+ * referenced:
+ * https://stackoverflow.com/questions/17441295/android-context-without-being-in-an-activity-and-other-activity-less-programmin
+ *
  * Created by Christopher Walter on 2017-11-10.
  *
- * https://stackoverflow.com/questions/17441295/android-context-without-being-in-an-activity-and-other-activity-less-programmin
+ * @see android.content.Context
+ * @see DataManager
+ * @see HabitManager
+ * @see HabitEventManager
  *
  */
 
