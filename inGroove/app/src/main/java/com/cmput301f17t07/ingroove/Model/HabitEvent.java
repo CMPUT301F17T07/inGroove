@@ -21,7 +21,7 @@ public class HabitEvent implements Serializable, Identifiable{
     private String name;
     private String comment;
     private Date day;
-    private Bitmap photo;
+    private String photo;
     private String eventID;
     private String habitID;
     private String userID;
@@ -75,7 +75,7 @@ public class HabitEvent implements Serializable, Identifiable{
      * @return a Bitmap object of the photo
      * @see Bitmap
      */
-    public Bitmap getPhoto() { return photo; }
+    public Bitmap getPhoto() { return new BitMapHelper().stringToBitMap(photo); }
 
     /**
      * Update the photo of the event
@@ -83,7 +83,7 @@ public class HabitEvent implements Serializable, Identifiable{
      * @param photo a Bitmap of the new photo
      * @see Bitmap
      */
-    public void setPhoto(Bitmap photo) {this.photo = photo;}
+    public void setPhoto(Bitmap photo) {this.photo = new BitMapHelper().bitMapToString(photo);}
 
     /**
      * Access to the eventID, required method to be Identifiable
@@ -176,10 +176,14 @@ public class HabitEvent implements Serializable, Identifiable{
         this.name = name;
         this.comment = comment;
         this.day = day;
-        this.photo = photo;
         this.habitID = HabitID;
         this.userID = UserID;
         this.location = location;
+        if (photo == null ) {
+            this.photo = "";
+        } else {
+            this.photo = new BitMapHelper().bitMapToString(photo);
+        }
     }
 
     /**

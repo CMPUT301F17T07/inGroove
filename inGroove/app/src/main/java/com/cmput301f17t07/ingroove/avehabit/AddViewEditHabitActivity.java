@@ -60,10 +60,8 @@ public class AddViewEditHabitActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_view_edit_habit);
-        Bundle bundle = this.getIntent().getExtras();
-        if (bundle != null){
-            passed_habit = (Habit) bundle.getSerializable(habit_key);
-        }
+        passed_habit = data.getPassedHabit();
+
 
         // Link up the text views
         habit_name = (EditText) findViewById(R.id.ave_habit_name);
@@ -89,7 +87,7 @@ public class AddViewEditHabitActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 // @TODO change this to an edit view, or leave as just view?
                 Intent upcomingIntent = new Intent(v.getContext(), ViewHabitEventActivity.class);
-                upcomingIntent.putExtra(ViewHabitEventActivity.he_key, habitEventsList.get(position));
+                data.setPassedHabitEvent(habitEventsList.get(position));
                 startActivityForResult(upcomingIntent, 0);
             }
         });

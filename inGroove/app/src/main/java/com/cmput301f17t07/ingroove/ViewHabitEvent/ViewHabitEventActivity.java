@@ -66,8 +66,7 @@ public class ViewHabitEventActivity extends FragmentActivity implements OnMapRea
         he_del = findViewById(R.id.view_he_delete_button);
 
         // Get the habit event to display
-        Bundle bundle = this.getIntent().getExtras();
-        habitEvent = (HabitEvent) bundle.getSerializable(this.he_key);
+        habitEvent = data.getPassedHabitEvent();
 
         // Set event image
         Drawable drawable = getResources().getDrawable(R.drawable.default_event_image);
@@ -81,7 +80,7 @@ public class ViewHabitEventActivity extends FragmentActivity implements OnMapRea
         he_edit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), EditHabitEventActivity.class);
-                intent.putExtra(EditHabitEventActivity.habitevent_key, habitEvent);
+                data.setPassedHabitEvent(habitEvent);
                 getApplicationContext().startActivity(intent);
 
             }
