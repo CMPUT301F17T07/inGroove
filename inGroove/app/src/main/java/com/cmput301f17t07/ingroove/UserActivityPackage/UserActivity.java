@@ -17,6 +17,12 @@ import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
 import com.cmput301f17t07.ingroove.navDrawer.NavigationDrawerActivity;
 
+/**
+ *  Displays the user's profile.
+ *
+ *  @see EditUserActivity
+ *  @see User
+ */
 public class UserActivity extends NavigationDrawerActivity {
     /* IMPORTANT
     This activity REQUIRES a valid serialized user object be sent via intent
@@ -27,6 +33,7 @@ public class UserActivity extends NavigationDrawerActivity {
 
     // Account data to display
     public static String user_key = "USR_ACNT";
+    public static String return_user_key = "USR_ACNT_EDITED";
     User user;
 
     // Layout items
@@ -38,6 +45,11 @@ public class UserActivity extends NavigationDrawerActivity {
     ListView friends_list;
     ImageButton edit_user_button;
 
+    /**
+     * Starts user activity and displays the users information with the option to edit.
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,34 +90,31 @@ public class UserActivity extends NavigationDrawerActivity {
             //final Context context = this.getApplicationContext();
             edit_user_button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    //Intent intent = new Intent(getApplicationContext(), EditUserActivity.class);
-                    //intent.putExtra(user_key, user);
-                    //getApplicationContext().startActivity(intent);
-
                     Intent upcomingIntent = new Intent(v.getContext(), EditUserActivity.class);
                     upcomingIntent.putExtra(EditUserActivity.user_key, user);
-                    startActivityForResult(upcomingIntent, 0);
-
+                    UserActivity.super.startActivityForResult(upcomingIntent, 1);
                 }
             });
-
 
             super.onCreateDrawer();
         }
     }
 
+    /**
+     * Refreshes user view.
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         if (requestCode == 1 && resultCode == RESULT_OK){
-            User new_habit = (User) data.getSerializableExtra(user_key);
-            user = new_habit;
-            setTextFields();
-        }
-    }
+            User changedUser = (User) data.getSerializableExtra(return_user_key);
+            user = changedUser;
 
-    private void setTextFields() {
-        name.setText(user.getName());
-        username.setText(user.getEmail());
-        //habitEventsList = data.getHabitEvents(passed_habit);
+            name.setText(user.getName());
+            username.setText(user.getEmail());
+        }
     }
 }

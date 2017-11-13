@@ -15,24 +15,32 @@ import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
 
 /**
- * Created by Ashley on 2017-11-12.
+ * Allows the user to edit their profile.
+ *
+ * @see User
+ * @see UserActivity
+ *
+ * Created by Ashley on 2017-11-11.
  */
-
 public class EditUserActivity extends AppCompatActivity {
 
+    // account related things
     DataManagerAPI data = DataManager.getInstance();
+    User user;
 
     public static String user_key = "USR_ACNT";
     String nameText;
     String emailText;
-
-    User user = null;
 
     EditText userName;
     EditText userEmail;
 
     Button saveUser;
 
+    /**
+     *
+     * @param savedInstanceState
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_edit);
@@ -57,12 +65,10 @@ public class EditUserActivity extends AppCompatActivity {
                     user.setName(nameText);
                     user.setEmail(emailText);
 
-                    Log.w("TEST TEST TEST", user.getName() + "|" + user.getEmail());
-
                     data.editUser(user);
 
                     Intent returnIntent = new Intent(context, UserActivity.class);
-                    returnIntent.putExtra(UserActivity.user_key, user);
+                    returnIntent.putExtra(UserActivity.return_user_key, user);
                     setResult(RESULT_OK, returnIntent);
                     finish();
                 }
