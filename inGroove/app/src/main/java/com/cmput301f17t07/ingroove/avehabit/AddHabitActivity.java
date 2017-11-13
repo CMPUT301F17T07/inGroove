@@ -37,6 +37,7 @@ public class AddHabitActivity extends AppCompatActivity {
     CheckBox sat;
     CheckBox sun;
     Button save_button;
+    Button cancel_button;
 
     EditText habit_name;
     EditText habit_comment;
@@ -63,20 +64,28 @@ public class AddHabitActivity extends AppCompatActivity {
 
         // Get the buttons to add on click listeners
         save_button = (Button) findViewById(R.id.add_save_btn);
+        cancel_button = (Button) findViewById(R.id.add_cancel_btn);
 
         // add on click listeners
         save_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // @TODO boundary check the text inputs
-                saveHabit();
+                if (saveHabit()){
+                    // return to the previous activity
+                    finish();
+                }
+
+            }
+        });
+        cancel_button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
                 // return to the previous activity
                 finish();
             }
         });
     }
 
-    private void saveHabit(){
-
+    private boolean saveHabit(){
+        // @TODO boundary check the text inputs
         String name = habit_name.getText().toString();
         String comment = habit_comment.getText().toString();
 
