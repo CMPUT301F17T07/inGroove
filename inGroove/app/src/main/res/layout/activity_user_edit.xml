@@ -15,7 +15,7 @@
     <TextView
         android:id="@+id/userInfoText"
         android:layout_width="match_parent"
-        android:layout_height="73dp"
+        android:layout_height="57dp"
         android:text="Enter Your Information"
         tools:textSize="24sp" />
 
@@ -65,11 +65,47 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/saveUser"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="SAVE" />
+        android:layout_height="251dp">
+
+        <ImageView
+            android:id="@+id/userImageView"
+            android:layout_width="match_parent"
+            android:layout_height="236dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentTop="true"
+            app:srcCompat="@mipmap/ic_launcher_round" />
+
+        <ImageButton
+            android:id="@+id/editImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            app:srcCompat="@android:drawable/ic_menu_edit" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/saveUser"
+            android:layout_width="102dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="SAVE" />
+
+        <Button
+            android:id="@+id/editUserBackButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="BACK" />
+    </LinearLayout>
 
 
 </LinearLayout>
