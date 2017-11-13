@@ -23,6 +23,12 @@ import com.cmput301f17t07.ingroove.R;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+/**
+ * Boundary Class to allow users to edit habit events
+ *
+ * @see HabitEvent
+ *
+ */
 public class EditHabitEventActivity extends AppCompatActivity {
 
     //Initilize variables.

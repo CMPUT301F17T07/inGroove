@@ -13,6 +13,11 @@ import com.cmput301f17t07.ingroove.navDrawer.NavigationDrawerActivity;
 
 import java.util.ArrayList;
 
+/**
+ * Boundary class that displays a user's followers
+ *
+ * @see User
+ */
 public class FollowActivity extends NavigationDrawerActivity {
     private FollowAdapter followAdapter;
     private ArrayList<User> searchedForUserList = new ArrayList<User>();
