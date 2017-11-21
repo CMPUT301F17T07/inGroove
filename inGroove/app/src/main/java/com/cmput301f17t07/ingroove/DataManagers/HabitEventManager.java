@@ -1,6 +1,7 @@
 package com.cmput301f17t07.ingroove.DataManagers;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.AddHabitEventCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommand;
@@ -60,12 +61,22 @@ public class HabitEventManager {
      * there is connection
      * @param event the new HabitEvent
      */
-    public void addHabitEvent(HabitEvent event) {
+    public int addHabitEvent(Habit habit, HabitEvent event) {
+
+        // TODO: leave the line below commented out, until the params are changed by Austin in the interface
+        // need to pull from master once he pushes
+        event.setHabitID(habit.getHabitID());
+        UniqueIDGenerator generator = new UniqueIDGenerator(habitEvents);
+        String id = generator.generateNewID();
+        event.setEventID(id);
+        Log.d("--- NEW ID ---"," generated unique ID of: " + id );
         habitEvents.add(event);
         saveLocal();
 
         ServerCommand addHabitEventCommand = new AddHabitEventCommand(event);
         ServerCommandManager.getInstance().addCommand(addHabitEventCommand);
+
+        return 0;
 
     }
 
@@ -76,10 +87,69 @@ public class HabitEventManager {
     public void removeHabitEvent(HabitEvent event) {
         habitEvents.remove(event);
         saveLocal();
-        // TODO: remove habit from server
     }
 
-    public ArrayList<HabitEvent> getHabitEvents() {
+    /**
+     * used to edit a habitEvent from the old oldHE to the newHE
+     * @param oldHE the original HabitEvent
+     * @param newHE the modified HabitEvent
+     * @return 0 for success, -1 for habitEvent not found
+     */
+    public int editHabitEvent(HabitEvent oldHE, HabitEvent newHE) {
+        int index = habitEvents.indexOf(oldHE);
+        if (index == -1) {
+            return -1;
+        }
+        newHE.setEventID(oldHE.getID());
+        newHE.setHabitID(oldHE.getHabitID());
+        newHE.setUserID(oldHE.getUserID());
+        habitEvents.remove(oldHE);
+        habitEvents.add(index, newHE);
+        saveLocal();
+        return 0;
+    }
+
+    /**
+     * Returns an list of HabitEvents for a particular habit a User has
+     *
+     * @param forHabit the habit for which the event history will be returned
+     * @return a list of events for the specific habit
+     */
+    public ArrayList<HabitEvent> getHabitEvents(Habit forHabit) {
+        if (habitEvents.size() == 0) {
+            loadHabitEvents();
+        }
+
+        Log.d("-- getHabitEvents --"," NUMBER OF EVENTS " + habitEvents.size());
+
+        ArrayList<HabitEvent> forHabitList = new ArrayList<>();
+        for (HabitEvent event: habitEvents) {
+            if (event.getHabitID() == null || forHabit.getHabitID() == null) {
+                continue;
+            }
+
+
+            if (event.getHabitID().equals(forHabit.getHabitID())) {
+                forHabitList.add(event);
+            }
+        }
+
+        Log.d("-- getHabitEvents --"," NUMBER OF EVENTS RETURNED " + forHabitList.size());
+
+        return forHabitList;
+    }
+
+    /**
+     * Returns a list of all the HabitEvents a user has, not specific to a particular habit
+     *
+     * @param forUser the user for which the event history will be returned
+     * @return a list of all events the user has logged
+     */
+    public ArrayList<HabitEvent> getHabitEvents(User forUser) {
+        if (habitEvents.size() == 0) {
+            loadHabitEvents();
+            return habitEvents;
+        }
         return habitEvents;
     }
 
@@ -152,7 +222,14 @@ public class HabitEventManager {
 
 
 
-
+    /**
+     * Save a local copy of the user HabitEvents on the disk for offline use of the application
+     *
+     * @see Gson
+     * @see FileOutputStream
+     * @see BufferedWriter
+     * @see InGroove
+     */
     private void saveLocal() {
 
         try {
@@ -166,15 +243,22 @@ public class HabitEventManager {
 
 
         } catch (FileNotFoundException e) {
-            //TODO: implement exception
+            Log.d("---- ERROR -----"," Could not save habit events locally, caught exception: " + e);
         } catch (IOException e) {
-            //TODO: implement exception
+            Log.d("---- ERROR -----"," Could not save habit events locally, caught exception: " + e);
         }
 
     }
 
+    /**
+     * Load the local copy of the user HabitEvents from the disk for offline use of application
+     *
+     * @see Gson
+     * @see FileInputStream
+     * @see BufferedReader
+     * @see InGroove
+     */
     private void loadHabitEvents(){
-        // TODO: read from file to arraylist
 
         try {
             Context context = InGroove.getInstance();
@@ -185,24 +269,35 @@ public class HabitEventManager {
 
             //Taken from https://stackoverflow.com/questions/12384064/gson-convert-from-json-to-a-typed-arraylistt
             // 2017-09-19
-            Type listType = new TypeToken<ArrayList<Habit>>(){}.getType();
+            Type listType = new TypeToken<ArrayList<HabitEvent>>(){}.getType();
             habitEvents = gson.fromJson(in, listType);
+
+            Log.d("--LOAD HABIT EVENTS--"," NUMBER OF EVENTS " + habitEvents.size());
+
 
 
         } catch (FileNotFoundException e) {
-            //TODO: implement exception
+            Log.d("---- ERROR -----"," Could not load habit events from memory, caught exception: " + e);
         }
 
     }
 
+    /**
+     * method to add a HabitEvent to the server
+     * !!!!!Must be called Async!!!!!
+     *
+     * @param habitEvent the HabtEvent to add to the server storage
+     * @see ServerCommandManager
+     * @see HabitEvent
+     */
     public void addHabitEventToServer(HabitEvent habitEvent) throws Exception {
 
         Boolean isNew = true;
 
         Index.Builder builder = new Index.Builder(habitEvent).index("cmput301f17t07_ingroove").type("habit_event");
 
-        if (habitEvent.getEventID() != null) {
-            builder.id(habitEvent.getEventID());
+        if (habitEvent.getID() != null) {
+            builder.id(habitEvent.getID());
             isNew = false;
         }
 
@@ -210,11 +305,12 @@ public class HabitEventManager {
 
         DocumentResult result = ServerCommandManager.getClient().execute(index);
         if (result.isSucceeded() && isNew) {
-            habitEvent.setEventID(result.getId());
-            saveLocal();
+            Log.d("---- ES -----"," Successfully saved event named " + habitEvent.getName() + " to ES.");
+            //habitEvent.setEventID(result.getId());
+            //saveLocal();
+        } else if (result.isSucceeded()) {
+            Log.d("---- ES -----","Successfully updated event name: " + habitEvent.getName() + " to ES.");
         }
-
-
     }
 
 

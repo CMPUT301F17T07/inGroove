@@ -21,9 +21,7 @@ public class MainActivity extends AppCompatActivity {
         // Set up the user if none exists
         User user = data.getUser();
         if (user == null){
-            user = new User("Test user 1", "randomemail@random.com");
-            data.setUser(user);
-            Log.i("tag", "onCreate: Creating new user");
+            data.addUser("123 Test Username");
         }
 
 

@@ -1,6 +1,7 @@
 package com.cmput301f17t07.ingroove.navDrawer;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -10,41 +11,54 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.cmput301f17t07.ingroove.CurrentHabitsActivity;
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
-import com.cmput301f17t07.ingroove.DataManagers.MockDataManager;
+import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.FollowOtherUsers.FollowActivity;
 import com.cmput301f17t07.ingroove.MapsActivity;
 import com.cmput301f17t07.ingroove.R;
 import com.cmput301f17t07.ingroove.UserActivityPackage.UserActivity;
 import com.cmput301f17t07.ingroove.ViewFollowRequests.FollowRequestsActivity;
 import com.cmput301f17t07.ingroove.ViewFollowersActivityPackage.ViewFollowersActivity;
-import com.cmput301f17t07.ingroove.ViewMapActivity;
 
 
 /**
  * Created by corey on 2017-11-04.
  */
 
+@SuppressLint("Registered")
 public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
-    DataManagerAPI data = new MockDataManager().getInstance();
 
+    // Data Manager
+    DataManagerAPI data = DataManager.getInstance();
+
+    // Interface variables
+    Toolbar toolbar;
+    DrawerLayout drawer;
+    NavigationView navigationView;
 
     protected void onCreateDrawer() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        updateHeader(data.getUser().getName());
     }
 
     @Override
@@ -79,6 +93,12 @@ public class NavigationDrawerActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Creates a new intent based on what the user selected in the navigation drawer.
+     * Can be used to quickly navigate through the app, instead using buttons or the back button.
+     * @param item
+     * @return
+     */
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -113,5 +133,13 @@ public class NavigationDrawerActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void updateHeader(String name){
+        // @TODO update the user image as well
+        View header = navigationView.getHeaderView(0);
+
+        TextView textView = (TextView) header.findViewById(R.id.nav_header_name);
+        textView.setText(name);
     }
 }

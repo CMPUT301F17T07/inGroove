@@ -11,6 +11,9 @@ import com.cmput301f17t07.ingroove.Model.HabitEvent;
 
 import java.util.Date;
 
+/**
+ * This activity is used to help test the back end of the program.
+ */
 public class BackEndTesting extends AppCompatActivity {
 
     @Override
@@ -30,7 +33,7 @@ public class BackEndTesting extends AppCompatActivity {
         HabitEvent event1 = new HabitEvent("testEvent2", new Date());
         event1.setHabitID(habit1.getHabitID());
 
-        dataManager.addHabitEvent(event1);
+        dataManager.addHabitEvent(habit1, event1);
 
         ServerCommandManager.getInstance().execute();
 

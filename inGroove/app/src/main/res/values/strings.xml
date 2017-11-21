@@ -24,6 +24,9 @@
     <string name="edit_habit_interval">Change Interval</string>
     <string name="save_habit">Save</string>
     <string name="delete_habit">Delete</string>
+    <string name="cancel_habit">Cancel</string>
+    <string name="pick_habit_start">Choose Start Date</string>
+
 
     // main body
     <string name="habit_name_hint">Habit Name</string>
@@ -40,6 +43,20 @@
     <string name="missed_habits_test_value">90</string>
     <string name="title_activity_maps">Map</string>
     <string name="habit_name">habit_stats_name</string>
+    <string name="progress_bar_prct">progress_bar_prct</string>
+    <string name="progress_level">progress_level</string>
+
+    /* Content descriptions */
+    <string name="event_image">A picture used to describe the event</string>
+    <string name="search_btn">Use this button to search for users</string>
+    <string name="usr_photo">A photo of the user</string>
+    <string name="edit_usr_btn">Edit the user with this button</string>
+    <string name="accept_request">Accept the request by this user to follow you</string>
+    <string name="reject_request">Reject the request by this user to follow you</string>
+    <string name="send_request">Send a request to follow this user</string>
+    <string name="streak_image">Picture to describe the users streak level</string>
+    <string name="view_he_del_btn">Delete this habit event</string>
+    <string name="view_he_edit_btn">Edit this habit event</string>
 
 
 </resources>

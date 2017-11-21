@@ -7,27 +7,55 @@
     tools:context="com.cmput301f17t07.ingroove.ViewHabitEvent.ViewHabitEventActivity">
 
     <TextView
-        android:id="@+id/textView14"
+        android:id="@+id/view_he_event_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:text="HabitEventTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/view_he_delete_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Delete"
+        app:layout_constraintBottom_toTopOf="@+id/view_he_event_image"
+        app:layout_constraintEnd_toStartOf="@+id/view_he_edit_button"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/view_he_edit_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Edit"
+        app:layout_constraintBottom_toTopOf="@+id/view_he_event_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
-        android:id="@+id/textView15"
+        android:id="@+id/view_he_event_comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:text="CommentText"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView14" />
+        app:layout_constraintTop_toBottomOf="@+id/view_he_event_title" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/view_he_event_image"
+        android:contentDescription="@string/event_image"
         android:layout_width="0dp"
         android:layout_height="295dp"
         android:layout_marginEnd="8dp"
@@ -35,7 +63,7 @@
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView15"
+        app:layout_constraintTop_toBottomOf="@+id/view_he_event_comment"
         app:srcCompat="@android:drawable/btn_star_big_on" />
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
@@ -51,5 +79,5 @@
         map:layout_constraintBottom_toBottomOf="parent"
         map:layout_constraintEnd_toEndOf="parent"
         map:layout_constraintStart_toStartOf="parent"
-        map:layout_constraintTop_toBottomOf="@+id/imageView3" />
+        map:layout_constraintTop_toBottomOf="@+id/view_he_event_image" />
 </android.support.constraint.ConstraintLayout>
