@@ -23,6 +23,8 @@ import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -33,6 +35,10 @@ import java.io.InputStream;
 public class HabitEventsActivity extends AppCompatActivity {
     public static String habitevent_key = "habitevent_to_edit";
     public static String habit_key = "habit_to_edit";
+
+    // Enables getting the phones location
+    private FusedLocationProviderClient mFusedLocationClient;
+
     HabitEvent passed_habitEvent;
     Habit passed_habit;
 
@@ -50,6 +56,9 @@ public class HabitEventsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_habit_events);
+
+        // Set up location services
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         passed_habitEvent = ServerCommunicator.getPassedHabitEvent();
         passed_habit = ServerCommunicator.getPassedHabit();
@@ -143,7 +152,7 @@ public class HabitEventsActivity extends AppCompatActivity {
         he.setComment(commentBlock.getText().toString());
         he.setPhoto(((BitmapDrawable)imageBlock.getDrawable()).getBitmap());
         //todo: find out how locations in the maps are done.
-        //he.setLocation();
+        he.setLocation();
         return he;
     }
 

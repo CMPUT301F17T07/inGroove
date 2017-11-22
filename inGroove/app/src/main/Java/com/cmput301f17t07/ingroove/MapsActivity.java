@@ -56,7 +56,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // since this version doesn't support social aspects this code finds the events within
         // 5km of the user from the user him/her self.
         ArrayList<Habit> habits = data.getHabit(data.getUser());
-        ArrayList<HabitEvent> close_events = new ArrayList<>();
+        ArrayList<HabitEvent> close_events = data.getHabitEventsWithinRange(5);
+
+        // For testing purposes, this will add the users events too so you can see it working.
+        // @TODO delete
         ArrayList<HabitEvent> events;
         for ( Habit h : habits){
             events = data.getHabitEvents(h);
