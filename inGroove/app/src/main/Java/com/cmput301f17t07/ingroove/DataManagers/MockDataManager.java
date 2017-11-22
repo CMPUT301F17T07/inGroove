@@ -4,6 +4,8 @@ import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.Model.User;
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -178,7 +180,7 @@ public class MockDataManager implements DataManagerAPI {
      * @param userName String representing the user's username
      * @return Can we return 0 if success, -1 if any issues instead of a string
      */
-    public String addUser(String userName) {
+    public boolean addUser(String userName) {
         users.add(new User(userName, "HARDCODED EMAIL"));
         return userName;
     }
@@ -343,11 +345,12 @@ public class MockDataManager implements DataManagerAPI {
     /**
      * Get the habit events within a specified radius
      *
-     * @param range the radius in kilometers
+     * @param radius the radius in kilometers
+     * @param centre the centre of the circle to find habit events within
      * @return a list of the habit events
      */
     @Override
-    public ArrayList<HabitEvent> getHabitEventsWithinRange(int range) {
+    public ArrayList<HabitEvent> getHabitEventsWithinRange(int radius, LatLng centre) {
         return null;
     }
 }
