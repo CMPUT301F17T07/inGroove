@@ -178,4 +178,87 @@ public interface DataManagerAPI {
      */
     void setPassedHabitEvent(HabitEvent passedHabitEvent);
 
+    /**
+     * Retrieve the current users who want to follow the current user
+     *
+     * @return an array list of users who want to follow the current user
+     */
+    ArrayList<User> getFollowRequests();
+
+    /**
+     * Accept a follow request by a user
+     *
+     * @param user the user that is allowed to follow the current user
+     * @return true if the acceptance was successful, false if not
+     */
+    Boolean acceptRequest(User user);
+
+    /**
+     * Reject a pending follow request
+     *
+     * @param user
+     * @return true if the rejection was successful, false if not
+     */
+    Boolean rejectRequest(User user);
+
+    /**
+     * Get the users which the specified user follows
+     *
+     * @param user the user you want to get the followers of
+     * @return a list of the particular user's followers
+     */
+    ArrayList<User> getWhoThisUserFollows(User user);
+
+    /**
+     * Gets the followers of a particular user
+     *
+     * @param user a list of users who follow the specified user
+     * @return a list of users who follow the specified user
+     */
+    ArrayList<User> getWhoFollows(User user);
+
+    /**
+     * Search users
+     *
+     * @param query the search query
+     * @param alreadyFollowing if true, do not include the users you are already following
+     * @param minStreak the min streak to include
+     * @return a list of the users who meet the criteria
+     */
+    ArrayList<User> findUsers(String query, Boolean alreadyFollowing, int minStreak);
+
+    /**
+     * Send a request to follow the user
+     *
+     * @param user the user the current user wants to follow
+     * @return true if success, false if not
+     */
+    Boolean sendFollowRequest(User user);
+
+    /**
+     * Search Habits
+     *
+     * @param query the search query
+     * @return a list of habits that contain the search query
+     */
+    ArrayList<Habit> findHabits(String query);
+
+    /**
+     * Search HabitEvents
+     *
+     * @param query the search query
+     * @return a list of habits that contain the search query
+     */
+    ArrayList<HabitEvent> findHabitEvents(String query);
+
+
+    /**
+     * Get the habit events within a specified radius
+     *
+     * @param range the radius in kilometers
+     * @return a list of the habit events
+     */
+    ArrayList<HabitEvent> getHabitEventsWithinRange(int range);
+    
+
 }
