@@ -76,6 +76,9 @@ public class HabitManager {
         saveLocal();
         ServerCommand addHabitCommand = new AddHabitCommand(user, habit);
         ServerCommandManager.getInstance().addCommand(addHabitCommand);
+
+        //TODO: update this to the job scheduler
+        ServerCommandManager.getInstance().execute();
     }
 
     /**
@@ -112,6 +115,12 @@ public class HabitManager {
         saveLocal();
 
         //TODO: update server
+        ServerCommand updateHabitCommand = new AddHabitCommand(DataManager.getInstance().getUser(), newHabit);
+        ServerCommandManager.getInstance().addCommand(updateHabitCommand);
+
+        //TODO: update this to the job scheduler
+        ServerCommandManager.getInstance().execute();
+
         return 0;
     }
 
