@@ -129,7 +129,7 @@ public interface DataManagerAPI {
      * Adds a new user to storage.
      *
      * @param userName a string representing the user's username
-     * @return 0 if success, -1 if any issues
+     * @return true if success, false if any issues
      * @see User
      */
     boolean addUser(String userName);

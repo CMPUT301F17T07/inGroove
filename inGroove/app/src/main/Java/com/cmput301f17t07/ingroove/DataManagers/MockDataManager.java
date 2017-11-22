@@ -178,11 +178,11 @@ public class MockDataManager implements DataManagerAPI {
      * Add a new user
      *
      * @param userName String representing the user's username
-     * @return Can we return 0 if success, -1 if any issues instead of a string
+     * @return true if success, false if not
      */
     public boolean addUser(String userName) {
         users.add(new User(userName, "HARDCODED EMAIL"));
-        return userName;
+        return true;
     }
 
     /**

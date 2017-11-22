@@ -70,6 +70,8 @@ public class HabitManager {
         habit.setHabitID(id);
         Log.d("--- NEW ID ---"," generated unique ID of: " + id );
 
+        habit.setUserID(user.getUserID());
+
         habits.add(habit);
         saveLocal();
         ServerCommand addHabitCommand = new AddHabitCommand(user, habit);
@@ -85,6 +87,9 @@ public class HabitManager {
     public void removeHabit(User user, Habit habit) {
         habits.remove(habit);
         saveLocal();
+
+        // TODO: remove habit from server
+        // TODO: do somthing about the events that belong to this habit
     }
 
     /**
@@ -102,8 +107,11 @@ public class HabitManager {
         }
         habits.remove(oldHabit);
         newHabit.setHabitID(oldHabit.getHabitID());
+        newHabit.setUserID(oldHabit.getUserID());
         habits.add(index, newHabit);
         saveLocal();
+
+        //TODO: update server
         return 0;
     }
 
@@ -113,6 +121,7 @@ public class HabitManager {
      * @return a list of habit objects
      * @see Habit
      */
+    //TODO: update so it gets habits for a user
     public ArrayList<Habit> getHabits() {
 
         if (habits.size() == 0) {
@@ -232,8 +241,8 @@ public class HabitManager {
 
         Index.Builder builder = new Index.Builder(habit).index("cmput301f17t07_ingroove").type("habit");
 
-        if (habit.getHabitID() != null) {
-            builder.id(habit.getHabitID());
+        if (habit.getServerID() != null) {
+            builder.id(habit.getServerID());
             isNew = false;
         }
 

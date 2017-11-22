@@ -25,6 +25,66 @@ public class Habit implements Serializable, Identifiable {
     private String userID;
 
     /**
+     * Construct a new Habit
+     *
+     * @param name a String representing the name
+     * @param comment a String representing the optional comment description
+     * @param repeatedDays a list of repeating days for the habit to occur
+     * @param events a list of String IDs representing events logged for the habit
+     *
+     * @see HabitEvent
+     * @see Day
+     */
+    public Habit(String name, String comment, ArrayList<Day> repeatedDays, ArrayList<String> events, Date startDate) {
+        this.name = name;
+        this.comment = comment;
+        this.repeatedDays = repeatedDays;
+        this.events = events;
+        this.habitID = "";
+        this.startDate = startDate;
+
+    }
+
+    /**
+     * Alternative constructor
+     *
+     * @param name a String representing the name
+     * @param comment a String representing the comment description
+     * @param repeatedDays a list of repeating Days
+     * @param startDate a day the habit should start from
+     *
+     * @see Day
+     */
+    public Habit(String name, String comment, ArrayList<Day> repeatedDays, Date startDate) {
+        this(name,comment, repeatedDays, new ArrayList<String>(), startDate);
+    }
+
+    /**
+     * Alternative constructor
+     *
+     * @param name a String representing the name
+     * @param comment a String representing the comment description
+     * @param repeatedDays a list of repeating Days
+     *
+     * @see Day
+     */
+    public Habit(String name, String comment, ArrayList<Day> repeatedDays) {
+        this(name,comment, repeatedDays, new ArrayList<String>(), new Date());
+    }
+
+    /**
+     * Alternative constructor
+     *
+     * @param name a String representing the name
+     * @param comment a String representing the comment description
+     *
+     * @see Day
+     */
+    public Habit(String name, String comment) {
+        this(name, comment,new ArrayList<Day>(), new ArrayList<String>(), new Date());
+    }
+
+    /**
      * Provide access to the Habit ID
      *
      * @return the String ID
@@ -40,6 +100,22 @@ public class Habit implements Serializable, Identifiable {
      */
     public void setHabitID(String habitID) {
         this.habitID = habitID;
+    }
+
+    /**
+     * gets the UserId of the user this habit belongs to
+     * @return gets the UserId of the user this habit belongs to
+     */
+    public String getUserID() {
+        return userID;
+    }
+
+    /**
+     * sets the user that this habit belongs to
+     * @param userID the userId that this habit belongs to
+     */
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
     /**
@@ -64,8 +140,25 @@ public class Habit implements Serializable, Identifiable {
      * @return a String of the Habit ID
      * @see Identifiable
      */
-    public String getID() {
-        return userID;
+    public String getLocalID() {
+        return habitID;
+    }
+
+    /**
+     * Provides access to the id used for elastic search
+     * the id is a combination of the user id and and its local id
+     *
+     * @return "userId" + "localId"
+     * @return null means error needs a userId
+     *
+     */
+    @Override
+    public String getServerID() {
+        if (userID != null && !userID.equals("")) {
+            return userID + habitID;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -153,66 +246,6 @@ public class Habit implements Serializable, Identifiable {
      */
     public void setEvents(ArrayList<String> events) {
         this.events = events;
-    }
-
-    /**
-     * Construct a new Habit
-     *
-     * @param name a String representing the name
-     * @param comment a String representing the optional comment description
-     * @param repeatedDays a list of repeating days for the habit to occur
-     * @param events a list of String IDs representing events logged for the habit
-     *
-     * @see HabitEvent
-     * @see Day
-     */
-    public Habit(String name, String comment, ArrayList<Day> repeatedDays, ArrayList<String> events, Date startDate) {
-        this.name = name;
-        this.comment = comment;
-        this.repeatedDays = repeatedDays;
-        this.events = events;
-        this.habitID = "";
-        this.startDate = startDate;
-
-    }
-
-    /**
-     * Alternative constructor
-     *
-     * @param name a String representing the name
-     * @param comment a String representing the comment description
-     * @param repeatedDays a list of repeating Days
-     * @param startDate a day the habit should start from
-     *
-     * @see Day
-     */
-    public Habit(String name, String comment, ArrayList<Day> repeatedDays, Date startDate) {
-        this(name,comment, repeatedDays, new ArrayList<String>(), startDate);
-    }
-
-    /**
-     * Alternative constructor
-     *
-     * @param name a String representing the name
-     * @param comment a String representing the comment description
-     * @param repeatedDays a list of repeating Days
-     *
-     * @see Day
-     */
-    public Habit(String name, String comment, ArrayList<Day> repeatedDays) {
-        this(name,comment, repeatedDays, new ArrayList<String>(), new Date());
-    }
-
-    /**
-     * Alternative constructor
-     *
-     * @param name a String representing the name
-     * @param comment a String representing the comment description
-     *
-     * @see Day
-     */
-    public Habit(String name, String comment) {
-        this(name, comment,new ArrayList<Day>(), new ArrayList<String>(), new Date());
     }
 
     /**
