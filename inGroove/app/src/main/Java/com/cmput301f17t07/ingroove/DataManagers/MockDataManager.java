@@ -180,7 +180,7 @@ public class MockDataManager implements DataManagerAPI {
      * @param userName String representing the user's username
      * @return Can we return 0 if success, -1 if any issues instead of a string
      */
-    public String addUser(String userName) {
+    public boolean addUser(String userName) {
         users.add(new User(userName, "HARDCODED EMAIL"));
         return userName;
     }

@@ -105,6 +105,7 @@ public interface DataManagerAPI {
     int editHabitEvent(HabitEvent oldHabitEvent, HabitEvent newHabitEvent);
 
     // TODO: CAN WE REMOVE THIS METHOD? WE DO NOT NEED IT.
+    // TODO: I ALREADY SAID WE CANT GET RID OF THIS
     int editUser(User user);
 
     /**
@@ -127,12 +128,11 @@ public interface DataManagerAPI {
     /**
      * Adds a new user to storage.
      *
-     * @param s a string representing the user's username
+     * @param userName a string representing the user's username
      * @return 0 if success, -1 if any issues
      * @see User
      */
-    // TODO: WHY ARE WE RETURNING A STRING?
-    String addUser(String s);
+    boolean addUser(String userName);
 
     /**
      * used to pass users between activities
