@@ -107,19 +107,6 @@ public class HabitEvent implements Serializable, Identifiable{
     public void setEventID(String id) {this.eventID = id;}
 
     /**
-     * Access to the location as a string
-     *
-     * @return a String representing the location of the event completion
-     */
-    public String getLocation() {
-        if (location == null) {
-            return "";
-        } else {
-            return location;
-        }
-    }
-
-    /**
      * Access to the user who completed the event
      *
      * @return a String representing the user's ID
@@ -140,11 +127,22 @@ public class HabitEvent implements Serializable, Identifiable{
     }
 
     /**
+     * Access to the location as a string
+     *
+     * @return a String representing the location of the event completion
+     */
+    public LatLng getLocation() {
+        return stringToLatLng(location);
+    }
+
+    /**
      * Update the location of the event
      *
      * @param location a String representing the new location
      */
-    public void setLocation(String location) {  this.location = location;}
+    public void setLocation(LatLng location) {
+        this.location = latLngToString(location);
+    }
 
     /**
      * Access to the habit for which the even was logged
@@ -178,13 +176,13 @@ public class HabitEvent implements Serializable, Identifiable{
      * @param UserID the user who completed the habit
      * @param location an optional location of completion
      */
-    public HabitEvent(String name, String comment, Date day, Bitmap photo, String HabitID, String UserID, String location){
+    public HabitEvent(String name, String comment, Date day, Bitmap photo, String HabitID, String UserID, LatLng location){
         this.name = name;
         this.comment = comment;
         this.day = day;
         this.habitID = HabitID;
         this.userID = UserID;
-        this.location = location;
+        this.location = latLngToString(location);
         if (photo == null ) {
             this.photo = null;
         } else {
@@ -197,7 +195,7 @@ public class HabitEvent implements Serializable, Identifiable{
      */
     // TODO: WHY DO WE HAVE THIS CONSTRUCTOR? THIS SHOULD NEVER BE USED
     public HabitEvent() {
-        this("","", new Date(), null, "","","");
+        this("","", new Date(), null, "","", null);
     }
 
     /**
@@ -212,7 +210,7 @@ public class HabitEvent implements Serializable, Identifiable{
      *
      */
     public HabitEvent(String name, String comment, Date day, Bitmap photo, String HabitID, String UserID){
-        this(name, comment, day, photo, HabitID, UserID,"");
+        this(name, comment, day, photo, HabitID, UserID, null);
     }
 
     /**
@@ -225,7 +223,7 @@ public class HabitEvent implements Serializable, Identifiable{
      * @param UserID the user who completed the habit
      * @param location an optional location of completion
      */
-    public HabitEvent(String name, String comment, Date day, String HabitID, String UserID, String location){
+    public HabitEvent(String name, String comment, Date day, String HabitID, String UserID, LatLng location){
         this(name, comment, day, null, HabitID, UserID, location);
     }
 
@@ -239,7 +237,7 @@ public class HabitEvent implements Serializable, Identifiable{
      * @param userID the user who completed the habit
      */
     public HabitEvent(String name, String comment, Date day, String habitID, String userID) {
-        this(name, comment, day, null, habitID, userID, "");
+        this(name, comment, day, null, habitID, userID, null);
     }
 
     /**
@@ -250,7 +248,7 @@ public class HabitEvent implements Serializable, Identifiable{
      * @param location an optional location of completion
      */
     // TODO: WHY DO WE HAVE THIS CONSTRUCTOR? THIS SHOUDL NEVER BE USED
-    public HabitEvent(String name, Date day, String location) {
+    public HabitEvent(String name, Date day, LatLng location) {
         this(name, "", day, null,"","",location);
     }
 
@@ -261,7 +259,7 @@ public class HabitEvent implements Serializable, Identifiable{
      * @param day a Date representing the day of completion
      */
     public HabitEvent(String name, Date day) {
-        this(name,"",day,null,"","","");
+        this(name,"",day,null,"","",null);
     }
 
     /**
@@ -294,25 +292,41 @@ public class HabitEvent implements Serializable, Identifiable{
         return temp.getName().equals(this.name) && temp.getDay().compareTo(this.day) == 0 && temp.getID().equals(this.eventID);
     }
 
+
     /**
-     * Convert the location to a LatLng representation for GoogleMaps
-     * The default location is set to the University of Alberta for now, but will be updated in
-     * the part 5 release to a more suitable default
-     *
-     * @return a LatLng representation of the HabitEvent location
+     * Convert a string to a LatLng
+     * @param locationString the string to convert to LatLng in form "lat,lng"
+     * @return the LatLng object
      * @see LatLng
      */
-    public LatLng locationToLatLng() {
+    private LatLng stringToLatLng(String locationString) {
 
-        if (!location.equals("") || location != null) {
-            String[] latlng = location.split(",");
-            double lat = Double.parseDouble(latlng[0]);
-            double lng = Double.parseDouble(latlng[1]);
-            return new LatLng(lat, lng);
+        if (locationString != null && !locationString.equals("")) {
+            String[] latlngString = locationString.split(",");
+            double lat = Double.parseDouble(latlngString[0]);
+            double lng = Double.parseDouble(latlngString[1]);
+            return new LatLng(lat,lng);
         } else {
-            // Default location is UofA for now
-            // coordinates: 53.5232,-113.5263
-            return new LatLng(53.5232, -113.5263);
+            return null;
+        }
+
+    }
+
+    /**
+     * Converts a LatLng object to a string for easier storage on elasticsearch
+     * @param locationLatLng the LatLng object to be converted
+     * @return the String in form "lat,lng"
+     * @see LatLng
+     */
+    private String latLngToString(LatLng locationLatLng) {
+
+        if (locationLatLng != null) {
+            double lat = locationLatLng.latitude;
+            double lng = locationLatLng.longitude;
+            String locationString = String.valueOf(lat) + "," + String.valueOf(lng);
+            return locationString;
+        } else {
+            return null;
         }
     }
 }
