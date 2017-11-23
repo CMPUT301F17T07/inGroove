@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.AddHabitEventCommand;
+import com.cmput301f17t07.ingroove.DataManagers.Command.DeleteHabitEvent;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
 import com.cmput301f17t07.ingroove.Model.Habit;
@@ -24,6 +25,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
 
+import io.searchbox.core.Delete;
 import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
 
@@ -63,9 +65,8 @@ public class HabitEventManager {
      */
     public int addHabitEvent(Habit habit, HabitEvent event) {
 
-        // TODO: leave the line below commented out, until the params are changed by Austin in the interface
-        // need to pull from master once he pushes
         event.setHabitID(habit.getHabitID());
+        event.setUserID(habit.getUserID());
         UniqueIDGenerator generator = new UniqueIDGenerator(habitEvents);
         String id = generator.generateNewID();
         event.setEventID(id);
@@ -75,6 +76,9 @@ public class HabitEventManager {
 
         ServerCommand addHabitEventCommand = new AddHabitEventCommand(event);
         ServerCommandManager.getInstance().addCommand(addHabitEventCommand);
+
+        //TODO: update this to the job scheduler
+        ServerCommandManager.getInstance().execute();
 
         return 0;
 
@@ -87,6 +91,13 @@ public class HabitEventManager {
     public void removeHabitEvent(HabitEvent event) {
         habitEvents.remove(event);
         saveLocal();
+
+        ServerCommand deleteHabitEventCommand = new DeleteHabitEvent(event);
+        ServerCommandManager.getInstance().addCommand(deleteHabitEventCommand);
+
+        //TODO: update this to the job scheduler
+        ServerCommandManager.getInstance().execute();
+
     }
 
     /**
@@ -100,12 +111,20 @@ public class HabitEventManager {
         if (index == -1) {
             return -1;
         }
-        newHE.setEventID(oldHE.getID());
+        newHE.setEventID(oldHE.getLocalID());
         newHE.setHabitID(oldHE.getHabitID());
         newHE.setUserID(oldHE.getUserID());
         habitEvents.remove(oldHE);
         habitEvents.add(index, newHE);
         saveLocal();
+
+        //TODO: update server
+        ServerCommand addHabitEventCommand = new AddHabitEventCommand(newHE);
+        ServerCommandManager.getInstance().addCommand(addHabitEventCommand);
+
+        //TODO: update this to the job scheduler
+        ServerCommandManager.getInstance().execute();
+
         return 0;
     }
 
@@ -115,6 +134,7 @@ public class HabitEventManager {
      * @param forHabit the habit for which the event history will be returned
      * @return a list of events for the specific habit
      */
+    // TODO: will this work for other users habits???
     public ArrayList<HabitEvent> getHabitEvents(Habit forHabit) {
         if (habitEvents.size() == 0) {
             loadHabitEvents();
@@ -145,6 +165,7 @@ public class HabitEventManager {
      * @param forUser the user for which the event history will be returned
      * @return a list of all events the user has logged
      */
+    // TODO: implement getting habits for other users
     public ArrayList<HabitEvent> getHabitEvents(User forUser) {
         if (habitEvents.size() == 0) {
             loadHabitEvents();
@@ -296,8 +317,8 @@ public class HabitEventManager {
 
         Index.Builder builder = new Index.Builder(habitEvent).index("cmput301f17t07_ingroove").type("habit_event");
 
-        if (habitEvent.getID() != null) {
-            builder.id(habitEvent.getID());
+        if (habitEvent.getServerID() != null) {
+            builder.id(habitEvent.getServerID());
             isNew = false;
         }
 
@@ -311,6 +332,19 @@ public class HabitEventManager {
         } else if (result.isSucceeded()) {
             Log.d("---- ES -----","Successfully updated event name: " + habitEvent.getName() + " to ES.");
         }
+    }
+
+
+    public void deleteHabitEventFromServer(HabitEvent habitEvent) throws Exception {
+
+        Delete.Builder builder = new Delete.Builder(habitEvent.getServerID()).index("cmput301f17t07_ingroove").type("habit_event");
+
+        Delete index = builder.build();
+        DocumentResult result = ServerCommandManager.getClient().execute(index);
+        if (result.isSucceeded()) {
+            Log.d("---- ES -----"," Successfully Deleted event named " + habitEvent.getName() + " from ES.");
+        }
+
     }
 
 

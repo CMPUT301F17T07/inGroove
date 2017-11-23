@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         // Set up the user if none exists
         User user = data.getUser();
         if (user == null){
-            data.addUser("123 Test Username");
+            data.addUser("data Manager testing");
         }
 
 

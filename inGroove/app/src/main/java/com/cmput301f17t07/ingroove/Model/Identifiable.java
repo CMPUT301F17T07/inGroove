@@ -9,9 +9,20 @@ package com.cmput301f17t07.ingroove.Model;
 public interface Identifiable {
 
     /**
-     * Must provide access to their string ID
+     * Must provide access to their local string ID that identifies that object
      *
-     * @return the String ID for that object
+     * @return the local String ID for that object
+     * @return null means error needs a userId
      */
-    public String getID();
+    String getLocalID();
+
+
+    /**
+     * Provides access to the id used for elastic search
+     * the id is a combination of the user id and and its local id
+     *
+     * @return "userId" + "localId"
+     */
+    String getServerID();
+
 }
