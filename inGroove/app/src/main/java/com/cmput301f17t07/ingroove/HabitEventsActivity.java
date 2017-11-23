@@ -49,7 +49,7 @@ public class HabitEventsActivity extends AppCompatActivity {
     public static String habit_key = "habit_to_edit";
 
     // Location Variables
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = HabitEventsActivity.class.getSimpleName();
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
 
     /**

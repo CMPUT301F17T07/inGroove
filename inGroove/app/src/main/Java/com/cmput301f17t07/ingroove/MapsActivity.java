@@ -18,6 +18,8 @@ import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -34,7 +36,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     DataManagerAPI data = DataManager.getInstance();
 
-    private GoogleMap mMap;
+    private GoogleMap mMap = null;
+
+    // Location Variables
+    private static final String TAG = MapsActivity.class.getSimpleName();
+    private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
+
+    /**
+     * Provides the entry point to the Fused Location Provider API.
+     */
+    private FusedLocationProviderClient mFusedLocationClient;
+
+    /**
+     * Represents a geographical location.
+     */
+    protected Location mLastLocation;
+    boolean map_rdy = false;
+    boolean loc_rdy = false;
+    boolean tot_rdy = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +63,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        // Location setup
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if (!checkPermissions()) {
+            requestPermissions();
+        } else {
+            getLastLocation();
+        }
     }
 
 
@@ -59,17 +93,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        map_rdy = true;
 
         // Add a marker in Sydney and move the camera
         //LatLng sydney = new LatLng(-34, 151);
         //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
+        if (loc_rdy){
+            setup_map();
+        }
+    }
+
+    public void setup_map(){
+        if(tot_rdy){
+            return;
+        }
+        tot_rdy = true;
+        // We dont know which call will finish first, the map, or the location
+        // So each caller checks to see if the other has finished already and if
+        // so then sets up the map
         // @TODO One of the use cases is to see habit events of those the user follows within 5km
         // since this version doesn't support social aspects this code finds the events within
         // 5km of the user from the user him/her self.
         ArrayList<Habit> habits = data.getHabit(data.getUser());
-        ArrayList<HabitEvent> close_events = data.getHabitEventsWithinRange(5, new LatLng(53.5232, -113.5263));
+        LatLng userLoc = new LatLng(mLastLocation.getLatitude(),mLastLocation.getLongitude());
+        ArrayList<HabitEvent> close_events = data.getHabitEventsWithinRange(5, userLoc);
 
         // For testing purposes, this will add the users events too so you can see it working.
         // @TODO delete
@@ -77,9 +126,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         for ( Habit h : habits){
             events = data.getHabitEvents(h);
             for (HabitEvent e : events){
-                if (isClose(e)){
-                    close_events.add(e);
-                }
+                close_events.add(e);
             }
         }
         ArrayList<LatLng> points = new ArrayList<>();
@@ -87,17 +134,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Random rand = new Random(9);
         for (HabitEvent e : close_events){
             // @TODO Use the actual location instead of a random jitter around the U of A
-            LatLng loc = new LatLng(53.5232 + rand.nextDouble()/100.1, -113.5263 + rand.nextDouble()/100.1);
-            points.add(i, loc);
-            mMap.addMarker(new MarkerOptions().position(points.get(i)).title(e.getName()));
+            LatLng loc = e.getLocation();
+            mMap.addMarker(new MarkerOptions().position(loc).title(e.getName()));
         }
-        LatLng university = new LatLng(53.5232, -113.5263);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(university));
-    }
-
-    private boolean isClose(HabitEvent event){
-        // @TODO check if event is within 5km of location
-        return true;
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLoc, 10));
     }
 
     /**
@@ -116,6 +156,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     public void onComplete(@NonNull Task<Location> task) {
                         if (task.isSuccessful() && task.getResult() != null) {
                             mLastLocation = task.getResult();
+                            if (map_rdy){
+                                setup_map();
+                            }
                         } else {
                             Log.w(TAG, "getLastLocation:exception", task.getException());
                             showSnackbar("getLastLocationException");
@@ -161,7 +204,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void startLocationPermissionRequest() {
-        ActivityCompat.requestPermissions(HabitEventsActivity.this,
+        ActivityCompat.requestPermissions(MapsActivity.this,
                 new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                 REQUEST_PERMISSIONS_REQUEST_CODE);
     }
