@@ -143,7 +143,11 @@ public class ViewHabitEventActivity extends FragmentActivity implements OnMapRea
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
         // Add a marker for the location of this event
-        LatLng loc = new LatLng(53.5232, -113.5263); //habitEvent.locationToLatLng();
+
+        LatLng loc = habitEvent.getLocation();
+        if (loc == null){
+            loc = new LatLng(0, 0);
+        }
         mMap.addMarker(new MarkerOptions().position(loc).title("Event Location"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
 

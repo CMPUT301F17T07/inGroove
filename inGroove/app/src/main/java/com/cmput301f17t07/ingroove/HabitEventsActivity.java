@@ -1,7 +1,9 @@
 package com.cmput301f17t07.ingroove;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -9,9 +11,14 @@ import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,11 +33,13 @@ import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Locale;
 
 /**
  * This class is used to add new habit events to habits
@@ -39,14 +48,24 @@ public class HabitEventsActivity extends AppCompatActivity {
     public static String habitevent_key = "habitevent_to_edit";
     public static String habit_key = "habit_to_edit";
 
-    // Enables getting the phones location
+    // Location Variables
+    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
+
+    /**
+     * Provides the entry point to the Fused Location Provider API.
+     */
     private FusedLocationProviderClient mFusedLocationClient;
+
+    /**
+     * Represents a geographical location.
+     */
+    protected Location mLastLocation;
 
     HabitEvent passed_habitEvent;
     Habit passed_habit;
 
     DataManagerAPI ServerCommunicator = DataManager.getInstance();
-    private Task tsk;
     private Location loc = null;
 
     //Initilize variables.
@@ -62,26 +81,8 @@ public class HabitEventsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_habit_events);
 
-        // Set up location services
+        // Location setup
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        try {
-            tsk = mFusedLocationClient.getLastLocation();
-            mFusedLocationClient.getLastLocation()
-                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            // Got last known location. In some rare situations this can be null.
-                            if (location != null) {
-                                // Logic to handle location object
-                                loc = location;
-                            } else {
-                                loc = null;
-                            }
-                        }
-                    });
-        } catch (SecurityException e) {
-            loc = null;
-        }
 
         passed_habitEvent = ServerCommunicator.getPassedHabitEvent();
         passed_habit = ServerCommunicator.getPassedHabit();
@@ -126,6 +127,17 @@ public class HabitEventsActivity extends AppCompatActivity {
                 SaveButtonClick();
             }
         });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if (!checkPermissions()) {
+            requestPermissions();
+        } else {
+            getLastLocation();
+        }
     }
 
     /**
@@ -175,8 +187,8 @@ public class HabitEventsActivity extends AppCompatActivity {
         he.setComment(commentBlock.getText().toString());
         he.setPhoto(((BitmapDrawable)imageBlock.getDrawable()).getBitmap());
         //todo: find out how locations in the maps are done.
-        if (loc != null) {
-            LatLng ll = new LatLng(loc.getLatitude(), loc.getLongitude());
+        if (mLastLocation != null) {
+            LatLng ll = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
             he.setLocation(ll);
         }
         return he;
@@ -213,4 +225,150 @@ public class HabitEventsActivity extends AppCompatActivity {
         }
     }
 
+    // THE FOLLOWING METHODS ARE TAKEN FROM GOOGLE DOCUMENTATION AND ONLY SLIGHTLY MODIFIED
+    // @TODO credit? Available under apache license I believe
+
+    /**
+     * Provides a simple way of getting a device's location and is well suited for
+     * applications that do not require a fine-grained location and that do not need location
+     * updates. Gets the best and most recent location currently available, which may be null
+     * in rare cases when a location is not available.
+     * <p>
+     * Note: this method should be called after location permission has been granted.
+     */
+    @SuppressWarnings("MissingPermission")
+    private void getLastLocation() {
+        mFusedLocationClient.getLastLocation()
+                .addOnCompleteListener(this, new OnCompleteListener<Location>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Location> task) {
+                        if (task.isSuccessful() && task.getResult() != null) {
+                            mLastLocation = task.getResult();
+                        } else {
+                            Log.w(TAG, "getLastLocation:exception", task.getException());
+                            showSnackbar("getLastLocationException");
+                        }
+                    }
+                });
+    }
+
+    /**
+     * Shows a {@link Snackbar} using {@code text}.
+     *
+     * @param text The Snackbar text.
+     */
+    private void showSnackbar(final String text) {
+        View container = findViewById(R.id.habitEventsActivityContainer);
+        if (container != null) {
+            Snackbar.make(container, text, Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    /**
+     * Shows a {@link Snackbar}.
+     *
+     * @param mainTextStringId The id for the string resource for the Snackbar text.
+     * @param actionStringId   The text of the action item.
+     * @param listener         The listener associated with the Snackbar action.
+     */
+    private void showSnackbar(final int mainTextStringId, final int actionStringId,
+                              View.OnClickListener listener) {
+        Snackbar.make(findViewById(android.R.id.content),
+                getString(mainTextStringId),
+                Snackbar.LENGTH_INDEFINITE)
+                .setAction(getString(actionStringId), listener).show();
+    }
+
+    /**
+     * Return the current state of the permissions needed.
+     */
+    private boolean checkPermissions() {
+        int permissionState = ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION);
+        return permissionState == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void startLocationPermissionRequest() {
+        ActivityCompat.requestPermissions(HabitEventsActivity.this,
+                new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                REQUEST_PERMISSIONS_REQUEST_CODE);
+    }
+
+    private void requestPermissions() {
+        boolean shouldProvideRationale =
+                ActivityCompat.shouldShowRequestPermissionRationale(this,
+                        Manifest.permission.ACCESS_COARSE_LOCATION);
+
+        // Provide an additional rationale to the user. This would happen if the user denied the
+        // request previously, but didn't check the "Don't ask again" checkbox.
+        if (shouldProvideRationale) {
+            Log.i(TAG, "Displaying permission rationale to provide additional context.");
+
+            showSnackbar(R.string.permission_rationale, android.R.string.ok,
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            // Request permission
+                            startLocationPermissionRequest();
+                        }
+                    });
+
+        } else {
+            Log.i(TAG, "Requesting permission");
+            // Request permission. It's possible this can be auto answered if device policy
+            // sets the permission in a given state or the user denied the permission
+            // previously and checked "Never ask again".
+            startLocationPermissionRequest();
+        }
+    }
+
+    /**
+     * Callback received when a permissions request has been completed.
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        Log.i(TAG, "onRequestPermissionResult");
+        if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
+            if (grantResults.length <= 0) {
+                // If user interaction was interrupted, the permission request is cancelled and you
+                // receive empty arrays.
+                Log.i(TAG, "User interaction was cancelled.");
+            } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted.
+                getLastLocation();
+            } else {
+                // Permission denied.
+
+                // Notify the user via a SnackBar that they have rejected a core permission for the
+                // app, which makes the Activity useless. In a real app, core permissions would
+                // typically be best requested during a welcome-screen flow.
+
+                // Additionally, it is important to remember that a permission might have been
+                // rejected without asking the user for permission (device policy or "Never ask
+                // again" prompts). Therefore, a user interface affordance is typically implemented
+                // when permissions are denied. Otherwise, your app could appear unresponsive to
+                // touches or interactions which have required permissions.
+                showSnackbar(R.string.permission_denied_explanation, R.string.settings,
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                // Build intent that displays the App settings screen.
+                                Intent intent = new Intent();
+                                intent.setAction(
+                                        Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                Uri uri = Uri.fromParts("package",
+                                        BuildConfig.APPLICATION_ID, null);
+                                intent.setData(uri);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                            }
+                        });
+            }
+        }
+    }
 }
+
+
+
+
