@@ -25,6 +25,9 @@ import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -43,6 +46,8 @@ public class HabitEventsActivity extends AppCompatActivity {
     Habit passed_habit;
 
     DataManagerAPI ServerCommunicator = DataManager.getInstance();
+    private Task tsk;
+    private Location loc = null;
 
     //Initilize variables.
     Button b_addImageButton;
@@ -59,6 +64,24 @@ public class HabitEventsActivity extends AppCompatActivity {
 
         // Set up location services
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        try {
+            tsk = mFusedLocationClient.getLastLocation();
+            mFusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            // Got last known location. In some rare situations this can be null.
+                            if (location != null) {
+                                // Logic to handle location object
+                                loc = location;
+                            } else {
+                                loc = null;
+                            }
+                        }
+                    });
+        } catch (SecurityException e) {
+            loc = null;
+        }
 
         passed_habitEvent = ServerCommunicator.getPassedHabitEvent();
         passed_habit = ServerCommunicator.getPassedHabit();
@@ -152,8 +175,12 @@ public class HabitEventsActivity extends AppCompatActivity {
         he.setComment(commentBlock.getText().toString());
         he.setPhoto(((BitmapDrawable)imageBlock.getDrawable()).getBitmap());
         //todo: find out how locations in the maps are done.
-        he.setLocation();
+        if (loc != null) {
+            LatLng ll = new LatLng(loc.getLatitude(), loc.getLongitude());
+            he.setLocation(ll);
+        }
         return he;
+
     }
 
     /**
