@@ -10,8 +10,8 @@ import java.util.Date;
 
 public class Follow {
 
-    private int follower;
-    private int followee;
+    private String follower;
+    private String followee;
     private Boolean accepted;
     private Date requestedDate;
     private Date acceptedDate;
@@ -23,7 +23,7 @@ public class Follow {
      * @param follower the following User
      * @param followee the User being followed
      */
-    public Follow(int follower, int followee) {
+    public Follow(String follower, String followee) {
         this.follower = follower;
         this.followee = followee;
         this.accepted = Boolean.FALSE;
@@ -33,7 +33,7 @@ public class Follow {
     /**
      * Get follower
      */
-    public int getFollower() {
+    public String getFollower() {
         return follower;
     }
 
@@ -41,7 +41,7 @@ public class Follow {
      * Get followee
      * @return followee ID
      */
-    public int getFollowee() {
+    public String getFollowee() {
         return followee;
     }
 
@@ -101,7 +101,7 @@ public class Follow {
             return false;
         }
         Follow temp = (Follow) obj;
-        if (temp.getFollower() == this.getFollower() && temp.getFollowee() == this.getFollowee()) {
+        if (temp.getFollower().equals(this.getFollower()) && temp.getFollowee().equals(this.getFollowee())) {
             return true;
         } else {
             return false;

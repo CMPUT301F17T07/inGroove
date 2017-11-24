@@ -7,6 +7,7 @@ import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.Model.User;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -87,17 +88,18 @@ public class DataManager implements DataManagerAPI {
 
     /**
      * Adds a new user to storage.
+     * only called once on start up
      *
-     * @param s a string representing the user's username
+     * @param userName a string representing the user's username
      * @return 0 if success, -1 if any issues
      * @see User
      */
     @Override
-    public String addUser(String s) {
+    public boolean addUser(String userName) {
 
         // TODO: Verify there is a network connection before attempting.
 
-        user = new User(s);
+        user = new User(userName);
         ServerCommandManager.AddUserAsync addUserTask = new ServerCommandManager.AddUserAsync();
         System.out.println("---- NEW USER ---- with name " + user.getName());
         addUserTask.execute(user);
@@ -105,12 +107,14 @@ public class DataManager implements DataManagerAPI {
 
         saveLocal();
 
-        return s;
+        return true;
     }
 
     // TODO: CAN WE REMOVE THIS?
+    // TODO: NO, NO WE CANT
     public int editUser(User user) {
 
+        //TODO: Transfer ids
         this.user = user;
         
         saveLocal();
@@ -384,6 +388,119 @@ public class DataManager implements DataManagerAPI {
         }
     }
 
+    /*  ------------------------- TODO: METHODS BELOW THIS HAVE YET TO BE IMPLEMENTED ------------------------- */
+
+    /**
+     * Retrieve the current users who want to follow the current user
+     *
+     * @return an array list of users who want to follow the current user
+     */
+    @Override
+    public ArrayList<User> getFollowRequests() {
+        return null;
+    }
+
+    /**
+     * Accept a follow request by a user
+     *
+     * @param user the user that is allowed to follow the current user
+     * @return true if the acceptance was successful, false if not
+     */
+    @Override
+    public Boolean acceptRequest(User user) {
+        return null;
+    }
+
+    /**
+     * Reject a pending follow request
+     *
+     * @param user
+     * @return true if the rejection was successful, false if not
+     */
+    @Override
+    public Boolean rejectRequest(User user) {
+        return null;
+    }
+
+    /**
+     * Get the users which the specified user follows
+     *
+     * @param user the user you want to get the followers of
+     * @return a list of the particular user's followers
+     */
+    @Override
+    public ArrayList<User> getWhoThisUserFollows(User user) {
+        return null;
+    }
+
+    /**
+     * Gets the followers of a particular user
+     *
+     * @param user a list of users who follow the specified user
+     * @return a list of users who follow the specified user
+     */
+    @Override
+    public ArrayList<User> getWhoFollows(User user) {
+        return null;
+    }
+
+    /**
+     * Search users
+     *
+     * @param query            the search query
+     * @param alreadyFollowing if true, do not include the users you are already following
+     * @param minStreak        the min streak to include
+     * @return a list of the users who meet the criteria
+     */
+    @Override
+    public ArrayList<User> findUsers(String query, Boolean alreadyFollowing, int minStreak) {
+        return null;
+    }
+
+    /**
+     * Send a request to follow the user
+     *
+     * @param user the user the current user wants to follow
+     * @return true if success, false if not
+     */
+    @Override
+    public Boolean sendFollowRequest(User user) {
+        return null;
+    }
+
+    /**
+     * Search Habits
+     *
+     * @param query the search query
+     * @return a list of habits that contain the search query
+     */
+    @Override
+    public ArrayList<Habit> findHabits(String query) {
+        return null;
+    }
+
+    /**
+     * Search HabitEvents
+     *
+     * @param query the search query
+     * @return a list of habits that contain the search query
+     */
+    @Override
+    public ArrayList<HabitEvent> findHabitEvents(String query) {
+        return null;
+    }
+
+    /**
+     * Get the habit events within a specified radius
+     *
+     * @param radius the radius in kilometers
+     * @param centre the centre of the circle to find habit events within
+     * @return a list of the habit events
+     */
+    @Override
+    public ArrayList<HabitEvent> getHabitEventsWithinRange(int radius, LatLng centre) {
+        return new ArrayList<HabitEvent>();
+    }
 }
 
 

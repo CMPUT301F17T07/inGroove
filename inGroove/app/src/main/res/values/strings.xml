@@ -27,6 +27,11 @@
     <string name="cancel_habit">Cancel</string>
     <string name="pick_habit_start">Choose Start Date</string>
 
+    // Location strings
+    <string name="permission_rationale">We sorta need these perms</string>
+    <string name="permission_denied_explanation">Y U DENY?</string>
+    <string name="settings">location settings?</string>
+
 
     // main body
     <string name="habit_name_hint">Habit Name</string>
