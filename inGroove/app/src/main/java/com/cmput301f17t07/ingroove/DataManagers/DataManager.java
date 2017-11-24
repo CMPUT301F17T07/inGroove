@@ -477,6 +477,7 @@ public class DataManager implements DataManagerAPI {
      */
     @Override
     public ArrayList<Habit> findHabits(String query) {
+        habitManager.findHabits(query);
         return null;
     }
 

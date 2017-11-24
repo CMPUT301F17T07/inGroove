@@ -20,6 +20,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Observable;
 
 import io.searchbox.core.Delete;
 import io.searchbox.core.DocumentResult;
@@ -36,13 +37,14 @@ import io.searchbox.core.Index;
  *
  * Created by fraserbulbuc on 2017-10-22.
  */
-public class HabitManager {
+public class HabitManager extends Observable {
 
     // file name on disk for storing habits added during offline usage
     private static final String HABITS_FILE = "habits.sav";
 
     private static HabitManager instance = new HabitManager();
     private ArrayList<Habit> habits = new ArrayList<>();
+    private ArrayList<Habit> queriedHabits = new ArrayList<>();
 
     /**
      * Access to get the queried habits
@@ -60,9 +62,15 @@ public class HabitManager {
      */
     public void setQueriedHabits(ArrayList<Habit> queriedHabits) {
         this.queriedHabits = queriedHabits;
+        setChanged();
+        notifyObservers();
     }
 
-    private ArrayList<Habit> queriedHabits = new ArrayList<>();
+    public void findHabits(String query) {
+        GetHabitTask task = new GetHabitTask();
+        task.execute(query);
+    }
+
 
     /**
      * Private constructor to ensure only one instance application wide
