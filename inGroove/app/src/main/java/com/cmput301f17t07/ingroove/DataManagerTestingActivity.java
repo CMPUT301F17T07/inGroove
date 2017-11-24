@@ -49,7 +49,7 @@ public class DataManagerTestingActivity extends AppCompatActivity implements Obs
                 String search = topET.getText().toString();
 
                 if (!search.equals("") && search != null) {
-                    data.findHabits("search");
+                    data.findHabits(search);
                 }
             }
         });
