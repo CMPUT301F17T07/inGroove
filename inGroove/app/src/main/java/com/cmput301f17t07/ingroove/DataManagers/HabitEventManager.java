@@ -65,11 +65,11 @@ public class HabitEventManager {
      */
     public int addHabitEvent(Habit habit, HabitEvent event) {
 
-        event.setHabitID(habit.getHabitID());
+        event.setHabitID(habit.getObjectID());
         event.setUserID(habit.getUserID());
         UniqueIDGenerator generator = new UniqueIDGenerator(habitEvents);
         String id = generator.generateNewID();
-        event.setEventID(id);
+        event.setObjectID(habit.getUserID() + id);
         Log.d("--- NEW ID ---"," generated unique ID of: " + id );
         habitEvents.add(event);
         saveLocal();
@@ -111,7 +111,7 @@ public class HabitEventManager {
         if (index == -1) {
             return -1;
         }
-        newHE.setEventID(oldHE.getLocalID());
+        newHE.setObjectID(oldHE.getObjectID());
         newHE.setHabitID(oldHE.getHabitID());
         newHE.setUserID(oldHE.getUserID());
         habitEvents.remove(oldHE);
@@ -144,12 +144,12 @@ public class HabitEventManager {
 
         ArrayList<HabitEvent> forHabitList = new ArrayList<>();
         for (HabitEvent event: habitEvents) {
-            if (event.getHabitID() == null || forHabit.getHabitID() == null) {
+            if (event.getHabitID() == null || forHabit.getObjectID() == null) {
                 continue;
             }
 
 
-            if (event.getHabitID().equals(forHabit.getHabitID())) {
+            if (event.getHabitID().equals(forHabit.getObjectID())) {
                 forHabitList.add(event);
             }
         }
@@ -317,8 +317,8 @@ public class HabitEventManager {
 
         Index.Builder builder = new Index.Builder(habitEvent).index("cmput301f17t07_ingroove").type("habit_event");
 
-        if (habitEvent.getServerID() != null) {
-            builder.id(habitEvent.getServerID());
+        if (habitEvent.getObjectID() != null) {
+            builder.id(habitEvent.getObjectID());
             isNew = false;
         }
 
@@ -337,7 +337,7 @@ public class HabitEventManager {
 
     public void deleteHabitEventFromServer(HabitEvent habitEvent) throws Exception {
 
-        Delete.Builder builder = new Delete.Builder(habitEvent.getServerID()).index("cmput301f17t07_ingroove").type("habit_event");
+        Delete.Builder builder = new Delete.Builder(habitEvent.getObjectID()).index("cmput301f17t07_ingroove").type("habit_event");
 
         Delete index = builder.build();
         DocumentResult result = ServerCommandManager.getClient().execute(index);

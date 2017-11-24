@@ -21,7 +21,7 @@ public class Habit implements Serializable, Identifiable {
     private ArrayList<Day> repeatedDays;
     private ArrayList<String> events;
     private Date startDate;
-    private String habitID;
+    private String objectID;
     private String userID;
 
     /**
@@ -40,7 +40,7 @@ public class Habit implements Serializable, Identifiable {
         this.comment = comment;
         this.repeatedDays = repeatedDays;
         this.events = events;
-        this.habitID = "";
+        this.objectID = "";
         this.startDate = startDate;
 
     }
@@ -85,21 +85,24 @@ public class Habit implements Serializable, Identifiable {
     }
 
     /**
-     * Provide access to the Habit ID
+     * Provide access to the Object ID that uniquely identifies this object
      *
      * @return the String ID
      */
-    public String getHabitID() {
-        return habitID;
+    public String getObjectID() {
+        return objectID;
     }
 
     /**
-     * Set the habit ID
+     * Used to set the object id
+     * Must be Unique across all devices running this app
      *
-     * @param habitID a String representing the new ID
+     * ie set to userId + an id unique to this device
+     * @param uniqueObjectId an id that uniquely identifies this object
+     *
      */
-    public void setHabitID(String habitID) {
-        this.habitID = habitID;
+    public void setObjectID(String uniqueObjectId) {
+        this.objectID = uniqueObjectId;
     }
 
     /**
@@ -134,32 +137,6 @@ public class Habit implements Serializable, Identifiable {
         this.startDate = start_date;
     }
 
-    /**
-     * Access to the identifiable String ID
-     *
-     * @return a String of the Habit ID
-     * @see Identifiable
-     */
-    public String getLocalID() {
-        return habitID;
-    }
-
-    /**
-     * Provides access to the id used for elastic search
-     * the id is a combination of the user id and and its local id
-     *
-     * @return "userId" + "localId"
-     * @return null means error needs a userId
-     *
-     */
-    @Override
-    public String getServerID() {
-        if (userID != null && !userID.equals("")) {
-            return userID + habitID;
-        } else {
-            return null;
-        }
-    }
 
     /**
      * Access to the habit name
@@ -280,7 +257,7 @@ public class Habit implements Serializable, Identifiable {
             return false;
         }
         Habit temp = (Habit) obj;
-        return temp.getHabitID().equals(this.getHabitID()) && temp.getName().equals(this.getName())
+        return temp.getObjectID().equals(this.getObjectID()) && temp.getName().equals(this.getName())
                 && temp.getComment().equals(this.getComment()) && temp.getRepeatedDays().equals(this.getRepeatedDays());
     }
 }
