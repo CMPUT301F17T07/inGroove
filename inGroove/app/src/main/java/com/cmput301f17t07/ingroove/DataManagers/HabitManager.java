@@ -3,6 +3,7 @@ package com.cmput301f17t07.ingroove.DataManagers;
 import android.content.Context;
 import android.util.Log;
 import com.cmput301f17t07.ingroove.DataManagers.Command.AddHabitCommand;
+import com.cmput301f17t07.ingroove.DataManagers.Command.DeleteHabitCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
 import com.cmput301f17t07.ingroove.Model.Habit;
@@ -19,6 +20,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+
+import io.searchbox.core.Delete;
 import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
 
@@ -91,7 +94,12 @@ public class HabitManager {
         habits.remove(habit);
         saveLocal();
 
-        // TODO: remove habit from server
+        ServerCommand deleteHabit = new DeleteHabitCommand(habit);
+        ServerCommandManager.getInstance().addCommand(deleteHabit);
+
+        //TODO: update this to the job scheduler
+        ServerCommandManager.getInstance().execute();
+
         // TODO: do somthing about the events that belong to this habit
     }
 
@@ -114,7 +122,6 @@ public class HabitManager {
         habits.add(index, newHabit);
         saveLocal();
 
-        //TODO: update server
         ServerCommand updateHabitCommand = new AddHabitCommand(DataManager.getInstance().getUser(), newHabit);
         ServerCommandManager.getInstance().addCommand(updateHabitCommand);
 
@@ -261,6 +268,26 @@ public class HabitManager {
         if (result.isSucceeded() && isNew) {
             //habit.setHabitID(result.getId());
             //saveLocal();
+        }
+
+    }
+
+    /**
+     * Method to delete a Habit from the server
+     * !!!!!Must be called Async!!!!!
+     *
+     * @param habit the Habit to be deleted
+     * @throws Exception throws an exception if it cant delete from the server
+     * @see Habit
+     */
+    public void deleteHabitFromServer(Habit habit) throws Exception {
+
+        Delete.Builder builder = new Delete.Builder(habit.getObjectID()).index("cmput301f17t07_ingroove").type("habit");
+
+        Delete index = builder.build();
+        DocumentResult result = ServerCommandManager.getClient().execute(index);
+        if (result.isSucceeded()) {
+            Log.d("---- ES -----"," Successfully Deleted Habit named " + habit.getName() + " from ES.");
         }
 
     }

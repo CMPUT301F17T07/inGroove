@@ -1,21 +1,19 @@
 package com.cmput301f17t07.ingroove.DataManagers.Command;
 
-import com.cmput301f17t07.ingroove.DataManagers.HabitEventManager;
-import com.cmput301f17t07.ingroove.Model.HabitEvent;
+import com.cmput301f17t07.ingroove.DataManagers.HabitManager;
+import com.cmput301f17t07.ingroove.Model.Habit;
 
 /**
- * Created by Christopher Walter on 2017-11-22.
+ * Created by Christopher Walter on 2017-11-23.
  */
 
-public class DeleteHabitEvent implements ServerCommand {
+public class DeleteHabitCommand implements ServerCommand {
 
-    private HabitEvent habitEvent;
+    private Habit habit;
 
-
-    public DeleteHabitEvent(HabitEvent habitEvent) {
-        this.habitEvent = habitEvent;
+    public DeleteHabitCommand(Habit habit) {
+        this.habit = habit;
     }
-
 
     /**
      * Called when the command is at the top of the queue
@@ -24,7 +22,7 @@ public class DeleteHabitEvent implements ServerCommand {
      */
     @Override
     public void execute() throws Exception {
-        HabitEventManager.getInstance().deleteHabitEventFromServer(habitEvent);
+        HabitManager.getInstance().deleteHabitFromServer(habit);
     }
 
     /**
