@@ -67,7 +67,7 @@ public class HabitManager {
 
         UniqueIDGenerator generator = new UniqueIDGenerator(habits);
         String id = generator.generateNewID();
-        habit.setHabitID(id);
+        habit.setObjectID(user.getUserID() + id);
         Log.d("--- NEW ID ---"," generated unique ID of: " + id );
 
         habit.setUserID(user.getUserID());
@@ -109,7 +109,7 @@ public class HabitManager {
             return -1;
         }
         habits.remove(oldHabit);
-        newHabit.setHabitID(oldHabit.getHabitID());
+        newHabit.setObjectID(oldHabit.getObjectID());
         newHabit.setUserID(oldHabit.getUserID());
         habits.add(index, newHabit);
         saveLocal();
@@ -250,8 +250,8 @@ public class HabitManager {
 
         Index.Builder builder = new Index.Builder(habit).index("cmput301f17t07_ingroove").type("habit");
 
-        if (habit.getServerID() != null) {
-            builder.id(habit.getServerID());
+        if (habit.getObjectID() != null) {
+            builder.id(habit.getObjectID());
             isNew = false;
         }
 

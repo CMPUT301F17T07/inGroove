@@ -22,7 +22,7 @@ public class HabitEvent implements Serializable, Identifiable{
     private String comment;
     private Date day;
     private String photo;
-    private String eventID;
+    private String objectID;
     private String habitID;
     private String userID;
     private String location;
@@ -189,20 +189,23 @@ public class HabitEvent implements Serializable, Identifiable{
     public void setPhoto(Bitmap photo) {this.photo = new BitMapHelper().bitMapToString(photo);}
 
     /**
-     * Access to the eventID, required method to be Identifiable
+     * Access to the objectID, required method to be Identifiable
      *
-     * @return a String representing the eventID
+     * @return a String representing the objectID
      * @see Identifiable
      */
-    public String getLocalID() { return eventID; }
+    public String getObjectID() { return objectID; }
 
     /**
-     * Update the event ID
+     * Used to set the object id
+     * Must be Unique across all devices running this app
      *
-     * @param id a String representing the new ID
+     * ie set to userId + an id unique to this device
+     * @param uniqueObjectId an id that uniquely identifies this object
+     *
      */
-    public void setEventID(String id) {
-        this.eventID = id;
+    public void setObjectID(String uniqueObjectId) {
+        this.objectID = uniqueObjectId;
     }
 
     /**
@@ -223,22 +226,6 @@ public class HabitEvent implements Serializable, Identifiable{
      */
     public void setUserID(String userID) {
         this.userID = userID;
-    }
-
-    /**
-     * Provides access to the id used for elastic search
-     * the id is a combination of the user id and and its local id
-     *
-     * @return "userId" + "localId"
-     * @return null means error needs a userId
-     */
-    @Override
-    public String getServerID() {
-        if (userID != null && !userID.equals("")) {
-            return userID + getLocalID();
-        } else {
-            return null;
-        }
     }
 
     /**
@@ -307,7 +294,7 @@ public class HabitEvent implements Serializable, Identifiable{
             return false;
         }
         HabitEvent temp = (HabitEvent) obj;
-        return temp.getName().equals(this.name) && temp.getDay().compareTo(this.day) == 0 && temp.getLocalID().equals(this.eventID);
+        return temp.getName().equals(this.name) && temp.getDay().compareTo(this.day) == 0 && temp.getObjectID().equals(this.objectID);
     }
 
 

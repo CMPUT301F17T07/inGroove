@@ -59,7 +59,7 @@ public class UniqueIDGenerator {
      */
     private boolean isUnique(String guessedID) {
         for ( Identifiable identifiable: objs) {
-            if (guessedID.equals(identifiable.getLocalID())) {
+            if (guessedID.equals(identifiable.getObjectID())) {
                 return false;
             }
         }
