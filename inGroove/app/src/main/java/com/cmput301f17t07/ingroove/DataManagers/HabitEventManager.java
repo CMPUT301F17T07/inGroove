@@ -118,7 +118,6 @@ public class HabitEventManager {
         habitEvents.add(index, newHE);
         saveLocal();
 
-        //TODO: update server
         ServerCommand addHabitEventCommand = new AddHabitEventCommand(newHE);
         ServerCommandManager.getInstance().addCommand(addHabitEventCommand);
 
@@ -334,7 +333,14 @@ public class HabitEventManager {
         }
     }
 
-
+    /**
+     * Method to delete a HabitEvent from the server
+     * !!!!!Must be called Async!!!!!
+     *
+     * @param habitEvent the HabitEvent to be deleted
+     * @throws Exception throws an exception if it cant delete from the server
+     * @see HabitEvent
+     */
     public void deleteHabitEventFromServer(HabitEvent habitEvent) throws Exception {
 
         Delete.Builder builder = new Delete.Builder(habitEvent.getObjectID()).index("cmput301f17t07_ingroove").type("habit_event");

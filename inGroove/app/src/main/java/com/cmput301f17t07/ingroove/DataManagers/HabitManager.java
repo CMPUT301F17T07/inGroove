@@ -122,7 +122,6 @@ public class HabitManager {
         habits.add(index, newHabit);
         saveLocal();
 
-        //TODO: update server
         ServerCommand updateHabitCommand = new AddHabitCommand(DataManager.getInstance().getUser(), newHabit);
         ServerCommandManager.getInstance().addCommand(updateHabitCommand);
 
@@ -273,7 +272,14 @@ public class HabitManager {
 
     }
 
-
+    /**
+     * Method to delete a Habit from the server
+     * !!!!!Must be called Async!!!!!
+     *
+     * @param habit the Habit to be deleted
+     * @throws Exception throws an exception if it cant delete from the server
+     * @see Habit
+     */
     public void deleteHabitFromServer(Habit habit) throws Exception {
 
         Delete.Builder builder = new Delete.Builder(habit.getObjectID()).index("cmput301f17t07_ingroove").type("habit");
