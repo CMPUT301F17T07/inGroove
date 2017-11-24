@@ -37,9 +37,28 @@ public class HabitManager {
 
     // file name on disk for storing habits added during offline usage
     private static final String HABITS_FILE = "habits.sav";
-
     private static HabitManager instance = new HabitManager();
     private ArrayList<Habit> habits = new ArrayList<>();
+
+    /**
+     * Access to get the queried habits
+     *
+     * @return the list of most recently queried habits
+     */
+    public ArrayList<Habit> getQueriedHabits() {
+        return queriedHabits;
+    }
+
+    /**
+     * Access to update the queried habits
+     *
+     * @param queriedHabits the list of the query results
+     */
+    public void setQueriedHabits(ArrayList<Habit> queriedHabits) {
+        this.queriedHabits = queriedHabits;
+    }
+
+    private ArrayList<Habit> queriedHabits = new ArrayList<>();
 
     /**
      * Private constructor to ensure only one instance application wide
@@ -263,6 +282,17 @@ public class HabitManager {
             //saveLocal();
         }
 
+    }
+
+    /**
+     * Query the server for habits of the current user that contain key words
+     *
+     * @param query the search key words
+     * @return a list of the found habits
+     */
+    public ArrayList<Habit> findHabits(String query) {
+
+        return habits;
     }
 
 }
