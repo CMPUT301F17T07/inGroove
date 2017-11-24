@@ -7,12 +7,12 @@ import com.cmput301f17t07.ingroove.Model.HabitEvent;
  * Created by Christopher Walter on 2017-11-22.
  */
 
-public class DeleteHabitEvent implements ServerCommand {
+public class DeleteHabitEventCommand implements ServerCommand {
 
     private HabitEvent habitEvent;
 
 
-    public DeleteHabitEvent(HabitEvent habitEvent) {
+    public DeleteHabitEventCommand(HabitEvent habitEvent) {
         this.habitEvent = habitEvent;
     }
 

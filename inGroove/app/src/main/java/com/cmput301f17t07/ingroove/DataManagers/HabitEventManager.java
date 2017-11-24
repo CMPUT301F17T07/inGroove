@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.AddHabitEventCommand;
-import com.cmput301f17t07.ingroove.DataManagers.Command.DeleteHabitEvent;
+import com.cmput301f17t07.ingroove.DataManagers.Command.DeleteHabitEventCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
 import com.cmput301f17t07.ingroove.Model.Habit;
@@ -92,7 +92,7 @@ public class HabitEventManager {
         habitEvents.remove(event);
         saveLocal();
 
-        ServerCommand deleteHabitEventCommand = new DeleteHabitEvent(event);
+        ServerCommand deleteHabitEventCommand = new DeleteHabitEventCommand(event);
         ServerCommandManager.getInstance().addCommand(deleteHabitEventCommand);
 
         //TODO: update this to the job scheduler
