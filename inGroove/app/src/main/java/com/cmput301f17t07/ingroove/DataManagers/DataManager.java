@@ -490,6 +490,7 @@ public class DataManager implements DataManagerAPI {
      */
     @Override
     public ArrayList<HabitEvent> findHabitEvents(String query) {
+        habitEventManager.findHabitEvents(query);
         return null;
     }
 
@@ -510,17 +511,30 @@ public class DataManager implements DataManagerAPI {
      * LiveData Object for findHabitRequests
      */
     private MutableLiveData<ArrayList<Habit>> findHabitsQueryResults;
+    private MutableLiveData<ArrayList<HabitEvent>> findHabitEventsQueryResults;
 
     /**
      * Access to get the queried habits
      *
-     * @return the list of most recently queried habits
+     * @return the list of most recent habit query results
      */
     public MutableLiveData<ArrayList<Habit>> getFindHabitsQueryResults() {
         if (findHabitsQueryResults == null) {
             findHabitsQueryResults = new MutableLiveData<>();
         }
         return findHabitsQueryResults;
+    }
+
+    /**
+     * Access to get the queried habitEvents
+     *
+     * @return the list of the most recent habitEvent query results
+     */
+    public MutableLiveData<ArrayList<HabitEvent>> getFindHabitEventsQueryResults() {
+        if (findHabitEventsQueryResults == null) {
+            findHabitEventsQueryResults = new MutableLiveData<>();
+        }
+        return findHabitEventsQueryResults;
     }
 }
 

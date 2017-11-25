@@ -267,10 +267,16 @@ public interface DataManagerAPI {
     /**
      * Get the LiveData object holding the query results
      *
-     * @param query the string query
      * @return a LiveData object representing the query results
      */
     MutableLiveData<ArrayList<Habit>> getFindHabitsQueryResults();
+
+    /**
+     * Get the LiveData object holding the query results
+     *
+     * @return a LiveData object representing the query results
+     */
+    MutableLiveData<ArrayList<HabitEvent>> getFindHabitEventsQueryResults();
     
 
 }

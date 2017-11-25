@@ -365,4 +365,14 @@ public class MockDataManager implements DataManagerAPI {
     public MutableLiveData<ArrayList<Habit>> getFindHabitsQueryResults() {
         return null;
     }
+
+    /**
+     * Get the LiveData object holding the query results
+     *
+     * @return a LiveData object representing the query results
+     */
+    @Override
+    public MutableLiveData<ArrayList<HabitEvent>> getFindHabitEventsQueryResults() {
+        return null;
+    }
 }
