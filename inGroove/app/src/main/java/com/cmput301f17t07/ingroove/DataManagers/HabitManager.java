@@ -1,5 +1,6 @@
 package com.cmput301f17t07.ingroove.DataManagers;
 
+import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.util.Log;
 import com.cmput301f17t07.ingroove.DataManagers.Command.AddHabitCommand;
@@ -37,40 +38,20 @@ import io.searchbox.core.Index;
  *
  * Created by fraserbulbuc on 2017-10-22.
  */
-public class HabitManager extends Observable {
+public class HabitManager {
 
     // file name on disk for storing habits added during offline usage
     private static final String HABITS_FILE = "habits.sav";
 
     private static HabitManager instance = new HabitManager();
     private ArrayList<Habit> habits = new ArrayList<>();
-    private ArrayList<Habit> queriedHabits = new ArrayList<>();
-
-    /**
-     * Access to get the queried habits
-     *
-     * @return the list of most recently queried habits
-     */
-    public ArrayList<Habit> getQueriedHabits() {
-        return queriedHabits;
-    }
-
-    /**
-     * Access to update the queried habits
-     *
-     * @param queriedHabits the list of the query results
-     */
-    public void setQueriedHabits(ArrayList<Habit> queriedHabits) {
-        this.queriedHabits = queriedHabits;
-        setChanged();
-        notifyObservers();
-    }
 
     public void findHabits(String query) {
         GetHabitTask task = new GetHabitTask();
+
+        // TODO: check for connection before executing
         task.execute(query);
     }
-
 
     /**
      * Private constructor to ensure only one instance application wide

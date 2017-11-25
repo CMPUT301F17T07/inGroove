@@ -2,6 +2,8 @@ package com.cmput301f17t07.ingroove.DataManagers;
 
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import java.util.ArrayList;
@@ -16,6 +18,9 @@ import io.searchbox.core.SearchResult;
  * Created by Fraser Bulbuc on 2017-11-23.
  */
 public class GetHabitTask extends AsyncTask<String, Void, ArrayList<Habit>> {
+
+    private DataManagerAPI data = DataManager.getInstance();
+
 
     @Override
     protected ArrayList<Habit> doInBackground(String... searchParam) {
@@ -64,7 +69,8 @@ public class GetHabitTask extends AsyncTask<String, Void, ArrayList<Habit>> {
     @Override
     protected void onPostExecute(ArrayList<Habit> habits) {
         Log.i(" ---- POST EXEC ----", "Query results of size: " + habits.size());
-        HabitManager.getInstance().setQueriedHabits(habits);
+
+        data.getFindHabitsQueryResults().setValue(habits);
 
     }
 
