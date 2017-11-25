@@ -7,6 +7,7 @@ import com.cmput301f17t07.ingroove.DataManagers.Command.AddHabitEventCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.DeleteHabitEventCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
+import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GetHabitEventTask;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.Model.User;
@@ -351,6 +352,13 @@ public class HabitEventManager {
             Log.d("---- ES -----"," Successfully Deleted event named " + habitEvent.getName() + " from ES.");
         }
 
+    }
+
+    public void findHabitEvents(String query) {
+        GetHabitEventTask task = new GetHabitEventTask();
+
+        // TODO: check for connection before executing
+        task.execute(query);
     }
 
 

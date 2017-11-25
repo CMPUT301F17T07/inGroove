@@ -1,5 +1,6 @@
 package com.cmput301f17t07.ingroove.DataManagers;
 
+import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.util.Log;
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
@@ -477,6 +478,7 @@ public class DataManager implements DataManagerAPI {
      */
     @Override
     public ArrayList<Habit> findHabits(String query) {
+        habitManager.findHabits(query);
         return null;
     }
 
@@ -488,6 +490,7 @@ public class DataManager implements DataManagerAPI {
      */
     @Override
     public ArrayList<HabitEvent> findHabitEvents(String query) {
+        habitEventManager.findHabitEvents(query);
         return null;
     }
 
@@ -501,6 +504,37 @@ public class DataManager implements DataManagerAPI {
     @Override
     public ArrayList<HabitEvent> getHabitEventsWithinRange(int radius, LatLng centre) {
         return null;
+    }
+
+
+    /**
+     * LiveData Object for findHabitRequests
+     */
+    private MutableLiveData<ArrayList<Habit>> findHabitsQueryResults;
+    private MutableLiveData<ArrayList<HabitEvent>> findHabitEventsQueryResults;
+
+    /**
+     * Access to get the queried habits
+     *
+     * @return the list of most recent habit query results
+     */
+    public MutableLiveData<ArrayList<Habit>> getFindHabitsQueryResults() {
+        if (findHabitsQueryResults == null) {
+            findHabitsQueryResults = new MutableLiveData<>();
+        }
+        return findHabitsQueryResults;
+    }
+
+    /**
+     * Access to get the queried habitEvents
+     *
+     * @return the list of the most recent habitEvent query results
+     */
+    public MutableLiveData<ArrayList<HabitEvent>> getFindHabitEventsQueryResults() {
+        if (findHabitEventsQueryResults == null) {
+            findHabitEventsQueryResults = new MutableLiveData<>();
+        }
+        return findHabitEventsQueryResults;
     }
 }
 

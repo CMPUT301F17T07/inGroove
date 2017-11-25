@@ -6,6 +6,7 @@ import com.cmput301f17t07.ingroove.DataManagers.Command.AddHabitCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.DeleteHabitCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
+import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GetHabitTask;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.google.gson.Gson;
@@ -43,6 +44,13 @@ public class HabitManager {
 
     private static HabitManager instance = new HabitManager();
     private ArrayList<Habit> habits = new ArrayList<>();
+
+    public void findHabits(String query) {
+        GetHabitTask task = new GetHabitTask();
+
+        // TODO: check for connection before executing
+        task.execute(query);
+    }
 
     /**
      * Private constructor to ensure only one instance application wide
@@ -122,6 +130,7 @@ public class HabitManager {
         habits.add(index, newHabit);
         saveLocal();
 
+        //TODO: update server
         ServerCommand updateHabitCommand = new AddHabitCommand(DataManager.getInstance().getUser(), newHabit);
         ServerCommandManager.getInstance().addCommand(updateHabitCommand);
 

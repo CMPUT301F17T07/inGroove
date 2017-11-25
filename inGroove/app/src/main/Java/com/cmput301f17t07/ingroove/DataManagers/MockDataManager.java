@@ -1,5 +1,7 @@
 package com.cmput301f17t07.ingroove.DataManagers;
 
+import android.arch.lifecycle.MutableLiveData;
+
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
@@ -351,6 +353,26 @@ public class MockDataManager implements DataManagerAPI {
      */
     @Override
     public ArrayList<HabitEvent> getHabitEventsWithinRange(int radius, LatLng centre) {
+        return null;
+    }
+
+    /**
+     * Get the LiveData object holding the query results
+     *
+     * @return a LiveData object representing the query results
+     */
+    @Override
+    public MutableLiveData<ArrayList<Habit>> getFindHabitsQueryResults() {
+        return null;
+    }
+
+    /**
+     * Get the LiveData object holding the query results
+     *
+     * @return a LiveData object representing the query results
+     */
+    @Override
+    public MutableLiveData<ArrayList<HabitEvent>> getFindHabitEventsQueryResults() {
         return null;
     }
 }

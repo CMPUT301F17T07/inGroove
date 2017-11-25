@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Head to the Current Habits Activity as that is the chosen first screen
-        Intent intent = new Intent(getApplicationContext(), CurrentHabitsActivity.class);
+        Intent intent = new Intent(getApplicationContext(), DataManagerTestingActivity.class);
         getApplicationContext().startActivity(intent);
 
         // This main activity is meant to set up the user, and then send them to our chosen first
