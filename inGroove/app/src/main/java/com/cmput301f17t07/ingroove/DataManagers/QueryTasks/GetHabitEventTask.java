@@ -42,7 +42,7 @@ public class GetHabitEventTask extends AsyncTask<String, Void, ArrayList<HabitEv
 
         }
 
-        Search search = new Search.Builder(query).addIndex("cmput301f17t07_ingroove").addType("event").build();
+        Search search = new Search.Builder(query).addIndex("cmput301f17t07_ingroove").addType("habit_event").build();
 
 
         try {
