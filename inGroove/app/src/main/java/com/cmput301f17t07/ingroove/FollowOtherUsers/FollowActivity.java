@@ -38,21 +38,24 @@ public class FollowActivity extends NavigationDrawerActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_follow);
-        super.onCreateDrawer();
 
+        // find all the elements on the page
+        searchBox = (EditText) findViewById(R.id.searchForUsersEditText);
+        searchButton = (ImageButton) findViewById(R.id.searchForUsersButton);
+        otherUsersList = (ListView) findViewById(R.id.followUsersListView);
+
+        // for testing
         User user1 = new User("Bob");
         User user2 = new User("Joe");
         //Follow follow1 = new Follow()
         searchedForUserList.add(user1);
         searchedForUserList.add(user2);
 
-        // find all the elements on the page
-        searchBox.findViewById(R.id.searchForUsersButton);
-        searchButton.findViewById(R.id.searchForUsersButton);
-        // get and set adapters for the list view
-        otherUsersList.findViewById(R.id.followUsersListView);
+        // set adapter for the list view
         followAdapter = new FollowAdapter(this, R.layout.list_item_follow_activity, searchedForUserList);
         otherUsersList.setAdapter(followAdapter);
+
+        super.onCreateDrawer();
     }
 
 
