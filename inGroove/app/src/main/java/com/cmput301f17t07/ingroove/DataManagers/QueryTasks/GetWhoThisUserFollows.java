@@ -39,7 +39,7 @@ public class GetWhoThisUserFollows extends AsyncTask<User, Void, ArrayList<User>
 
         String query =  "{\n" +
                         "    \"query\" : {\n" +
-                        "        \"term\" : { \"name\" : \"" + users[0].getUserID() + "\" }\n" +
+                        "        \"term\" : { \"follower\" : \"" + users[0].getUserID() + "\" }\n" +
                         "    }\n" +
                         "}";
 
