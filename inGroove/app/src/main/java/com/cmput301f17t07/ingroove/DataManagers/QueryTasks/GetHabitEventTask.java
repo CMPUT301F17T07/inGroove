@@ -2,16 +2,12 @@ package com.cmput301f17t07.ingroove.DataManagers.QueryTasks;
 
 import android.os.AsyncTask;
 import android.util.Log;
-
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
-import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
 
@@ -36,7 +32,7 @@ public class GetHabitEventTask extends AsyncTask<String, Void, ArrayList<HabitEv
 
             query = "{\n" +
                     "    \"query\" : {\n" +
-                    "        \"term\" : { \"name\" : \"" + searchParam[0] + "\" }\n" +
+                    "        \"wildcard\" : { \"name\" : \"" + searchParam[0] + "*\" }\n" +
                     "    }\n" +
                     "}";
 

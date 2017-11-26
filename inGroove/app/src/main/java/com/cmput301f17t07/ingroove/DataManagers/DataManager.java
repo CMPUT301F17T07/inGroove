@@ -1,6 +1,8 @@
 package com.cmput301f17t07.ingroove.DataManagers;
 
+import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.util.Log;
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
@@ -536,6 +538,8 @@ public class DataManager implements DataManagerAPI {
         }
         return findHabitEventsQueryResults;
     }
+
+
 }
 
 
