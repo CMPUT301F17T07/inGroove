@@ -1,5 +1,6 @@
 package com.cmput301f17t07.ingroove.DataManagers;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
@@ -283,7 +284,7 @@ public class MockDataManager implements DataManagerAPI {
      * @return a list of the particular user's followers
      */
     @Override
-    public ArrayList<User> getWhoThisUserFollows(User user) {
+    public LiveData<ArrayList<User>> getWhoThisUserFollows(User user) {
         return null;
     }
 

@@ -1,5 +1,6 @@
 package com.cmput301f17t07.ingroove.DataManagers.Command;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 
 import com.cmput301f17t07.ingroove.Model.Habit;
@@ -210,7 +211,7 @@ public interface DataManagerAPI {
      * @param user the user you want to get the followers of
      * @return a list of the particular user's followers
      */
-    ArrayList<User> getWhoThisUserFollows(User user);
+    LiveData<ArrayList<User>> getWhoThisUserFollows(User user);
 
     /**
      * Gets the followers of a particular user

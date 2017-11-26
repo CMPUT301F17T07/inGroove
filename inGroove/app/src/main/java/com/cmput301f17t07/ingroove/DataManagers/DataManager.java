@@ -1,10 +1,12 @@
 package com.cmput301f17t07.ingroove.DataManagers;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.util.Log;
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
+import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GetWhoThisUserFollows;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.Model.User;
@@ -431,8 +433,16 @@ public class DataManager implements DataManagerAPI {
      * @return a list of the particular user's followers
      */
     @Override
-    public ArrayList<User> getWhoThisUserFollows(User user) {
-        return null;
+    public LiveData<ArrayList<User>> getWhoThisUserFollows(User user) {
+        //TODO: MOVE TO THE Appropriate Place
+
+        MutableLiveData<ArrayList<User>> liveData = new MutableLiveData<>();
+
+        GetWhoThisUserFollows getWhoThisUserFollows = new GetWhoThisUserFollows(liveData);
+
+        getWhoThisUserFollows.execute(user);
+
+        return liveData;
     }
 
     /**
