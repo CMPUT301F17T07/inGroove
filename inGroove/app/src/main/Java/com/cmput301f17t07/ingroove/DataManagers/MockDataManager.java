@@ -375,4 +375,14 @@ public class MockDataManager implements DataManagerAPI {
     public MutableLiveData<ArrayList<HabitEvent>> getFindHabitEventsQueryResults() {
         return null;
     }
+
+    /**
+     * Access to get the queried users
+     *
+     * @return the list of the most recent user query results
+     */
+    @Override
+    public MutableLiveData<ArrayList<User>> getFindUserQueryResults() {
+        return null;
+    }
 }
