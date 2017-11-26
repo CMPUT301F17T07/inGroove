@@ -11,14 +11,25 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
+import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
 import com.cmput301f17t07.ingroove.navDrawer.NavigationDrawerActivity;
 
 import java.util.ArrayList;
 
+/**
+ *
+ * @see FollowRequestsActivity
+ * @see DataManagerAPI
+ * @see DataManager
+ */
 public class FollowRequestsActivity extends NavigationDrawerActivity {
-    // get all the pages elements
+
+    DataManagerAPI data = DataManager.getInstance();
+
+    // set up needed page element
     ListView followListView;
 
     // set up adapter elements
@@ -44,6 +55,7 @@ public class FollowRequestsActivity extends NavigationDrawerActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
                 User user = followRequests.get(i);
+                Log.w("TESTTESTEST", user.getName());
             }
         });
     }
