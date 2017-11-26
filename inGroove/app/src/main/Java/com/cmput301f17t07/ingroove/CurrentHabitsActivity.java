@@ -42,6 +42,7 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
 
     //Initilize variables.
     DataManagerAPI ServerCommunicator9000 = DataManager.getInstance();
+    private User currentUser;
 
     private GridView habitViewer;
     ArrayAdapter<String> gridViewArrayAdapter;
@@ -67,6 +68,8 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
 
         habitsLoaded = true;
         HabitEventHolder = new ArrayList<HabitEvent>();
+
+        currentUser = ServerCommunicator9000.getUser();
 
         //Initilize the GridView
         habitViewer = (GridView) findViewById(R.id.HabitViewer);
@@ -108,7 +111,7 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
         b_listHabits.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 habitsLoaded = true;
-                HabitHolder = ServerCommunicator9000.getHabit(new User("T-Rex Joe", "trexjoe@hotmail.com"));
+                HabitHolder = ServerCommunicator9000.getHabit(currentUser);
                 PopulateGridView_Habits(HabitHolder);
             }
         });
