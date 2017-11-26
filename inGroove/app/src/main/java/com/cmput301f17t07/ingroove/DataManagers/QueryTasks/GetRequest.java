@@ -7,7 +7,6 @@ import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.Model.User;
-
 import java.util.ArrayList;
 import java.util.List;
 import io.searchbox.core.Search;
@@ -22,8 +21,6 @@ import io.searchbox.core.SearchResult;
  *
  * Created by Fraser Bulbuc on 2017-11-25.
  */
-
-
 public class GetRequest<T> extends AsyncTask<String, Void, ArrayList<T>> {
 
     private String index;
@@ -55,8 +52,6 @@ public class GetRequest<T> extends AsyncTask<String, Void, ArrayList<T>> {
             query = searchParam[0];
         }
         else {
-
-
             query = "{\n" +
                     "    \"query\" : {\n" +
                     "        \"wildcard\" : { \"" + matchingAttribute + "\" : \"" + searchParam[0] + "*\" }\n" +
@@ -92,6 +87,7 @@ public class GetRequest<T> extends AsyncTask<String, Void, ArrayList<T>> {
     protected void onPostExecute(ArrayList<T> queryResult) {
         super.onPostExecute(queryResult);
 
+        // TODO: Need to check downcasts better
         switch (index) {
             case "habit":
                 DataManager.getInstance().getFindHabitsQueryResults().setValue((ArrayList<Habit>) queryResult);

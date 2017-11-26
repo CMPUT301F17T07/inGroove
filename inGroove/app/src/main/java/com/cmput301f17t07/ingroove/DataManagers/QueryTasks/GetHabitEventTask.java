@@ -12,9 +12,10 @@ import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
 
 /**
- * Created by Fraser Bulbuc on 2017-11-25.
+ * TODO: THIS CLASS IS NO LONGER NEEDED
  */
 
+@Deprecated
 public class GetHabitEventTask extends AsyncTask<String, Void, ArrayList<HabitEvent>> {
 
     private DataManagerAPI data = DataManager.getInstance();
