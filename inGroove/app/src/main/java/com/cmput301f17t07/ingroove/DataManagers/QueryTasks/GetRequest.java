@@ -6,6 +6,8 @@ import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
+import com.cmput301f17t07.ingroove.Model.User;
+
 import java.util.ArrayList;
 import java.util.List;
 import io.searchbox.core.Search;
@@ -98,6 +100,7 @@ public class GetRequest<T> extends AsyncTask<String, Void, ArrayList<T>> {
                 DataManager.getInstance().getFindHabitEventsQueryResults().setValue((ArrayList<HabitEvent>) queryResult);
                 break;
             case "user":
+                DataManager.getInstance().getFindUserQueryResults().setValue((ArrayList<User>) queryResult);
                 break;
             default:
 

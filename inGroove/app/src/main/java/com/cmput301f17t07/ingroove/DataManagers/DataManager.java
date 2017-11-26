@@ -7,6 +7,7 @@ import android.content.Context;
 import android.util.Log;
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
+import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GetRequest;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.Model.User;
@@ -458,6 +459,9 @@ public class DataManager implements DataManagerAPI {
      */
     @Override
     public ArrayList<User> findUsers(String query, Boolean alreadyFollowing, int minStreak) {
+        GetRequest<User> get = new GetRequest<User>(User.class,"user","name");
+        // TODO: check for connection before executing
+        get.execute(query);
         return null;
     }
 
@@ -514,6 +518,7 @@ public class DataManager implements DataManagerAPI {
      */
     private MutableLiveData<ArrayList<Habit>> findHabitsQueryResults;
     private MutableLiveData<ArrayList<HabitEvent>> findHabitEventsQueryResults;
+    private MutableLiveData<ArrayList<User>> findUserQueryResults;
 
     /**
      * Access to get the queried habits
@@ -538,6 +543,19 @@ public class DataManager implements DataManagerAPI {
         }
         return findHabitEventsQueryResults;
     }
+
+    /**
+     * Access to get the queried users
+     *
+     * @return the list of the most recent user query results
+     */
+    public MutableLiveData<ArrayList<User>> getFindUserQueryResults() {
+        if (findUserQueryResults == null) {
+            findUserQueryResults = new MutableLiveData<>();
+        }
+        return findUserQueryResults;
+    }
+
 
 
 }

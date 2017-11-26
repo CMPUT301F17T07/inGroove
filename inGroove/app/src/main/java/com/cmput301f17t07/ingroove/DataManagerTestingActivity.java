@@ -12,6 +12,7 @@ import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
+import com.cmput301f17t07.ingroove.Model.User;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -49,20 +50,20 @@ public class DataManagerTestingActivity extends AppCompatActivity {
          */
 
         // STEP 1 - Create the LiveData observer, specifying the exact data type to be observed
-        final Observer<ArrayList<HabitEvent>> queryObserver = new Observer<ArrayList<HabitEvent>>() {
+        final Observer<ArrayList<User>> queryObserver = new Observer<ArrayList<User>>() {
 
             // STEP 2 - Add the logic you want to trigger when the activity is notified of a change
             // to the data. NOTE, you should check to make sure that the activity is waiting
             // for query results.
             @Override
-            public void onChanged(@Nullable ArrayList<HabitEvent> result) {
+            public void onChanged(@Nullable ArrayList<User> result) {
                 // IGNORE - this logic in particular was just for testing the LiveData was working as
                 // intended, implement your own.
                 Log.d("---- OBSV TEST ----","Detected data change.");
 
-                resultOneTV.setText(result.size() + " matching event(s).");
+                resultOneTV.setText(result.size() + " matching user(s).");
                 resultTwoTV.setText("Matching name(s): ");
-                for (HabitEvent event: result) {
+                for (User event: result) {
                     String current = resultTwoTV.getText().toString();
                     resultTwoTV.setText(current + event.getName() + ", ");
                 }
@@ -71,7 +72,7 @@ public class DataManagerTestingActivity extends AppCompatActivity {
         };
 
         // STEP 3 - Point the Observer to the LiveData
-        data.getFindHabitEventsQueryResults().observe(this, queryObserver);
+        data.getFindUserQueryResults().observe(this, queryObserver);
 
         /*
          * TODO: END OF ALL STEPS FOR RETRIEVING QUERY RESULTS FROM ELASTIC SEARCH
@@ -96,7 +97,7 @@ public class DataManagerTestingActivity extends AppCompatActivity {
                 String search = topET.getText().toString();
 
                 if (!search.equals("")) {
-                    data.findHabitEvents(search);
+                    data.findUsers(search, false, 0);
                 }
             }
         });

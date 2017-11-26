@@ -277,6 +277,14 @@ public interface DataManagerAPI {
      * @return a LiveData object representing the query results
      */
     MutableLiveData<ArrayList<HabitEvent>> getFindHabitEventsQueryResults();
+
+
+    /**
+     * Access to get the queried users
+     *
+     * @return the list of the most recent user query results
+     */
+     MutableLiveData<ArrayList<User>> getFindUserQueryResults();
     
 
 }
