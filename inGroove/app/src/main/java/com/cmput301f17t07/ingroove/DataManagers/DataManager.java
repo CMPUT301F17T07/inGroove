@@ -7,7 +7,6 @@ import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GenericGetRequest;
-import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GetRequest;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.Model.User;
@@ -98,17 +97,17 @@ public class DataManager implements DataManagerAPI {
      * @see User
      */
     @Override
-    public boolean addUser(String userName) {
+    public boolean addUser(String userName, AsyncResultHandler handler) {
 
         // TODO: Verify there is a network connection before attempting.
 
         user = new User(userName);
-        ServerCommandManager.AddUserAsync addUserTask = new ServerCommandManager.AddUserAsync();
+        ServerCommandManager.InitializeUserAsync addUserTask = new ServerCommandManager.InitializeUserAsync(handler);
         System.out.println("---- NEW USER ---- with name " + user.getName());
         addUserTask.execute(user);
         System.out.println("---- NEW USER ---- with name " + user.getName());
 
-        saveLocal();
+//        saveLocal();
 
         return true;
     }
@@ -376,19 +375,32 @@ public class DataManager implements DataManagerAPI {
      * @see User
      * @see ServerCommandManager
      */
-    public void addUserToServer(User user) {
+    public void addUserToServer(User user) throws Exception {
 
-        Index index = new Index.Builder(user).index("cmput301f17t07_ingroove").type("user").build();
+        boolean isNew = true;
 
-        try {
-            DocumentResult result = ServerCommandManager.getClient().execute(index);
-            if (result.isSucceeded()) {
-                user.setUserID(result.getId());
-                saveLocal();
-            }
+        Index.Builder builder = new Index.Builder(user).index("cmput301f17t07_ingroove").type("user");
+
+        if (user.getUserID() != null && !user.getUserID().isEmpty()){
+            builder.id(user.getUserID());
+            isNew = false;
         }
-        catch (Exception e) {
+
+        Index index = builder.build();
+
+        DocumentResult result = ServerCommandManager.getClient().execute(index);
+        if (result.isSucceeded() && isNew) {
+            user.setUserID(result.getId());
+            saveLocal();
+
+        } else if (result.isSucceeded()) {
+            saveLocal();
+        } else {
+            Exception e = new Exception("Failed to add User to ES");
+
             Log.d("---- USER ----"," Failed to add user with name " + user.getName() + " to server. Caught " + e);
+
+            throw e;
         }
     }
 
