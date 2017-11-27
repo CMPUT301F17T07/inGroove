@@ -6,8 +6,8 @@ import com.cmput301f17t07.ingroove.DataManagers.Command.AddHabitCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.DeleteHabitCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
-import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GetHabitTask;
-import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GetRequest;
+import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
+import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GenericGetRequest;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.google.gson.Gson;
@@ -46,11 +46,12 @@ public class HabitManager {
     private static HabitManager instance = new HabitManager();
     private ArrayList<Habit> habits = new ArrayList<>();
 
-    public void findHabits(String query) {
+    public void findHabits(AsyncResultHandler handler, String query) {
 
-        GetRequest<Habit> get = new GetRequest<Habit>(Habit.class,"habit","name");
+        GenericGetRequest<Habit> getReq = new GenericGetRequest(handler,Habit.class,"habit","name");
+        //GetRequest<Habit> get = new GetRequest<Habit>(Habit.class,"habit","name");
         // TODO: check for connection before executing
-        get.execute(query);
+        getReq.execute(query);
     }
 
     /**

@@ -7,6 +7,8 @@ import com.cmput301f17t07.ingroove.DataManagers.Command.AddHabitEventCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.DeleteHabitEventCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
+import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
+import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GenericGetRequest;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GetHabitEventTask;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GetRequest;
 import com.cmput301f17t07.ingroove.Model.Habit;
@@ -355,9 +357,8 @@ public class HabitEventManager {
 
     }
 
-    public void findHabitEvents(String query) {
-        GetRequest<HabitEvent> get = new GetRequest<HabitEvent>(HabitEvent.class,"habit_event","name");
-        // TODO: check for connection before executing
+    public void findHabitEvents(AsyncResultHandler handler, String query) {
+        GenericGetRequest<HabitEvent> get = new GenericGetRequest(handler, HabitEvent.class, "habit_event", "name");
         get.execute(query);
     }
 

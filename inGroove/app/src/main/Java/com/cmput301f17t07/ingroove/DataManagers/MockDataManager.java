@@ -3,6 +3,7 @@ package com.cmput301f17t07.ingroove.DataManagers;
 import android.arch.lifecycle.MutableLiveData;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
+import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.Model.User;
@@ -240,19 +241,18 @@ public class MockDataManager implements DataManagerAPI {
         this.passedHabitEvent = passedHabitEvent;
     }
 
-
-
-    /*  ------------------------- These methods return null data for now ------------------------- */
-
     /**
      * Retrieve the current users who want to follow the current user
      *
+     * @param resultHandler
      * @return an array list of users who want to follow the current user
      */
     @Override
-    public ArrayList<User> getFollowRequests() {
-        return null;
+    public int getFollowRequests(AsyncResultHandler resultHandler) {
+        return 0;
     }
+
+    /*  ------------------------- These methods return null data for now ------------------------- */
 
     /**
      * Accept a follow request by a user
@@ -279,36 +279,39 @@ public class MockDataManager implements DataManagerAPI {
     /**
      * Get the users which the specified user follows
      *
-     * @param user the user you want to get the followers of
+     * @param handler
+     * @param user    the user you want to get the followers of
      * @return a list of the particular user's followers
      */
     @Override
-    public ArrayList<User> getWhoThisUserFollows(User user) {
-        return null;
+    public int getWhoThisUserFollows(AsyncResultHandler handler, User user) {
+        return 0;
     }
 
     /**
      * Gets the followers of a particular user
      *
-     * @param user a list of users who follow the specified user
+     * @param handler
+     * @param user    a list of users who follow the specified user
      * @return a list of users who follow the specified user
      */
     @Override
-    public ArrayList<User> getWhoFollows(User user) {
-        return null;
+    public int getWhoFollows(AsyncResultHandler handler, User user) {
+        return 0;
     }
 
     /**
      * Search users
      *
+     * @param handler
      * @param query            the search query
      * @param alreadyFollowing if true, do not include the users you are already following
      * @param minStreak        the min streak to include
      * @return a list of the users who meet the criteria
      */
     @Override
-    public ArrayList<User> findUsers(String query, Boolean alreadyFollowing, int minStreak) {
-        return null;
+    public int findUsers(AsyncResultHandler handler, String query, Boolean alreadyFollowing, int minStreak) {
+        return 0;
     }
 
     /**
@@ -329,19 +332,20 @@ public class MockDataManager implements DataManagerAPI {
      * @return a list of habits that contain the search query
      */
     @Override
-    public ArrayList<Habit> findHabits(String query) {
-        return null;
+    public int findHabits(AsyncResultHandler handler, String query) {
+        return 0;
     }
 
     /**
      * Search HabitEvents
      *
-     * @param query the search query
+     * @param handler
+     * @param query   the search query
      * @return a list of habits that contain the search query
      */
     @Override
-    public ArrayList<HabitEvent> findHabitEvents(String query) {
-        return null;
+    public int findHabitEvents(AsyncResultHandler handler, String query) {
+        return 0;
     }
 
     /**
