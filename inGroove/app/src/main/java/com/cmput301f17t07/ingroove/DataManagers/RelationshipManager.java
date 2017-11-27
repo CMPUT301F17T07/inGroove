@@ -1,5 +1,7 @@
 package com.cmput301f17t07.ingroove.DataManagers;
 
+import com.cmput301f17t07.ingroove.Model.Follow;
+import com.cmput301f17t07.ingroove.Model.User;
 import java.util.ArrayList;
 
 /**
@@ -10,9 +12,7 @@ public class RelationshipManager {
 
     private static RelationshipManager instance = new RelationshipManager();
 
-    private RelationshipManager() {
-
-    }
+    private RelationshipManager() {}
 
     public static RelationshipManager getInstance() {
         return instance;
@@ -60,8 +60,15 @@ public class RelationshipManager {
         return Boolean.TRUE;
     }
 
-    public void sendFollowRequest(int follower, int followee) {
-        // send follow request
+    public int sendFollowRequest(User userRequestingToFollow, User userBeingFollowed) {
+        Follow follow = new Follow(userBeingFollowed.getUserID(), userRequestingToFollow.getUserID());
+        try {
+            new SendFollowRequestTask().execute(follow);
+            return 0;
+        }
+        catch (Exception e) {
+            return -1;
+        }
     }
 
     public void acceptFollowRequest(int follower, int followee) {

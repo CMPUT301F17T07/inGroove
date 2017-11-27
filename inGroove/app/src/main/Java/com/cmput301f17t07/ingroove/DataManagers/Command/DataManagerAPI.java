@@ -285,6 +285,6 @@ public interface DataManagerAPI {
      * @return the list of the most recent user query results
      */
      MutableLiveData<ArrayList<User>> getFindUserQueryResults();
-    
+
 
 }

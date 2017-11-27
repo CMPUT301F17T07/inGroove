@@ -84,9 +84,13 @@ public class DataManagerTestingActivity extends AppCompatActivity {
                 String name = addET.getText().toString();
 
                 if (!name.equals("")) {
-                    Habit habit = new Habit(name, "blank comment");
-                    HabitEvent event = new HabitEvent(name, new Date());
-                    data.addHabitEvent(habit, event);
+//                    Habit habit = new Habit(name, "blank comment");
+//                    HabitEvent event = new HabitEvent(name, new Date());
+//                    data.addHabitEvent(habit, event);
+
+                    User user = new User("Chris");
+                    user.setUserID("AV-3Gd_rGP9KDA8wZZl9");
+                    data.sendFollowRequest(user);
                 }
             }
         });

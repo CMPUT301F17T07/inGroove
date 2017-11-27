@@ -49,7 +49,6 @@ public class DataManager implements DataManagerAPI {
 
     // current user
     private User user;
-
     private User passedUser;
     private Habit passedHabit;
     private HabitEvent passedHabitEvent;
@@ -473,7 +472,10 @@ public class DataManager implements DataManagerAPI {
      */
     @Override
     public Boolean sendFollowRequest(User user) {
-        return null;
+        if (RelationshipManager.getInstance().sendFollowRequest(this.user, user) != -1) {
+            return true;
+        }
+        return false;
     }
 
     /**
