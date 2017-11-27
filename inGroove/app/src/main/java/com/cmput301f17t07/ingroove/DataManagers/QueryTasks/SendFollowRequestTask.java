@@ -1,4 +1,4 @@
-package com.cmput301f17t07.ingroove.DataManagers;
+package com.cmput301f17t07.ingroove.DataManagers.QueryTasks;
 
 import android.os.AsyncTask;
 import android.util.Log;

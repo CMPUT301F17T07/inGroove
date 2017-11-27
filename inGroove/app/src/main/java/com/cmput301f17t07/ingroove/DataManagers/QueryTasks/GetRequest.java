@@ -21,6 +21,10 @@ import io.searchbox.core.SearchResult;
  *
  * Created by Fraser Bulbuc on 2017-11-25.
  */
+
+// TODO: All instance of this class should be replaced with an instance of GenericGetRequest
+// TODO: used in combination with an instance of AsyncResultHandler
+@Deprecated
 public class GetRequest<T> extends AsyncTask<String, Void, ArrayList<T>> {
 
     private String index;
