@@ -13,11 +13,12 @@ import java.util.List;
 import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
 
+
 /**
- * ASync class to retrieve habits from the server
- *
- * Created by Fraser Bulbuc on 2017-11-23.
+ * TODO: THIS CLASS IS NO LONGER NEEDED
  */
+
+@Deprecated
 public class GetHabitTask extends AsyncTask<String, Void, ArrayList<Habit>> {
 
     private DataManagerAPI data = DataManager.getInstance();

@@ -1,11 +1,13 @@
 package com.cmput301f17t07.ingroove.DataManagers;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.util.Log;
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
+import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
+import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GenericGetRequest;
+import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GetRequest;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GetWhoThisUserFollows;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
@@ -400,8 +402,9 @@ public class DataManager implements DataManagerAPI {
      * @return an array list of users who want to follow the current user
      */
     @Override
-    public ArrayList<User> getFollowRequests() {
-        return null;
+    public int getFollowRequests(AsyncResultHandler resultHandler) {
+        RelationshipManager.getInstance().getFollowRequests(resultHandler, this.user.getUserID());
+        return 0;
     }
 
     /**
@@ -429,11 +432,13 @@ public class DataManager implements DataManagerAPI {
     /**
      * Get the users which the specified user follows
      *
-     * @param user the user you want to get the followers of
+     * @param handler
+     * @param user    the user you want to get the followers of
      * @return a list of the particular user's followers
      */
     @Override
-    public LiveData<ArrayList<User>> getWhoThisUserFollows(User user) {
+    // TODO: STILL TO IMPLEMENT
+    public int getWhoThisUserFollows(AsyncResultHandler handler, User user) {
         //TODO: MOVE TO THE Appropriate Place
 
         MutableLiveData<ArrayList<User>> liveData = new MutableLiveData<>();
@@ -442,31 +447,36 @@ public class DataManager implements DataManagerAPI {
 
         getWhoThisUserFollows.execute(user);
 
-        return liveData;
+        return 0;
     }
 
     /**
      * Gets the followers of a particular user
      *
-     * @param user a list of users who follow the specified user
+     * @param handler
+     * @param user    a list of users who follow the specified user
      * @return a list of users who follow the specified user
      */
     @Override
-    public ArrayList<User> getWhoFollows(User user) {
-        return null;
+    // TODO: STILL TO IMPLEMENT
+    public int getWhoFollows(AsyncResultHandler handler, User user) {
+        return 0;
     }
 
     /**
      * Search users
      *
+     * @param handler
      * @param query            the search query
      * @param alreadyFollowing if true, do not include the users you are already following
      * @param minStreak        the min streak to include
      * @return a list of the users who meet the criteria
      */
     @Override
-    public ArrayList<User> findUsers(String query, Boolean alreadyFollowing, int minStreak) {
-        return null;
+    public int findUsers(AsyncResultHandler handler, String query, Boolean alreadyFollowing, int minStreak) {
+        GenericGetRequest<User> get = new GenericGetRequest<>(handler, User.class, "user","name");
+        get.execute(query);
+        return 0;
     }
 
     /**
@@ -477,7 +487,10 @@ public class DataManager implements DataManagerAPI {
      */
     @Override
     public Boolean sendFollowRequest(User user) {
-        return null;
+        if (RelationshipManager.getInstance().sendFollowRequest(this.user, user) != -1) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -487,21 +500,22 @@ public class DataManager implements DataManagerAPI {
      * @return a list of habits that contain the search query
      */
     @Override
-    public ArrayList<Habit> findHabits(String query) {
-        habitManager.findHabits(query);
-        return null;
+    public int findHabits(AsyncResultHandler handler, String query) {
+        habitManager.findHabits(handler, query);
+        return 0;
     }
 
     /**
      * Search HabitEvents
      *
-     * @param query the search query
+     * @param handler
+     * @param query   the search query
      * @return a list of habits that contain the search query
      */
     @Override
-    public ArrayList<HabitEvent> findHabitEvents(String query) {
-        habitEventManager.findHabitEvents(query);
-        return null;
+    public int findHabitEvents(AsyncResultHandler handler, String query) {
+        habitEventManager.findHabitEvents(handler, query);
+        return 0;
     }
 
     /**
@@ -522,6 +536,7 @@ public class DataManager implements DataManagerAPI {
      */
     private MutableLiveData<ArrayList<Habit>> findHabitsQueryResults;
     private MutableLiveData<ArrayList<HabitEvent>> findHabitEventsQueryResults;
+    private MutableLiveData<ArrayList<User>> findUserQueryResults;
 
     /**
      * Access to get the queried habits
@@ -546,6 +561,21 @@ public class DataManager implements DataManagerAPI {
         }
         return findHabitEventsQueryResults;
     }
+
+    /**
+     * Access to get the queried users
+     *
+     * @return the list of the most recent user query results
+     */
+    public MutableLiveData<ArrayList<User>> getFindUserQueryResults() {
+        if (findUserQueryResults == null) {
+            findUserQueryResults = new MutableLiveData<>();
+        }
+        return findUserQueryResults;
+    }
+
+
+
 }
 
 

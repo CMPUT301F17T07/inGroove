@@ -31,29 +31,29 @@ public class BackEndTesting extends AppCompatActivity {
 
 
 
-        Button button = findViewById(R.id.BackendButton);
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getUsersWho();
-            }
-        });
+//        Button button = findViewById(R.id.BackendButton);
+//
+//        button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                getUsersWho();
+//            }
+//        });
 
 
     }
 
-    private void getUsersWho() {
-        User user = new User("test");
-        user.setUserID("AV_1mhce5oH-Uyt_aG_A");
-        DataManager.getInstance().getWhoThisUserFollows(user).observe(this, new Observer<ArrayList<User>>() {
-            @Override
-            public void onChanged(@Nullable ArrayList<User> users) {
-                Log.i("Results", "There are " + String.valueOf(users.size()) + " users" );
-
-            }
-        });
-    }
+//    private void getUsersWho() {
+//        User user = new User("test");
+//        user.setUserID("AV_1mhce5oH-Uyt_aG_A");
+//        DataManager.getInstance().getWhoThisUserFollows(user).observe(this, new Observer<ArrayList<User>>() {
+//            @Override
+//            public void onChanged(@Nullable ArrayList<User> users) {
+//                Log.i("Results", "There are " + String.valueOf(users.size()) + " users" );
+//
+//            }
+//        });
+//    }
 
 
 

@@ -2,23 +2,20 @@ package com.cmput301f17t07.ingroove.DataManagers.QueryTasks;
 
 import android.os.AsyncTask;
 import android.util.Log;
-
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
-import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
 
 /**
- * Created by Fraser Bulbuc on 2017-11-25.
+ * TODO: THIS CLASS IS NO LONGER NEEDED
  */
 
+@Deprecated
 public class GetHabitEventTask extends AsyncTask<String, Void, ArrayList<HabitEvent>> {
 
     private DataManagerAPI data = DataManager.getInstance();
@@ -36,13 +33,13 @@ public class GetHabitEventTask extends AsyncTask<String, Void, ArrayList<HabitEv
 
             query = "{\n" +
                     "    \"query\" : {\n" +
-                    "        \"term\" : { \"name\" : \"" + searchParam[0] + "\" }\n" +
+                    "        \"wildcard\" : { \"name\" : \"" + searchParam[0] + "*\" }\n" +
                     "    }\n" +
                     "}";
 
         }
 
-        Search search = new Search.Builder(query).addIndex("cmput301f17t07_ingroove").addType("event").build();
+        Search search = new Search.Builder(query).addIndex("cmput301f17t07_ingroove").addType("habit_event").build();
 
 
         try {
