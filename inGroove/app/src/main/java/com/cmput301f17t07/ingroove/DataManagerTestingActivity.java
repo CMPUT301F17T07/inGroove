@@ -2,6 +2,7 @@ package com.cmput301f17t07.ingroove;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,6 +29,8 @@ public class DataManagerTestingActivity extends AppCompatActivity implements Asy
     TextView resultTwoTV;
     Button searchBtn;
     Button addBtn;
+
+    private ArrayList<User> res = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,13 +60,12 @@ public class DataManagerTestingActivity extends AppCompatActivity implements Asy
             }
         });
 
-        data.findUsers(this, "test", false, 0);
+        data.getFollowRequests(this);
     }
 
 
     @Override
     public void handleResult(ArrayList<User> result) {
-
         if (result.size() > 0) {
             resultOneTV.setText(result.get(0).getName());
         }

@@ -449,6 +449,7 @@ public class DataManager implements DataManagerAPI {
     @Override
     // TODO: STILL TO IMPLEMENT
     public int getWhoThisUserFollows(AsyncResultHandler handler, User user) {
+        RelationshipManager.getInstance().getWhoThisUserFollows(handler, user);
         return 0;
     }
 
@@ -462,6 +463,7 @@ public class DataManager implements DataManagerAPI {
     @Override
     // TODO: STILL TO IMPLEMENT
     public int getWhoFollows(AsyncResultHandler handler, User user) {
+        RelationshipManager.getInstance().getFollowersOf(handler, user.getUserID());
         return 0;
     }
 
