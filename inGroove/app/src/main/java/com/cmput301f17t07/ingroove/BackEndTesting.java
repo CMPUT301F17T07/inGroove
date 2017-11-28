@@ -11,6 +11,7 @@ import android.widget.Button;
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
+import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.Model.User;
@@ -21,7 +22,7 @@ import java.util.Date;
 /**
  * This activity is used to help test the back end of the program.
  */
-public class BackEndTesting extends AppCompatActivity {
+public class BackEndTesting extends AppCompatActivity implements AsyncResultHandler<User>{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,31 +30,30 @@ public class BackEndTesting extends AppCompatActivity {
         setContentView(R.layout.activity_back_end_testing);
 
 
+        Button button = findViewById(R.id.BackendButton);
 
-
-//        Button button = findViewById(R.id.BackendButton);
-//
-//        button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                getUsersWho();
-//            }
-//        });
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getUsersWho();
+            }
+        });
 
 
     }
 
-//    private void getUsersWho() {
-//        User user = new User("test");
-//        user.setUserID("AV_1mhce5oH-Uyt_aG_A");
-//        DataManager.getInstance().getWhoThisUserFollows(user).observe(this, new Observer<ArrayList<User>>() {
-//            @Override
-//            public void onChanged(@Nullable ArrayList<User> users) {
-//                Log.i("Results", "There are " + String.valueOf(users.size()) + " users" );
-//
-//            }
-//        });
-//    }
+    @Override
+    public void handleResult(ArrayList<User> result) {
+        Log.i("BackEndTesting", "found " + String.valueOf(result.size()) + " Users");
+
+    }
+
+    private void getUsersWho() {
+        User user = new User("test");
+        user.setUserID("AV_1mhce5oH-Uyt_aG_A");
+        DataManager.getInstance().getWhoThisUserFollows(this, user);
+
+    }
 
 
 

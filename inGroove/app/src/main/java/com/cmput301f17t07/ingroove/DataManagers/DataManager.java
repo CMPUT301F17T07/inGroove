@@ -441,9 +441,7 @@ public class DataManager implements DataManagerAPI {
     public int getWhoThisUserFollows(AsyncResultHandler handler, User user) {
         //TODO: MOVE TO THE Appropriate Place
 
-        MutableLiveData<ArrayList<User>> liveData = new MutableLiveData<>();
-
-        GetWhoThisUserFollows getWhoThisUserFollows = new GetWhoThisUserFollows(liveData);
+        GetWhoThisUserFollows getWhoThisUserFollows = new GetWhoThisUserFollows(handler);
 
         getWhoThisUserFollows.execute(user);
 

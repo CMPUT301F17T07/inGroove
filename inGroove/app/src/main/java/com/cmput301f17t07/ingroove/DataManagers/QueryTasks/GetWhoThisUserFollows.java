@@ -22,10 +22,10 @@ import io.searchbox.core.SearchResult;
 
 public class GetWhoThisUserFollows extends AsyncTask<User, Void, ArrayList<User>> {
 
-    private MutableLiveData<ArrayList<User>> listLiveData;
+    private AsyncResultHandler resultHandler;
 
-    public GetWhoThisUserFollows(MutableLiveData<ArrayList<User>> listLiveData) {
-        this.listLiveData = listLiveData;
+    public GetWhoThisUserFollows(AsyncResultHandler<User> resultHandler) {
+        this.resultHandler = resultHandler;
     }
 
     @Override
@@ -38,15 +38,23 @@ public class GetWhoThisUserFollows extends AsyncTask<User, Void, ArrayList<User>
         ArrayList<User> foundUsers = new ArrayList<>();
 
         String query =  "{\n" +
-                        "    \"query\" : {\n" +
-                        "        \"term\" : { \"follower\" : \"" + users[0].getUserID() + "\" }\n" +
-                        "    }\n" +
+                        "\"query\" : {\n" +
+                        "\"term\" : { \"follower\" : \"AV_1mhce5oH-Uyt_aG_A\" }\n"+
+                        "}\n"+
                         "}";
+
+
+
+        Log.i("GetWhoFollowed", "Looking For follower with ID: " + users[0].getUserID());
+
+
 
         Search search = new Search.Builder(query).addIndex("cmput301f17t07_ingroove").addType("follow").build();
 
         try {
             SearchResult result = ServerCommandManager.getClient().execute(search);
+            Log.i("GetWhoFollowed", "Result " + result.getJsonString());
+
 
             if (result.isSucceeded()) {
                 Log.i("GetWhoFollowed", "found " + String.valueOf(result.getSourceAsStringList().size()) + " followees");
@@ -87,6 +95,6 @@ public class GetWhoThisUserFollows extends AsyncTask<User, Void, ArrayList<User>
     protected void onPostExecute(ArrayList<User> users) {
         super.onPostExecute(users);
 
-        listLiveData.setValue(users);
+        resultHandler.handleResult(users);
     }
 }
