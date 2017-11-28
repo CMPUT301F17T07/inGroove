@@ -1,0 +1,255 @@
+----------------------------------------- Overall Mapping ------------------------------------------
+{
+    "cmput301f17t07_ingroove": {
+        "mappings": {
+            "follow": {
+                "properties": {
+                    "accepted": {
+                        "type": "boolean"
+                    },
+                    "acceptedDate": {
+                        "type": "date",
+                        "format": "dateOptionalTime"
+                    },
+                    "followee": {
+                        "type": "string"
+                    },
+                    "follower": {
+                        "type": "string"
+                    }
+                }
+            },
+            "user": {
+                "properties": {
+                    "comment": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "followee": {
+                        "type": "string"
+                    },
+                    "follower": {
+                        "type": "string"
+                    },
+                    "joinDate": {
+                        "type": "date",
+                        "format": "dateOptionalTime"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "streak": {
+                        "type": "long"
+                    },
+                    "userID": {
+                        "type": "string"
+                    }
+                }
+            },
+            "habit_event": {
+                "properties": {
+                    "comment": {
+                        "type": "string"
+                    },
+                    "day": {
+                        "type": "date",
+                        "format": "dateOptionalTime"
+                    },
+                    "eventID": {
+                        "type": "string"
+                    },
+                    "habitID": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "objectID": {
+                        "type": "string"
+                    },
+                    "photo": {
+                        "type": "string"
+                    },
+                    "userID": {
+                        "type": "string"
+                    }
+                }
+            },
+            "habit": {
+                "properties": {
+                    "comment": {
+                        "type": "string"
+                    },
+                    "habitID": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "objectID": {
+                        "type": "string"
+                    },
+                    "repeatedDays": {
+                        "type": "string"
+                    },
+                    "startDate": {
+                        "type": "date",
+                        "format": "dateOptionalTime"
+                    },
+                    "userID": {
+                        "type": "string"
+                    }
+                }
+            },
+            "habitevent": {
+                "properties": {
+                    "comment": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}
+------------------------------------------ INDV MAPPINGS -------------------------------------------
+
+------------------------------------------- User Mapping -------------------------------------------
+
+{
+    "cmput301f17t07_ingroove": {
+        "mappings": {
+            "user": {
+                "properties": {
+                    "comment": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "followee": {
+                        "type": "string"
+                    },
+                    "follower": {
+                        "type": "string"
+                    },
+                    "joinDate": {
+                        "type": "date",
+                        "format": "dateOptionalTime"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "streak": {
+                        "type": "long"
+                    },
+                    "userID": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}
+
+------------------------------------------ Follow Mapping ------------------------------------------
+{
+    "cmput301f17t07_ingroove": {
+        "mappings": {
+            "follow": {
+                "properties": {
+                    "accepted": {
+                        "type": "boolean"
+                    },
+                    "acceptedDate": {
+                        "type": "date",
+                        "format": "dateOptionalTime"
+                    },
+                    "followee": {
+                        "type": "string"
+                    },
+                    "follower": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}
+
+------------------------------------------ Habit Mapping -------------------------------------------
+{
+    "cmput301f17t07_ingroove": {
+        "mappings": {
+            "habit": {
+                "properties": {
+                    "comment": {
+                        "type": "string"
+                    },
+                    "habitID": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "objectID": {
+                        "type": "string"
+                    },
+                    "repeatedDays": {
+                        "type": "string"
+                    },
+                    "startDate": {
+                        "type": "date",
+                        "format": "dateOptionalTime"
+                    },
+                    "userID": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}
+---------------------------------------- Habit Event Mapping ---------------------------------------
+{
+    "cmput301f17t07_ingroove": {
+        "mappings": {
+            "habit_event": {
+                "properties": {
+                    "comment": {
+                        "type": "string"
+                    },
+                    "day": {
+                        "type": "date",
+                        "format": "dateOptionalTime"
+                    },
+                    "eventID": {
+                        "type": "string"
+                    },
+                    "habitID": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "objectID": {
+                        "type": "string"
+                    },
+                    "photo": {
+                        "type": "string"
+                    },
+                    "userID": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}
+----------------------------------------- END OF MAPPINGS ------------------------------------------
+
+
