@@ -60,7 +60,7 @@ public class GenericGetRequest<T> extends AsyncTask<String, Void, ArrayList<T>> 
 
         }
 
-        Search search = new Search.Builder(query).addIndex("cmput301f17t07_ingroove").addType(type).build();
+        Search search = new Search.Builder(query).addIndex("ingroove").addType(type).build();
 
 
         try {

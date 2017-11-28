@@ -31,7 +31,7 @@ public class RelationshipManager {
     public void getFollowRequests(AsyncResultHandler resultHandler, String userID) {
         // will query elastic search and get a list of all the users who are
         // requesting to follow the given user
-        GetFollowRequestTask task = new GetFollowRequestTask();
+        GetFollowRequestTask task = new GetFollowRequestTask(resultHandler);
         task.execute(userID);
     }
 
@@ -62,7 +62,7 @@ public class RelationshipManager {
     }
 
     public int sendFollowRequest(User userRequestingToFollow, User userBeingFollowed) {
-        Follow follow = new Follow(userBeingFollowed.getUserID(), userRequestingToFollow.getUserID());
+        Follow follow = new Follow(userRequestingToFollow.getUserID(), userBeingFollowed.getUserID());
         try {
             new SendFollowRequestTask().execute(follow);
             return 0;

@@ -1,6 +1,6 @@
 ----------------------------------------- Overall Mapping ------------------------------------------
 {
-    "cmput301f17t07_ingroove": {
+    "ingroove": {
         "mappings": {
             "follow": {
                 "properties": {
@@ -12,104 +12,127 @@
                         "format": "dateOptionalTime"
                     },
                     "followee": {
-                        "type": "string"
+                        "type": "string",
+                        "index": "not_analyzed"
                     },
                     "follower": {
-                        "type": "string"
+                        "type": "string",
+                        "index": "not_analyzed"
                     }
                 }
             },
             "user": {
                 "properties": {
                     "comment": {
-                        "type": "string"
+                        "type": "string",
+                        "index": "not_analyzed"
                     },
                     "email": {
-                        "type": "string"
+                        "type": "string",
+                        "index": "not_analyzed"
                     },
                     "followee": {
-                        "type": "string"
+                        "type": "string",
+                        "index": "not_analyzed"
                     },
                     "follower": {
-                        "type": "string"
+                        "type": "string",
+                        "index": "not_analyzed"
                     },
                     "joinDate": {
                         "type": "date",
                         "format": "dateOptionalTime"
                     },
                     "name": {
-                        "type": "string"
+                        "type": "string",
+                        "index": "not_analyzed"
                     },
                     "streak": {
                         "type": "long"
                     },
                     "userID": {
-                        "type": "string"
+                        "type": "string",
+                        "index": "not_analyzed"
                     }
                 }
             },
             "habit_event": {
                 "properties": {
                     "comment": {
-                        "type": "string"
+                        "type": "string",
+                        "index": "not_analyzed"
                     },
                     "day": {
                         "type": "date",
                         "format": "dateOptionalTime"
                     },
                     "eventID": {
-                        "type": "string"
+                        "type": "string",
+                        "index": "not_analyzed"
                     },
                     "habitID": {
-                        "type": "string"
+                        "type": "string",
+                        "index": "not_analyzed"
                     },
                     "name": {
-                        "type": "string"
+                        "type": "string",
+                        "index": "not_analyzed"
                     },
                     "objectID": {
-                        "type": "string"
+                        "type": "string",
+                        "index": "not_analyzed"
                     },
                     "photo": {
-                        "type": "string"
+                        "type": "string",
+                        "index": "not_analyzed"
                     },
                     "userID": {
-                        "type": "string"
+                        "type": "string",
+                        "index": "not_analyzed"
                     }
                 }
             },
             "habit": {
                 "properties": {
                     "comment": {
-                        "type": "string"
+                        "type": "string",
+                        "index": "not_analyzed"
                     },
                     "habitID": {
-                        "type": "string"
+                        "type": "string",
+                        "index": "not_analyzed"
                     },
                     "name": {
-                        "type": "string"
+                        "type": "string",
+                        "index": "not_analyzed"
                     },
                     "objectID": {
-                        "type": "string"
+                        "type": "string",
+                        "index": "not_analyzed"
                     },
                     "repeatedDays": {
-                        "type": "string"
+                        "type": "string",
+                        "index": "not_analyzed"
                     },
                     "startDate": {
                         "type": "date",
                         "format": "dateOptionalTime"
                     },
                     "userID": {
-                        "type": "string"
+                        "type": "string",
+                        "index": "not_analyzed"
                     }
                 }
             },
             "habitevent": {
                 "properties": {
                     "comment": {
-                        "type": "string"
+                        "type": "string",
+                        "index": "not_analyzed"
                     },
                     "name": {
-                        "type": "string"
+                        "type": "string",
+                        "index": "not_analyzed"
                     }
                 }
             }

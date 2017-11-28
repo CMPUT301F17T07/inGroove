@@ -20,6 +20,15 @@ import io.searchbox.core.SearchResult;
 
 public class GetFollowRequestTask extends AsyncTask<String, Void, ArrayList<Follow>> implements AsyncResultHandler<User> {
 
+    private AsyncResultHandler handler;
+    private int count = 0;
+    private int returns = 0;
+    private ArrayList<User> followers = new ArrayList<>();
+
+    public GetFollowRequestTask(AsyncResultHandler handler) {
+        this.handler = handler;
+    }
+
     @Override
     protected ArrayList<Follow> doInBackground(String... userIDs) {
 
@@ -27,22 +36,19 @@ public class GetFollowRequestTask extends AsyncTask<String, Void, ArrayList<Foll
 
         ArrayList<Follow> follows = new ArrayList<>();
 
-        Log.d("-- GET FOL REQ --", " Searching ID of: " + userIDs[0]);
-
         String query = "{\n" +
                 "    \"query\" : {\n" +
                 "        \"term\" : { \"followee\" : \"" + userIDs[0] + "\" }\n" +
                 "    }\n" +
                 "}";
 
-        Search search = new Search.Builder(query).addIndex("cmput301f17t07_ingroove").addType("follow").build();
+        Search search = new Search.Builder(query).addIndex("ingroove").addType("follow").build();
 
         try {
             SearchResult result = client.execute(search);
             if (result.isSucceeded()) {
                 List<Follow> found = result.getSourceAsObjectList(Follow.class);
                 follows.addAll(found);
-                Log.i(" ---- IN BGND ----", "Query results of size: " + found.size());
             }
         } catch (Exception e) {
             Log.i("--- FOLLOW REQ ---","Could not retrieve follow requests.");
@@ -55,13 +61,14 @@ public class GetFollowRequestTask extends AsyncTask<String, Void, ArrayList<Foll
     protected void onPostExecute(ArrayList<Follow> queryResult) {
         super.onPostExecute(queryResult);
 
-        GenericGetRequest<User> get = new GenericGetRequest<>(this, User.class, "user","userID");
-
         if (queryResult != null) {
+            this.count = queryResult.size();
+            this.returns = 0;
+            Log.d("-- SET COUNT ---", "Should iterate, " + this.count + " times.");
             for (Follow follow : queryResult) {
-                String query = follow.getFollowee();
-                Log.d("--- SUB TASK ---", "Would retrieve user with id:" + query);
-                //get.execute(query);
+                GenericGetRequest<User> get = new GenericGetRequest<>(this, User.class, "user","userID");
+                String query = follow.getFollower();
+                get.execute(query);
             }
         }
 
@@ -69,8 +76,15 @@ public class GetFollowRequestTask extends AsyncTask<String, Void, ArrayList<Foll
 
     @Override
     public void handleResult(ArrayList<User> result) {
-        for (User user: result) {
-            Log.d("--- Followers ---","Found follower with name: " + user.getName());
+
+        if ( returns < count) {
+            followers.addAll(result);
+            returns = returns + 1;
+        }
+
+        if (returns == count) {
+            followers.addAll(result);
+            handler.handleResult(followers);
         }
     }
 }
