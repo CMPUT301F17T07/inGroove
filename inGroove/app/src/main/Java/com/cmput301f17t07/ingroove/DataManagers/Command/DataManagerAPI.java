@@ -135,7 +135,7 @@ public interface DataManagerAPI {
      * @return true if success, false if any issues
      * @see User
      */
-    boolean addUser(String userName);
+    boolean addUser(String userName, AsyncResultHandler handler);
 
     /**
      * used to pass users between activities

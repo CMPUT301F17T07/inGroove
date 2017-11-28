@@ -183,7 +183,7 @@ public class MockDataManager implements DataManagerAPI {
      * @param userName String representing the user's username
      * @return true if success, false if not
      */
-    public boolean addUser(String userName) {
+    public boolean addUser(String userName, AsyncResultHandler handler) {
         users.add(new User(userName, "HARDCODED EMAIL"));
         return true;
     }

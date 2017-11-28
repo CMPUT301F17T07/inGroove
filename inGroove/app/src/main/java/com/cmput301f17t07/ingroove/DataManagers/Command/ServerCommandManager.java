@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
+import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
@@ -94,14 +95,44 @@ public class ServerCommandManager {
     /**
      * Specific Async task for adding a new user
      */
-    public static class AddUserAsync extends AsyncTask<User, Void, Void> {
+    public static class InitializeUserAsync extends AsyncTask<User, Void, Void> {
+
+        private AsyncResultHandler<User> resultHandler;
+
+        public InitializeUserAsync(AsyncResultHandler<User> resultHandler) {
+            this.resultHandler = resultHandler;
+        }
+
         @Override
         protected Void doInBackground(User... users) {
 
             for (User user: users) {
-                DataManager.getInstance().addUserToServer(user);
+                try {
+                    DataManager.getInstance().addUserToServer(user);
+
+                    ServerCommand updateUserCommand = new UpdateUserCommand(DataManager.getInstance().getUser());
+                    ServerCommandManager.getInstance().addCommand(updateUserCommand);
+
+
+                    ArrayList<User> list = new ArrayList<>();
+                    list.add(DataManager.getInstance().getUser());
+                    resultHandler.handleResult(list);
+                } catch (Exception e){
+                    Log.d("---- USER ----"," Failed to add user with name " + user.getName() + " to server. Caught " + e);
+                    resultHandler.handleResult(null);
+                }
+
+                break; // this should only ever be passed one user
             }
             return null;
+        }
+
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            //TODO: update this to the job scheduler
+            ServerCommandManager.getInstance().execute();
         }
     }
 
