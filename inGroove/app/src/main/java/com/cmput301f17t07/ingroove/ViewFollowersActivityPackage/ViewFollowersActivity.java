@@ -14,6 +14,7 @@ import android.widget.SimpleAdapter;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
+import com.cmput301f17t07.ingroove.DataManagers.MockDataManager;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
 import com.cmput301f17t07.ingroove.UserActivityPackage.UserActivity;
@@ -27,7 +28,9 @@ import java.util.Map;
 
 public class ViewFollowersActivity extends NavigationDrawerActivity {
 
-    DataManagerAPI ServerCommunicator = DataManager.getInstance();
+    DataManager ServerCommunicator = DataManager.getInstance();
+    MockDataManager mServerCommunicator = MockDataManager.getInstance();
+
     ListView FollowerViewer;
     ArrayList<User> FollowerList;
 
@@ -38,8 +41,13 @@ public class ViewFollowersActivity extends NavigationDrawerActivity {
         super.onCreateDrawer();
 
         User passed_user = ServerCommunicator.getPassedUser();
-
         FollowerViewer = (ListView) findViewById(R.id.FollowerViewer);
+
+        //FollowerList = ServerCommunicator.getWhoFollows(passed_user);
+        FollowerList = mServerCommunicator.getWhoFollows(passed_user);
+        fillFollowersListView(FollowerList);
+
+
         FollowerViewer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {

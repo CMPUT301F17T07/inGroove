@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
+import com.cmput301f17t07.ingroove.DataManagers.MockDataManager;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
 import com.cmput301f17t07.ingroove.navDrawer.NavigationDrawerActivity;
@@ -33,7 +35,7 @@ public class UserActivity extends NavigationDrawerActivity {
     This activity REQUIRES a valid serialized user object be sent via intent
     to it. Otherwise it will simply exit
      */
-
+    MockDataManager mData = MockDataManager.getInstance();
     DataManagerAPI data = DataManager.getInstance();
 
     // Account data to display
@@ -88,8 +90,9 @@ public class UserActivity extends NavigationDrawerActivity {
             user_picture.setImageDrawable(drawable);
 
             // Load the ListView with the people the user follows
-            //FollowsList = data.getWhoFollows(user);
-            //LoadListView(FollowsList);
+            //FollowsList = data.getWhoThisUserFollows(user);
+            FollowsList = mData.getWhoThisUserFollows(user);
+            LoadListView(FollowsList);
 
             name.setText(user.getName());
             // @TODO THIS IS NOT THE USERNAME, the user object does not have a username field yet
@@ -107,9 +110,10 @@ public class UserActivity extends NavigationDrawerActivity {
                 }
             });
 
-            friends_list.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    //FollowerListOnClick();
+            friends_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                    FollowerListOnClick();
                 }
             });
 
@@ -140,7 +144,7 @@ public class UserActivity extends NavigationDrawerActivity {
             super.updateHeader(user.getName());
         }
     }
-    /*
+
     private void LoadListView(ArrayList<User> List){
         if(List == null || List.size() == 0)
             return;
@@ -176,7 +180,7 @@ public class UserActivity extends NavigationDrawerActivity {
         Intent upcomingIntent = new Intent(v.getContext(), ViewAnother.class);
         ServerCommunicator.setPassedUser(FollowerList.get(position));
         startActivityForResult(upcomingIntent, 0);
-
+        */
     }
-    */
+
 }
