@@ -60,12 +60,6 @@ public class DataManagerTestingActivity extends AppCompatActivity implements Asy
             }
         });
 
-//        User followingRequestor = new User("Chris");
-//        followingRequestor.setUserID("AWAArW3uBOIa5W1F-q2f");
-//        User followingRequestor1 = new User("Fraser");
-//        followingRequestor1.setUserID("AWAArhLoBOIa5W1F-q2g");
-//        data.sendFollowRequest(followingRequestor1);
-//        data.sendFollowRequest(followingRequestor);
         data.getFollowRequests(this);
     }
 
