@@ -55,8 +55,19 @@ public class FollowRequestsActivity extends NavigationDrawerActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
                 User user = followRequests.get(i);
-                Log.w("TESTTESTEST", user.getName());
+                Log.w("TESTTESTEST", "HELLO WORLD HELLO WORLD"+user.getName());
             }
         });
+        /* listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                DataModel dataModel= dataModels.get(position);
+
+                Snackbar.make(view, dataModel.getName()+"\n"+dataModel.getType()+" API: "+dataModel.getVersion_number(), Snackbar.LENGTH_LONG)
+                        .setAction("No action", null).show();
+            }
+        }); */
     }
+
 }

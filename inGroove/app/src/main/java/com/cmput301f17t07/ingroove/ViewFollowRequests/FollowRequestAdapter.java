@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
@@ -43,7 +44,9 @@ public class FollowRequestAdapter extends ArrayAdapter<User> implements View.OnC
     ArrayList<User> requestingFollowers;
     Context context;
 
-    // view lookup cache
+    /**
+     *  ViewHolder functions as a convenient way/cache to access and store the needed data.
+     */
     private static class ViewHolder {
         ImageButton acceptButton;
         ImageButton rejectButton;
@@ -63,7 +66,7 @@ public class FollowRequestAdapter extends ArrayAdapter<User> implements View.OnC
     }
 
     /**
-     * Deals with the users choice to accept or reject a follow request.
+     * Deals with the users choice to press the accept or reject a follow request buttons.
      *
      * @param v the given view
      */
@@ -103,7 +106,6 @@ public class FollowRequestAdapter extends ArrayAdapter<User> implements View.OnC
 
         User user = getItem(position);
         ViewHolder viewHolder;
-        View result;
 
         if (convertView == null) {
 
@@ -113,13 +115,11 @@ public class FollowRequestAdapter extends ArrayAdapter<User> implements View.OnC
             viewHolder.acceptButton = (ImageButton) convertView.findViewById(R.id.acceptFollowRequestButton);
             viewHolder.rejectButton = (ImageButton) convertView.findViewById(R.id.rejectFollowRequestButton);
             viewHolder.requesterInfo = (TextView) convertView.findViewById(R.id.followerInfo);
-            result = convertView;
             convertView.setTag(viewHolder);
 
         } else {
 
             viewHolder = (ViewHolder) convertView.getTag();
-            result = convertView;
 
         }
 

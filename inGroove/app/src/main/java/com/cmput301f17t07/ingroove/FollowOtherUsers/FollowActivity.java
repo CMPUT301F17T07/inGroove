@@ -4,7 +4,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -24,13 +27,13 @@ import java.util.ArrayList;
 public class FollowActivity extends NavigationDrawerActivity {
 
     // elements on the view
-    ListView otherUsersList;
+    ListView searchedForUsersListView;
     EditText searchBox;
     ImageButton searchButton;
 
     // adapter
     FollowAdapter followAdapter;
-    ArrayList<User> searchedForUserList = new ArrayList<User>();
+    ArrayList<User> searchResults = new ArrayList<User>();
 
 
 
@@ -42,18 +45,23 @@ public class FollowActivity extends NavigationDrawerActivity {
         // find all the elements on the page
         searchBox = (EditText) findViewById(R.id.searchForUsersEditText);
         searchButton = (ImageButton) findViewById(R.id.searchForUsersButton);
-        otherUsersList = (ListView) findViewById(R.id.followUsersListView);
+        searchedForUsersListView = (ListView) findViewById(R.id.followUsersListView);
 
         // for testing
-        User user1 = new User("Bob");
-        User user2 = new User("Joe");
-        //Follow follow1 = new Follow()
-        searchedForUserList.add(user1);
-        searchedForUserList.add(user2);
+        //searchResults.add(new User("Bob"));
+        //searchResults.add(new User("Joe"));
 
         // set adapter for the list view
-        followAdapter = new FollowAdapter(this, R.layout.list_item_follow_activity, searchedForUserList);
-        otherUsersList.setAdapter(followAdapter);
+        followAdapter = new FollowAdapter(searchResults, this);
+        searchedForUsersListView.setAdapter(followAdapter);
+
+        searchedForUsersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
+                User user = searchResults.get(i);
+                Log.w("TESTTESTEST", "HELLO WORLD HELLO WORLD"+user.getName());
+            }
+        });
 
         super.onCreateDrawer();
     }
