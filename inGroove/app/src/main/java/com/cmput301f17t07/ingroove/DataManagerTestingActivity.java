@@ -9,6 +9,8 @@ import android.widget.TextView;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
+import com.cmput301f17t07.ingroove.Model.Habit;
+import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.Model.User;
 
 import java.util.ArrayList;
@@ -16,7 +18,7 @@ import java.util.ArrayList;
 /**
  * This activity is used to test the data manager.
  */
-public class DataManagerTestingActivity extends AppCompatActivity implements AsyncResultHandler<Integer> {
+public class DataManagerTestingActivity extends AppCompatActivity  {
 
     DataManagerAPI data = DataManager.getInstance();
 
@@ -57,15 +59,46 @@ public class DataManagerTestingActivity extends AppCompatActivity implements Asy
             }
         });
 
-        data.rejectRequest(data.getUser(), this);
+        // Use anonymous classes to handle return data from ES queries like so:
+        data.getFollowRequests(new AsyncResultHandler<User>() {
+            @Override
+            public void handleResult(ArrayList<User> result) {
+                // When the Async. call finishes on the background thread
+                // this method will be called, and "result" will contain
+                // a list of the User objects that match the query.
+                // Implement your logic to update the UI here.
+            }
+        });
+
+        data.findHabits("YOUR QUERY", new AsyncResultHandler<Habit>() {
+            @Override
+            public void handleResult(ArrayList<Habit> result) {
+                // Another example, this time we are querying the server for Habits
+            }
+        });
+
+        data.findHabitEvents("YOUR HABIT EVENT QUERY", new AsyncResultHandler<HabitEvent>() {
+            @Override
+            public void handleResult(ArrayList<HabitEvent> result) {
+                // And another, this time for HabitEvents
+            }
+        });
+
+        // Note, you do not have to specify the data type in the anonymous class instantiation
+        // but doing so will avoid having to check/cast the returned array items when updating
+        // the UI--for example:
+        data.findHabits("YOUR QUERY", new AsyncResultHandler() {
+            @Override
+            public void handleResult(ArrayList result) {
+                // But now you must check/cast the type of the objects being returned before you
+                // can access their attributes--cleaner to do it like above, imo, since the return
+                // type is guaranteed
+            }
+        });
+
     }
 
 
-
-    @Override
-    public void handleResult(ArrayList<Integer> result) {
-
-    }
 
 
 }
