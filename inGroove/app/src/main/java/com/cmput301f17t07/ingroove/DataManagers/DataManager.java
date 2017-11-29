@@ -6,7 +6,7 @@ import android.util.Log;
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
-import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GenericDeleteRequest;
+import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GenericDeleteFollowRequest;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GenericGetRequest;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
@@ -437,8 +437,22 @@ public class DataManager implements DataManagerAPI {
      */
     @Override
     public Boolean rejectRequest(User user, AsyncResultHandler handler) {
-        GenericDeleteRequest<Integer> del = new GenericDeleteRequest<>(handler, "follow", "AWAArhLoBOIa5W1F-q2g");
-        del.execute("AWAAvCxYBOIa5W1F-q2s");
+        GenericDeleteFollowRequest<Integer> del = new GenericDeleteFollowRequest<>(handler, "follow", this.user.getUserID(), false);
+        del.execute(user.getUserID());
+        return true;
+    }
+
+
+    /**
+     * Cancel a pending follow request
+     *
+     * @param user
+     * @return true if the rejection was successful, false if not
+     */
+    @Override
+    public Boolean cancelRequest(User user, AsyncResultHandler handler) {
+        GenericDeleteFollowRequest<Integer> del = new GenericDeleteFollowRequest<>(handler, "follow", this.user.getUserID(), true);
+        del.execute(user.getUserID());
         return true;
     }
 
