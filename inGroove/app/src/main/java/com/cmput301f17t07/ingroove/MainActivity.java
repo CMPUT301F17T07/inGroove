@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResultHandle
         } else {
             // the user got added so the app can proceed
 
-            // Head to the Current Habits Activity as that is the chosen first screen
+            // Head to the Signup Activity as that is the chosen first screen
             Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
             getApplicationContext().startActivity(intent);
 

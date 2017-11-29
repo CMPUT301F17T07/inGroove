@@ -72,12 +72,12 @@ tools:context="com.cmput301f17t07.ingroove.SignupActivity">
 
     <ImageView
         android:id="@+id/signup_welcomeImage"
-        android:contentDescription="@string/usr_photo"
         android:layout_width="match_parent"
         android:layout_height="236dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentTop="true"
-        app:srcCompat="@android:drawable/btn_star_big_on" />
+        android:contentDescription="@string/usr_photo"
+        app:srcCompat="@mipmap/ic_launcher_round" />
 
     <!-- <ImageButton
         android:id="@+id/editImageButton"
