@@ -141,7 +141,7 @@ public class FollowRequestAdapter extends ArrayAdapter<User> implements View.OnC
     /**
      * Get the new results for the adapter and notify that the data set has cahnged.
      *
-     * @param result the new list of requesting followers 
+     * @param result the new list of requesting followers
      */
     @Override
     public void handleResult(ArrayList<User> result) {

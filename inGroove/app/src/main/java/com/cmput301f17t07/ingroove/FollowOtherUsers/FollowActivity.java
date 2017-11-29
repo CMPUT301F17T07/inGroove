@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
+import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.DataManagers.MockDataManager;
 import com.cmput301f17t07.ingroove.Model.Follow;
 import com.cmput301f17t07.ingroove.Model.User;
@@ -22,13 +23,15 @@ import com.cmput301f17t07.ingroove.navDrawer.NavigationDrawerActivity;
 import java.util.ArrayList;
 
 /**
- * Boundary class that displays a user's followers
+ * View allows the user to search for users to follow and request to follow them.
  *
- * @see User
+ * @see FollowAdapter
+ * @see DataManagerAPI
+ * @see DataManager
  */
 public class FollowActivity extends NavigationDrawerActivity {
 
-    // DataManagerAPI data = DataManager.getInstance();
+    //DataManagerAPI data = DataManager.getInstance();
     DataManagerAPI data = new MockDataManager();
 
     // elements on the view
@@ -41,8 +44,9 @@ public class FollowActivity extends NavigationDrawerActivity {
     ArrayList<User> searchResults = new ArrayList<User>();
 
     /**
+     * Sets up and initializes the follow activity.
      *
-     * @param savedInstanceState
+     * @param savedInstanceState the saved instance
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
