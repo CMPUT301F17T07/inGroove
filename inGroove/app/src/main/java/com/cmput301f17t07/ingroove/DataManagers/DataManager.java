@@ -2,10 +2,12 @@ package com.cmput301f17t07.ingroove.DataManagers;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
+import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GenericDeleteRequest;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GenericGetRequest;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
@@ -435,8 +437,10 @@ public class DataManager implements DataManagerAPI {
      * @return true if the rejection was successful, false if not
      */
     @Override
-    public Boolean rejectRequest(User user) {
-        return null;
+    public Boolean rejectRequest(AsyncResultHandler handler,  User user) {
+        GenericDeleteRequest<Integer> del = new GenericDeleteRequest<>(handler, "follow", "AWAArhLoBOIa5W1F-q2g");
+        del.execute("AWAAvCxYBOIa5W1F-q2s");
+        return true;
     }
 
     /**

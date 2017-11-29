@@ -19,7 +19,7 @@ import java.util.ArrayList;
 /**
  * This activity is used to test the data manager.
  */
-public class DataManagerTestingActivity extends AppCompatActivity implements AsyncResultHandler<User> {
+public class DataManagerTestingActivity extends AppCompatActivity implements AsyncResultHandler<Integer> {
 
     DataManagerAPI data = DataManager.getInstance();
 
@@ -60,18 +60,15 @@ public class DataManagerTestingActivity extends AppCompatActivity implements Asy
             }
         });
 
-        data.getFollowRequests(this);
+        data.rejectRequest(this, data.getUser());
     }
+
 
 
     @Override
-    public void handleResult(ArrayList<User> result) {
-        if (result.size() > 0) {
-            resultOneTV.setText(result.get(0).getName());
-        }
+    public void handleResult(ArrayList<Integer> result) {
 
-        if (result.size() > 1) {
-            resultTwoTV.setText(result.get(1).getName());
-        }
     }
+
+
 }
