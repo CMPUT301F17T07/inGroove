@@ -1,5 +1,8 @@
 package com.cmput301f17t07.ingroove.DataManagers.Command;
 
+import android.arch.lifecycle.MutableLiveData;
+
+import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.Model.User;
@@ -129,10 +132,10 @@ public interface DataManagerAPI {
      * Adds a new user to storage.
      *
      * @param userName a string representing the user's username
-     * @return 0 if success, -1 if any issues
+     * @return true if success, false if any issues
      * @see User
      */
-    boolean addUser(String userName);
+    boolean addUser(String userName, AsyncResultHandler handler);
 
     /**
      * used to pass users between activities
@@ -184,7 +187,7 @@ public interface DataManagerAPI {
      *
      * @return an array list of users who want to follow the current user
      */
-    ArrayList<User> getFollowRequests();
+    int getFollowRequests(AsyncResultHandler handler);
 
     /**
      * Accept a follow request by a user
@@ -200,7 +203,7 @@ public interface DataManagerAPI {
      * @param user
      * @return true if the rejection was successful, false if not
      */
-    Boolean rejectRequest(User user);
+    Boolean rejectRequest(AsyncResultHandler handler,  User user);
 
     /**
      * Get the users which the specified user follows
@@ -208,7 +211,7 @@ public interface DataManagerAPI {
      * @param user the user you want to get the followers of
      * @return a list of the particular user's followers
      */
-    ArrayList<User> getWhoThisUserFollows(User user);
+    int getWhoThisUserFollows(AsyncResultHandler handler, User user);
 
     /**
      * Gets the followers of a particular user
@@ -216,7 +219,7 @@ public interface DataManagerAPI {
      * @param user a list of users who follow the specified user
      * @return a list of users who follow the specified user
      */
-    ArrayList<User> getWhoFollows(User user);
+    int getWhoFollows(AsyncResultHandler handler, User user);
 
     /**
      * Search users
@@ -226,7 +229,7 @@ public interface DataManagerAPI {
      * @param minStreak the min streak to include
      * @return a list of the users who meet the criteria
      */
-    ArrayList<User> findUsers(String query, Boolean alreadyFollowing, int minStreak);
+    int findUsers(AsyncResultHandler handler, String query, Boolean alreadyFollowing, int minStreak);
 
     /**
      * Send a request to follow the user
@@ -242,7 +245,7 @@ public interface DataManagerAPI {
      * @param query the search query
      * @return a list of habits that contain the search query
      */
-    ArrayList<Habit> findHabits(String query);
+     int findHabits(AsyncResultHandler handler, String query);
 
     /**
      * Search HabitEvents
@@ -250,7 +253,7 @@ public interface DataManagerAPI {
      * @param query the search query
      * @return a list of habits that contain the search query
      */
-    ArrayList<HabitEvent> findHabitEvents(String query);
+    int findHabitEvents(AsyncResultHandler handler, String query);
 
 
     /**
@@ -261,6 +264,28 @@ public interface DataManagerAPI {
      * @return a list of the habit events
      */
     ArrayList<HabitEvent> getHabitEventsWithinRange(int radius, LatLng centre);
-    
+
+    /**
+     * Get the LiveData object holding the query results
+     *
+     * @return a LiveData object representing the query results
+     */
+    MutableLiveData<ArrayList<Habit>> getFindHabitsQueryResults();
+
+    /**
+     * Get the LiveData object holding the query results
+     *
+     * @return a LiveData object representing the query results
+     */
+    MutableLiveData<ArrayList<HabitEvent>> getFindHabitEventsQueryResults();
+
+
+    /**
+     * Access to get the queried users
+     *
+     * @return the list of the most recent user query results
+     */
+     MutableLiveData<ArrayList<User>> getFindUserQueryResults();
+
 
 }
