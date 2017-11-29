@@ -7,7 +7,7 @@
          Google Maps Android API v2, but you must specify either coarse or fine
          location permissions for the 'MyLocation' functionality. 
     -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -57,7 +57,11 @@
         <activity android:name=".avehabit.EditHabitActivity" />
         <activity android:name=".avehabit.ViewHabitActivity" />
         <activity android:name=".EditHabitEvent.EditHabitEventActivity" />
+<<<<<<< HEAD
+        <activity android:name=".UserActivityPackage.ViewOtherUserActivity"></activity>
+=======
         <activity android:name=".SignupActivity"></activity>
+>>>>>>> 832b6224268175dfce52328e711cd8a3dcf7e7d2
     </application>
 
 </manifest>

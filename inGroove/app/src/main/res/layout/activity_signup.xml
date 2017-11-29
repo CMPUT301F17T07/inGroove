@@ -17,7 +17,7 @@ tools:context="com.cmput301f17t07.ingroove.SignupActivity">
         android:layout_width="match_parent"
         android:layout_height="57dp"
         android:text="Looks like this is your first time with inGroove! You may let us know some information about yourself to make it easier to find and be found by friends."
-        android:textSize="8sp"
+        android:textSize="12sp"
         tools:textSize="24sp" />
 
 <LinearLayout
@@ -101,12 +101,6 @@ tools:context="com.cmput301f17t07.ingroove.SignupActivity">
         android:layout_weight="1"
         android:text="SAVE" />
 
-    <Button
-        android:id="@+id/editUserBackButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="BACK" />
 </LinearLayout>
 
 

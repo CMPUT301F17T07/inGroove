@@ -20,24 +20,23 @@ public class MainActivity extends AppCompatActivity implements AsyncResultHandle
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        Intent intent;
         // Set up the user if none exists
         User user = data.getUser();
         if (user == null){
-            data.addUser("New Groover");
-            intent = new Intent(getApplicationContext(), SignupActivity.class);
+            data.addUser("New Groover", this);
         } else {
-            intent = new Intent(getApplicationContext(), CurrentHabitsActivity.class);
+            Intent intent = new Intent(getApplicationContext(), CurrentHabitsActivity.class);
+            // Head to the Current Habits Activity as that is the chosen first screen
+
+            getApplicationContext().startActivity(intent);
+
+            // This main activity is meant to set up the user, and then send them to our chosen first
+            // Activity, so it should kill itself off once it sends the user along so that they cant
+            // come back to it.
+            finish();
         }
 
-	// Head to the Current Habits Activity as that is the chosen first screen
 
-        getApplicationContext().startActivity(intent);
-
-        // This main activity is meant to set up the user, and then send them to our chosen first
-        // Activity, so it should kill itself off once it sends the user along so that they cant
-        // come back to it.
-        finish();
     }
 
     @Override
@@ -51,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResultHandle
             // the user got added so the app can proceed
 
             // Head to the Current Habits Activity as that is the chosen first screen
-            Intent intent = new Intent(getApplicationContext(), DataManagerTestingActivity.class);
+            Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
             getApplicationContext().startActivity(intent);
 
             // This main activity is meant to set up the user, and then send them to our chosen first

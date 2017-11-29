@@ -35,7 +35,7 @@ public class UserActivity extends NavigationDrawerActivity {
     This activity REQUIRES a valid serialized user object be sent via intent
     to it. Otherwise it will simply exit
      */
-    MockDataManager mData = MockDataManager.getInstance();
+    //MockDataManager mData = MockDataManager.getInstance();
     DataManagerAPI data = DataManager.getInstance();
 
     // Account data to display
@@ -53,7 +53,6 @@ public class UserActivity extends NavigationDrawerActivity {
     TextView streak_txt;
     TextView start_date_txt;
     ListView friends_list;
-    ImageButton edit_user_button;
 
     /**
      * Starts user activity and displays the users information with the option to edit.
@@ -66,7 +65,7 @@ public class UserActivity extends NavigationDrawerActivity {
         setContentView(R.layout.activity_user);
 
         // Get the user to display
-        user = data.getUser();
+        user = data.getPassedUser();
 
         // make sure that the user is valid, else do activity
         if (user == null){
@@ -83,7 +82,6 @@ public class UserActivity extends NavigationDrawerActivity {
             streak_txt = (TextView) findViewById(R.id.usr_act_streak_txt);
             start_date_txt = (TextView) findViewById(R.id.usr_act_start_date);
             friends_list = (ListView) findViewById(R.id.usr_act_friends);
-            edit_user_button = (ImageButton) findViewById(R.id.editUserButton);
 
             // Load the layout with the user's data
             Drawable drawable = getResources().getDrawable(R.drawable.austin);
@@ -142,10 +140,6 @@ public class UserActivity extends NavigationDrawerActivity {
 
             // update navigation menu
             super.updateHeader(user.getName());
-
-            //Update followings list
-            FollowsList = data.getWhoThisUserFollows(user);
-            LoadListView(FollowsList);
         }
     }
 
