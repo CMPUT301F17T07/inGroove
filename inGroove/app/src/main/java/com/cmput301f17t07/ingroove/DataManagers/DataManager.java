@@ -2,12 +2,11 @@ package com.cmput301f17t07.ingroove.DataManagers;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.util.Log;
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
-import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GenericDeleteRequest;
+import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GenericDeleteFollowRequest;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GenericGetRequest;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
@@ -437,22 +436,36 @@ public class DataManager implements DataManagerAPI {
      * @return true if the rejection was successful, false if not
      */
     @Override
-    public Boolean rejectRequest(AsyncResultHandler handler,  User user) {
-        GenericDeleteRequest<Integer> del = new GenericDeleteRequest<>(handler, "follow", "AWAArhLoBOIa5W1F-q2g");
-        del.execute("AWAAvCxYBOIa5W1F-q2s");
+    public Boolean rejectRequest(User user, AsyncResultHandler handler) {
+        GenericDeleteFollowRequest<Integer> del = new GenericDeleteFollowRequest<>(handler, "follow", this.user.getUserID(), false);
+        del.execute(user.getUserID());
+        return true;
+    }
+
+
+    /**
+     * Cancel a pending follow request
+     *
+     * @param user
+     * @return true if the rejection was successful, false if not
+     */
+    @Override
+    public Boolean cancelRequest(User user, AsyncResultHandler handler) {
+        GenericDeleteFollowRequest<Integer> del = new GenericDeleteFollowRequest<>(handler, "follow", this.user.getUserID(), true);
+        del.execute(user.getUserID());
         return true;
     }
 
     /**
      * Get the users which the specified user follows
      *
-     * @param handler
      * @param user    the user you want to get the followers of
+     * @param handler
      * @return a list of the particular user's followers
      */
     @Override
     // TODO: STILL TO IMPLEMENT
-    public int getWhoThisUserFollows(AsyncResultHandler handler, User user) {
+    public int getWhoThisUserFollows(User user, AsyncResultHandler handler) {
         RelationshipManager.getInstance().getWhoThisUserFollows(handler, user);
         return 0;
     }
@@ -460,13 +473,13 @@ public class DataManager implements DataManagerAPI {
     /**
      * Gets the followers of a particular user
      *
-     * @param handler
      * @param user    a list of users who follow the specified user
+     * @param handler
      * @return a list of users who follow the specified user
      */
     @Override
     // TODO: STILL TO IMPLEMENT
-    public int getWhoFollows(AsyncResultHandler handler, User user) {
+    public int getWhoFollows(User user, AsyncResultHandler handler) {
         RelationshipManager.getInstance().getFollowersOf(handler, user.getUserID());
         return 0;
     }
@@ -474,14 +487,14 @@ public class DataManager implements DataManagerAPI {
     /**
      * Search users
      *
-     * @param handler
+     * @param minStreak        the min streak to include
      * @param query            the search query
      * @param alreadyFollowing if true, do not include the users you are already following
-     * @param minStreak        the min streak to include
+     * @param handler
      * @return a list of the users who meet the criteria
      */
     @Override
-    public int findUsers(AsyncResultHandler handler, String query, Boolean alreadyFollowing, int minStreak) {
+    public int findUsers(int minStreak, String query, Boolean alreadyFollowing, AsyncResultHandler handler) {
         GenericGetRequest<User> get = new GenericGetRequest<>(handler, User.class, "user","name");
         get.execute(query);
         return 0;
@@ -508,7 +521,7 @@ public class DataManager implements DataManagerAPI {
      * @return a list of habits that contain the search query
      */
     @Override
-    public int findHabits(AsyncResultHandler handler, String query) {
+    public int findHabits(String query, AsyncResultHandler handler) {
         habitManager.findHabits(handler, query);
         return 0;
     }
@@ -516,12 +529,12 @@ public class DataManager implements DataManagerAPI {
     /**
      * Search HabitEvents
      *
-     * @param handler
      * @param query   the search query
+     * @param handler
      * @return a list of habits that contain the search query
      */
     @Override
-    public int findHabitEvents(AsyncResultHandler handler, String query) {
+    public int findHabitEvents(String query, AsyncResultHandler handler) {
         habitEventManager.findHabitEvents(handler, query);
         return 0;
     }

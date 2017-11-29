@@ -203,7 +203,7 @@ public interface DataManagerAPI {
      * @param user
      * @return true if the rejection was successful, false if not
      */
-    Boolean rejectRequest(AsyncResultHandler handler,  User user);
+    Boolean rejectRequest(User user, AsyncResultHandler handler);
 
     /**
      * Get the users which the specified user follows
@@ -211,7 +211,7 @@ public interface DataManagerAPI {
      * @param user the user you want to get the followers of
      * @return a list of the particular user's followers
      */
-    int getWhoThisUserFollows(AsyncResultHandler handler, User user);
+    int getWhoThisUserFollows(User user, AsyncResultHandler handler);
 
     /**
      * Gets the followers of a particular user
@@ -219,17 +219,17 @@ public interface DataManagerAPI {
      * @param user a list of users who follow the specified user
      * @return a list of users who follow the specified user
      */
-    int getWhoFollows(AsyncResultHandler handler, User user);
+    int getWhoFollows(User user, AsyncResultHandler handler);
 
     /**
      * Search users
      *
+     * @param minStreak the min streak to include
      * @param query the search query
      * @param alreadyFollowing if true, do not include the users you are already following
-     * @param minStreak the min streak to include
      * @return a list of the users who meet the criteria
      */
-    int findUsers(AsyncResultHandler handler, String query, Boolean alreadyFollowing, int minStreak);
+    int findUsers(int minStreak, String query, Boolean alreadyFollowing, AsyncResultHandler handler);
 
     /**
      * Send a request to follow the user
@@ -240,12 +240,20 @@ public interface DataManagerAPI {
     Boolean sendFollowRequest(User user);
 
     /**
+     * Cancel a pending follow request
+     *
+     * @param user
+     * @return true if the rejection was successful, false if not
+     */
+    public Boolean cancelRequest(User user, AsyncResultHandler handler);
+
+    /**
      * Search Habits
      *
      * @param query the search query
      * @return a list of habits that contain the search query
      */
-     int findHabits(AsyncResultHandler handler, String query);
+     int findHabits(String query, AsyncResultHandler handler);
 
     /**
      * Search HabitEvents
@@ -253,7 +261,7 @@ public interface DataManagerAPI {
      * @param query the search query
      * @return a list of habits that contain the search query
      */
-    int findHabitEvents(AsyncResultHandler handler, String query);
+    int findHabitEvents(String query, AsyncResultHandler handler);
 
 
     /**

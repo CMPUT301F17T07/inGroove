@@ -273,12 +273,12 @@ public class MockDataManager implements DataManagerAPI {
     /**
      * Reject a pending follow request
      *
-     * @param handler
      * @param user
+     * @param handler
      * @return true if the rejection was successful, false if not
      */
     @Override
-    public Boolean rejectRequest(AsyncResultHandler handler, User user) {
+    public Boolean rejectRequest(User user, AsyncResultHandler handler) {
         return null;
     }
 
@@ -286,12 +286,12 @@ public class MockDataManager implements DataManagerAPI {
     /**
      * Get the users which the specified user follows
      *
-     * @param handler
      * @param user    the user you want to get the followers of
+     * @param handler
      * @return a list of the particular user's followers
      */
     @Override
-    public int getWhoThisUserFollows(AsyncResultHandler handler, User user) {
+    public int getWhoThisUserFollows(User user, AsyncResultHandler handler) {
         return 0;
     }
 
@@ -305,12 +305,12 @@ public class MockDataManager implements DataManagerAPI {
     /**
      * Gets the followers of a particular user
      *
-     * @param handler
      * @param user    a list of users who follow the specified user
+     * @param handler
      * @return a list of users who follow the specified user
      */
     @Override
-    public int getWhoFollows(AsyncResultHandler handler, User user) {
+    public int getWhoFollows(User user, AsyncResultHandler handler) {
         return 0;
     }
     // @TODO delete me
@@ -323,14 +323,14 @@ public class MockDataManager implements DataManagerAPI {
     /**
      * Search users
      *
-     * @param handler
+     * @param minStreak        the min streak to include
      * @param query            the search query
      * @param alreadyFollowing if true, do not include the users you are already following
-     * @param minStreak        the min streak to include
+     * @param handler
      * @return a list of the users who meet the criteria
      */
     @Override
-    public int findUsers(AsyncResultHandler handler, String query, Boolean alreadyFollowing, int minStreak) {
+    public int findUsers(int minStreak, String query, Boolean alreadyFollowing, AsyncResultHandler handler) {
         return 0;
     }
 
@@ -346,25 +346,37 @@ public class MockDataManager implements DataManagerAPI {
     }
 
     /**
+     * Cancel a pending follow request
+     *
+     * @param user
+     * @param handler
+     * @return true if the rejection was successful, false if not
+     */
+    @Override
+    public Boolean cancelRequest(User user, AsyncResultHandler handler) {
+        return null;
+    }
+
+    /**
      * Search Habits
      *
      * @param query the search query
      * @return a list of habits that contain the search query
      */
     @Override
-    public int findHabits(AsyncResultHandler handler, String query) {
+    public int findHabits(String query, AsyncResultHandler handler) {
         return 0;
     }
 
     /**
      * Search HabitEvents
      *
-     * @param handler
      * @param query   the search query
+     * @param handler
      * @return a list of habits that contain the search query
      */
     @Override
-    public int findHabitEvents(AsyncResultHandler handler, String query) {
+    public int findHabitEvents(String query, AsyncResultHandler handler) {
         return 0;
     }
 
