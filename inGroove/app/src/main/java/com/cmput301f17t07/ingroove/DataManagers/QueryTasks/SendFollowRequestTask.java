@@ -22,7 +22,7 @@ public class SendFollowRequestTask extends AsyncTask<Follow, Void, Void> {
         JestDroidClient client = ServerCommandManager.getClient();
 
         for (Follow follow: follows) {
-            Index index = new Index.Builder(follow).index("cmput301f17t07_ingroove").type("follow").build();
+            Index index = new Index.Builder(follow).index(ServerCommandManager.INDEX).type(ServerCommandManager.FOLLOW).build();
 
             try {
                 DocumentResult res = client.execute(index);

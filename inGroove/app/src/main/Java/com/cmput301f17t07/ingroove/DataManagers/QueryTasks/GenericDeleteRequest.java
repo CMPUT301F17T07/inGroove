@@ -44,7 +44,7 @@ public class GenericDeleteRequest<T> extends AsyncTask<String, Void, Void> {
                 "   }\n" +
                 "}";
 
-        DeleteByQuery del = new DeleteByQuery.Builder(query).addIndex("ingroove").addType(type).build();
+        DeleteByQuery del = new DeleteByQuery.Builder(query).addIndex(ServerCommandManager.INDEX).addType(type).build();
 
         try {
             ServerCommandManager.getClient().execute(del);

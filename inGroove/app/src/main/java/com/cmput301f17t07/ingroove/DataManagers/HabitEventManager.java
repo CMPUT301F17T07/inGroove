@@ -318,7 +318,7 @@ public class HabitEventManager {
 
         Boolean isNew = true;
 
-        Index.Builder builder = new Index.Builder(habitEvent).index("cmput301f17t07_ingroove").type("habit_event");
+        Index.Builder builder = new Index.Builder(habitEvent).index(ServerCommandManager.INDEX).type(ServerCommandManager.HABIT_EVENT_TYPE);
 
         if (habitEvent.getObjectID() != null) {
             builder.id(habitEvent.getObjectID());
@@ -347,7 +347,7 @@ public class HabitEventManager {
      */
     public void deleteHabitEventFromServer(HabitEvent habitEvent) throws Exception {
 
-        Delete.Builder builder = new Delete.Builder(habitEvent.getObjectID()).index("cmput301f17t07_ingroove").type("habit_event");
+        Delete.Builder builder = new Delete.Builder(habitEvent.getObjectID()).index(ServerCommandManager.INDEX).type(ServerCommandManager.HABIT_EVENT_TYPE);
 
         Delete index = builder.build();
         DocumentResult result = ServerCommandManager.getClient().execute(index);
@@ -358,7 +358,7 @@ public class HabitEventManager {
     }
 
     public void findHabitEvents(AsyncResultHandler handler, String query) {
-        GenericGetRequest<HabitEvent> get = new GenericGetRequest(handler, HabitEvent.class, "habit_event", "name");
+        GenericGetRequest<HabitEvent> get = new GenericGetRequest(handler, HabitEvent.class, ServerCommandManager.HABIT_EVENT_TYPE, "name");
         get.execute(query);
     }
 

@@ -381,7 +381,7 @@ public class DataManager implements DataManagerAPI {
 
         boolean isNew = true;
 
-        Index.Builder builder = new Index.Builder(user).index("cmput301f17t07_ingroove").type("user");
+        Index.Builder builder = new Index.Builder(user).index(ServerCommandManager.INDEX).type(ServerCommandManager.USER_TYPE);
 
         if (user.getUserID() != null && !user.getUserID().isEmpty()){
             builder.id(user.getUserID());

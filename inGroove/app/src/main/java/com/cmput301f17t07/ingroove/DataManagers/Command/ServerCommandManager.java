@@ -31,6 +31,18 @@ public class ServerCommandManager {
     private static final ServerCommandManager instance = new ServerCommandManager();
     private static JestDroidClient client = null;
 
+
+    /**
+     * strings for ES
+     */
+    public static final String INDEX = "cmput301f17t07_ingroove";
+    public static final String USER_TYPE = "user";
+    public static final String HABIT_TYPE = "habit";
+    public static final String HABIT_EVENT_TYPE = "habit_event";
+    public static final String FOLLOW = "follow";
+
+
+
     /**
      * Queue of command objects
      */

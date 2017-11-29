@@ -266,7 +266,7 @@ public class HabitManager {
 
         Boolean isNew = true;
 
-        Index.Builder builder = new Index.Builder(habit).index("cmput301f17t07_ingroove").type("habit");
+        Index.Builder builder = new Index.Builder(habit).index(ServerCommandManager.INDEX).type(ServerCommandManager.HABIT_TYPE);
 
         if (habit.getObjectID() != null) {
             builder.id(habit.getObjectID());
@@ -292,7 +292,7 @@ public class HabitManager {
      */
     public void deleteHabitFromServer(Habit habit) throws Exception {
 
-        Delete.Builder builder = new Delete.Builder(habit.getObjectID()).index("cmput301f17t07_ingroove").type("habit");
+        Delete.Builder builder = new Delete.Builder(habit.getObjectID()).index(ServerCommandManager.INDEX).type(ServerCommandManager.HABIT_TYPE);
 
         Delete index = builder.build();
         DocumentResult result = ServerCommandManager.getClient().execute(index);

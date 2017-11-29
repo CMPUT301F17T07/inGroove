@@ -1,10 +1,10 @@
 package com.cmput301f17t07.ingroove.DataManagers;
 
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
+import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GetFollowsTask;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.SendFollowRequestTask;
 import com.cmput301f17t07.ingroove.Model.Follow;
 import com.cmput301f17t07.ingroove.Model.User;
-import java.util.ArrayList;
 
 /**
  * Created by Ashley on 2017-10-22.

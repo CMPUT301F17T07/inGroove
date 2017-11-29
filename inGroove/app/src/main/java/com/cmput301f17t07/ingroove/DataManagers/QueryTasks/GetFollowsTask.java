@@ -1,4 +1,4 @@
-package com.cmput301f17t07.ingroove.DataManagers;
+package com.cmput301f17t07.ingroove.DataManagers.QueryTasks;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -75,7 +75,7 @@ public class GetFollowsTask extends AsyncTask<String, Void, ArrayList<Follow>> i
                     "}";
 
 
-            Search search = new Search.Builder(query).addIndex("ingroove").addType("follow").build();
+            Search search = new Search.Builder(query).addIndex(ServerCommandManager.INDEX).addType(ServerCommandManager.FOLLOW).build();
 
             try {
                 SearchResult result = client.execute(search);
@@ -107,7 +107,7 @@ public class GetFollowsTask extends AsyncTask<String, Void, ArrayList<Follow>> i
             Log.d("-- SET COUNT ---", "Should iterate, " + this.count + " times.");
 
             for (Follow follow : queryResult) {
-                GenericGetRequest<User> get = new GenericGetRequest<>(this, User.class, "user","userID");
+                GenericGetRequest<User> get = new GenericGetRequest<>(this, User.class, ServerCommandManager.USER_TYPE,"userID");
                 String query = follow.getFollower();
                 get.execute(query);
             }
