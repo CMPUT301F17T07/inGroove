@@ -14,6 +14,7 @@ import android.widget.ListView;
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.DataManagers.MockDataManager;
+import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
 import com.cmput301f17t07.ingroove.navDrawer.NavigationDrawerActivity;
@@ -26,7 +27,7 @@ import java.util.ArrayList;
  * @see DataManagerAPI
  * @see DataManager
  */
-public class FollowRequestsActivity extends NavigationDrawerActivity {
+public class FollowRequestsActivity extends NavigationDrawerActivity implements AsyncResultHandler<User> {
 
     // DataManagerAPI data = DataManager.getInstance();
     DataManagerAPI data = new MockDataManager();
@@ -46,7 +47,8 @@ public class FollowRequestsActivity extends NavigationDrawerActivity {
         followListView = (ListView) findViewById(R.id.followRequestsListView);
 
         // get follow requests
-        followRequests = data.getFollowRequests();
+        data.getFollowRequests(this);
+
         if (followRequests == null) {
             followRequests = new ArrayList<User>();
         }
@@ -58,4 +60,8 @@ public class FollowRequestsActivity extends NavigationDrawerActivity {
 
     }
 
+    @Override
+    public void handleResult(ArrayList<User> result) {
+        followRequests = result;
+    }
 }

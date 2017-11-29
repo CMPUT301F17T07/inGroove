@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.DataManagers.MockDataManager;
+import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
 
@@ -35,7 +36,7 @@ import java.util.List;
  * Created by Ashley on 2017-10-30.
  */
 
-public class FollowRequestAdapter extends ArrayAdapter<User> implements View.OnClickListener {
+public class FollowRequestAdapter extends ArrayAdapter<User> implements View.OnClickListener, AsyncResultHandler<User> {
 
     // https://www.journaldev.com/10416/android-listview-with-custom-adapter-example-tutorial
     // this tutorial was used to help implement this class
@@ -84,19 +85,19 @@ public class FollowRequestAdapter extends ArrayAdapter<User> implements View.OnC
                 // accept the follow request such that otherUser will now be following currentUser
                 data.acceptRequest(otherUser);
                 Log.i("Follow Request Info", "Accepting follow request from " + otherUser.getName());
-                requestingFollowers.remove(otherUser);
+                //requestingFollowers.remove(otherUser);
                 break;
             case R.id.rejectFollowRequestButton:
                 // reject the follow request from otherUser
-                data.rejectRequest(otherUser);
+                data.rejectRequest(this, otherUser);
                 Log.i("Follow Request Info", "Rejecting the follow request from " + otherUser.getName());
-                requestingFollowers.remove(otherUser);
+                //requestingFollowers.remove(otherUser);
                 break;
 
         }
 
         // now we need to remove the follow request from the list
-        notifyDataSetChanged();
+        //notifyDataSetChanged();
 
     }
 
@@ -138,6 +139,12 @@ public class FollowRequestAdapter extends ArrayAdapter<User> implements View.OnC
         viewHolder.rejectButton.setTag(position);
 
         return convertView;
+    }
+
+    @Override
+    public void handleResult(ArrayList<User> result) {
+        requestingFollowers = result;
+        notifyDataSetChanged();
     }
 
 }
