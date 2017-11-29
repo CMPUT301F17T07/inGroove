@@ -9,8 +9,6 @@ import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GenericGetRequest;
-import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GetHabitEventTask;
-import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GetRequest;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.Model.User;
