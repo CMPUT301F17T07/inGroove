@@ -47,6 +47,7 @@ import java.util.Locale;
 public class HabitEventsActivity extends AppCompatActivity {
     public static String habitevent_key = "habitevent_to_edit";
     public static String habit_key = "habit_to_edit";
+    final int photoSize = 65536;
 
     // Location Variables
     private static final String TAG = HabitEventsActivity.class.getSimpleName();
@@ -210,11 +211,14 @@ public class HabitEventsActivity extends AppCompatActivity {
             try {
                 final Uri imageUri = data.getData();
                 final InputStream imageStream = getContentResolver().openInputStream(imageUri);
-                final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                if (selectedImage.getByteCount() < 65536 )
+                Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                if (selectedImage.getByteCount() < photoSize )
                     imageBlock.setImageBitmap(selectedImage);
-                else
-                    Toast.makeText(this, "Image is too large.", Toast.LENGTH_LONG).show();
+                else {
+                    selectedImage = ResizeBitmap(selectedImage);
+                    Toast.makeText(this, "Image resized", Toast.LENGTH_LONG).show();
+                    imageBlock.setImageBitmap(selectedImage);
+                }
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
                 Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
@@ -223,6 +227,33 @@ public class HabitEventsActivity extends AppCompatActivity {
         }else {
             Toast.makeText(this, "You haven't picked an image",Toast.LENGTH_LONG).show();
         }
+    }
+
+    /**
+     * This method attempts to scale an image down so it fits the memory limit.
+     * @param image: The image to resize.
+     * @return The resized image.
+     */
+    public Bitmap ResizeBitmap(Bitmap image) {
+        //A 126x126 image is the closest we'll get to a 2^16 byte image.
+        int maxSize = 126;
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        while(image.getByteCount() >= photoSize ) {
+            float bitmapRatio = (float) width / (float) height;
+            if (bitmapRatio > 1) {
+                width = maxSize;
+                height = (int) (width / bitmapRatio);
+            } else {
+                height = maxSize;
+                width = (int) (height * bitmapRatio);
+            }
+            image = Bitmap.createScaledBitmap(image, width, height, true);
+            maxSize -= 1;
+        }
+
+        return image;
     }
 
     // THE FOLLOWING METHODS ARE TAKEN FROM GOOGLE DOCUMENTATION AND ONLY SLIGHTLY MODIFIED

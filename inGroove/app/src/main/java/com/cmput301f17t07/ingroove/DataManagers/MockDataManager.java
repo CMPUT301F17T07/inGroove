@@ -34,6 +34,7 @@ public class MockDataManager implements DataManagerAPI {
     private ArrayList<Habit> habits;
     private ArrayList<HabitEvent> events;
     private ArrayList<User> users;
+    private ArrayList<User> Following;
 
     private User passedUser;
     private Habit passedHabit;
@@ -60,6 +61,10 @@ public class MockDataManager implements DataManagerAPI {
 
         users = new ArrayList<User>();
 
+        Following = new ArrayList<User>();
+        Following.add( new User("T-Rex Joe", "TRexJoe@Hotmail.com", new Date(), 9999, "RAWR") );
+        Following.add( new User("Sheriff of Nottingham", "RobinHoodSux@Hotmail.com", new Date(), 2, "BigMeanie") );
+        Following.add( new User("The Duke of Dude", "TheDudeAbides@Hotmail.com", new Date(), 100, "CoolMan") );
     }
 
     /**
@@ -286,8 +291,13 @@ public class MockDataManager implements DataManagerAPI {
      * @return a list of the particular user's followers
      */
     @Override
+<<<<<<< HEAD
+    public ArrayList<User> getWhoThisUserFollows(User user) {
+        return Following;
+=======
     public int getWhoThisUserFollows(AsyncResultHandler handler, User user) {
         return 0;
+>>>>>>> 5350618ae95443cab73a6fb2e423318a211fdd1c
     }
 
     /**
@@ -298,8 +308,13 @@ public class MockDataManager implements DataManagerAPI {
      * @return a list of users who follow the specified user
      */
     @Override
+<<<<<<< HEAD
+    public ArrayList<User> getWhoFollows(User user) {
+        return Following;
+=======
     public int getWhoFollows(AsyncResultHandler handler, User user) {
         return 0;
+>>>>>>> 5350618ae95443cab73a6fb2e423318a211fdd1c
     }
 
     /**
