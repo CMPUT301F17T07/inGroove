@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
+import com.cmput301f17t07.ingroove.DataManagers.MockDataManager;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
 
@@ -39,7 +40,8 @@ public class FollowRequestAdapter extends ArrayAdapter<User> implements View.OnC
     // https://www.journaldev.com/10416/android-listview-with-custom-adapter-example-tutorial
     // this tutorial was used to help implement this class
 
-    DataManagerAPI data = DataManager.getInstance();
+    // DataManagerAPI data = DataManager.getInstance();
+    DataManagerAPI data = new MockDataManager();
 
     ArrayList<User> requestingFollowers;
     Context context;
@@ -77,21 +79,24 @@ public class FollowRequestAdapter extends ArrayAdapter<User> implements View.OnC
         User otherUser = (User) getItem(position);
 
         switch (v.getId()) {
+
             case R.id.acceptFollowRequestButton:
                 // accept the follow request such that otherUser will now be following currentUser
                 data.acceptRequest(otherUser);
                 Log.i("Follow Request Info", "Accepting follow request from " + otherUser.getName());
+                requestingFollowers.remove(otherUser);
                 break;
             case R.id.rejectFollowRequestButton:
                 // reject the follow request from otherUser
                 data.rejectRequest(otherUser);
                 Log.i("Follow Request Info", "Rejecting the follow request from " + otherUser.getName());
+                requestingFollowers.remove(otherUser);
                 break;
 
         }
-        
-        // now we need to remove the follow request from the list
 
+        // now we need to remove the follow request from the list
+        notifyDataSetChanged();
 
     }
 

@@ -9,9 +9,24 @@ package com.cmput301f17t07.ingroove.Model;
 public interface Identifiable {
 
     /**
-     * Must provide access to their string ID
+     * Provides the Unique id for this object
+     * can be used locally as well as in Elastic Search
      *
-     * @return the String ID for that object
+     * @return the Unique String ID for that object
      */
-    public String getID();
+    String getObjectID();
+
+    /**
+     * Used to set the object id
+     * Must be Unique across all devices running this app
+     *
+     * ie set to userId + an id unique to this device
+     * @param uniqueObjectId an id that uniquely identifies this object
+     *
+     */
+    void setObjectID(String uniqueObjectId);
+
+
+
+
 }

@@ -2,25 +2,35 @@ package com.cmput301f17t07.ingroove;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
+import android.widget.TextView;
+import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
+import com.cmput301f17t07.ingroove.Model.Habit;
+import com.cmput301f17t07.ingroove.Model.HabitEvent;
+import com.cmput301f17t07.ingroove.Model.User;
+
+import java.util.ArrayList;
 
 /**
- * This acitivity is used to test the data manager.
+ * This activity is used to test the data manager.
  */
-public class DataManagerTestingActivity extends AppCompatActivity {
+public class DataManagerTestingActivity extends AppCompatActivity implements AsyncResultHandler<Integer> {
 
-    DataManagerAPI dataManager = DataManager.getInstance();
+    DataManagerAPI data = DataManager.getInstance();
 
     EditText topET;
-    EditText bottomET;
+    EditText addET;
+    TextView resultOneTV;
+    TextView resultTwoTV;
+    Button searchBtn;
+    Button addBtn;
 
-    Button saveBtn;
-    Button deleteBtn;
+    private ArrayList<User> res = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,23 +38,37 @@ public class DataManagerTestingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_data_manager_testing);
 
         topET = (EditText) findViewById(R.id.topET);
-        bottomET = (EditText) findViewById(R.id.bottomET);
-        saveBtn = (Button) findViewById(R.id.saveBtn);
-        deleteBtn = (Button) findViewById(R.id.deleteBtn);
+        addET = (EditText) findViewById(R.id.addET);
 
-        saveBtn.setOnClickListener(new View.OnClickListener() {
+        resultOneTV = (TextView) findViewById(R.id.resultOneTV);
+        resultTwoTV = (TextView) findViewById(R.id.resultTwoTV);
+        searchBtn = (Button) findViewById(R.id.saveBtn);
+        addBtn = (Button) findViewById(R.id.addBtn);
+
+        addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dataManager.addUser(topET.getText().toString());
+                String name = addET.getText().toString();
             }
         });
 
-        deleteBtn.setOnClickListener(new View.OnClickListener() {
+        searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Do something for testing here
+                String search = topET.getText().toString();
+
             }
         });
+
+        data.rejectRequest(this, data.getUser());
+    }
+
+
+
+    @Override
+    public void handleResult(ArrayList<Integer> result) {
 
     }
+
+
 }

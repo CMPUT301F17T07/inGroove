@@ -13,6 +13,7 @@ import android.widget.ListView;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
+import com.cmput301f17t07.ingroove.DataManagers.MockDataManager;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
 import com.cmput301f17t07.ingroove.navDrawer.NavigationDrawerActivity;
@@ -27,7 +28,8 @@ import java.util.ArrayList;
  */
 public class FollowRequestsActivity extends NavigationDrawerActivity {
 
-    DataManagerAPI data = DataManager.getInstance();
+    // DataManagerAPI data = DataManager.getInstance();
+    DataManagerAPI data = new MockDataManager();
 
     // set up needed page element
     ListView followListView;
@@ -43,26 +45,16 @@ public class FollowRequestsActivity extends NavigationDrawerActivity {
 
         followListView = (ListView) findViewById(R.id.followRequestsListView);
 
-        // for testing
-        followRequests.add(new User("Bob"));
-        followRequests.add(new User("Joe"));
         // get follow requests
-        //followRequests = data.getFollowRequests();
+        followRequests = data.getFollowRequests();
+        if (followRequests == null) {
+            followRequests = new ArrayList<User>();
+        }
+
 
         // set adapter for list view
         FollowRequestAdapter adapter = new FollowRequestAdapter(followRequests, this);
         followListView.setAdapter(adapter);
-
-        // handle click on list view item
-        followListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
-                User user = followRequests.get(i);
-                followRequests.remove(user);
-                followListView.removeViewAt(i);
-                Log.w("TESTTESTEST", "HELLO WORLD HELLO WORLD"+user.getName());
-            }
-        });
 
     }
 
