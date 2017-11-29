@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
+import com.cmput301f17t07.ingroove.DataManagers.MockDataManager;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
 
@@ -39,7 +40,8 @@ public class FollowRequestAdapter extends ArrayAdapter<User> implements View.OnC
     // https://www.journaldev.com/10416/android-listview-with-custom-adapter-example-tutorial
     // this tutorial was used to help implement this class
 
-    DataManagerAPI data = DataManager.getInstance();
+    // DataManagerAPI data = DataManager.getInstance();
+    DataManagerAPI data = new MockDataManager();
 
     ArrayList<User> requestingFollowers;
     Context context;
