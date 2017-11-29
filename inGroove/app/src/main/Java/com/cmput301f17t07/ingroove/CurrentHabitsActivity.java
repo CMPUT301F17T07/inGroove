@@ -27,6 +27,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -185,6 +186,13 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
             if (i > 20)
                 break;
         }
+        Collections.sort(HabitEventHolder, new Comparator<HabitEvent>() {
+            @Override
+            public int compare(HabitEvent o1, HabitEvent o2) {
+                return o2.getDay().compareTo(o1.getDay());
+            }
+        });
+
         PopulateGridView_HabitEvents(HabitEventHolder);
     }
 
@@ -193,7 +201,7 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
      */
     private void upcomingButtonClick() {
         habitsLoaded = true;
-        habitViewer.setAdapter(sortHabitsByDay(HabitHolder));
+        fillGridView(sortHabitsByDay(HabitHolder));
     }
 
     /**
@@ -320,14 +328,30 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
      * @param HabitEventList: A list of habit events that will be added to the gridview.
      */
     private void PopulateGridView_HabitEvents(ArrayList<HabitEvent> HabitEventList) {
-        ArrayList<String> gv_GridItems = new ArrayList<String>();
+        //ArrayList<String> gv_GridItems = new ArrayList<String>();
+        List<Map<String, String>> data = new ArrayList<Map<String, String>>();
         for (int i = 0; i < HabitEventList.size(); i++) {
+
+            Map<String, String> datum = new HashMap<String, String>(2);
+            datum.put("title", HabitEventList.get(i).getName());
+            datum.put("date", HabitEventList.get(i).getDay().toString());
+            data.add(datum);
+
+            /*
             if(HabitEventList.get(i).getName() != null && !HabitEventList.get(i).getName().isEmpty())
                 gv_GridItems.add(HabitEventList.get(i).getName());
             else
                 gv_GridItems.add("Nameless HabitEvent");
+            */
+
         }
-        fillGridView(gv_GridItems);
+
+        SimpleAdapter adapter = new SimpleAdapter(this, data,
+                android.R.layout.simple_list_item_2,
+                new String[] {"title", "date"},
+                new int[] {android.R.id.text1,
+                        android.R.id.text2});
+        fillGridView((SimpleAdapter) adapter);
     }
 
     /**
@@ -339,6 +363,15 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
         gridViewArrayAdapter = new ArrayAdapter<String>
                 (this, android.R.layout.simple_list_item_1, gridItems);
         habitViewer.setAdapter(gridViewArrayAdapter);
+    }
+
+    /**
+     * This method populates the gridview with a pre-assembled adapter.
+     * @param adapter
+     */
+    private void fillGridView(SimpleAdapter adapter)
+    {
+        habitViewer.setAdapter(adapter);
     }
 
     /**
