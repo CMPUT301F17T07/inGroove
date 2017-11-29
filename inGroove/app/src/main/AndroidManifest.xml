@@ -57,11 +57,8 @@
         <activity android:name=".avehabit.EditHabitActivity" />
         <activity android:name=".avehabit.ViewHabitActivity" />
         <activity android:name=".EditHabitEvent.EditHabitEventActivity" />
-<<<<<<< HEAD
         <activity android:name=".UserActivityPackage.ViewOtherUserActivity"></activity>
-=======
         <activity android:name=".SignupActivity"></activity>
->>>>>>> 832b6224268175dfce52328e711cd8a3dcf7e7d2
     </application>
 
 </manifest>
