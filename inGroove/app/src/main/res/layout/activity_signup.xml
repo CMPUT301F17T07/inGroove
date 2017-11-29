@@ -71,7 +71,7 @@ tools:context="com.cmput301f17t07.ingroove.SignupActivity">
     android:layout_height="251dp">
 
     <ImageView
-        android:id="@+id/userImageView"
+        android:id="@+id/signup_welcomeImage"
         android:contentDescription="@string/usr_photo"
         android:layout_width="match_parent"
         android:layout_height="236dp"
