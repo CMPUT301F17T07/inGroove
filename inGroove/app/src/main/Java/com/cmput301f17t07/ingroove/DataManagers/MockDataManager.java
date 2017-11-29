@@ -268,13 +268,15 @@ public class MockDataManager implements DataManagerAPI {
     /**
      * Reject a pending follow request
      *
+     * @param handler
      * @param user
      * @return true if the rejection was successful, false if not
      */
     @Override
-    public Boolean rejectRequest(User user) {
+    public Boolean rejectRequest(AsyncResultHandler handler, User user) {
         return null;
     }
+
 
     /**
      * Get the users which the specified user follows

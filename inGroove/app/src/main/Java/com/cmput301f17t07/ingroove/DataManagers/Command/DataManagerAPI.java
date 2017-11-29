@@ -203,7 +203,7 @@ public interface DataManagerAPI {
      * @param user
      * @return true if the rejection was successful, false if not
      */
-    Boolean rejectRequest(User user);
+    Boolean rejectRequest(AsyncResultHandler handler,  User user);
 
     /**
      * Get the users which the specified user follows

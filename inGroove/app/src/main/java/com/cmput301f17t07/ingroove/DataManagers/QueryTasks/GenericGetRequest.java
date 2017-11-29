@@ -43,7 +43,7 @@ public class GenericGetRequest<T> extends AsyncTask<String, Void, ArrayList<T>> 
     }
 
     @Override
-    protected ArrayList doInBackground(String... searchParam) {
+    protected ArrayList<T> doInBackground(String... searchParam) {
 
         ArrayList<T> result = new ArrayList<>();
         String query;

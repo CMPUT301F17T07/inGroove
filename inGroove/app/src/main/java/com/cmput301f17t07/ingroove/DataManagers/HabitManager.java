@@ -285,8 +285,7 @@ public class HabitManager {
 
     /**
      * Method to delete a Habit from the server
-     * !!!!!Must be called Async!!!!!
-     *
+     * *
      * @param habit the Habit to be deleted
      * @throws Exception throws an exception if it cant delete from the server
      * @see Habit
