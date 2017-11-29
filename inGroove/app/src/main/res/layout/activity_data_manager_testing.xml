@@ -7,40 +7,19 @@
     android:orientation="vertical"
     tools:context="com.cmput301f17t07.ingroove.DataManagerTestingActivity">
 
-    <LinearLayout
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <android.support.design.widget.TextInputLayout
+        <EditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:hint="Add Event with Name"
+            android:maxLength="25"
+            android:maxLines="1"
+            android:id="@+id/addET"/>
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Name"
-                android:maxLength="25"
-                android:maxLines="1"
-                android:id="@+id/topET"/>
-
-        </android.support.design.widget.TextInputLayout>
-
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Comments"
-                android:maxLength="144"
-                android:id="@+id/bottomET"/>
-
-        </android.support.design.widget.TextInputLayout>
-
-    </LinearLayout>
+    </android.support.design.widget.TextInputLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -51,17 +30,63 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Delete"
-            android:id="@+id/deleteBtn"/>
+            android:text="Add Event"
+            android:id="@+id/addBtn"/>
+
+    </LinearLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Search Text"
+            android:maxLength="25"
+            android:maxLines="1"
+            android:id="@+id/topET"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end|center_vertical">
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Save"
+            android:text="Search Habits"
             android:id="@+id/saveBtn"/>
 
-
-
     </LinearLayout>
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <TextView
+        android:id="@+id/resultOneTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="This has not updated."
+        android:textAlignment="center"
+        android:textAppearance="@android:style/TextAppearance.Material.Large" />
+
+    <TextView
+        android:id="@+id/resultTwoTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="This has not updated."
+        android:textAlignment="center"
+        android:textAppearance="@android:style/TextAppearance.Material.Large" />
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
 </LinearLayout>

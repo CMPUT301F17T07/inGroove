@@ -31,7 +31,7 @@ public class BackEndTesting extends AppCompatActivity {
         ServerCommandManager.getInstance().execute();
 
         HabitEvent event1 = new HabitEvent("testEvent2", new Date());
-        event1.setHabitID(habit1.getHabitID());
+        event1.setHabitID(habit1.getObjectID());
 
         dataManager.addHabitEvent(habit1, event1);
 

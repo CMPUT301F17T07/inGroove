@@ -1,6 +1,9 @@
 package com.cmput301f17t07.ingroove.DataManagers;
 
+import android.arch.lifecycle.MutableLiveData;
+
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
+import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.Model.User;
@@ -31,6 +34,7 @@ public class MockDataManager implements DataManagerAPI {
     private ArrayList<Habit> habits;
     private ArrayList<HabitEvent> events;
     private ArrayList<User> users;
+    private ArrayList<User> Following;
 
     private User passedUser;
     private Habit passedHabit;
@@ -57,6 +61,10 @@ public class MockDataManager implements DataManagerAPI {
 
         users = new ArrayList<User>();
 
+        Following = new ArrayList<User>();
+        Following.add( new User("T-Rex Joe", "TRexJoe@Hotmail.com", new Date(), 9999, "RAWR") );
+        Following.add( new User("Sheriff of Nottingham", "RobinHoodSux@Hotmail.com", new Date(), 2, "BigMeanie") );
+        Following.add( new User("The Duke of Dude", "TheDudeAbides@Hotmail.com", new Date(), 100, "CoolMan") );
     }
 
     /**
@@ -178,9 +186,9 @@ public class MockDataManager implements DataManagerAPI {
      * Add a new user
      *
      * @param userName String representing the user's username
-     * @return Can we return 0 if success, -1 if any issues instead of a string
+     * @return true if success, false if not
      */
-    public boolean addUser(String userName) {
+    public boolean addUser(String userName, AsyncResultHandler handler) {
         users.add(new User(userName, "HARDCODED EMAIL"));
         return true;
     }
@@ -238,19 +246,18 @@ public class MockDataManager implements DataManagerAPI {
         this.passedHabitEvent = passedHabitEvent;
     }
 
-
-
-    /*  ------------------------- These methods return null data for now ------------------------- */
-
     /**
      * Retrieve the current users who want to follow the current user
      *
+     * @param resultHandler
      * @return an array list of users who want to follow the current user
      */
     @Override
-    public ArrayList<User> getFollowRequests() {
-        return null;
+    public int getFollowRequests(AsyncResultHandler resultHandler) {
+        return 0;
     }
+
+    /*  ------------------------- These methods return null data for now ------------------------- */
 
     /**
      * Accept a follow request by a user
@@ -267,46 +274,64 @@ public class MockDataManager implements DataManagerAPI {
      * Reject a pending follow request
      *
      * @param user
+     * @param handler
      * @return true if the rejection was successful, false if not
      */
     @Override
-    public Boolean rejectRequest(User user) {
+    public Boolean rejectRequest(User user, AsyncResultHandler handler) {
         return null;
     }
+
 
     /**
      * Get the users which the specified user follows
      *
-     * @param user the user you want to get the followers of
+     * @param user    the user you want to get the followers of
+     * @param handler
      * @return a list of the particular user's followers
      */
     @Override
-    public ArrayList<User> getWhoThisUserFollows(User user) {
-        return null;
+    public int getWhoThisUserFollows(User user, AsyncResultHandler handler) {
+        return 0;
     }
+
+    // TODO delete me
+    public ArrayList<User> getWhoThisUserFollows(User user) {
+        return Following;
+    }
+
+
 
     /**
      * Gets the followers of a particular user
      *
-     * @param user a list of users who follow the specified user
+     * @param user    a list of users who follow the specified user
+     * @param handler
      * @return a list of users who follow the specified user
      */
     @Override
-    public ArrayList<User> getWhoFollows(User user) {
-        return null;
+    public int getWhoFollows(User user, AsyncResultHandler handler) {
+        return 0;
     }
+    // @TODO delete me
+    public ArrayList<User> getWhoFollows(User user) {
+        return Following;
+    }
+
+
 
     /**
      * Search users
      *
+     * @param minStreak        the min streak to include
      * @param query            the search query
      * @param alreadyFollowing if true, do not include the users you are already following
-     * @param minStreak        the min streak to include
+     * @param handler
      * @return a list of the users who meet the criteria
      */
     @Override
-    public ArrayList<User> findUsers(String query, Boolean alreadyFollowing, int minStreak) {
-        return null;
+    public int findUsers(int minStreak, String query, Boolean alreadyFollowing, AsyncResultHandler handler) {
+        return 0;
     }
 
     /**
@@ -321,25 +346,38 @@ public class MockDataManager implements DataManagerAPI {
     }
 
     /**
+     * Cancel a pending follow request
+     *
+     * @param user
+     * @param handler
+     * @return true if the rejection was successful, false if not
+     */
+    @Override
+    public Boolean cancelRequest(User user, AsyncResultHandler handler) {
+        return null;
+    }
+
+    /**
      * Search Habits
      *
      * @param query the search query
      * @return a list of habits that contain the search query
      */
     @Override
-    public ArrayList<Habit> findHabits(String query) {
-        return null;
+    public int findHabits(String query, AsyncResultHandler handler) {
+        return 0;
     }
 
     /**
      * Search HabitEvents
      *
-     * @param query the search query
+     * @param query   the search query
+     * @param handler
      * @return a list of habits that contain the search query
      */
     @Override
-    public ArrayList<HabitEvent> findHabitEvents(String query) {
-        return null;
+    public int findHabitEvents(String query, AsyncResultHandler handler) {
+        return 0;
     }
 
     /**
@@ -351,6 +389,36 @@ public class MockDataManager implements DataManagerAPI {
      */
     @Override
     public ArrayList<HabitEvent> getHabitEventsWithinRange(int radius, LatLng centre) {
+        return null;
+    }
+
+    /**
+     * Get the LiveData object holding the query results
+     *
+     * @return a LiveData object representing the query results
+     */
+    @Override
+    public MutableLiveData<ArrayList<Habit>> getFindHabitsQueryResults() {
+        return null;
+    }
+
+    /**
+     * Get the LiveData object holding the query results
+     *
+     * @return a LiveData object representing the query results
+     */
+    @Override
+    public MutableLiveData<ArrayList<HabitEvent>> getFindHabitEventsQueryResults() {
+        return null;
+    }
+
+    /**
+     * Access to get the queried users
+     *
+     * @return the list of the most recent user query results
+     */
+    @Override
+    public MutableLiveData<ArrayList<User>> getFindUserQueryResults() {
         return null;
     }
 }

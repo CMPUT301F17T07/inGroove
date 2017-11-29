@@ -1,9 +1,13 @@
 package com.cmput301f17t07.ingroove.DataManagers;
 
+import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.util.Log;
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
+import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
+import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GenericDeleteFollowRequest;
+import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GenericGetRequest;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.Model.User;
@@ -45,7 +49,6 @@ public class DataManager implements DataManagerAPI {
 
     // current user
     private User user;
-
     private User passedUser;
     private Habit passedHabit;
     private HabitEvent passedHabitEvent;
@@ -91,21 +94,21 @@ public class DataManager implements DataManagerAPI {
      * only called once on start up
      *
      * @param userName a string representing the user's username
-     * @return 0 if success, -1 if any issues
+     * @return true if success, false if any issues
      * @see User
      */
     @Override
-    public boolean addUser(String userName) {
+    public boolean addUser(String userName, AsyncResultHandler handler) {
 
         // TODO: Verify there is a network connection before attempting.
 
         user = new User(userName);
-        ServerCommandManager.AddUserAsync addUserTask = new ServerCommandManager.AddUserAsync();
+        ServerCommandManager.InitializeUserAsync addUserTask = new ServerCommandManager.InitializeUserAsync(handler);
         System.out.println("---- NEW USER ---- with name " + user.getName());
         addUserTask.execute(user);
         System.out.println("---- NEW USER ---- with name " + user.getName());
 
-        saveLocal();
+//        saveLocal();
 
         return true;
     }
@@ -114,7 +117,8 @@ public class DataManager implements DataManagerAPI {
     // TODO: NO, NO WE CANT
     public int editUser(User user) {
 
-        //TODO: Transfer ids
+        user.setUserID(this.user.getUserID());
+
         this.user = user;
         
         saveLocal();
@@ -372,19 +376,32 @@ public class DataManager implements DataManagerAPI {
      * @see User
      * @see ServerCommandManager
      */
-    public void addUserToServer(User user) {
+    public void addUserToServer(User user) throws Exception {
 
-        Index index = new Index.Builder(user).index("cmput301f17t07_ingroove").type("user").build();
+        boolean isNew = true;
 
-        try {
-            DocumentResult result = ServerCommandManager.getClient().execute(index);
-            if (result.isSucceeded()) {
-                user.setUserID(result.getId());
-                saveLocal();
-            }
+        Index.Builder builder = new Index.Builder(user).index(ServerCommandManager.INDEX).type(ServerCommandManager.USER_TYPE);
+
+        if (user.getUserID() != null && !user.getUserID().isEmpty()){
+            builder.id(user.getUserID());
+            isNew = false;
         }
-        catch (Exception e) {
+
+        Index index = builder.build();
+
+        DocumentResult result = ServerCommandManager.getClient().execute(index);
+        if (result.isSucceeded() && isNew) {
+            user.setUserID(result.getId());
+            saveLocal();
+
+        } else if (result.isSucceeded()) {
+            saveLocal();
+        } else {
+            Exception e = new Exception("Failed to add User to ES");
+
             Log.d("---- USER ----"," Failed to add user with name " + user.getName() + " to server. Caught " + e);
+
+            throw e;
         }
     }
 
@@ -396,8 +413,9 @@ public class DataManager implements DataManagerAPI {
      * @return an array list of users who want to follow the current user
      */
     @Override
-    public ArrayList<User> getFollowRequests() {
-        return null;
+    public int getFollowRequests(AsyncResultHandler resultHandler) {
+        RelationshipManager.getInstance().getFollowRequests(resultHandler, this.user.getUserID());
+        return 0;
     }
 
     /**
@@ -418,43 +436,68 @@ public class DataManager implements DataManagerAPI {
      * @return true if the rejection was successful, false if not
      */
     @Override
-    public Boolean rejectRequest(User user) {
-        return null;
+    public Boolean rejectRequest(User user, AsyncResultHandler handler) {
+        GenericDeleteFollowRequest<Integer> del = new GenericDeleteFollowRequest<>(handler, "follow", this.user.getUserID(), false);
+        del.execute(user.getUserID());
+        return true;
+    }
+
+
+    /**
+     * Cancel a pending follow request
+     *
+     * @param user
+     * @return true if the rejection was successful, false if not
+     */
+    @Override
+    public Boolean cancelRequest(User user, AsyncResultHandler handler) {
+        GenericDeleteFollowRequest<Integer> del = new GenericDeleteFollowRequest<>(handler, "follow", this.user.getUserID(), true);
+        del.execute(user.getUserID());
+        return true;
     }
 
     /**
      * Get the users which the specified user follows
      *
-     * @param user the user you want to get the followers of
+     * @param user    the user you want to get the followers of
+     * @param handler
      * @return a list of the particular user's followers
      */
     @Override
-    public ArrayList<User> getWhoThisUserFollows(User user) {
-        return null;
+    // TODO: STILL TO IMPLEMENT
+    public int getWhoThisUserFollows(User user, AsyncResultHandler handler) {
+        RelationshipManager.getInstance().getWhoThisUserFollows(handler, user);
+        return 0;
     }
 
     /**
      * Gets the followers of a particular user
      *
-     * @param user a list of users who follow the specified user
+     * @param user    a list of users who follow the specified user
+     * @param handler
      * @return a list of users who follow the specified user
      */
     @Override
-    public ArrayList<User> getWhoFollows(User user) {
-        return null;
+    // TODO: STILL TO IMPLEMENT
+    public int getWhoFollows(User user, AsyncResultHandler handler) {
+        RelationshipManager.getInstance().getFollowersOf(handler, user.getUserID());
+        return 0;
     }
 
     /**
      * Search users
      *
+     * @param minStreak        the min streak to include
      * @param query            the search query
      * @param alreadyFollowing if true, do not include the users you are already following
-     * @param minStreak        the min streak to include
+     * @param handler
      * @return a list of the users who meet the criteria
      */
     @Override
-    public ArrayList<User> findUsers(String query, Boolean alreadyFollowing, int minStreak) {
-        return null;
+    public int findUsers(int minStreak, String query, Boolean alreadyFollowing, AsyncResultHandler handler) {
+        GenericGetRequest<User> get = new GenericGetRequest<>(handler, User.class, "user","name");
+        get.execute(query);
+        return 0;
     }
 
     /**
@@ -465,7 +508,10 @@ public class DataManager implements DataManagerAPI {
      */
     @Override
     public Boolean sendFollowRequest(User user) {
-        return null;
+        if (RelationshipManager.getInstance().sendFollowRequest(this.user, user) != -1) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -475,19 +521,22 @@ public class DataManager implements DataManagerAPI {
      * @return a list of habits that contain the search query
      */
     @Override
-    public ArrayList<Habit> findHabits(String query) {
-        return null;
+    public int findHabits(String query, AsyncResultHandler handler) {
+        habitManager.findHabits(handler, query);
+        return 0;
     }
 
     /**
      * Search HabitEvents
      *
-     * @param query the search query
+     * @param query   the search query
+     * @param handler
      * @return a list of habits that contain the search query
      */
     @Override
-    public ArrayList<HabitEvent> findHabitEvents(String query) {
-        return null;
+    public int findHabitEvents(String query, AsyncResultHandler handler) {
+        habitEventManager.findHabitEvents(handler, query);
+        return 0;
     }
 
     /**
@@ -501,6 +550,53 @@ public class DataManager implements DataManagerAPI {
     public ArrayList<HabitEvent> getHabitEventsWithinRange(int radius, LatLng centre) {
         return new ArrayList<HabitEvent>();
     }
+
+
+    /**
+     * LiveData Object for findHabitRequests
+     */
+    private MutableLiveData<ArrayList<Habit>> findHabitsQueryResults;
+    private MutableLiveData<ArrayList<HabitEvent>> findHabitEventsQueryResults;
+    private MutableLiveData<ArrayList<User>> findUserQueryResults;
+
+    /**
+     * Access to get the queried habits
+     *
+     * @return the list of most recent habit query results
+     */
+    public MutableLiveData<ArrayList<Habit>> getFindHabitsQueryResults() {
+        if (findHabitsQueryResults == null) {
+            findHabitsQueryResults = new MutableLiveData<>();
+        }
+        return findHabitsQueryResults;
+    }
+
+    /**
+     * Access to get the queried habitEvents
+     *
+     * @return the list of the most recent habitEvent query results
+     */
+    public MutableLiveData<ArrayList<HabitEvent>> getFindHabitEventsQueryResults() {
+        if (findHabitEventsQueryResults == null) {
+            findHabitEventsQueryResults = new MutableLiveData<>();
+        }
+        return findHabitEventsQueryResults;
+    }
+
+    /**
+     * Access to get the queried users
+     *
+     * @return the list of the most recent user query results
+     */
+    public MutableLiveData<ArrayList<User>> getFindUserQueryResults() {
+        if (findUserQueryResults == null) {
+            findUserQueryResults = new MutableLiveData<>();
+        }
+        return findUserQueryResults;
+    }
+
+
+
 }
 
 
