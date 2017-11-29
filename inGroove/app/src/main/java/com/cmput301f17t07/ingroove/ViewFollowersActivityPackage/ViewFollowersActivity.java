@@ -40,22 +40,29 @@ public class ViewFollowersActivity extends NavigationDrawerActivity {
         setContentView(R.layout.activity_view_followers);
         super.onCreateDrawer();
 
-        User passed_user = ServerCommunicator.getPassedUser();
+        User passed_user = ServerCommunicator.getUser();
+
+        //Initilize variables.
         FollowerViewer = (ListView) findViewById(R.id.FollowerViewer);
 
-        //FollowerList = ServerCommunicator.getWhoFollows(passed_user);
-        FollowerList = mServerCommunicator.getWhoFollows(passed_user);
+        //Populate the listview
+        FollowerList = ServerCommunicator.getWhoFollows(passed_user);
+        //FollowerList = mServerCommunicator.getWhoFollows(passed_user);
         fillFollowersListView(FollowerList);
 
 
         FollowerViewer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                gridViewOnClickEvent(v, position);
+                FollowerListOnClick(position);
             }
         });
     }
 
+    /**
+     * This method creates the elements that will populate a listview.
+     * @param List: The list that will populate the listview
+     */
     private void fillFollowersListView(ArrayList<User> List)
     {
         java.util.List<Map<String, String>> data = new ArrayList<Map<String, String>>();
@@ -77,18 +84,21 @@ public class ViewFollowersActivity extends NavigationDrawerActivity {
         fillListView(adapter);
     }
 
+    /**
+     * This method populates a specific listview with a passed adapter.
+     * @param adapter: An adapter with the elements that will populate the list.
+     */
     private void fillListView(SimpleAdapter adapter)
     {
         FollowerViewer.setAdapter(adapter);
     }
 
-    private void gridViewOnClickEvent(View v, int position)
+    private void FollowerListOnClick(int position)
     {
         //TODO: Find out which activity a on-click event should go to.
-        /*
-        Intent upcomingIntent = new Intent(v.getContext(), ViewAnother.class);
         ServerCommunicator.setPassedUser(FollowerList.get(position));
+        Intent upcomingIntent = new Intent(v.getContext(), ViewOtherUserActivity.class);
         startActivityForResult(upcomingIntent, 0);
-        */
+
     }
 }

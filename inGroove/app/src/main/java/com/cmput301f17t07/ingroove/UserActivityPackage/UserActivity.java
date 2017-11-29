@@ -90,8 +90,8 @@ public class UserActivity extends NavigationDrawerActivity {
             user_picture.setImageDrawable(drawable);
 
             // Load the ListView with the people the user follows
-            //FollowsList = data.getWhoThisUserFollows(user);
-            FollowsList = mData.getWhoThisUserFollows(user);
+            FollowsList = data.getWhoThisUserFollows(user);
+            //FollowsList = mData.getWhoThisUserFollows(user);
             LoadListView(FollowsList);
 
             name.setText(user.getName());
@@ -113,7 +113,7 @@ public class UserActivity extends NavigationDrawerActivity {
             friends_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                    FollowerListOnClick();
+                    FollowerListOnClick(position);
                 }
             });
 
@@ -142,9 +142,17 @@ public class UserActivity extends NavigationDrawerActivity {
 
             // update navigation menu
             super.updateHeader(user.getName());
+
+            //Update followings list
+            FollowsList = data.getWhoThisUserFollows(user);
+            LoadListView(FollowsList);
         }
     }
 
+    /**
+     * This method creates the elements that will populate a listview.
+     * @param List: The list that will populate the listview
+     */
     private void LoadListView(ArrayList<User> List){
         if(List == null || List.size() == 0)
             return;
@@ -168,19 +176,22 @@ public class UserActivity extends NavigationDrawerActivity {
         fillListView(adapter);
     }
 
+    /**
+     * This method populates a specific listview with a passed adapter.
+     * @param adapter: An adapter with the elements that will populate the list.
+     */
     private void fillListView(SimpleAdapter adapter)
     {
         friends_list.setAdapter(adapter);
     }
 
-    private void FollowerListOnClick()
+    private void FollowerListOnClick(int position)
     {
         //TODO: Find out which activity a on-click event should go to.
-        /*
-        Intent upcomingIntent = new Intent(v.getContext(), ViewAnother.class);
-        ServerCommunicator.setPassedUser(FollowerList.get(position));
+        data.setPassedUser(FollowsList.get(position));
+        Intent upcomingIntent = new Intent(v.getContext(), ViewOtherUserActivity.class);
         startActivityForResult(upcomingIntent, 0);
-        */
+
     }
 
 }
