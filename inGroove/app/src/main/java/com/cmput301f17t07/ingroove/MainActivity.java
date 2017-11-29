@@ -20,15 +20,14 @@ public class MainActivity extends AppCompatActivity implements AsyncResultHandle
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-
         // Set up the user if none exists
         User user = data.getUser();
         if (user == null){
-            data.addUser("data Manager testing", this);
+            data.addUser("New Groover", this);
         } else {
-            
+            Intent intent = new Intent(getApplicationContext(), CurrentHabitsActivity.class);
             // Head to the Current Habits Activity as that is the chosen first screen
-            Intent intent = new Intent(getApplicationContext(), DataManagerTestingActivity.class);
+
             getApplicationContext().startActivity(intent);
 
             // This main activity is meant to set up the user, and then send them to our chosen first
@@ -36,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements AsyncResultHandle
             // come back to it.
             finish();
         }
+
+
     }
 
     @Override
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResultHandle
             // the user got added so the app can proceed
 
             // Head to the Current Habits Activity as that is the chosen first screen
-            Intent intent = new Intent(getApplicationContext(), DataManagerTestingActivity.class);
+            Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
             getApplicationContext().startActivity(intent);
 
             // This main activity is meant to set up the user, and then send them to our chosen first
@@ -58,4 +59,5 @@ public class MainActivity extends AppCompatActivity implements AsyncResultHandle
             finish();
         }
     }
+
 }

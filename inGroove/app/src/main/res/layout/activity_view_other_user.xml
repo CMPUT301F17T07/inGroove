@@ -117,17 +117,6 @@
 
         </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/editUserButton"
-            android:contentDescription="@string/edit_usr_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="4dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/constraintLayout"
-            app:srcCompat="@android:drawable/ic_menu_edit"
-            android:layout_marginRight="16dp" />
     </android.support.constraint.ConstraintLayout>
 
     <include

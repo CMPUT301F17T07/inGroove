@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.DataManagers.MockDataManager;
-import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
 import com.cmput301f17t07.ingroove.navDrawer.NavigationDrawerActivity;
@@ -31,12 +30,12 @@ import java.util.Map;
  *  @see EditUserActivity
  *  @see User
  */
-public class UserActivity extends NavigationDrawerActivity {
+public class ViewOtherUserActivity extends NavigationDrawerActivity {
     /* IMPORTANT
     This activity REQUIRES a valid serialized user object be sent via intent
     to it. Otherwise it will simply exit
      */
-    MockDataManager mData = MockDataManager.getInstance();
+    //MockDataManager mData = MockDataManager.getInstance();
     DataManagerAPI data = DataManager.getInstance();
 
     // Account data to display
@@ -54,7 +53,6 @@ public class UserActivity extends NavigationDrawerActivity {
     TextView streak_txt;
     TextView start_date_txt;
     ListView friends_list;
-    ImageButton edit_user_button;
 
     /**
      * Starts user activity and displays the users information with the option to edit.
@@ -67,7 +65,7 @@ public class UserActivity extends NavigationDrawerActivity {
         setContentView(R.layout.activity_user);
 
         // Get the user to display
-        user = data.getUser();
+        user = data.getPassedUser();
 
         // make sure that the user is valid, else do activity
         if (user == null){
@@ -84,17 +82,14 @@ public class UserActivity extends NavigationDrawerActivity {
             streak_txt = (TextView) findViewById(R.id.usr_act_streak_txt);
             start_date_txt = (TextView) findViewById(R.id.usr_act_start_date);
             friends_list = (ListView) findViewById(R.id.usr_act_friends);
-            edit_user_button = (ImageButton) findViewById(R.id.editUserButton);
 
             // Load the layout with the user's data
             Drawable drawable = getResources().getDrawable(R.drawable.austin);
             user_picture.setImageDrawable(drawable);
 
             // Load the ListView with the people the user follows
-
-            // @TODO fix me
+            // @TODO fix this
             // FollowsList = data.getWhoThisUserFollows(user);
-            
             //FollowsList = mData.getWhoThisUserFollows(user);
             LoadListView(FollowsList);
 
@@ -106,13 +101,15 @@ public class UserActivity extends NavigationDrawerActivity {
             start_date_txt.setText("You've been getting in groove since " + user.getJoinDate().toString());
 
             // for when the edit button is clicked
+            /* @TODO fix this
             edit_user_button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     Intent upcomingIntent = new Intent(v.getContext(), EditUserActivity.class);
                     data.setPassedUser(user);
-                    UserActivity.super.startActivityForResult(upcomingIntent, 1);
+                    ViewOtherUserActivity.super.startActivityForResult(upcomingIntent, 1);
                 }
             });
+            */
 
             friends_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -146,11 +143,6 @@ public class UserActivity extends NavigationDrawerActivity {
 
             // update navigation menu
             super.updateHeader(user.getName());
-
-            //Update followings list
-            // @TODO fix me
-            // FollowsList = data.getWhoThisUserFollows(, user);
-            LoadListView(FollowsList);
         }
     }
 
@@ -192,8 +184,7 @@ public class UserActivity extends NavigationDrawerActivity {
 
     private void FollowerListOnClick(int position)
     {
-        // TODO fix me
-        /*
+        /* @TODO fix this
         //TODO: Find out which activity a on-click event should go to.
         data.setPassedUser(FollowsList.get(position));
         Intent upcomingIntent = new Intent(v.getContext(), ViewOtherUserActivity.class);

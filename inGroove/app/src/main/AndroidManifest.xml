@@ -56,7 +56,9 @@
         <activity android:name=".avehabit.AddHabitActivity" />
         <activity android:name=".avehabit.EditHabitActivity" />
         <activity android:name=".avehabit.ViewHabitActivity" />
-        <activity android:name=".EditHabitEvent.EditHabitEventActivity"></activity>
+        <activity android:name=".EditHabitEvent.EditHabitEventActivity" />
+        <activity android:name=".UserActivityPackage.ViewOtherUserActivity"></activity>
+        <activity android:name=".SignupActivity"></activity>
     </application>
 
 </manifest>
