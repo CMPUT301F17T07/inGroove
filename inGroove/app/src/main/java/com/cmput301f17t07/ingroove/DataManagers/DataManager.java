@@ -499,7 +499,7 @@ public class DataManager implements DataManagerAPI {
      */
     @Override
     public ArrayList<HabitEvent> getHabitEventsWithinRange(int radius, LatLng centre) {
-        return null;
+        return new ArrayList<HabitEvent>();
     }
 }
 
