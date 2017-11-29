@@ -36,4 +36,5 @@ dependencies {
     compile 'com.google.android.gms:play-services-location:11.6.0'
     compile files('src/include/jest-droid-2.0.1-SNAPSHOT.jar')
     compile 'joda-time:joda-time:2.9.4'
+    compile "android.arch.lifecycle:extensions:1.0.0"
 }

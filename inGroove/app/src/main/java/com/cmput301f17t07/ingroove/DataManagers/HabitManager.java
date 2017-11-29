@@ -3,8 +3,11 @@ package com.cmput301f17t07.ingroove.DataManagers;
 import android.content.Context;
 import android.util.Log;
 import com.cmput301f17t07.ingroove.DataManagers.Command.AddHabitCommand;
+import com.cmput301f17t07.ingroove.DataManagers.Command.DeleteHabitCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
+import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
+import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GenericGetRequest;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.google.gson.Gson;
@@ -19,6 +22,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+
+import io.searchbox.core.Delete;
 import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
 
@@ -40,6 +45,14 @@ public class HabitManager {
 
     private static HabitManager instance = new HabitManager();
     private ArrayList<Habit> habits = new ArrayList<>();
+
+    public void findHabits(AsyncResultHandler handler, String query) {
+
+        GenericGetRequest<Habit> getReq = new GenericGetRequest(handler,Habit.class,"habit","name");
+        //GetRequest<Habit> get = new GetRequest<Habit>(Habit.class,"habit","name");
+        // TODO: check for connection before executing
+        getReq.execute(query);
+    }
 
     /**
      * Private constructor to ensure only one instance application wide
@@ -67,13 +80,18 @@ public class HabitManager {
 
         UniqueIDGenerator generator = new UniqueIDGenerator(habits);
         String id = generator.generateNewID();
-        habit.setHabitID(id);
+        habit.setObjectID(user.getUserID() + id);
         Log.d("--- NEW ID ---"," generated unique ID of: " + id );
+
+        habit.setUserID(user.getUserID());
 
         habits.add(habit);
         saveLocal();
         ServerCommand addHabitCommand = new AddHabitCommand(user, habit);
         ServerCommandManager.getInstance().addCommand(addHabitCommand);
+
+        //TODO: update this to the job scheduler
+        ServerCommandManager.getInstance().execute();
     }
 
     /**
@@ -85,6 +103,14 @@ public class HabitManager {
     public void removeHabit(User user, Habit habit) {
         habits.remove(habit);
         saveLocal();
+
+        ServerCommand deleteHabit = new DeleteHabitCommand(habit);
+        ServerCommandManager.getInstance().addCommand(deleteHabit);
+
+        //TODO: update this to the job scheduler
+        ServerCommandManager.getInstance().execute();
+
+        // TODO: do somthing about the events that belong to this habit
     }
 
     /**
@@ -101,9 +127,18 @@ public class HabitManager {
             return -1;
         }
         habits.remove(oldHabit);
-        newHabit.setHabitID(oldHabit.getHabitID());
+        newHabit.setObjectID(oldHabit.getObjectID());
+        newHabit.setUserID(oldHabit.getUserID());
         habits.add(index, newHabit);
         saveLocal();
+
+        //TODO: update server
+        ServerCommand updateHabitCommand = new AddHabitCommand(DataManager.getInstance().getUser(), newHabit);
+        ServerCommandManager.getInstance().addCommand(updateHabitCommand);
+
+        //TODO: update this to the job scheduler
+        ServerCommandManager.getInstance().execute();
+
         return 0;
     }
 
@@ -113,6 +148,7 @@ public class HabitManager {
      * @return a list of habit objects
      * @see Habit
      */
+    //TODO: update so it gets habits for a user
     public ArrayList<Habit> getHabits() {
 
         if (habits.size() == 0) {
@@ -230,10 +266,10 @@ public class HabitManager {
 
         Boolean isNew = true;
 
-        Index.Builder builder = new Index.Builder(habit).index("cmput301f17t07_ingroove").type("habit");
+        Index.Builder builder = new Index.Builder(habit).index(ServerCommandManager.INDEX).type(ServerCommandManager.HABIT_TYPE);
 
-        if (habit.getHabitID() != null) {
-            builder.id(habit.getHabitID());
+        if (habit.getObjectID() != null) {
+            builder.id(habit.getObjectID());
             isNew = false;
         }
 
@@ -243,6 +279,25 @@ public class HabitManager {
         if (result.isSucceeded() && isNew) {
             //habit.setHabitID(result.getId());
             //saveLocal();
+        }
+
+    }
+
+    /**
+     * Method to delete a Habit from the server
+     * *
+     * @param habit the Habit to be deleted
+     * @throws Exception throws an exception if it cant delete from the server
+     * @see Habit
+     */
+    public void deleteHabitFromServer(Habit habit) throws Exception {
+
+        Delete.Builder builder = new Delete.Builder(habit.getObjectID()).index(ServerCommandManager.INDEX).type(ServerCommandManager.HABIT_TYPE);
+
+        Delete index = builder.build();
+        DocumentResult result = ServerCommandManager.getClient().execute(index);
+        if (result.isSucceeded()) {
+            Log.d("---- ES -----"," Successfully Deleted Habit named " + habit.getName() + " from ES.");
         }
 
     }
