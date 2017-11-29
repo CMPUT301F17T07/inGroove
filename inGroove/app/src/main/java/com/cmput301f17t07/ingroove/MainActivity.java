@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResultHandle
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_signup);
         // Set up the user if none exists
         User user = data.getUser();
         if (user == null){
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResultHandle
             //TODO: Tell the User that they need a connection to start the app the first time to make an account
             // maybe have a retry button on the main Activity screen
             Log.d("---- USER ----"," Failed to add user to server.");
+
 
         } else {
             // the user got added so the app can proceed
