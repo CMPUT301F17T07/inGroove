@@ -77,21 +77,24 @@ public class FollowRequestAdapter extends ArrayAdapter<User> implements View.OnC
         User otherUser = (User) getItem(position);
 
         switch (v.getId()) {
+
             case R.id.acceptFollowRequestButton:
                 // accept the follow request such that otherUser will now be following currentUser
                 data.acceptRequest(otherUser);
                 Log.i("Follow Request Info", "Accepting follow request from " + otherUser.getName());
+                requestingFollowers.remove(otherUser);
                 break;
             case R.id.rejectFollowRequestButton:
                 // reject the follow request from otherUser
                 data.rejectRequest(otherUser);
                 Log.i("Follow Request Info", "Rejecting the follow request from " + otherUser.getName());
+                requestingFollowers.remove(otherUser);
                 break;
 
         }
-        
-        // now we need to remove the follow request from the list
 
+        // now we need to remove the follow request from the list
+        notifyDataSetChanged();
 
     }
 
