@@ -2,15 +2,24 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:weightSum="1">
 
+    <!-- to implement in the future, add the users picture to the row -->
+    <!-- <ImageView
+        android:id="@+id/followerPicture"
+        android:layout_width="45dp"
+        android:layout_height="49dp"
+        android:layout_weight="1.01"
+        app:srcCompat="@android:drawable/btn_star" /> -->
+
     <TextView
         android:id="@+id/otherUsersInfo"
         android:layout_width="237dp"
-        android:layout_height="fill_parent"
+        android:layout_height="46dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentTop="true"
         android:layout_marginBottom="5dp"
@@ -22,10 +31,10 @@
         android:textStyle="bold" />
 
     <ImageButton
-        android:id="@+id/requestToFollowUserButton"
-        android:contentDescription="@string/send_request"
+        android:id="@+id/sendFollowRequestButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/send_request"
         app:srcCompat="@android:drawable/ic_input_add" />
 
 </LinearLayout>
