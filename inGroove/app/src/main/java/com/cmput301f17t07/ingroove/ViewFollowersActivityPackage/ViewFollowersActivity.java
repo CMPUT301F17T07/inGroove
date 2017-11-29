@@ -46,7 +46,10 @@ public class ViewFollowersActivity extends NavigationDrawerActivity {
         FollowerViewer = (ListView) findViewById(R.id.FollowerViewer);
 
         //Populate the listview
-        FollowerList = ServerCommunicator.getWhoFollows(passed_user);
+
+        // TODO fix me
+        //FollowerList = ServerCommunicator.getWhoFollows(passed_user);
+        
         //FollowerList = mServerCommunicator.getWhoFollows(passed_user);
         fillFollowersListView(FollowerList);
 
@@ -95,10 +98,11 @@ public class ViewFollowersActivity extends NavigationDrawerActivity {
 
     private void FollowerListOnClick(int position)
     {
+        /* TODO fix me
         //TODO: Find out which activity a on-click event should go to.
         ServerCommunicator.setPassedUser(FollowerList.get(position));
         Intent upcomingIntent = new Intent(v.getContext(), ViewOtherUserActivity.class);
         startActivityForResult(upcomingIntent, 0);
-
+        */
     }
 }
