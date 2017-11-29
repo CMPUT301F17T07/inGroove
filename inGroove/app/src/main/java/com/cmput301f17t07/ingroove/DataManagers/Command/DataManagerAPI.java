@@ -240,6 +240,14 @@ public interface DataManagerAPI {
     Boolean sendFollowRequest(User user);
 
     /**
+     * Cancel a pending follow request
+     *
+     * @param user
+     * @return true if the rejection was successful, false if not
+     */
+    public Boolean cancelRequest(User user, AsyncResultHandler handler);
+
+    /**
      * Search Habits
      *
      * @param query the search query

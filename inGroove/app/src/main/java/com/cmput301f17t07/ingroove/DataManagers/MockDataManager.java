@@ -346,6 +346,18 @@ public class MockDataManager implements DataManagerAPI {
     }
 
     /**
+     * Cancel a pending follow request
+     *
+     * @param user
+     * @param handler
+     * @return true if the rejection was successful, false if not
+     */
+    @Override
+    public Boolean cancelRequest(User user, AsyncResultHandler handler) {
+        return null;
+    }
+
+    /**
      * Search Habits
      *
      * @param query the search query
