@@ -12,9 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize" />
 
-    <android.support.constraint.ConstraintLayout
+    <!-- <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"> -->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -41,22 +41,73 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="129dp"
                 android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/searchForUsersEditText"
-                    android:layout_width="304dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="12dp"
+                <LinearLayout
+                    android:layout_width="319dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:ems="10"
-                    android:inputType="textMultiLine"
-                    app:layout_constraintHorizontal_bias="0.666"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/followUsersTextView" />
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="TextView" />
+
+                        <EditText
+                            android:id="@+id/searchByNameEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="25dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="12dp"
+                            android:layout_weight="1"
+                            android:ems="10"
+                            android:inputType="textMultiLine"
+                            app:layout_constraintHorizontal_bias="0.666"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/followUsersTextView" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="TextView" />
+
+                        <EditText
+                            android:id="@+id/searchByStreakEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="32dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="12dp"
+                            android:layout_weight="1"
+                            android:ems="10"
+                            android:inputType="textMultiLine"
+                            app:layout_constraintHorizontal_bias="0.666"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/followUsersTextView" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
 
                 <ImageButton
                     android:id="@+id/searchForUsersButton"
@@ -89,7 +140,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/searchForUsersButton" />
 
         </LinearLayout>
-    </android.support.constraint.ConstraintLayout>
+    <!-- </android.support.constraint.ConstraintLayout> -->
 
     <include
         layout="@layout/nav_view_main"
