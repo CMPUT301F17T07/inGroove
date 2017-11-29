@@ -253,7 +253,7 @@ public class HabitEventsActivity extends AppCompatActivity {
             maxSize -= 1;
         }
 
-        return Bitmap.createScaledBitmap(image, 125, 125, true);
+        return image;
     }
 
     // THE FOLLOWING METHODS ARE TAKEN FROM GOOGLE DOCUMENTATION AND ONLY SLIGHTLY MODIFIED
