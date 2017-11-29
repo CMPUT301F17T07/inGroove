@@ -182,7 +182,7 @@ public class MockDataManager implements DataManagerAPI {
      */
     public boolean addUser(String userName) {
         users.add(new User(userName, "HARDCODED EMAIL"));
-        return userName;
+        return true;
     }
 
     /**

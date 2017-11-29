@@ -17,16 +17,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-
+        Intent intent;
         // Set up the user if none exists
         User user = data.getUser();
         if (user == null){
-            data.addUser("123 Test Username");
+            data.addUser("New Groover");
+            intent = new Intent(getApplicationContext(), SignupActivity.class);
+        } else {
+            intent = new Intent(getApplicationContext(), CurrentHabitsActivity.class);
         }
 
 
         // Head to the Current Habits Activity as that is the chosen first screen
-        Intent intent = new Intent(getApplicationContext(), CurrentHabitsActivity.class);
+
         getApplicationContext().startActivity(intent);
 
         // This main activity is meant to set up the user, and then send them to our chosen first
