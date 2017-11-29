@@ -2,7 +2,6 @@ package com.cmput301f17t07.ingroove;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,8 +9,6 @@ import android.widget.TextView;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
-import com.cmput301f17t07.ingroove.Model.Habit;
-import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.Model.User;
 
 import java.util.ArrayList;
@@ -60,7 +57,7 @@ public class DataManagerTestingActivity extends AppCompatActivity implements Asy
             }
         });
 
-        data.rejectRequest(this, data.getUser());
+        data.rejectRequest(data.getUser(), this);
     }
 
 
