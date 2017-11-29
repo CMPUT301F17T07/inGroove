@@ -1,18 +1,12 @@
 package com.cmput301f17t07.ingroove.ViewFollowRequests;
 
 import android.content.Context;
-import android.media.Image;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
@@ -23,7 +17,6 @@ import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * The adapter for the ListView in the Follow Request Activity. Allows the user to press accept
@@ -89,7 +82,7 @@ public class FollowRequestAdapter extends ArrayAdapter<User> implements View.OnC
                 break;
             case R.id.rejectFollowRequestButton:
                 // reject the follow request from otherUser
-                data.rejectRequest(this, otherUser);
+                data.rejectRequest(otherUser, this);
                 Log.i("Follow Request Info", "Rejecting the follow request from " + otherUser.getName());
                 //requestingFollowers.remove(otherUser);
                 break;
