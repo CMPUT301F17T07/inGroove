@@ -12,6 +12,8 @@ import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
+import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GenericGetRequest;
+import com.cmput301f17t07.ingroove.Model.Follow;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.Model.User;
@@ -22,7 +24,7 @@ import java.util.Date;
 /**
  * This activity is used to help test the back end of the program.
  */
-public class BackEndTesting extends AppCompatActivity implements AsyncResultHandler<User>{
+public class BackEndTesting extends AppCompatActivity implements AsyncResultHandler {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,15 +44,33 @@ public class BackEndTesting extends AppCompatActivity implements AsyncResultHand
 
     }
 
-    @Override
-    public void handleResult(ArrayList<User> result) {
-        Log.i("BackEndTesting", "found " + String.valueOf(result.size()) + " Users");
 
+    @Override
+    public void handleResult(ArrayList result) {
+        if (result != null && !result.isEmpty()){
+            if (result.get(0) instanceof Follow){
+                Log.i("BackEndTesting", "found " + String.valueOf(result.size()) + " Follows");
+            } else {
+                Log.i("BackEndTesting", "found " + String.valueOf(result.size()) + " Users");
+            }
+        } else {
+            Log.i("BackEndTesting", "result is empty ");
+
+        }
+
+
+
+
+    }
+
+    private void getFollows(){
+        GenericGetRequest<Habit> getFollows = new GenericGetRequest<>(this, Habit.class, "habit", "objectID");
+        getFollows.execute("av");
     }
 
     private void getUsersWho() {
         User user = new User("test");
-        user.setUserID("AV_1mhce5oH-Uyt_aG_A");
+        user.setUserID("AWAArhLoBOIa5W1F-q2g");
         DataManager.getInstance().getWhoThisUserFollows(this, user);
 
     }

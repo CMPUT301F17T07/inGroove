@@ -38,9 +38,9 @@ public class GetWhoThisUserFollows extends AsyncTask<User, Void, ArrayList<User>
         ArrayList<User> foundUsers = new ArrayList<>();
 
         String query =  "{\n" +
-                        "\"query\" : {\n" +
-                        "\"term\" : { \"follower\" : \"AV_1mhce5oH-Uyt_aG_A\" }\n"+
-                        "}\n"+
+                        "    \"query\" : {\n" +
+                        "        \"term\" : { \"follower\" : \"" + users[0].getUserID() + "\" }\n" +
+                        "    }\n" +
                         "}";
 
 
@@ -49,7 +49,7 @@ public class GetWhoThisUserFollows extends AsyncTask<User, Void, ArrayList<User>
 
 
 
-        Search search = new Search.Builder(query).addIndex("cmput301f17t07_ingroove").addType("follow").build();
+        Search search = new Search.Builder(query).addIndex("ingroove").addType("follow").build();
 
         try {
             SearchResult result = ServerCommandManager.getClient().execute(search);
@@ -71,7 +71,7 @@ public class GetWhoThisUserFollows extends AsyncTask<User, Void, ArrayList<User>
 
             for (Follow follow : followArrayList) {
 
-                Get get = new Get.Builder("user", follow.getFollowee()).build();
+                Get get = new Get.Builder("ingroove", follow.getFollowee()).type("user").build();
 
                 try {
                     DocumentResult result = ServerCommandManager.getClient().execute(get);
