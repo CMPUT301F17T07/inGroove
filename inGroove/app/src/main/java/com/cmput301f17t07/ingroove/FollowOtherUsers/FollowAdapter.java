@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
+import com.cmput301f17t07.ingroove.DataManagers.MockDataManager;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
 
@@ -27,7 +28,8 @@ import java.util.ArrayList;
 
 public class FollowAdapter extends ArrayAdapter<User> implements View.OnClickListener {
 
-    DataManagerAPI data = DataManager.getInstance();
+    // DataManagerAPI data = DataManager.getInstance();
+    DataManagerAPI data = new MockDataManager();
 
     ArrayList<User> searchResults;
     Context context;

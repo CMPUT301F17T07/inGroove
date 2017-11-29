@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
+import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
+import com.cmput301f17t07.ingroove.DataManagers.MockDataManager;
 import com.cmput301f17t07.ingroove.Model.Follow;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
@@ -26,6 +28,9 @@ import java.util.ArrayList;
  */
 public class FollowActivity extends NavigationDrawerActivity {
 
+    // DataManagerAPI data = DataManager.getInstance();
+    DataManagerAPI data = new MockDataManager();
+
     // elements on the view
     ListView searchedForUsersListView;
     EditText searchBox;
@@ -35,8 +40,10 @@ public class FollowActivity extends NavigationDrawerActivity {
     FollowAdapter followAdapter;
     ArrayList<User> searchResults = new ArrayList<User>();
 
-
-
+    /**
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +72,5 @@ public class FollowActivity extends NavigationDrawerActivity {
         });
 
     }
-
 
 }
