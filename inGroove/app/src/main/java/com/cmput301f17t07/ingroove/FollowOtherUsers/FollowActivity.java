@@ -41,6 +41,7 @@ public class FollowActivity extends NavigationDrawerActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_follow);
+        super.onCreateDrawer();
 
         // find all the elements on the page
         searchBox = (EditText) findViewById(R.id.searchForUsersEditText);
@@ -63,7 +64,6 @@ public class FollowActivity extends NavigationDrawerActivity {
             }
         });
 
-        super.onCreateDrawer();
     }
 
 

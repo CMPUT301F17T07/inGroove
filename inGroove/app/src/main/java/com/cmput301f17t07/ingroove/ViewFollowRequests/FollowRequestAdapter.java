@@ -89,6 +89,9 @@ public class FollowRequestAdapter extends ArrayAdapter<User> implements View.OnC
                 break;
 
         }
+        
+        // now we need to remove the follow request from the list
+
 
     }
 
