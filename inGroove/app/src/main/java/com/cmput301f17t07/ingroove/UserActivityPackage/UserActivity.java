@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.DataManagers.MockDataManager;
+import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
 import com.cmput301f17t07.ingroove.navDrawer.NavigationDrawerActivity;
@@ -90,7 +91,10 @@ public class UserActivity extends NavigationDrawerActivity {
             user_picture.setImageDrawable(drawable);
 
             // Load the ListView with the people the user follows
-            FollowsList = data.getWhoThisUserFollows(user);
+
+            // @TODO fix me
+            // FollowsList = data.getWhoThisUserFollows(user);
+            
             //FollowsList = mData.getWhoThisUserFollows(user);
             LoadListView(FollowsList);
 
@@ -144,7 +148,8 @@ public class UserActivity extends NavigationDrawerActivity {
             super.updateHeader(user.getName());
 
             //Update followings list
-            FollowsList = data.getWhoThisUserFollows(user);
+            // @TODO fix me
+            // FollowsList = data.getWhoThisUserFollows(, user);
             LoadListView(FollowsList);
         }
     }
@@ -187,10 +192,13 @@ public class UserActivity extends NavigationDrawerActivity {
 
     private void FollowerListOnClick(int position)
     {
+        // TODO fix me
+        /*
         //TODO: Find out which activity a on-click event should go to.
         data.setPassedUser(FollowsList.get(position));
         Intent upcomingIntent = new Intent(v.getContext(), ViewOtherUserActivity.class);
         startActivityForResult(upcomingIntent, 0);
+        */
 
     }
 

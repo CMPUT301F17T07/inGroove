@@ -30,7 +30,7 @@ import java.util.Map;
  *  @see EditUserActivity
  *  @see User
  */
-public class UserActivity extends NavigationDrawerActivity {
+public class ViewOtherUserActivity extends NavigationDrawerActivity {
     /* IMPORTANT
     This activity REQUIRES a valid serialized user object be sent via intent
     to it. Otherwise it will simply exit
@@ -88,7 +88,8 @@ public class UserActivity extends NavigationDrawerActivity {
             user_picture.setImageDrawable(drawable);
 
             // Load the ListView with the people the user follows
-            FollowsList = data.getWhoThisUserFollows(user);
+            // @TODO fix this
+            // FollowsList = data.getWhoThisUserFollows(user);
             //FollowsList = mData.getWhoThisUserFollows(user);
             LoadListView(FollowsList);
 
@@ -100,13 +101,15 @@ public class UserActivity extends NavigationDrawerActivity {
             start_date_txt.setText("You've been getting in groove since " + user.getJoinDate().toString());
 
             // for when the edit button is clicked
+            /* @TODO fix this
             edit_user_button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     Intent upcomingIntent = new Intent(v.getContext(), EditUserActivity.class);
                     data.setPassedUser(user);
-                    UserActivity.super.startActivityForResult(upcomingIntent, 1);
+                    ViewOtherUserActivity.super.startActivityForResult(upcomingIntent, 1);
                 }
             });
+            */
 
             friends_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -181,10 +184,12 @@ public class UserActivity extends NavigationDrawerActivity {
 
     private void FollowerListOnClick(int position)
     {
+        /* @TODO fix this
         //TODO: Find out which activity a on-click event should go to.
         data.setPassedUser(FollowsList.get(position));
         Intent upcomingIntent = new Intent(v.getContext(), ViewOtherUserActivity.class);
         startActivityForResult(upcomingIntent, 0);
+        */
 
     }
 

@@ -291,14 +291,16 @@ public class MockDataManager implements DataManagerAPI {
      * @return a list of the particular user's followers
      */
     @Override
-<<<<<<< HEAD
-    public ArrayList<User> getWhoThisUserFollows(User user) {
-        return Following;
-=======
     public int getWhoThisUserFollows(AsyncResultHandler handler, User user) {
         return 0;
->>>>>>> 5350618ae95443cab73a6fb2e423318a211fdd1c
     }
+
+    // TODO delete me
+    public ArrayList<User> getWhoThisUserFollows(User user) {
+        return Following;
+    }
+
+
 
     /**
      * Gets the followers of a particular user
@@ -308,14 +310,15 @@ public class MockDataManager implements DataManagerAPI {
      * @return a list of users who follow the specified user
      */
     @Override
-<<<<<<< HEAD
-    public ArrayList<User> getWhoFollows(User user) {
-        return Following;
-=======
     public int getWhoFollows(AsyncResultHandler handler, User user) {
         return 0;
->>>>>>> 5350618ae95443cab73a6fb2e423318a211fdd1c
     }
+    // @TODO delete me
+    public ArrayList<User> getWhoFollows(User user) {
+        return Following;
+    }
+
+
 
     /**
      * Search users
