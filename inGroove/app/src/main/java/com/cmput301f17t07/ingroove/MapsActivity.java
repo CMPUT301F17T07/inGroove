@@ -63,7 +63,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * Provides the entry point to the Fused Location Provider API.
      */
     private FusedLocationProviderClient mFusedLocationClient;
-    private boolean perm_request_recently = false;
 
     /**
      * Represents a geographical location.
@@ -84,22 +83,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Location setup
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
-        /* Imported */
-        /*
-        mRequestingLocationUpdates = false;
-        mLastUpdateTime = "";
-
-        // mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        mSettingsClient = LocationServices.getSettingsClient(this);
-
-        // Kick off the process of building the LocationCallback, LocationRequest, and
-        // LocationSettingsRequest objects.
-        createLocationCallback();
-        createLocationRequest();
-        buildLocationSettingsRequest();
-        */
-        /* END IMPORTED */
 
 
 
@@ -318,7 +301,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }
     }
-
-
 }
 
