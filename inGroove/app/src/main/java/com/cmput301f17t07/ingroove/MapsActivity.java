@@ -37,12 +37,14 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.common.collect.ArrayTable;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -137,20 +139,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // 5km of the user from the user him/her self.
         ArrayList<Habit> habits = data.getHabit(data.getUser());
         LatLng userLoc = new LatLng(mLastLocation.getLatitude(),mLastLocation.getLongitude());
+        mMap.addMarker(new MarkerOptions()
+                .position(userLoc)
+                .title("Your location")
+                .icon(BitmapDescriptorFactory
+                        .defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
         ArrayList<HabitEvent> close_events = data.getHabitEventsWithinRange(5, userLoc);
+        ArrayList<HabitEvent> my_events = data.getHabitEvents(data.getUser());
 
-        // For testing purposes, this will add the users events too so you can see it working.
-        // @TODO delete
-        ArrayList<HabitEvent> events;
-        for ( Habit h : habits){
-            events = data.getHabitEvents(h);
-            for (HabitEvent e : events){
-                close_events.add(e);
-            }
+
+        for (HabitEvent e : my_events){
+            // @TODO Use the actual location instead of a random jitter around the U of A
+            LatLng loc = e.getLocation();
+            mMap.addMarker(new MarkerOptions()
+                    .position(loc)
+                    .title(e.getName())
+                    .icon(BitmapDescriptorFactory
+                            .defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
         }
-        ArrayList<LatLng> points = new ArrayList<>();
-        int i = 0;
-        Random rand = new Random(9);
+
         for (HabitEvent e : close_events){
             // @TODO Use the actual location instead of a random jitter around the U of A
             LatLng loc = e.getLocation();
