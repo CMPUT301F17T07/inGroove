@@ -16,6 +16,15 @@ import com.cmput301f17t07.ingroove.Model.User;
 import java.util.ArrayList;
 import java.util.Date;
 
+/*
+- User wants to see all habits of a list of Users
+-- Helper method, just get all habits of Users that have been followed
+- User wants to see all requests to follow them
+- User wants to see latest event from each habit in a list
+ */
+
+
+
 public class MainActivity extends AppCompatActivity implements AsyncResultHandler<User>{
 
     DataManagerAPI data = DataManager.getInstance();

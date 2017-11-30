@@ -15,6 +15,8 @@ import android.widget.SimpleAdapter;
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.DataManagers.MockDataManager;
+import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
+import com.cmput301f17t07.ingroove.Model.Follow;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
 import com.cmput301f17t07.ingroove.UserActivityPackage.UserActivity;
@@ -48,10 +50,16 @@ public class ViewFollowersActivity extends NavigationDrawerActivity {
         //Populate the listview
 
         // TODO fix me
-        //FollowerList = ServerCommunicator.getWhoFollows(passed_user);
+        ServerCommunicator.getWhoFollows(passed_user, new AsyncResultHandler<User>() {
+            @Override
+            public void handleResult(ArrayList<User> result) {
+                FollowerList = result;
+                fillFollowersListView(FollowerList);
+            }
+        });
         
         //FollowerList = mServerCommunicator.getWhoFollows(passed_user);
-        fillFollowersListView(FollowerList);
+
 
 
         FollowerViewer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
