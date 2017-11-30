@@ -21,6 +21,7 @@ import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
 import com.cmput301f17t07.ingroove.navDrawer.NavigationDrawerActivity;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,6 +53,7 @@ public class UserActivity extends NavigationDrawerActivity  {
     TextView name;
     TextView username;
     TextView streak_txt;
+    TextView max_streak_txt;
     TextView start_date_txt;
     ListView friends_list;
     ImageButton edit_user_button;
@@ -82,6 +84,7 @@ public class UserActivity extends NavigationDrawerActivity  {
             name = (TextView) findViewById(R.id.usr_act_real_name);
             username = (TextView) findViewById(R.id.usr_act_username);
             streak_txt = (TextView) findViewById(R.id.usr_act_streak_txt);
+            max_streak_txt = (TextView) findViewById(R.id.usr_act_max_streak_txt);
             start_date_txt = (TextView) findViewById(R.id.usr_act_start_date);
             friends_list = (ListView) findViewById(R.id.usr_act_friends);
             edit_user_button = (ImageButton) findViewById(R.id.editUserButton);
@@ -103,9 +106,12 @@ public class UserActivity extends NavigationDrawerActivity  {
             name.setText(user.getName());
             // @TODO THIS IS NOT THE USERNAME, the user object does not have a username field yet
             // but for now we just put the email so it has something slightly different
-            username.setText(user.getEmail());
-            streak_txt.setText("You've had " + Integer.valueOf(user.getStreak()) + " perfect days!");
-            start_date_txt.setText("You've been getting in groove since " + user.getJoinDate().toString());
+            username.setText("Email: " + user.getEmail());
+            streak_txt.setText("You have a streak that is " + Integer.valueOf(user.getStreak()) + " day(s) long!");
+            max_streak_txt.setText("Your max streak was " + Integer.valueOf(user.getMax_streak()) + " day(s) long!");
+
+            SimpleDateFormat s_date_format = new SimpleDateFormat("dd MMM yyyy");
+            start_date_txt.setText("You've been getting in groove since " + s_date_format.format(user.getJoinDate()));
 
             // for when the edit button is clicked
             edit_user_button.setOnClickListener(new View.OnClickListener() {
