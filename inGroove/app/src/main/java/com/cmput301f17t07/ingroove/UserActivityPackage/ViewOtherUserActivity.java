@@ -84,7 +84,7 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
             friends_list = (ListView) findViewById(R.id.usr_act_friends);
 
             // Load the layout with the user's data
-            Drawable drawable = getResources().getDrawable(R.drawable.austin);
+            Drawable drawable = getResources().getDrawable(R.mipmap.ic_launcher_round);
             user_picture.setImageDrawable(drawable);
 
             // Load the ListView with the people the user follows
