@@ -154,7 +154,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         for (HabitEvent e : close_events){
             // @TODO Use the actual location instead of a random jitter around the U of A
             LatLng loc = e.getLocation();
-            mMap.addMarker(new MarkerOptions().position(loc).title(e.getName()));
+            if (loc != null){
+                mMap.addMarker(new MarkerOptions().position(loc).title(e.getName()));
+            }
+
         }
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLoc, 10));
     }
