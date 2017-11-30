@@ -124,10 +124,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
         } else if (id == R.id.nav_menu_map) {
             Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
             getApplicationContext().startActivity(intent);
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
