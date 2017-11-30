@@ -28,9 +28,9 @@
     <string name="pick_habit_start">Choose Start Date</string>
 
     // Location strings
-    <string name="permission_rationale">We sorta need these perms</string>
-    <string name="permission_denied_explanation">Y U DENY?</string>
-    <string name="settings">location settings?</string>
+    <string name="permission_rationale">Without these permissions map features will not work</string>
+    <string name="permission_denied_explanation">We need access to your location to enable this feature</string>
+    <string name="settings">SETTINGS</string>
 
 
     // main body

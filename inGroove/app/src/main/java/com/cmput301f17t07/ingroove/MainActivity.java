@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResultHandle
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_signup);
         // Set up the user if none exists
         User user = data.getUser();
         if (user == null){
@@ -46,10 +47,11 @@ public class MainActivity extends AppCompatActivity implements AsyncResultHandle
             // maybe have a retry button on the main Activity screen
             Log.d("---- USER ----"," Failed to add user to server.");
 
+
         } else {
             // the user got added so the app can proceed
 
-            // Head to the Current Habits Activity as that is the chosen first screen
+            // Head to the Signup Activity as that is the chosen first screen
             Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
             getApplicationContext().startActivity(intent);
 
