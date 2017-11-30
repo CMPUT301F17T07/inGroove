@@ -4,7 +4,9 @@ import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.util.Log;
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
+import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
+import com.cmput301f17t07.ingroove.DataManagers.Command.UpdateUserCommand;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GenericDeleteFollowRequest;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GenericGetRequest;
@@ -113,8 +115,6 @@ public class DataManager implements DataManagerAPI {
         return true;
     }
 
-    // TODO: CAN WE REMOVE THIS?
-    // TODO: NO, NO WE CANT
     public int editUser(User user) {
 
         user.setUserID(this.user.getUserID());
@@ -123,7 +123,10 @@ public class DataManager implements DataManagerAPI {
         
         saveLocal();
 
-        // TODO: push to server;
+        ServerCommand updateUserCommand = new UpdateUserCommand(DataManager.getInstance().getUser());
+        ServerCommandManager.getInstance().addCommand(updateUserCommand);
+
+        ServerCommandManager.getInstance().execute();
 
         return 0;
     }
