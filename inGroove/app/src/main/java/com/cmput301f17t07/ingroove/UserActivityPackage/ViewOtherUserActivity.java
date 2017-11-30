@@ -38,7 +38,7 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
     This activity REQUIRES a valid serialized user object be sent via intent
     to it. Otherwise it will simply exit
      */
-    //MockDataManager mData = MockDataManager.getInstance();
+    MockDataManager mData = MockDataManager.getInstance();
     DataManagerAPI data = DataManager.getInstance();
 
     // Account data to display
@@ -91,6 +91,7 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
             user_picture.setImageDrawable(drawable);
 
             // Load the ListView with the habits of the passed in user
+            // HabitList = mData.getHabit(user);
             HabitList = data.getHabit(user);
             LoadListView(HabitList);
 
@@ -142,9 +143,10 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
      * @param List: The list that will populate the listview
      */
     private void LoadListView(ArrayList<Habit> List){
-        if(List == null || List.size() == 0)
+        if(List == null || List.size() == 0) {
+            Habits_list.setAdapter(null);
             return;
-
+        }
         ArrayList<String> gv_GridItems = new ArrayList<String>();
         for (int i = 0; i < List.size(); i++) {
             gv_GridItems.add(List.get(i).getName());
@@ -154,7 +156,7 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
 
         Habits_list.setAdapter(gridViewArrayAdapter);
     }
-    
+
     private void HabiListOnClick(int position, View v)
     {
         //Nothing here for now.  Maybe one day...

@@ -55,18 +55,19 @@ public class ViewFollowersActivity extends NavigationDrawerActivity {
         FollowersButton = (Button) findViewById(R.id.view_followers_button);
 
         //Populate the listview
-        //FollowerList = ServerCommunicator.getWhoFollows(passed_user);
+        //FollowerList = mServerCommunicator.getWhoFollows(passed_user);
         ServerCommunicator.getWhoFollows(passed_user, new AsyncResultHandler<User>() {
             @Override
             public void handleResult(ArrayList<User> result) {
                 FollowerList = result;
             }
         });
+
         fillFollowersListView(FollowerList);
 
         HabitsButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                HabitsButtonOnClick();
+                HabitsButtonOnClick(FollowerList);
             }
         });
 
@@ -130,21 +131,21 @@ public class ViewFollowersActivity extends NavigationDrawerActivity {
         }
     }
 
-    private void HabitsButtonOnClick()
+    private void HabitsButtonOnClick(ArrayList<User> ListToProcess)
     {
         ArrayList<Habit> habitList = new ArrayList<Habit>();
         java.util.List<Map<String, String>> data = new ArrayList<Map<String, String>>();
 
         onFollowers = false;
-        ServerCommunicator.getWhoFollows(passed_user, new AsyncResultHandler<User>() {
-            @Override
-            public void handleResult(ArrayList<User> result) {
-                FollowerList = result;
-            }
-        });
 
-        for (User u : FollowerList)
+        if(ListToProcess == null || ListToProcess.size() == 0) {
+            FollowerViewer.setAdapter(null);
+            return;
+        }
+
+        for (User u : ListToProcess)
         {
+            //habitList = mServerCommunicator.getHabit(u);
             habitList = ServerCommunicator.getHabit(u);
             if(habitList == null || habitList.size() == 0)
                 continue;

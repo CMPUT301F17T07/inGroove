@@ -91,14 +91,13 @@ public class UserActivity extends NavigationDrawerActivity  {
             user_picture.setImageDrawable(drawable);
 
             // Load the ListView with the people the user follows
+            //FollowsList = mData.getWhoThisUserFollows(user);
             data.getWhoThisUserFollows(user, new AsyncResultHandler<User>() {
                  @Override
                  public void handleResult(ArrayList<User> result) {
                      FollowsList = result;
                  }
              });
-
-            //FollowsList = mData.getWhoThisUserFollows(user);
             LoadListView(FollowsList);
 
             name.setText(user.getName());
@@ -166,8 +165,10 @@ public class UserActivity extends NavigationDrawerActivity  {
      * @param List: The list that will populate the listview
      */
     private void LoadListView(ArrayList<User> List){
-        if(List == null || List.size() == 0)
+        if(List == null || List.size() == 0) {
+            friends_list.setAdapter(null);
             return;
+        }
 
         java.util.List<Map<String, String>> ListData = new ArrayList<Map<String, String>>();
 
