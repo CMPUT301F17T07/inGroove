@@ -14,6 +14,8 @@ import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.Model.User;
 
+import java.util.Date;
+
 public class SignupActivity extends AppCompatActivity {
 
     Button save_btn;
@@ -44,6 +46,9 @@ public class SignupActivity extends AppCompatActivity {
             public void onClick(View v) {
                 user.setName(name.getText().toString());
                 user.setEmail(email.getText().toString());
+                user.setStreak(0);
+                user.setMax_streak(0);
+                user.setStreak_end(new Date());
                 data.editUser(user);
 
                 Intent intent = new Intent(getApplicationContext(), CurrentHabitsActivity.class);
