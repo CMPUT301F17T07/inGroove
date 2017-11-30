@@ -138,6 +138,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // since this version doesn't support social aspects this code finds the events within
         // 5km of the user from the user him/her self.
         ArrayList<Habit> habits = data.getHabit(data.getUser());
+
+        // Add the user's own location as a blue marker
         LatLng userLoc = new LatLng(mLastLocation.getLatitude(),mLastLocation.getLongitude());
         mMap.addMarker(new MarkerOptions()
                 .position(userLoc)
@@ -148,16 +150,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         ArrayList<HabitEvent> my_events = data.getHabitEvents(data.getUser());
 
 
+        // Add all User events as Yellow Markers
         for (HabitEvent e : my_events){
             // @TODO Use the actual location instead of a random jitter around the U of A
             LatLng loc = e.getLocation();
-            mMap.addMarker(new MarkerOptions()
-                    .position(loc)
-                    .title(e.getName())
-                    .icon(BitmapDescriptorFactory
-                            .defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+            if (loc != null){
+                mMap.addMarker(new MarkerOptions()
+                        .position(loc)
+                        .title(e.getName())
+                        .icon(BitmapDescriptorFactory
+                                .defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+            }
+
         }
 
+        // Add close events from friends as default red markers
         for (HabitEvent e : close_events){
             // @TODO Use the actual location instead of a random jitter around the U of A
             LatLng loc = e.getLocation();
