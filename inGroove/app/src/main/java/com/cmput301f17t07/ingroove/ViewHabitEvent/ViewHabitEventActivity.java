@@ -44,6 +44,7 @@ public class ViewHabitEventActivity extends FragmentActivity implements OnMapRea
     // Interface Variables
     TextView he_title;
     TextView he_comment;
+    TextView he_no_loc_warning;
     ImageView he_image;
     Button he_edit;
     Button he_del;
@@ -59,20 +60,30 @@ public class ViewHabitEventActivity extends FragmentActivity implements OnMapRea
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_habit_event_view);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+
+        // Get the habit event to display
+        habitEvent = data.getPassedHabitEvent();
 
         // Hook up interface variables
         he_title = findViewById(R.id.view_he_event_title);
         he_comment = findViewById(R.id.view_he_event_comment);
+        he_no_loc_warning = findViewById(R.id.view_he_no_location_warn);
         he_image = findViewById(R.id.view_he_event_image);
         he_edit = findViewById(R.id.view_he_edit_button);
         he_del = findViewById(R.id.view_he_delete_button);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
 
-        // Get the habit event to display
-        habitEvent = data.getPassedHabitEvent();
+        // decide to show the map or the no location warning
+        if(habitEvent.getLocation() != null){
+            // get notified when the map is ready to be used.
+            mapFragment.getMapAsync(this);
+            he_no_loc_warning.setVisibility(View.GONE);
+        } else {
+            // remove the map
+            getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentById(R.id.map)).commit();
+        }
+
 
         // Set up the views
         setViewFields();
@@ -127,8 +138,7 @@ public class ViewHabitEventActivity extends FragmentActivity implements OnMapRea
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
+     * This is where we can add markers or lines, add listeners or move the camera.
      * If Google Play services is not installed on the device, the user will be prompted to install
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
@@ -137,19 +147,16 @@ public class ViewHabitEventActivity extends FragmentActivity implements OnMapRea
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        //LatLng sydney = new LatLng(33.8121, -117.919);
-        //mMap.addMarker(new MarkerOptions().position(sydney).title("DISNEYLAND!"));
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-
         // Add a marker for the location of this event
 
         LatLng loc = habitEvent.getLocation();
-        if (loc == null){
-            loc = new LatLng(0, 0);
+        if (loc != null){
+            mMap.addMarker(new MarkerOptions().position(loc).title("Event Location"));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
+        } else {
+
         }
-        mMap.addMarker(new MarkerOptions().position(loc).title("Event Location"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
+
 
     }
 }
