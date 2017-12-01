@@ -174,6 +174,18 @@ public class HabitEventManager {
         return habitEvents;
     }
 
+    public void findHabitEvents(User forUser, AsyncResultHandler<HabitEvent> handler) {
+        GenericGetRequest<HabitEvent> get = new GenericGetRequest(handler, HabitEvent.class, ServerCommandManager.HABIT_EVENT_TYPE, "userID");
+        get.execute(forUser.getUserID());
+    }
+
+    public void findHabitEvents(Habit forHabit, AsyncResultHandler<HabitEvent> handler) {
+        GenericGetRequest<HabitEvent> get = new GenericGetRequest<>(handler, HabitEvent.class, ServerCommandManager.HABIT_EVENT_TYPE, "habitID");
+        get.execute(forHabit.getObjectID());
+    }
+
+
+
     // TODO: change the name for the date
     /**
      * gets the Recent Events
@@ -354,10 +366,6 @@ public class HabitEventManager {
 
     }
 
-    public void findHabitEvents(AsyncResultHandler handler, String query) {
-        GenericGetRequest<HabitEvent> get = new GenericGetRequest(handler, HabitEvent.class, ServerCommandManager.HABIT_EVENT_TYPE, "name");
-        get.execute(query);
-    }
 
 
 }

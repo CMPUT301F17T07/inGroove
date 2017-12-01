@@ -48,6 +48,8 @@ public class ServerCommandManager {
      */
     private ArrayList<ServerCommand> commands;
 
+    private ExecuteAsync executeAsync = null;
+
     /**
      * Constructs a new CommandManager, creates an empty queue on initialization
      */
@@ -98,10 +100,11 @@ public class ServerCommandManager {
      */
     public void execute() {
 
-        ExecuteAsync executeAsync = new ExecuteAsync();
 
-        executeAsync.execute(commands);
-
+        if (executeAsync == null || (executeAsync.getStatus() != AsyncTask.Status.RUNNING  && executeAsync.getStatus() != AsyncTask.Status.PENDING)) {
+            executeAsync = new ExecuteAsync();
+            executeAsync.execute(commands);
+        }
     }
 
     /**
