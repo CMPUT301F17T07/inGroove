@@ -7,20 +7,37 @@ android:layout_height="match_parent"
 android:orientation="vertical"
 tools:context="com.cmput301f17t07.ingroove.SignupActivity">
 
-<include
-    layout="@layout/app_bar_main"
-    android:layout_width="match_parent"
-    android:layout_height="?attr/actionBarSize" />
-
     <TextView
         android:id="@+id/userInfoText"
         android:layout_width="match_parent"
-        android:layout_height="57dp"
-        android:text="Looks like this is your first time with inGroove! You may let us know some information about yourself to make it easier to find and be found by friends."
-        android:textSize="12sp"
+        android:layout_height="wrap_content"
+        android:text="Looks like this is your first time with inGroove! Let us know some information about yourself to make it easier to find and be found by friends."
         tools:textSize="24sp" />
 
-<LinearLayout
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="251dp">
+
+        <ImageView
+            android:id="@+id/signup_welcomeImage"
+            android:layout_width="match_parent"
+            android:layout_height="236dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentTop="true"
+            android:contentDescription="@string/usr_photo"
+            app:srcCompat="@mipmap/ic_launcher_round" />
+
+        <!-- <ImageButton
+        android:id="@+id/editImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        app:srcCompat="@android:drawable/ic_menu_edit" /> -->
+    </RelativeLayout>
+
+    <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="66dp"
     android:orientation="horizontal">
@@ -66,30 +83,7 @@ tools:context="com.cmput301f17t07.ingroove.SignupActivity">
 
 </LinearLayout>
 
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="251dp">
-
-    <ImageView
-        android:id="@+id/signup_welcomeImage"
-        android:layout_width="match_parent"
-        android:layout_height="236dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentTop="true"
-        android:contentDescription="@string/usr_photo"
-        app:srcCompat="@mipmap/ic_launcher_round" />
-
-    <!-- <ImageButton
-        android:id="@+id/editImageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        app:srcCompat="@android:drawable/ic_menu_edit" /> -->
-</RelativeLayout>
-
-<LinearLayout
+    <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal">

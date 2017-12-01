@@ -90,7 +90,7 @@ public class UserActivity extends NavigationDrawerActivity  {
             edit_user_button = (ImageButton) findViewById(R.id.editUserButton);
 
             // Load the layout with the user's data
-            Drawable drawable = getResources().getDrawable(R.drawable.austin);
+            Drawable drawable = getResources().getDrawable(R.mipmap.ic_launcher_round);
             user_picture.setImageDrawable(drawable);
 
             // Load the ListView with the people the user follows
