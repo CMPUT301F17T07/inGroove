@@ -16,6 +16,7 @@ import android.widget.ListView;
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.DataManagers.MockDataManager;
+import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
 import com.cmput301f17t07.ingroove.Model.Follow;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
@@ -76,7 +77,14 @@ public class FollowActivity extends NavigationDrawerActivity {
         followAdapter = new FollowAdapter(searchResults, this);
         searchedForUsersListView.setAdapter(followAdapter);
 
-        search
+        data.findUsers(0, "New Groover", false, new AsyncResultHandler<User>() {
+            @Override
+            public void handleResult(ArrayList<User> result) {
+                Log.d("TESTER: ", "METHOD CALLED");
+                searchResults = result;
+                followAdapter.notifyDataSetChanged();
+            }
+        });
 
         searchedForUsersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
