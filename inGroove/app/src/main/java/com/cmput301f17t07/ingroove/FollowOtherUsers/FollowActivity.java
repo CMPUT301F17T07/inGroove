@@ -44,7 +44,7 @@ public class FollowActivity extends NavigationDrawerActivity implements AsyncRes
     ImageButton searchButton;
 
     String searchText;
-    Integer streakValue;
+    String streakText;
 
     // adapter
     FollowAdapter followAdapter;
@@ -70,24 +70,23 @@ public class FollowActivity extends NavigationDrawerActivity implements AsyncRes
         // set up on click listener for the search button
         searchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
                 // get the results from the search box
                 searchText = nameSearchBox.getText().toString();
-                streakValue = Integer.valueOf(streakSearchBox.getText().toString());
+                streakText = streakSearchBox.getText().toString();
 
                 // check to make sure there are values in the edit texts and if there are not put
                 // the corresponding needed output in
-                if (streakValue == null && searchText != null) {
+                if (streakText.matches("") && !searchText.matches("")) {
                     //data.findUsers(0, searchText, Boolean.FALSE, this);
                     Log.w("TEST TEST TEST", "streak null, string good");
-                } else if (streakValue != null && searchText == null) {
-                    //data.findUsers(streakValue, "", Boolean.FALSE, this);
+                } else if (!streakText.matches("") && searchText.matches("")) {
+                    //data.findUsers(Integer.valueOf(streakText), "", Boolean.FALSE, this);
                     Log.w("TEST TEST TEST", "streak good, string null");
-                } else if (streakValue != null && searchText != null) {
-                    //data.findUsers(streakValue, searchText, Boolean.FALSE, this);
-                    Log.w("TEST TEST TEST", "streak good, string good");
+                } else if (!streakText.matches("") && !searchText.matches("")) {
+                    //data.findUsers(Integer.valueOf(streakText), searchText, Boolean.FALSE, this);
+                    Log.w("TEST TEST TEST", "streak good, string good |" + searchText + "|" + streakText + "|");
                 }
-
-
 
             }
         });
@@ -102,6 +101,6 @@ public class FollowActivity extends NavigationDrawerActivity implements AsyncRes
 
     @Override
     public void handleResult(ArrayList<User> result) {
-
+        searchResults = result;
     }
 }

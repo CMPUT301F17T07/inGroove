@@ -73,6 +73,8 @@ public class FollowRequestAdapter extends ArrayAdapter<User> implements View.OnC
         User otherUser = (User) getItem(position);
         Boolean result;
 
+        // @TODO figure out why requests are not sending
+
         switch (v.getId()) {
 
             case R.id.acceptFollowRequestButton:
