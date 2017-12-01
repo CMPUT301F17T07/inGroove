@@ -16,6 +16,7 @@ import android.widget.ListView;
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.DataManagers.MockDataManager;
+import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
 import com.cmput301f17t07.ingroove.Model.Follow;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
@@ -30,7 +31,7 @@ import java.util.ArrayList;
  * @see DataManagerAPI
  * @see DataManager
  */
-public class FollowActivity extends NavigationDrawerActivity {
+public class FollowActivity extends NavigationDrawerActivity implements AsyncResultHandler<User> {
 
     //DataManagerAPI data = DataManager.getInstance();
     DataManagerAPI data = new MockDataManager();
@@ -42,7 +43,6 @@ public class FollowActivity extends NavigationDrawerActivity {
     ImageButton searchButton;
 
     String searchText;
-    String streakText;
     Integer streakValue;
 
     // adapter
@@ -71,27 +71,30 @@ public class FollowActivity extends NavigationDrawerActivity {
             public void onClick(View v) {
                 // get the results from the search box
                 searchText = nameSearchBox.getText().toString();
-                streakText = streakSearchBox.getText().toString();
+                streakValue = Integer.valueOf(streakSearchBox.getText().toString());
 
-                // check to make sure they're valid
-                streakValue = Integer.valueOf(streakText);
+                if (streakValue == null && searchText != null) {
+                    data.findUsers(0, searchText, Boolean.FALSE, this);
+                } else if (streakValue != null && searchText == null) {
+                    data.findUsers(streakValue, "", Boolean.FALSE, this);
+                } else if (streakValue != null && searchText != null) {
+                    data.findUsers(streakValue, searchText, Boolean.FALSE, this);
+                }
 
 
             }
         });
+
+        searchResults.add(new User("Bob"));
 
         // set adapter for the list view
         followAdapter = new FollowAdapter(searchResults, this);
         searchedForUsersListView.setAdapter(followAdapter);
 
-        searchedForUsersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
-                User user = searchResults.get(i);
-                Log.w("TESTTESTEST", "HELLO WORLD HELLO WORLD"+user.getName());
-            }
-        });
-
     }
 
+    @Override
+    public void handleResult(ArrayList<User> result) {
+
+    }
 }
