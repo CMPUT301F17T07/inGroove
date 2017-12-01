@@ -28,8 +28,7 @@ import java.util.ArrayList;
 
 public class FollowAdapter extends ArrayAdapter<User> implements View.OnClickListener {
 
-    // DataManagerAPI data = DataManager.getInstance();
-    DataManagerAPI data = new MockDataManager();
+    DataManagerAPI data = DataManager.getInstance();
 
     ArrayList<User> searchResults;
     Context context;

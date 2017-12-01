@@ -30,8 +30,7 @@ import java.util.ArrayList;
  */
 public class FollowRequestsActivity extends NavigationDrawerActivity implements AsyncResultHandler<User> {
 
-    // DataManagerAPI data = DataManager.getInstance();
-    DataManagerAPI data = new MockDataManager();
+    DataManagerAPI data = DataManager.getInstance();
 
     // set up needed page element
     ListView followListView;
@@ -58,6 +57,9 @@ public class FollowRequestsActivity extends NavigationDrawerActivity implements 
         if (followRequests == null) {
             followRequests = new ArrayList<User>();
         }
+
+        // testing!!!
+        followRequests.add(new User("Joe"));
 
         // set adapter for list view
         FollowRequestAdapter adapter = new FollowRequestAdapter(followRequests, this);

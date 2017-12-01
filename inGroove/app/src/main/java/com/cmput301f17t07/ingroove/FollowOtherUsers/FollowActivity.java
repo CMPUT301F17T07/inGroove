@@ -33,8 +33,7 @@ import java.util.ArrayList;
  */
 public class FollowActivity extends NavigationDrawerActivity implements AsyncResultHandler<User> {
 
-    //DataManagerAPI data = DataManager.getInstance();
-    DataManagerAPI data = new MockDataManager();
+    DataManagerAPI data = DataManager.getInstance();
     //AsyncResultHandler<User> handler = AsyncResultHandler();
 
     // elements on the view
