@@ -28,8 +28,8 @@ import java.util.ArrayList;
 
 public class FollowAdapter extends ArrayAdapter<User> implements View.OnClickListener {
 
-    // DataManagerAPI data = DataManager.getInstance();
-    DataManagerAPI data = new MockDataManager();
+    DataManagerAPI data = DataManager.getInstance();
+    //DataManagerAPI data = new MockDataManager();
 
     ArrayList<User> searchResults;
     Context context;
@@ -87,6 +87,7 @@ public class FollowAdapter extends ArrayAdapter<User> implements View.OnClickLis
     public View getView(int position, View convertView, ViewGroup parent) {
 
         User user = getItem(position);
+        Log.d("TESTER: ", "got user: " + user.getName());
         ViewHolder viewHolder;
 
         if (convertView == null) {

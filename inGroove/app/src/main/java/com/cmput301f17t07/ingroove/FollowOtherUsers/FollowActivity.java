@@ -8,10 +8,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
@@ -23,6 +26,8 @@ import com.cmput301f17t07.ingroove.R;
 import com.cmput301f17t07.ingroove.navDrawer.NavigationDrawerActivity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * View allows the user to search for users to follow and request to follow them.
@@ -33,8 +38,8 @@ import java.util.ArrayList;
  */
 public class FollowActivity extends NavigationDrawerActivity {
 
-    //DataManagerAPI data = DataManager.getInstance();
-    DataManagerAPI data = new MockDataManager();
+    DataManagerAPI data = DataManager.getInstance();
+    //DataManagerAPI data = new MockDataManager();
 
     // elements on the view
     ListView searchedForUsersListView;
@@ -70,6 +75,10 @@ public class FollowActivity extends NavigationDrawerActivity {
             public void onClick(View v) {
                 // get the results from the search box
                 searchText = nameSearchBox.getText().toString();
+                User user = new User("SnakeFace");
+                user.setUserID("AWAPpk7jNrajPqJ7h8Ot");
+                data.sendFollowRequest(user);
+                data.findUsers()
             }
         });
 

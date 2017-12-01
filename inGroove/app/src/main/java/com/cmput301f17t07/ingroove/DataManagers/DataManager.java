@@ -89,8 +89,8 @@ public class DataManager implements DataManagerAPI {
             return user;
         }
         */
-        User testUser = new User("bob");
-        testUser.setUserID("bob");
+        User testUser = new User("sally");
+        testUser.setUserID("sally");
         user = testUser;
         return testUser;
     }
