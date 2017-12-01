@@ -78,7 +78,7 @@ public class FollowActivity extends NavigationDrawerActivity implements AsyncRes
                 // check to make sure there are values in the edit texts and if there are not put
                 // the corresponding needed output in
                 if (streakText.matches("") && !searchText.matches("")) {
-                    data.findUsers();
+                    //data.findUsers();
                     Log.w("TEST TEST TEST", "streak null, string good");
                 } else if (!streakText.matches("") && searchText.matches("")) {
                     //data.findUsers(Integer.valueOf(streakText), "", Boolean.FALSE, this);
