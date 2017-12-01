@@ -89,7 +89,7 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
 
         // Initialize the SearchView and set the on query listener.
         searchBox = (SearchView) findViewById(R.id.SearchHabitsBox);
-
+        searchBox.setVisibility(View.VISIBLE);
         searchBox.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -112,6 +112,7 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
         b_upcoming.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //Habit Manager: Grab Future Habits
+                searchBox.setVisibility(View.INVISIBLE);
                 upcomingButtonClick();
             }
         });
@@ -119,6 +120,7 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
         b_finished.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //Habit Manager: Grab Past Habit events
+                searchBox.setVisibility(View.INVISIBLE);
                 finishedButtonClick();
             }
         });
@@ -132,6 +134,7 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
 
         b_listHabits.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                searchBox.setVisibility(View.VISIBLE);
                 habitsLoaded = true;
                 HabitHolder = ServerCommunicator9000.getHabits();
                 PopulateGridView_Habits(HabitHolder);
