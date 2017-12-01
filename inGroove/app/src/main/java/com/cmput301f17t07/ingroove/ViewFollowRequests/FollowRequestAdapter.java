@@ -34,8 +34,7 @@ public class FollowRequestAdapter extends ArrayAdapter<User> implements View.OnC
     // https://www.journaldev.com/10416/android-listview-with-custom-adapter-example-tutorial
     // this tutorial was used to help implement this class
 
-    // DataManagerAPI data = DataManager.getInstance();
-    DataManagerAPI data = new MockDataManager();
+    DataManagerAPI data = DataManager.getInstance();
 
     ArrayList<User> requestingFollowers;
     Context context;

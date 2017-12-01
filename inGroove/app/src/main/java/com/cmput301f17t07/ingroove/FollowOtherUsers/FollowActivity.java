@@ -31,11 +31,9 @@ import java.util.ArrayList;
  * @see DataManagerAPI
  * @see DataManager
  */
-public class FollowActivity extends NavigationDrawerActivity implements AsyncResultHandler<User> {
+public class FollowActivity extends NavigationDrawerActivity {
 
-    //DataManagerAPI data = DataManager.getInstance();
-    DataManagerAPI data = new MockDataManager();
-    //AsyncResultHandler<User> handler = AsyncResultHandler();
+    DataManagerAPI data = DataManager.getInstance();
 
     // elements on the view
     ListView searchedForUsersListView;
@@ -70,28 +68,49 @@ public class FollowActivity extends NavigationDrawerActivity implements AsyncRes
         // set up on click listener for the search button
         searchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+            // get the results from the search box
+            searchText = nameSearchBox.getText().toString();
+            streakText = streakSearchBox.getText().toString();
 
-                // get the results from the search box
-                searchText = nameSearchBox.getText().toString();
-                streakText = streakSearchBox.getText().toString();
-
-                // check to make sure there are values in the edit texts and if there are not put
-                // the corresponding needed output in
-                if (streakText.matches("") && !searchText.matches("")) {
-                    //data.findUsers(0, searchText, Boolean.FALSE, handler);
-                    Log.w("TEST TEST TEST", "streak null, string good");
-                } else if (!streakText.matches("") && searchText.matches("")) {
-                    //data.findUsers(Integer.valueOf(streakText), "", Boolean.FALSE, this);
-                    Log.w("TEST TEST TEST", "streak good, string null");
-                } else if (!streakText.matches("") && !searchText.matches("")) {
-                    //data.findUsers(Integer.valueOf(streakText), searchText, Boolean.FALSE, this);
-                    Log.w("TEST TEST TEST", "streak good, string good |" + searchText + "|" + streakText + "|");
-                }
+            // check to make sure there are values in the edit texts and if there are not put
+            // the corresponding needed output in
+            if (streakText.matches("") && !searchText.matches("")) {
+                data.findUsers(0, searchText, Boolean.FALSE, new AsyncResultHandler() {
+                    @Override
+                    public void handleResult(ArrayList result) {
+                        searchResults = result;
+                        followAdapter.notifyDataSetChanged();
+                        Log.w("SEARCH USERS", String.valueOf(result.size()));
+                        Log.i("Searching For Users", "Successfully found users.");
+                    }
+                });
+                Log.w("TEST TEST TEST", "streak null, string good");
+            } else if (!streakText.matches("") && searchText.matches("")) {
+                data.findUsers(Integer.valueOf(streakText), "", Boolean.FALSE, new AsyncResultHandler() {
+                    @Override
+                    public void handleResult(ArrayList result) {
+                        searchResults = result;
+                        followAdapter.notifyDataSetChanged();
+                        Log.w("SEARCH USERS", String.valueOf(result.size()));
+                        Log.i("Searching For Users", "Successfully found users.");
+                    }
+                });
+                Log.w("TEST TEST TEST", "streak good, string null");
+            } else if (!streakText.matches("") && !searchText.matches("")) {
+                data.findUsers(Integer.valueOf(streakText), searchText, Boolean.FALSE, new AsyncResultHandler() {
+                    @Override
+                    public void handleResult(ArrayList result) {
+                        searchResults = result;
+                        followAdapter.notifyDataSetChanged();
+                        Log.w("SEARCH USERS", String.valueOf(result.size()));
+                        Log.i("Searching For Users", "Successfully found users.");
+                    }
+                });
+                Log.w("TEST TEST TEST", "streak good, string good |" + searchText + "|" + streakText + "|");
+            }
 
             }
         });
-
-        searchResults.add(new User("Bob"));
 
         // set adapter for the list view
         followAdapter = new FollowAdapter(searchResults, this);
@@ -99,8 +118,4 @@ public class FollowActivity extends NavigationDrawerActivity implements AsyncRes
 
     }
 
-    @Override
-    public void handleResult(ArrayList<User> result) {
-        searchResults = result;
-    }
 }
