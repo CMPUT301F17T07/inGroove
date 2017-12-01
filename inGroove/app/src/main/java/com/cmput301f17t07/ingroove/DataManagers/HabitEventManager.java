@@ -131,11 +131,11 @@ public class HabitEventManager {
 
     /**
      * Returns an list of HabitEvents for a particular habit a User has
+     * !!! ONLY WORKS FOR THE LOCAL USERS HABITS !!!
      *
      * @param forHabit the habit for which the event history will be returned
      * @return a list of events for the specific habit
      */
-    // TODO: will this work for other users habits???
     public ArrayList<HabitEvent> getHabitEvents(Habit forHabit) {
         if (habitEvents.size() == 0) {
             loadHabitEvents();
@@ -165,7 +165,6 @@ public class HabitEventManager {
      *
      * @return a list of all events the user has logged
      */
-    // TODO: implement getting habits for other users
     public ArrayList<HabitEvent> getHabitEvents() {
         if (habitEvents.size() == 0) {
             loadHabitEvents();
@@ -186,7 +185,6 @@ public class HabitEventManager {
 
 
 
-    // TODO: change the name for the date
     /**
      * gets the Recent Events
      * @param user who's events you want

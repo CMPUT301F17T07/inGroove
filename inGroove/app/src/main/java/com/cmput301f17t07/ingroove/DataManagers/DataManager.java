@@ -102,8 +102,6 @@ public class DataManager implements DataManagerAPI {
     @Override
     public boolean addUser(String userName, AsyncResultHandler handler) {
 
-        // TODO: Verify there is a network connection before attempting.
-
         user = new User(userName);
         ServerCommandManager.InitializeUserAsync addUserTask = new ServerCommandManager.InitializeUserAsync(handler);
         System.out.println("---- NEW USER ---- with name " + user.getName());
@@ -115,8 +113,7 @@ public class DataManager implements DataManagerAPI {
         return true;
     }
 
-    // TODO: CAN WE REMOVE THIS?
-    // TODO: NO, NO WE CANT
+
     public int editUser(User user) {
 
         user.setUserID(this.user.getUserID());
@@ -151,7 +148,6 @@ public class DataManager implements DataManagerAPI {
      * @see Habit
      */
     public ArrayList<Habit> getHabits() {
-        // TODO: if user != device user crash app with error
         return habitManager.getHabits();
     }
 
@@ -472,7 +468,6 @@ public class DataManager implements DataManagerAPI {
      * @return a list of the particular user's followers
      */
     @Override
-    // TODO: STILL TO IMPLEMENT
     public int getWhoThisUserFollows(User user, AsyncResultHandler handler) {
         RelationshipManager.getInstance().getWhoThisUserFollows(handler, user);
         return 0;
@@ -486,7 +481,6 @@ public class DataManager implements DataManagerAPI {
      * @return a list of users who follow the specified user
      */
     @Override
-    // TODO: STILL TO IMPLEMENT
     public int getWhoFollows(User user, AsyncResultHandler handler) {
         RelationshipManager.getInstance().getFollowersOf(handler, user.getUserID());
         return 0;
@@ -561,6 +555,8 @@ public class DataManager implements DataManagerAPI {
      * @return a list of the habit events
      */
     @Override
+    @Deprecated
+    //TODO: Remove this
     public ArrayList<HabitEvent> getHabitEventsWithinRange(int radius, LatLng centre) {
         return new ArrayList<HabitEvent>();
     }
