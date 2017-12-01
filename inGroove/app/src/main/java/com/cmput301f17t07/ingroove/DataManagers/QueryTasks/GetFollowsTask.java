@@ -125,14 +125,13 @@ public class GetFollowsTask extends AsyncTask<String, Void, ArrayList<Follow>> i
 
     @Override
     public void handleResult(ArrayList<User> result) {
-
+        
         if ( returns < count) {
             followers.addAll(result);
             returns = returns + 1;
         }
 
         if (returns == count) {
-            followers.addAll(result);
             handler.handleResult(followers);
         }
     }
