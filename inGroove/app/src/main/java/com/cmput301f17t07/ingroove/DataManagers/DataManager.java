@@ -7,9 +7,11 @@ import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
 import com.cmput301f17t07.ingroove.DataManagers.Command.UpdateUserCommand;
+import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AcceptFollowRequestTask;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GenericDeleteFollowRequest;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GenericGetRequest;
+import com.cmput301f17t07.ingroove.Model.Follow;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.Model.User;
@@ -124,7 +126,6 @@ public class DataManager implements DataManagerAPI {
 
         ServerCommand updateUserCommand = new UpdateUserCommand(DataManager.getInstance().getUser());
         ServerCommandManager.getInstance().addCommand(updateUserCommand);
-
         ServerCommandManager.getInstance().execute();
         return 0;
     }
@@ -425,7 +426,13 @@ public class DataManager implements DataManagerAPI {
      */
     @Override
     public Boolean acceptRequest(User user) {
-        return null;
+        AcceptFollowRequestTask acc = new AcceptFollowRequestTask(ServerCommandManager.FOLLOW, this.user.getUserID());
+        acc.execute(user.getUserID());
+        rejectRequest(user, new AsyncResultHandler() {
+            @Override
+            public void handleResult(ArrayList result) {}
+        });
+        return true;
     }
 
     /**
