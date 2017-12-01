@@ -42,6 +42,8 @@ public class FollowActivity extends NavigationDrawerActivity {
     ImageButton searchButton;
 
     String searchText;
+    String streakText;
+    Integer streakValue;
 
     // adapter
     FollowAdapter followAdapter;
@@ -69,6 +71,12 @@ public class FollowActivity extends NavigationDrawerActivity {
             public void onClick(View v) {
                 // get the results from the search box
                 searchText = nameSearchBox.getText().toString();
+                streakText = streakSearchBox.getText().toString();
+
+                // check to make sure they're valid
+                streakValue = Integer.valueOf(streakText);
+
+
             }
         });
 
