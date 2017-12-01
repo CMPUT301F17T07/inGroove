@@ -70,14 +70,14 @@ public class DataManagerTestingActivity extends AppCompatActivity  {
             }
         });
 
-        data.findHabits("YOUR QUERY", new AsyncResultHandler<Habit>() {
+        data.findHabits(null, new AsyncResultHandler<Habit>() {
             @Override
             public void handleResult(ArrayList<Habit> result) {
                 // Another example, this time we are querying the server for Habits
             }
         });
 
-        data.findHabitEvents("YOUR HABIT EVENT QUERY", new AsyncResultHandler<HabitEvent>() {
+        data.findHabitEvents((User) null, new AsyncResultHandler<HabitEvent>() {
             @Override
             public void handleResult(ArrayList<HabitEvent> result) {
                 // And another, this time for HabitEvents
@@ -87,7 +87,7 @@ public class DataManagerTestingActivity extends AppCompatActivity  {
         // Note, you do not have to specify the data type in the anonymous class instantiation
         // but doing so will avoid having to check/cast the returned array items when updating
         // the UI--for example:
-        data.findHabits("YOUR QUERY", new AsyncResultHandler() {
+        data.findHabits(null, new AsyncResultHandler() {
             @Override
             public void handleResult(ArrayList result) {
                 // But now you must check/cast the type of the objects being returned before you

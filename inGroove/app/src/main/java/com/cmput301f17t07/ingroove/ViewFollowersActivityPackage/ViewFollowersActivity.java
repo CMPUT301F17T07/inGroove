@@ -1,29 +1,25 @@
 package com.cmput301f17t07.ingroove.ViewFollowersActivityPackage;
 
 import android.content.Intent;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.MenuItem;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.DataManagers.MockDataManager;
+import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
+import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
-import com.cmput301f17t07.ingroove.UserActivityPackage.UserActivity;
-import com.cmput301f17t07.ingroove.avehabit.ViewHabitActivity;
+import com.cmput301f17t07.ingroove.UserActivityPackage.ViewOtherUserActivity;
 import com.cmput301f17t07.ingroove.navDrawer.NavigationDrawerActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ViewFollowersActivity extends NavigationDrawerActivity {
@@ -32,7 +28,11 @@ public class ViewFollowersActivity extends NavigationDrawerActivity {
     MockDataManager mServerCommunicator = MockDataManager.getInstance();
 
     ListView FollowerViewer;
+    Button FollowersButton;
+    Button HabitsButton;
+    User passed_user;
     ArrayList<User> FollowerList;
+    Boolean onFollowers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,24 +40,42 @@ public class ViewFollowersActivity extends NavigationDrawerActivity {
         setContentView(R.layout.activity_view_followers);
         super.onCreateDrawer();
 
-        User passed_user = ServerCommunicator.getUser();
-
         //Initilize variables.
+        passed_user = ServerCommunicator.getUser();
+        onFollowers = true;
         FollowerViewer = (ListView) findViewById(R.id.FollowerViewer);
+        HabitsButton = (Button) findViewById(R.id.view_followers_habits_button);
+        FollowersButton = (Button) findViewById(R.id.view_followers_button);
 
         //Populate the listview
-
-        // TODO fix me
-        //FollowerList = ServerCommunicator.getWhoFollows(passed_user);
-        
         //FollowerList = mServerCommunicator.getWhoFollows(passed_user);
-        fillFollowersListView(FollowerList);
+        ServerCommunicator.getWhoThisUserFollows(passed_user, new AsyncResultHandler<User>() {
+            @Override
+            public void handleResult(ArrayList<User> result) {
+                FollowerList = result;
+                fillFollowersListView(FollowerList);
+                Log.d("---ViewFollowers---"," Got " + String.valueOf(result.size()) + " followers");
 
+            }
+        });
+
+
+        HabitsButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                HabitsButtonOnClick(FollowerList);
+            }
+        });
+
+        FollowersButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                FollowerButtonOnClick();
+            }
+        });
 
         FollowerViewer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                FollowerListOnClick(position);
+                FollowerListOnClick(position,v);
             }
         });
     }
@@ -68,6 +86,9 @@ public class ViewFollowersActivity extends NavigationDrawerActivity {
      */
     private void fillFollowersListView(ArrayList<User> List)
     {
+        if(List == null || List.size() == 0)
+            return;
+
         java.util.List<Map<String, String>> data = new ArrayList<Map<String, String>>();
 
         for (User l : List)
@@ -96,13 +117,60 @@ public class ViewFollowersActivity extends NavigationDrawerActivity {
         FollowerViewer.setAdapter(adapter);
     }
 
-    private void FollowerListOnClick(int position)
+    private void FollowerListOnClick(int position, View v)
     {
-        /* TODO fix me
-        //TODO: Find out which activity a on-click event should go to.
-        ServerCommunicator.setPassedUser(FollowerList.get(position));
-        Intent upcomingIntent = new Intent(v.getContext(), ViewOtherUserActivity.class);
-        startActivityForResult(upcomingIntent, 0);
-        */
+        if(onFollowers) {
+            ServerCommunicator.setPassedUser(FollowerList.get(position));
+            Intent upcomingIntent = new Intent(v.getContext(), ViewOtherUserActivity.class);
+            startActivityForResult(upcomingIntent, 0);
+        }
+    }
+
+    private void HabitsButtonOnClick(ArrayList<User> ListToProcess)
+    {
+        ArrayList<Habit> habitList = new ArrayList<Habit>();
+        java.util.List<Map<String, String>> data = new ArrayList<Map<String, String>>();
+
+        onFollowers = false;
+
+        if(ListToProcess == null || ListToProcess.size() == 0) {
+            FollowerViewer.setAdapter(null);
+            return;
+        }
+
+        for (User u : ListToProcess)
+        {
+            //habitList = mServerCommunicator.getHabit(u);
+            habitList = ServerCommunicator.getHabits();
+            if(habitList == null || habitList.size() == 0)
+                continue;
+            for(Habit h : habitList){
+                Map<String, String> datum = new HashMap<String, String>(2);
+                datum.put("title", h.getName());
+                datum.put("date", u.getName());
+                data.add(datum);
+            }
+        }
+
+        SimpleAdapter adapter = new SimpleAdapter(this, data,
+                android.R.layout.simple_list_item_2,
+                new String[] {"title", "date"},
+                new int[] {android.R.id.text1,
+                        android.R.id.text2});
+
+        fillListView(adapter);
+    }
+
+    private void FollowerButtonOnClick()
+    {
+        onFollowers = true;
+        ServerCommunicator.getWhoThisUserFollows(passed_user, new AsyncResultHandler<User>() {
+            @Override
+            public void handleResult(ArrayList<User> result) {
+                FollowerList = result;
+                fillFollowersListView(FollowerList);
+
+            }
+        });
     }
 }

@@ -4,7 +4,9 @@ import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.util.Log;
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
+import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
+import com.cmput301f17t07.ingroove.DataManagers.Command.UpdateUserCommand;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GenericDeleteFollowRequest;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GenericGetRequest;
@@ -123,8 +125,10 @@ public class DataManager implements DataManagerAPI {
         
         saveLocal();
 
-        // TODO: push to server;
+        ServerCommand updateUserCommand = new UpdateUserCommand(DataManager.getInstance().getUser());
+        ServerCommandManager.getInstance().addCommand(updateUserCommand);
 
+        ServerCommandManager.getInstance().execute();
         return 0;
     }
 
@@ -143,11 +147,11 @@ public class DataManager implements DataManagerAPI {
     /**
      * Relays habit to be added to the habit manager
      *
-     * @param user the user for which the habits should be retrieved
      * @return a list of habit objects
      * @see Habit
      */
-    public ArrayList<Habit> getHabit(User user) {
+    public ArrayList<Habit> getHabits() {
+        // TODO: if user != device user crash app with error
         return habitManager.getHabits();
     }
 
@@ -165,14 +169,13 @@ public class DataManager implements DataManagerAPI {
     /**
      * Retrieves the habitEvents for a particular user from the habitEventManager
      *
-     * @param forUser the user in which the habitEvents are wanted
      * @return a list of all the habitEvents a user has
      * @see HabitEvent
      * @see User
      */
     @Override
-    public ArrayList<HabitEvent> getHabitEvents(User forUser) {
-        return habitEventManager.getHabitEvents(forUser);
+    public ArrayList<HabitEvent> getHabitEvents() {
+        return habitEventManager.getHabitEvents();
     }
 
     /**
@@ -517,25 +520,30 @@ public class DataManager implements DataManagerAPI {
     /**
      * Search Habits
      *
-     * @param query the search query
+     * @param forUser the search query
      * @return a list of habits that contain the search query
      */
     @Override
-    public int findHabits(String query, AsyncResultHandler handler) {
-        habitManager.findHabits(handler, query);
+    public int findHabits(User forUser, AsyncResultHandler handler) {
+//        habitManager.findHabits(handler, forUser);
         return 0;
     }
 
     /**
      * Search HabitEvents
      *
-     * @param query   the search query
+     * @param forHabit   the search query
      * @param handler
      * @return a list of habits that contain the search query
      */
     @Override
-    public int findHabitEvents(String query, AsyncResultHandler handler) {
-        habitEventManager.findHabitEvents(handler, query);
+    public int findHabitEvents(Habit forHabit, AsyncResultHandler handler) {
+//        habitEventManager.findHabitEvents(handler, forHabit);
+        return 0;
+    }
+
+    @Override
+    public int findHabitEvents(User forUser, AsyncResultHandler handler) {
         return 0;
     }
 

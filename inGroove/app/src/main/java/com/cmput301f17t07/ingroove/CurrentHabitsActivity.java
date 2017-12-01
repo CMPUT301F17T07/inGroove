@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -23,11 +22,8 @@ import com.cmput301f17t07.ingroove.avehabit.AddHabitActivity;
 import com.cmput301f17t07.ingroove.avehabit.ViewHabitActivity;
 import com.cmput301f17t07.ingroove.navDrawer.NavigationDrawerActivity;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -111,7 +107,7 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
         b_listHabits.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 habitsLoaded = true;
-                HabitHolder = ServerCommunicator9000.getHabit(currentUser);
+                HabitHolder = ServerCommunicator9000.getHabits();
                 PopulateGridView_Habits(HabitHolder);
             }
         });
@@ -384,7 +380,7 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
     public void onStart(){
         super.onStart();
 
-        HabitHolder = ServerCommunicator9000.getHabit(new User("T-Rex Joe", "trexjoe@hotmail.com"));
+        HabitHolder = ServerCommunicator9000.getHabits();
         PopulateGridView_Habits(HabitHolder);
     }
 }
