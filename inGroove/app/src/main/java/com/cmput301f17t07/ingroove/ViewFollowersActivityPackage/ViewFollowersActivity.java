@@ -5,6 +5,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -56,14 +57,16 @@ public class ViewFollowersActivity extends NavigationDrawerActivity {
 
         //Populate the listview
         //FollowerList = mServerCommunicator.getWhoFollows(passed_user);
-        ServerCommunicator.getWhoFollows(passed_user, new AsyncResultHandler<User>() {
+        ServerCommunicator.getWhoThisUserFollows(passed_user, new AsyncResultHandler<User>() {
             @Override
             public void handleResult(ArrayList<User> result) {
                 FollowerList = result;
+                fillFollowersListView(FollowerList);
+                Log.d("---ViewFollowers---"," Got " + String.valueOf(result.size()) + " followers");
+
             }
         });
 
-        fillFollowersListView(FollowerList);
 
         HabitsButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -169,12 +172,13 @@ public class ViewFollowersActivity extends NavigationDrawerActivity {
     private void FollowerButtonOnClick()
     {
         onFollowers = true;
-        ServerCommunicator.getWhoFollows(passed_user, new AsyncResultHandler<User>() {
+        ServerCommunicator.getWhoThisUserFollows(passed_user, new AsyncResultHandler<User>() {
             @Override
             public void handleResult(ArrayList<User> result) {
                 FollowerList = result;
+                fillFollowersListView(FollowerList);
+
             }
         });
-        fillFollowersListView(FollowerList);
     }
 }

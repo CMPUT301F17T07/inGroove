@@ -29,6 +29,7 @@ public class GetFollowsTask extends AsyncTask<String, Void, ArrayList<Follow>> i
     private ArrayList<User> followers = new ArrayList<>();
     private String isAccepted;
     private String attribute;
+    private boolean isFollower;
 
     /**
      * Ctor
@@ -46,6 +47,8 @@ public class GetFollowsTask extends AsyncTask<String, Void, ArrayList<Follow>> i
             this.attribute = "followee";
 
         }
+
+        this.isFollower = isFollower;
     }
 
     @Override
@@ -67,7 +70,7 @@ public class GetFollowsTask extends AsyncTask<String, Void, ArrayList<Follow>> i
                     "   \"query\": {\n" +
                     "       \"bool\": {\n" +
                     "           \"must\": [\n" +
-                    "               {\"match\": { \"" + this.attribute + "\": \"AWAEcfxsBOIa5W1F-q8N\" }},\n" +
+                    "               {\"match\": { \"" + this.attribute + "\": \"" + userIDs[0] + "\" }},\n" +
                     "               {\"match\": { \"accepted\":" + this.isAccepted + "}}\n" +
                     "           ]\n" +
                     "       }\n" +
@@ -108,7 +111,12 @@ public class GetFollowsTask extends AsyncTask<String, Void, ArrayList<Follow>> i
 
             for (Follow follow : queryResult) {
                 GenericGetRequest<User> get = new GenericGetRequest<>(this, User.class, ServerCommandManager.USER_TYPE,"userID");
-                String query = follow.getFollower();
+                String query;
+                if (this.isFollower){
+                    query = follow.getFollowee();
+                } else {
+                    query = follow.getFollower();
+                }
                 get.execute(query);
             }
         }
