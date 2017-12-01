@@ -48,7 +48,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MapsActivity"
+            android:name=".MapActivities.MapsActivity"
             android:label="@string/title_activity_maps" />
         <activity android:name=".BackEndTesting" />
         <activity android:name=".DataManagerTestingActivity" />
@@ -56,8 +56,9 @@
         <activity android:name=".avehabit.EditHabitActivity" />
         <activity android:name=".avehabit.ViewHabitActivity" />
         <activity android:name=".EditHabitEvent.EditHabitEventActivity" />
-        <activity android:name=".UserActivityPackage.ViewOtherUserActivity"></activity>
-        <activity android:name=".SignupActivity"></activity>
+        <activity android:name=".UserActivityPackage.ViewOtherUserActivity" />
+        <activity android:name=".SignupActivity" />
+        <activity android:name=".MapActivities.MapOptionsActivity"></activity>
     </application>
 
 </manifest>

@@ -18,7 +18,7 @@ import com.cmput301f17t07.ingroove.CurrentHabitsActivity;
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.FollowOtherUsers.FollowActivity;
-import com.cmput301f17t07.ingroove.MapsActivity;
+import com.cmput301f17t07.ingroove.MapActivities.MapsActivity;
 import com.cmput301f17t07.ingroove.R;
 import com.cmput301f17t07.ingroove.UserActivityPackage.UserActivity;
 import com.cmput301f17t07.ingroove.ViewFollowRequests.FollowRequestsActivity;

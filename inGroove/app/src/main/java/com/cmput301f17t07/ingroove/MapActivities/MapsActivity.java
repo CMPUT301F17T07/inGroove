@@ -1,4 +1,4 @@
-package com.cmput301f17t07.ingroove;
+package com.cmput301f17t07.ingroove.MapActivities;
 
 import android.Manifest;
 import android.content.Intent;
@@ -14,10 +14,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.cmput301f17t07.ingroove.BuildConfig;
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
+import com.cmput301f17t07.ingroove.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
