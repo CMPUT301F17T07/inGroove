@@ -69,7 +69,7 @@ public class EditUserActivity extends AppCompatActivity {
             // fill them in with the current info for user
             userName.setText(user.getName());
             userEmail.setText(user.getEmail());
-            Drawable drawable = getResources().getDrawable(R.drawable.austin);
+            Drawable drawable = getResources().getDrawable(R.mipmap.ic_launcher_round);
             userImage.setImageDrawable(drawable);
 
             final Context context = this.getApplicationContext();

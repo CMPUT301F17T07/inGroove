@@ -19,6 +19,7 @@ import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.R;
 import com.cmput301f17t07.ingroove.ViewHabitEvent.ViewHabitEventActivity;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class ViewHabitActivity extends AppCompatActivity {
@@ -153,7 +154,8 @@ public class ViewHabitActivity extends AppCompatActivity {
         habit_name.setText(passed_habit.getName());
         habit_comment.setText(passed_habit.getComment());
         habitEventsList = data.getHabitEvents(passed_habit);
-        habit_start_date.setText(passed_habit.getStartDate().toString());
+        SimpleDateFormat s_date_format = new SimpleDateFormat("dd MMM yyyy");
+        habit_start_date.setText(s_date_format.format(passed_habit.getStartDate()));
     }
 
     @Override

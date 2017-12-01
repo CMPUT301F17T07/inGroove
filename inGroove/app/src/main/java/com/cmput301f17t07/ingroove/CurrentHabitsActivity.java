@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.SearchView;
 import android.widget.SimpleAdapter;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
@@ -23,11 +23,8 @@ import com.cmput301f17t07.ingroove.avehabit.AddHabitActivity;
 import com.cmput301f17t07.ingroove.avehabit.ViewHabitActivity;
 import com.cmput301f17t07.ingroove.navDrawer.NavigationDrawerActivity;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -36,11 +33,18 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This activity is the main page of the app. It displays the users habits as well as passed habits completed, presented by their habit events.
+ * This activity is the main page of the app. It displays the users habits as well as passed
+ * habits completed, presented by their habit events.
+ *
+ * @see ViewHabitEventActivity
+ * @see AddHabitActivity
+ * @see ViewHabitActivity
+ * @see DataManager
+ * @see DataManagerAPI
  */
 public class CurrentHabitsActivity extends NavigationDrawerActivity{
 
-    //Initilize variables.
+    // Initialize variables.
     DataManagerAPI ServerCommunicator9000 = DataManager.getInstance();
     private User currentUser;
 
@@ -51,6 +55,8 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
     private Button b_finished;
     private Button b_listHabits;
     private FloatingActionButton b_addHabit;
+
+    private SearchView searchBox;
 
     //These two lists are used to hold the users habits and habit events.
     private ArrayList<Habit> HabitHolder;
@@ -71,13 +77,29 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
 
         currentUser = ServerCommunicator9000.getUser();
 
-        //Initilize the GridView
+        //Initialize the GridView
         habitViewer = (GridView) findViewById(R.id.HabitViewer);
 
         habitViewer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 gridViewOnClickEvent(v, position);
+            }
+        });
+
+        // Initialize the SearchView and set the on query listener.
+        searchBox = (SearchView) findViewById(R.id.SearchHabitsBox);
+        searchBox.setVisibility(View.VISIBLE);
+        searchBox.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                gridViewArrayAdapter.getFilter().filter(s);
+                return false;
             }
         });
 
@@ -90,6 +112,7 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
         b_upcoming.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //Habit Manager: Grab Future Habits
+                searchBox.setVisibility(View.INVISIBLE);
                 upcomingButtonClick();
             }
         });
@@ -97,6 +120,7 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
         b_finished.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //Habit Manager: Grab Past Habit events
+                searchBox.setVisibility(View.INVISIBLE);
                 finishedButtonClick();
             }
         });
@@ -110,8 +134,9 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
 
         b_listHabits.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                searchBox.setVisibility(View.VISIBLE);
                 habitsLoaded = true;
-                HabitHolder = ServerCommunicator9000.getHabit(currentUser);
+                HabitHolder = ServerCommunicator9000.getHabits();
                 PopulateGridView_Habits(HabitHolder);
             }
         });
@@ -384,7 +409,7 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
     public void onStart(){
         super.onStart();
 
-        HabitHolder = ServerCommunicator9000.getHabit(new User("T-Rex Joe", "trexjoe@hotmail.com"));
+        HabitHolder = ServerCommunicator9000.getHabits();
         PopulateGridView_Habits(HabitHolder);
     }
 }

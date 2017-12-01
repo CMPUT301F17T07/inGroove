@@ -25,11 +25,10 @@ public interface DataManagerAPI {
     /**
      * Retrieves the habits for a user
      *
-     * @param user the user for which the habits should be retrieved
      * @return a list of habit objects
      * @see User
      */
-    ArrayList<Habit> getHabit(User user);
+    ArrayList<Habit> getHabits();
 
     /**
      *  Retrieves the habitEvents for a particular habit
@@ -43,11 +42,10 @@ public interface DataManagerAPI {
     /**
      * Retrieves the habitEvents for a particular user
      *
-     * @param forUser the user in which the habitEvents are wanted
      * @return a list of all the habitEvents a user has
      * @see User
      */
-    ArrayList<HabitEvent> getHabitEvents(User forUser);
+    ArrayList<HabitEvent> getHabitEvents();
 
     /**
      * Adds a habit object to the data storage
@@ -250,18 +248,23 @@ public interface DataManagerAPI {
     /**
      * Search Habits
      *
-     * @param query the search query
+     * @param forUser the search query
      * @return a list of habits that contain the search query
      */
-     int findHabits(String query, AsyncResultHandler handler);
+    //TODO: make search for user
+     int findHabits(User forUser, AsyncResultHandler<Habit> handler);
 
     /**
      * Search HabitEvents
      *
-     * @param query the search query
+     * @param forHabit the search query
      * @return a list of habits that contain the search query
      */
-    int findHabitEvents(String query, AsyncResultHandler handler);
+    //TODO: make search for habit
+    int findHabitEvents(Habit forHabit, AsyncResultHandler<HabitEvent> handler);
+
+    //TODO: make findHabitEvents search for User
+    int findHabitEvents(User forUser, AsyncResultHandler<HabitEvent> handler);
 
 
     /**

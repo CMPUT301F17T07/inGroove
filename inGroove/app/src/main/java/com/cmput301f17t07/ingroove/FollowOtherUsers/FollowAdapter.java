@@ -93,7 +93,7 @@ public class FollowAdapter extends ArrayAdapter<User> implements View.OnClickLis
 
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.list_item_activity_follow_requests, parent, false);
+            convertView = inflater.inflate(R.layout.list_item_follow_activity, parent, false);
 
             viewHolder.sendRequestButton = (ImageButton) convertView.findViewById(R.id.sendFollowRequestButton);
             viewHolder.userInfo = (TextView) convertView.findViewById(R.id.otherUsersInfo);

@@ -79,12 +79,11 @@ public class MockDataManager implements DataManagerAPI {
     /**
      * Access to some test habits
      *
-     * @param user the user for which the habits should be retrieved
      * @return a list of habits
      *
      * @see Habit
      */
-    public ArrayList<Habit> getHabit(User user) {
+    public ArrayList<Habit> getHabits() {
         return habits;
     }
 
@@ -101,11 +100,10 @@ public class MockDataManager implements DataManagerAPI {
     /**
      * Access to some test habit Events
      *
-     * @param forUser the user in which the habitEvents are wanted
      * @return a list of test HabitEvents
      */
     @Override
-    public ArrayList<HabitEvent> getHabitEvents(User forUser) {
+    public ArrayList<HabitEvent> getHabitEvents() {
         return events;
     }
 
@@ -360,23 +358,28 @@ public class MockDataManager implements DataManagerAPI {
     /**
      * Search Habits
      *
-     * @param query the search query
+     * @param forUser the search query
      * @return a list of habits that contain the search query
      */
     @Override
-    public int findHabits(String query, AsyncResultHandler handler) {
+    public int findHabits(User forUser, AsyncResultHandler handler) {
         return 0;
     }
 
     /**
      * Search HabitEvents
      *
-     * @param query   the search query
+     * @param forHabit   the search query
      * @param handler
      * @return a list of habits that contain the search query
      */
     @Override
-    public int findHabitEvents(String query, AsyncResultHandler handler) {
+    public int findHabitEvents(Habit forHabit, AsyncResultHandler handler) {
+        return 0;
+    }
+
+    @Override
+    public int findHabitEvents(User forUser, AsyncResultHandler handler) {
         return 0;
     }
 

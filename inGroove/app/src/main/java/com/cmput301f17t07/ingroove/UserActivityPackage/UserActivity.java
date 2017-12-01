@@ -32,7 +32,7 @@ import java.util.Map;
  *  @see EditUserActivity
  *  @see User
  */
-public class UserActivity extends NavigationDrawerActivity {
+public class UserActivity extends NavigationDrawerActivity  {
     /* IMPORTANT
     This activity REQUIRES a valid serialized user object be sent via intent
     to it. Otherwise it will simply exit
@@ -90,15 +90,17 @@ public class UserActivity extends NavigationDrawerActivity {
             edit_user_button = (ImageButton) findViewById(R.id.editUserButton);
 
             // Load the layout with the user's data
-            Drawable drawable = getResources().getDrawable(R.drawable.austin);
+            Drawable drawable = getResources().getDrawable(R.mipmap.ic_launcher_round);
             user_picture.setImageDrawable(drawable);
 
             // Load the ListView with the people the user follows
-
-            // @TODO fix me
-            // FollowsList = data.getWhoThisUserFollows(user);
-            
             //FollowsList = mData.getWhoThisUserFollows(user);
+            data.getWhoThisUserFollows(user, new AsyncResultHandler<User>() {
+                 @Override
+                 public void handleResult(ArrayList<User> result) {
+                     FollowsList = result;
+                 }
+             });
             LoadListView(FollowsList);
 
             name.setText(user.getName());
@@ -123,7 +125,7 @@ public class UserActivity extends NavigationDrawerActivity {
             friends_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                    FollowerListOnClick(position);
+                    FollowerListOnClick(position, v);
                 }
             });
 
@@ -154,8 +156,12 @@ public class UserActivity extends NavigationDrawerActivity {
             super.updateHeader(user.getName());
 
             //Update followings list
-            // @TODO fix me
-            // FollowsList = data.getWhoThisUserFollows(, user);
+            this.data.getWhoThisUserFollows(user, new AsyncResultHandler<User>() {
+                @Override
+                public void handleResult(ArrayList<User> result) {
+                    FollowsList = result;
+                }
+            });
             LoadListView(FollowsList);
         }
     }
@@ -165,8 +171,10 @@ public class UserActivity extends NavigationDrawerActivity {
      * @param List: The list that will populate the listview
      */
     private void LoadListView(ArrayList<User> List){
-        if(List == null || List.size() == 0)
+        if(List == null || List.size() == 0) {
+            friends_list.setAdapter(null);
             return;
+        }
 
         java.util.List<Map<String, String>> ListData = new ArrayList<Map<String, String>>();
 
@@ -196,15 +204,11 @@ public class UserActivity extends NavigationDrawerActivity {
         friends_list.setAdapter(adapter);
     }
 
-    private void FollowerListOnClick(int position)
+    private void FollowerListOnClick(int position, View v)
     {
-        // TODO fix me
-        /*
-        //TODO: Find out which activity a on-click event should go to.
         data.setPassedUser(FollowsList.get(position));
         Intent upcomingIntent = new Intent(v.getContext(), ViewOtherUserActivity.class);
         startActivityForResult(upcomingIntent, 0);
-        */
 
     }
 

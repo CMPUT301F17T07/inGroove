@@ -21,8 +21,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -69,13 +71,14 @@ public class HabitEventsActivity extends AppCompatActivity {
     DataManagerAPI ServerCommunicator = DataManager.getInstance();
     private Location loc = null;
 
-    //Initilize variables.
+    //Interface variables.
     Button b_addImageButton;
     Button b_Cancel;
     Button b_Save;
     ImageView imageBlock;
     TextView commentBlock;
     TextView nameBlock;
+    Switch locationSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,13 +98,15 @@ public class HabitEventsActivity extends AppCompatActivity {
         b_Save = (Button) findViewById(R.id.SaveButton);
         commentBlock = (EditText) findViewById(R.id.commentText);
         nameBlock = (EditText) findViewById(R.id.nameTextBox);
+        locationSwitch = (Switch) findViewById(R.id.add_he_location_switch);
+
+        locationSwitch.setChecked(false);
 
         if(passed_habitEvent != null)
         {
             nameBlock.setText(passed_habitEvent.getName());
             imageBlock.setImageBitmap(passed_habitEvent.getPhoto());
             commentBlock.setText(passed_habitEvent.getComment());
-            //todo: find out how locations in the maps are done.
         }
         else
         {
@@ -128,17 +133,24 @@ public class HabitEventsActivity extends AppCompatActivity {
                 SaveButtonClick();
             }
         });
+
+        locationSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    if (!checkPermissions()) {
+                        requestPermissions();
+                        locationSwitch.setChecked(false);
+                    } else {
+                        getLastLocation();
+                    }
+                }
+            }
+        });
     }
 
     @Override
     public void onStart() {
         super.onStart();
-
-        if (!checkPermissions()) {
-            requestPermissions();
-        } else {
-            getLastLocation();
-        }
     }
 
     /**
@@ -188,7 +200,7 @@ public class HabitEventsActivity extends AppCompatActivity {
         he.setComment(commentBlock.getText().toString());
         he.setPhoto(((BitmapDrawable)imageBlock.getDrawable()).getBitmap());
         //todo: find out how locations in the maps are done.
-        if (mLastLocation != null) {
+        if (mLastLocation != null && locationSwitch.isEnabled()) {
             LatLng ll = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
             he.setLocation(ll);
         }
@@ -277,7 +289,7 @@ public class HabitEventsActivity extends AppCompatActivity {
                             mLastLocation = task.getResult();
                         } else {
                             Log.w(TAG, "getLastLocation:exception", task.getException());
-                            showSnackbar("getLastLocationException");
+                            showSnackbar("Unable to determine location. Please try again later");
                         }
                     }
                 });

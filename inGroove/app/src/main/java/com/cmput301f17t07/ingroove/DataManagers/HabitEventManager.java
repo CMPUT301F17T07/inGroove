@@ -163,17 +163,28 @@ public class HabitEventManager {
     /**
      * Returns a list of all the HabitEvents a user has, not specific to a particular habit
      *
-     * @param forUser the user for which the event history will be returned
      * @return a list of all events the user has logged
      */
     // TODO: implement getting habits for other users
-    public ArrayList<HabitEvent> getHabitEvents(User forUser) {
+    public ArrayList<HabitEvent> getHabitEvents() {
         if (habitEvents.size() == 0) {
             loadHabitEvents();
             return habitEvents;
         }
         return habitEvents;
     }
+
+    public void findHabitEvents(User forUser, AsyncResultHandler<HabitEvent> handler) {
+        GenericGetRequest<HabitEvent> get = new GenericGetRequest(handler, HabitEvent.class, ServerCommandManager.HABIT_EVENT_TYPE, "userID");
+        get.execute(forUser.getUserID());
+    }
+
+    public void findHabitEvents(Habit forHabit, AsyncResultHandler<HabitEvent> handler) {
+        GenericGetRequest<HabitEvent> get = new GenericGetRequest<>(handler, HabitEvent.class, ServerCommandManager.HABIT_EVENT_TYPE, "habitID");
+        get.execute(forHabit.getObjectID());
+    }
+
+
 
     // TODO: change the name for the date
     /**
@@ -355,10 +366,6 @@ public class HabitEventManager {
 
     }
 
-    public void findHabitEvents(AsyncResultHandler handler, String query) {
-        GenericGetRequest<HabitEvent> get = new GenericGetRequest(handler, HabitEvent.class, ServerCommandManager.HABIT_EVENT_TYPE, "name");
-        get.execute(query);
-    }
 
 
 }

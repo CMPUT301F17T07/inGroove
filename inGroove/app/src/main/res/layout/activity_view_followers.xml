@@ -23,6 +23,26 @@
             android:orientation="vertical"
             app:layout_constraintTop_toTopOf="parent">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/view_followers_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Followers" />
+
+                <Button
+                    android:id="@+id/view_followers_habits_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Habits" />
+            </LinearLayout>
+
             <ListView
                 android:id="@+id/FollowerViewer"
                 android:layout_width="match_parent"
