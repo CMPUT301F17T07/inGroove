@@ -4,6 +4,7 @@ package com.cmput301f17t07.ingroove;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -97,8 +98,9 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
             }
 
             @Override
-            public boolean onQueryTextChange(String s) {
-                gridViewArrayAdapter.getFilter().filter(s);
+            public boolean onQueryTextChange(String filterByString) {
+                gridViewArrayAdapter.getFilter().filter(filterByString);
+                habitViewer.setAdapter(gridViewArrayAdapter);
                 return false;
             }
         });
@@ -112,7 +114,7 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
         b_upcoming.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //Habit Manager: Grab Future Habits
-                searchBox.setVisibility(View.INVISIBLE);
+                //searchBox.setVisibility(View.INVISIBLE);
                 upcomingButtonClick();
             }
         });
@@ -120,7 +122,7 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
         b_finished.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //Habit Manager: Grab Past Habit events
-                searchBox.setVisibility(View.INVISIBLE);
+                //searchBox.setVisibility(View.INVISIBLE);
                 finishedButtonClick();
             }
         });
