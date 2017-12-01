@@ -81,12 +81,18 @@ public class DataManager implements DataManagerAPI {
      * @see User
      */
     public User getUser() {
+        /* @TODO Uncomment
         if (user == null ) {
             loadUser(); return user;
         }
         else {
             return user;
         }
+        */
+        User testUser = new User("bob");
+        testUser.setUserID("bob");
+        user = testUser;
+        return testUser;
     }
 
     /**

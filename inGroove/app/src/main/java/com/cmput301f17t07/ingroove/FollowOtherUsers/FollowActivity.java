@@ -63,6 +63,8 @@ public class FollowActivity extends NavigationDrawerActivity {
         followAdapter = new FollowAdapter(searchResults, this);
         searchedForUsersListView.setAdapter(followAdapter);
 
+        search
+
         searchedForUsersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
