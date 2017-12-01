@@ -93,7 +93,7 @@ public class UserActivity extends NavigationDrawerActivity  {
             unfollow_button = (Button) findViewById(R.id.unfollow_user_button);
 
             // make the unfollow button invisable to user for their own page
-            //unfollow_button.setVisibility(View.INVISIBLE);
+            unfollow_button.setVisibility(View.INVISIBLE);
 
             // Load the layout with the user's data
             Drawable drawable = getResources().getDrawable(R.mipmap.ic_launcher_round);
