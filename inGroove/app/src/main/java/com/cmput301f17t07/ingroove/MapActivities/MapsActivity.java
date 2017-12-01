@@ -38,6 +38,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     DataManagerAPI data = DataManager.getInstance();
 
+    // Bundle Keys
+    String USER_LOC_KEY = "user location";
+    String LOC_ARRAY_KEY = "array of locations";
+    String HIGHLIGHT_NEAR_KEY = "highlight nearby locations";
+    String FOLLOWS_KEY = "if the locations are yours or your followers";
+
     private GoogleMap mMap = null;
 
     // Location Variables
@@ -98,11 +104,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         map_rdy = true;
-
-        // Add a marker in Sydney and move the camera
-        //LatLng sydney = new LatLng(-34, 151);
-        //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
         if (loc_rdy){
             setup_map();

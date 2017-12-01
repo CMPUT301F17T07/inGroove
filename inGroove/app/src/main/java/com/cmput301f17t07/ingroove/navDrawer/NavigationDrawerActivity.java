@@ -18,6 +18,7 @@ import com.cmput301f17t07.ingroove.CurrentHabitsActivity;
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.FollowOtherUsers.FollowActivity;
+import com.cmput301f17t07.ingroove.MapActivities.MapOptionsActivity;
 import com.cmput301f17t07.ingroove.MapActivities.MapsActivity;
 import com.cmput301f17t07.ingroove.R;
 import com.cmput301f17t07.ingroove.UserActivityPackage.UserActivity;
@@ -122,7 +123,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
             Intent intent = new Intent(getApplicationContext(), FollowRequestsActivity.class);
             getApplicationContext().startActivity(intent);
         } else if (id == R.id.nav_menu_map) {
-            Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
+            Intent intent = new Intent(getApplicationContext(), MapOptionsActivity.class);
             getApplicationContext().startActivity(intent);
         }
 

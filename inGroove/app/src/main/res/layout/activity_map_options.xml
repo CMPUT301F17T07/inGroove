@@ -36,20 +36,43 @@
                     android:layout_height="wrap_content"
                     android:text="Here you can visualize events happening around you. Select the options you want before going on to check the map." />
 
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/mo_my_nearby_text"
+                        android:id="@+id/mo_center_on_loc_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Center the map on my current location" />
+
+                    <Switch
+                        android:id="@+id/mo_center_on_loc_switch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Switch" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/mo_nearby_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Highlight nearby events (5km)" />
 
                     <Switch
-                        android:id="@+id/mo_my_nearby_switch"
+                        android:id="@+id/mo_nearby_switch"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Switch" />
@@ -86,7 +109,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="View a map of " />
+                        android:text="View a map of events from those you follow" />
 
                     <Button
                         android:id="@+id/mo_view_followed_map_btn"
