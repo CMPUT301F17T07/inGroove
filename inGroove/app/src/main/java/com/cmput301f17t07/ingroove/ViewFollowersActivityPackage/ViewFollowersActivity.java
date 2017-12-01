@@ -1,33 +1,25 @@
 package com.cmput301f17t07.ingroove.ViewFollowersActivityPackage;
 
 import android.content.Intent;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.DataManagers.MockDataManager;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
-import com.cmput301f17t07.ingroove.UserActivityPackage.UserActivity;
 import com.cmput301f17t07.ingroove.UserActivityPackage.ViewOtherUserActivity;
-import com.cmput301f17t07.ingroove.avehabit.ViewHabitActivity;
 import com.cmput301f17t07.ingroove.navDrawer.NavigationDrawerActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ViewFollowersActivity extends NavigationDrawerActivity {
@@ -149,7 +141,7 @@ public class ViewFollowersActivity extends NavigationDrawerActivity {
         for (User u : ListToProcess)
         {
             //habitList = mServerCommunicator.getHabit(u);
-            habitList = ServerCommunicator.getHabit(u);
+            habitList = ServerCommunicator.getHabits();
             if(habitList == null || habitList.size() == 0)
                 continue;
             for(Habit h : habitList){

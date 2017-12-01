@@ -8,7 +8,6 @@ import android.util.Log;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
-import com.cmput301f17t07.ingroove.DataManagers.MockDataManager;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.Model.User;
@@ -41,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResultHandle
 
             // Update streak calculations
             // Get all the users habit events
-            ArrayList<HabitEvent> habitEvents = data.getHabitEvents(user);
+            ArrayList<HabitEvent> habitEvents = data.getHabitEvents();
             // Get the last day this streak was calculated for
             Date calc_date = user.getStreak_end();
 

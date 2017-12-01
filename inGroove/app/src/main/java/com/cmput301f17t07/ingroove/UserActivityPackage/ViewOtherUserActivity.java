@@ -1,6 +1,5 @@
 package com.cmput301f17t07.ingroove.UserActivityPackage;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -8,24 +7,19 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.DataManagers.MockDataManager;
-import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
 import com.cmput301f17t07.ingroove.navDrawer.NavigationDrawerActivity;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  *  Displays the user's profile.
@@ -92,7 +86,7 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
 
             // Load the ListView with the habits of the passed in user
             // HabitList = mData.getHabit(user);
-            HabitList = data.getHabit(user);
+            HabitList = data.getHabits();
             LoadListView(HabitList);
 
             name.setText(user.getName());
