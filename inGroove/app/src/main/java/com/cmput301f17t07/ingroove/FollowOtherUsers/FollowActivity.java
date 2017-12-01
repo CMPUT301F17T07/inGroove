@@ -35,6 +35,7 @@ public class FollowActivity extends NavigationDrawerActivity implements AsyncRes
 
     //DataManagerAPI data = DataManager.getInstance();
     DataManagerAPI data = new MockDataManager();
+    //AsyncResultHandler handler = AsyncResultHandler<User>;
 
     // elements on the view
     ListView searchedForUsersListView;
@@ -73,13 +74,19 @@ public class FollowActivity extends NavigationDrawerActivity implements AsyncRes
                 searchText = nameSearchBox.getText().toString();
                 streakValue = Integer.valueOf(streakSearchBox.getText().toString());
 
+                // check to make sure there are values in the edit texts and if there are not put
+                // the corresponding needed output in
                 if (streakValue == null && searchText != null) {
-                    data.findUsers(0, searchText, Boolean.FALSE, this);
+                    //data.findUsers(0, searchText, Boolean.FALSE, this);
+                    Log.w("TEST TEST TEST", "streak null, string good");
                 } else if (streakValue != null && searchText == null) {
-                    data.findUsers(streakValue, "", Boolean.FALSE, this);
+                    //data.findUsers(streakValue, "", Boolean.FALSE, this);
+                    Log.w("TEST TEST TEST", "streak good, string null");
                 } else if (streakValue != null && searchText != null) {
-                    data.findUsers(streakValue, searchText, Boolean.FALSE, this);
+                    //data.findUsers(streakValue, searchText, Boolean.FALSE, this);
+                    Log.w("TEST TEST TEST", "streak good, string good");
                 }
+
 
 
             }
