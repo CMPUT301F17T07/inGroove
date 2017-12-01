@@ -440,11 +440,16 @@ public class DataManager implements DataManagerAPI {
      */
     @Override
     public Boolean rejectRequest(User user, AsyncResultHandler handler) {
-        GenericDeleteFollowRequest<Integer> del = new GenericDeleteFollowRequest<>(handler, "follow", this.user.getUserID(), false);
+        GenericDeleteFollowRequest<Integer> del = new GenericDeleteFollowRequest<>(handler, "follow", this.user.getUserID(), false, false);
         del.execute(user.getUserID());
         return true;
     }
 
+    @Override
+    public void unFollow(User user) {
+        GenericDeleteFollowRequest del = new GenericDeleteFollowRequest(null, ServerCommandManager.FOLLOW, this.getUser().getUserID(), true, true);
+        del.execute(user.getUserID());
+    }
 
     /**
      * Cancel a pending follow request
@@ -454,7 +459,7 @@ public class DataManager implements DataManagerAPI {
      */
     @Override
     public Boolean cancelRequest(User user, AsyncResultHandler handler) {
-        GenericDeleteFollowRequest<Integer> del = new GenericDeleteFollowRequest<>(handler, "follow", this.user.getUserID(), true);
+        GenericDeleteFollowRequest<Integer> del = new GenericDeleteFollowRequest<>(handler, "follow", this.user.getUserID(), true, false);
         del.execute(user.getUserID());
         return true;
     }

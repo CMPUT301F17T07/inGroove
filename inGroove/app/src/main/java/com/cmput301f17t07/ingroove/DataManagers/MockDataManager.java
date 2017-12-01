@@ -23,7 +23,7 @@ import java.util.Date;
  *
  * Created by fraserbulbuc on 2017-11-07.
  */
-
+@Deprecated
 public class MockDataManager implements DataManagerAPI {
 
     /**
@@ -280,6 +280,15 @@ public class MockDataManager implements DataManagerAPI {
         return null;
     }
 
+    /**
+     * Unfollows the given user
+     *
+     * @param user the user to unfollow
+     */
+    @Override
+    public void unFollow(User user) {
+
+    }
 
     /**
      * Get the users which the specified user follows

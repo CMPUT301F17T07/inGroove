@@ -15,7 +15,8 @@ public class GenericDeleteFollowRequest<T> extends AsyncTask<String, Void, Void>
     private String type;
     private AsyncResultHandler<T> resultHandler;
     private String currentUserID;
-    private boolean isCancelling;   // true if cancelling, false if rejecting
+    private boolean isFollower;   // true if cancelling, false if rejecting
+    private boolean isAccepted;
 
     /**
      * Default Ctor
@@ -24,8 +25,9 @@ public class GenericDeleteFollowRequest<T> extends AsyncTask<String, Void, Void>
      * @param type the name of the index to query, for example: "habit" or "habit_event"
      */
     public GenericDeleteFollowRequest(AsyncResultHandler<T> resultHandler, String type,
-                                      String currentUserID, boolean isCancelling) {
-        this.isCancelling = isCancelling;
+                                      String currentUserID, boolean isFollower, boolean isAccepted) {
+        this.isFollower = isFollower;
+        this.isAccepted = isAccepted;
         this.type = type;
         this.resultHandler = resultHandler;
         this.currentUserID = currentUserID;
@@ -37,8 +39,8 @@ public class GenericDeleteFollowRequest<T> extends AsyncTask<String, Void, Void>
 
         String query;
 
-        if (isCancelling) {
-            // isCancelling true means the user is cancelling a request they have made
+        if (isFollower) {
+            // isFollower true means the user is cancelling a request they have made
             // i.e. they are the follower and the userID is that of the person they have
             // request to follow--i.e. the followee
 
@@ -48,7 +50,7 @@ public class GenericDeleteFollowRequest<T> extends AsyncTask<String, Void, Void>
                     "           \"must\": [\n" +
                     "               {\"match\": { \"follower\": \"" + currentUserID + "\" }},\n" +
                     "               {\"match\": { \"followee\": \"" + ids[0] + "\" }},\n" +
-                    "               {\"match\": { \"accepted\": false }}\n" +
+                    "               {\"match\": { \"accepted\":" + isAccepted + "}}\n" +
                     "           ]\n" +
                     "       }\n" +
                     "   }\n" +
@@ -64,7 +66,7 @@ public class GenericDeleteFollowRequest<T> extends AsyncTask<String, Void, Void>
                     "           \"must\": [\n" +
                     "               {\"match\": { \"follower\": \"" + ids[0] + "\" }},\n" +
                     "               {\"match\": { \"followee\": \"" + currentUserID + "\" }},\n" +
-                    "               {\"match\": { \"accepted\": false }}\n" +
+                    "               {\"match\": { \"accepted\":" + isAccepted + "}}\n" +
                     "           ]\n" +
                     "       }\n" +
                     "   }\n" +

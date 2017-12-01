@@ -204,6 +204,12 @@ public interface DataManagerAPI {
     Boolean rejectRequest(User user, AsyncResultHandler handler);
 
     /**
+     * Unfollows the given user
+     * @param user the user to unfollow
+     */
+    void unFollow(User user);
+
+    /**
      * Get the users which the specified user follows
      *
      * @param user the user you want to get the followers of
