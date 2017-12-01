@@ -62,9 +62,9 @@ public class MockDataManager implements DataManagerAPI {
         users = new ArrayList<User>();
 
         Following = new ArrayList<User>();
-        Following.add( new User("T-Rex Joe", "TRexJoe@Hotmail.com", new Date(), 9999, "RAWR") );
-        Following.add( new User("Sheriff of Nottingham", "RobinHoodSux@Hotmail.com", new Date(), 2, "BigMeanie") );
-        Following.add( new User("The Duke of Dude", "TheDudeAbides@Hotmail.com", new Date(), 100, "CoolMan") );
+        Following.add( new User("T-Rex Joe", "TRexJoe@Hotmail.com", new Date(), 9999, "RAWR", new Date(), new Date(), 10001));
+        Following.add( new User("Sheriff of Nottingham", "RobinHoodSux@Hotmail.com", new Date(), 2, "BigMeanie", new Date(), new Date(), 2) );
+        Following.add( new User("The Duke of Dude", "TheDudeAbides@Hotmail.com", new Date(), 100, "CoolMan", new Date(), new Date(), 99) );
     }
 
     /**
@@ -79,12 +79,11 @@ public class MockDataManager implements DataManagerAPI {
     /**
      * Access to some test habits
      *
-     * @param user the user for which the habits should be retrieved
      * @return a list of habits
      *
      * @see Habit
      */
-    public ArrayList<Habit> getHabit(User user) {
+    public ArrayList<Habit> getHabits() {
         return habits;
     }
 
@@ -101,11 +100,10 @@ public class MockDataManager implements DataManagerAPI {
     /**
      * Access to some test habit Events
      *
-     * @param forUser the user in which the habitEvents are wanted
      * @return a list of test HabitEvents
      */
     @Override
-    public ArrayList<HabitEvent> getHabitEvents(User forUser) {
+    public ArrayList<HabitEvent> getHabitEvents() {
         return events;
     }
 
@@ -346,25 +344,42 @@ public class MockDataManager implements DataManagerAPI {
     }
 
     /**
+     * Cancel a pending follow request
+     *
+     * @param user
+     * @param handler
+     * @return true if the rejection was successful, false if not
+     */
+    @Override
+    public Boolean cancelRequest(User user, AsyncResultHandler handler) {
+        return null;
+    }
+
+    /**
      * Search Habits
      *
-     * @param query the search query
+     * @param forUser the search query
      * @return a list of habits that contain the search query
      */
     @Override
-    public int findHabits(String query, AsyncResultHandler handler) {
+    public int findHabits(User forUser, AsyncResultHandler handler) {
         return 0;
     }
 
     /**
      * Search HabitEvents
      *
-     * @param query   the search query
+     * @param forHabit   the search query
      * @param handler
      * @return a list of habits that contain the search query
      */
     @Override
-    public int findHabitEvents(String query, AsyncResultHandler handler) {
+    public int findHabitEvents(Habit forHabit, AsyncResultHandler handler) {
+        return 0;
+    }
+
+    @Override
+    public int findHabitEvents(User forUser, AsyncResultHandler handler) {
         return 0;
     }
 

@@ -1,28 +1,25 @@
 package com.cmput301f17t07.ingroove.UserActivityPackage;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageButton;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.DataManagers.MockDataManager;
+import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
 import com.cmput301f17t07.ingroove.navDrawer.NavigationDrawerActivity;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  *  Displays the user's profile.
@@ -35,7 +32,7 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
     This activity REQUIRES a valid serialized user object be sent via intent
     to it. Otherwise it will simply exit
      */
-    //MockDataManager mData = MockDataManager.getInstance();
+    MockDataManager mData = MockDataManager.getInstance();
     DataManagerAPI data = DataManager.getInstance();
 
     // Account data to display
@@ -44,7 +41,7 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
     User user;
 
     // List of people the user follows.
-    ArrayList<User> FollowsList;
+    ArrayList<Habit> HabitList;
 
     // Layout items
     ImageView user_picture;
@@ -52,7 +49,7 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
     TextView username;
     TextView streak_txt;
     TextView start_date_txt;
-    ListView friends_list;
+    ListView Habits_list;
 
     /**
      * Starts user activity and displays the users information with the option to edit.
@@ -81,17 +78,16 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
             username = (TextView) findViewById(R.id.usr_act_username);
             streak_txt = (TextView) findViewById(R.id.usr_act_streak_txt);
             start_date_txt = (TextView) findViewById(R.id.usr_act_start_date);
-            friends_list = (ListView) findViewById(R.id.usr_act_friends);
+            Habits_list = (ListView) findViewById(R.id.usr_act_friends);
 
             // Load the layout with the user's data
             Drawable drawable = getResources().getDrawable(R.drawable.austin);
             user_picture.setImageDrawable(drawable);
 
-            // Load the ListView with the people the user follows
-            // @TODO fix this
-            // FollowsList = data.getWhoThisUserFollows(user);
-            //FollowsList = mData.getWhoThisUserFollows(user);
-            LoadListView(FollowsList);
+            // Load the ListView with the habits of the passed in user
+            // HabitList = mData.getHabit(user);
+            HabitList = data.getHabits();
+            LoadListView(HabitList);
 
             name.setText(user.getName());
             // @TODO THIS IS NOT THE USERNAME, the user object does not have a username field yet
@@ -100,21 +96,11 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
             streak_txt.setText("You've had " + Integer.valueOf(user.getStreak()) + " perfect days!");
             start_date_txt.setText("You've been getting in groove since " + user.getJoinDate().toString());
 
-            // for when the edit button is clicked
-            /* @TODO fix this
-            edit_user_button.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    Intent upcomingIntent = new Intent(v.getContext(), EditUserActivity.class);
-                    data.setPassedUser(user);
-                    ViewOtherUserActivity.super.startActivityForResult(upcomingIntent, 1);
-                }
-            });
-            */
 
-            friends_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            Habits_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                    FollowerListOnClick(position);
+                    HabiListOnClick(position, v);
                 }
             });
 
@@ -150,47 +136,24 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
      * This method creates the elements that will populate a listview.
      * @param List: The list that will populate the listview
      */
-    private void LoadListView(ArrayList<User> List){
-        if(List == null || List.size() == 0)
+    private void LoadListView(ArrayList<Habit> List){
+        if(List == null || List.size() == 0) {
+            Habits_list.setAdapter(null);
             return;
-
-        java.util.List<Map<String, String>> ListData = new ArrayList<Map<String, String>>();
-
-        for (User l : List)
-        {
-            Map<String, String> datum = new HashMap<String, String>(2);
-            datum.put("title", l.getName());
-            datum.put("date", "Longest Streak: " + l.getStreak());
-            ListData.add(datum);
         }
+        ArrayList<String> gv_GridItems = new ArrayList<String>();
+        for (int i = 0; i < List.size(); i++) {
+            gv_GridItems.add(List.get(i).getName());
+        }
+        ArrayAdapter<String> gridViewArrayAdapter = new ArrayAdapter<String>
+                (this, android.R.layout.simple_list_item_1, gv_GridItems);
 
-        SimpleAdapter adapter = new SimpleAdapter(this, ListData,
-                android.R.layout.simple_list_item_2,
-                new String[] {"title", "date"},
-                new int[] {android.R.id.text1,
-                        android.R.id.text2});
-
-        fillListView(adapter);
+        Habits_list.setAdapter(gridViewArrayAdapter);
     }
 
-    /**
-     * This method populates a specific listview with a passed adapter.
-     * @param adapter: An adapter with the elements that will populate the list.
-     */
-    private void fillListView(SimpleAdapter adapter)
+    private void HabiListOnClick(int position, View v)
     {
-        friends_list.setAdapter(adapter);
-    }
-
-    private void FollowerListOnClick(int position)
-    {
-        /* @TODO fix this
-        //TODO: Find out which activity a on-click event should go to.
-        data.setPassedUser(FollowsList.get(position));
-        Intent upcomingIntent = new Intent(v.getContext(), ViewOtherUserActivity.class);
-        startActivityForResult(upcomingIntent, 0);
-        */
-
+        //Nothing here for now.  Maybe one day...
     }
 
 }

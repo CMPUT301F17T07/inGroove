@@ -163,11 +163,10 @@ public class HabitEventManager {
     /**
      * Returns a list of all the HabitEvents a user has, not specific to a particular habit
      *
-     * @param forUser the user for which the event history will be returned
      * @return a list of all events the user has logged
      */
     // TODO: implement getting habits for other users
-    public ArrayList<HabitEvent> getHabitEvents(User forUser) {
+    public ArrayList<HabitEvent> getHabitEvents() {
         if (habitEvents.size() == 0) {
             loadHabitEvents();
             return habitEvents;
