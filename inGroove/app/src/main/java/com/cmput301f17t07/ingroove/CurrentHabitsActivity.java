@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.SearchView;
 import android.widget.SimpleAdapter;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
@@ -32,11 +33,18 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This activity is the main page of the app. It displays the users habits as well as passed habits completed, presented by their habit events.
+ * This activity is the main page of the app. It displays the users habits as well as passed
+ * habits completed, presented by their habit events.
+ *
+ * @see ViewHabitEventActivity
+ * @see AddHabitActivity
+ * @see ViewHabitActivity
+ * @see DataManager
+ * @see DataManagerAPI
  */
 public class CurrentHabitsActivity extends NavigationDrawerActivity{
 
-    //Initilize variables.
+    // Initialize variables.
     DataManagerAPI ServerCommunicator9000 = DataManager.getInstance();
     private User currentUser;
 
@@ -47,6 +55,8 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
     private Button b_finished;
     private Button b_listHabits;
     private FloatingActionButton b_addHabit;
+
+    private SearchView searchBox;
 
     //These two lists are used to hold the users habits and habit events.
     private ArrayList<Habit> HabitHolder;
@@ -67,13 +77,29 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
 
         currentUser = ServerCommunicator9000.getUser();
 
-        //Initilize the GridView
+        //Initialize the GridView
         habitViewer = (GridView) findViewById(R.id.HabitViewer);
 
         habitViewer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 gridViewOnClickEvent(v, position);
+            }
+        });
+
+        // Initialize the SearchView and set the on query listener.
+        searchBox = (SearchView) findViewById(R.id.SearchHabitsBox);
+
+        searchBox.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                gridViewArrayAdapter.getFilter().filter(s);
+                return false;
             }
         });
 
