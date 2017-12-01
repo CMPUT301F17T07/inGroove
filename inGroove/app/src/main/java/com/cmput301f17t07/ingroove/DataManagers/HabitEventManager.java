@@ -343,6 +343,9 @@ public class HabitEventManager {
             //saveLocal();
         } else if (result.isSucceeded()) {
             Log.d("---- ES -----","Successfully updated event name: " + habitEvent.getName() + " to ES.");
+        } else {
+            Log.d("---- ES -----","Something went wrong: " + result.getErrorMessage());
+
         }
     }
 

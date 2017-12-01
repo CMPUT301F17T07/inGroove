@@ -110,7 +110,7 @@ public class HabitEventsActivity extends AppCompatActivity {
         }
         else
         {
-            imageBlock.setImageDrawable(getResources().getDrawable(R.drawable.default_event_image));
+            imageBlock.setImageDrawable(getResources().getDrawable(R.drawable.ic_launcher));
         }
         //This creates an activity which will allow the user to pick an image.
         b_addImageButton.setOnClickListener(new View.OnClickListener() {

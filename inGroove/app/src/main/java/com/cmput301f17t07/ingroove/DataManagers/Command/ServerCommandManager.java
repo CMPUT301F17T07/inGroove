@@ -160,7 +160,7 @@ public class ServerCommandManager {
     public static class ExecuteAsync extends AsyncTask<ArrayList<ServerCommand>, Void, Void> {
         @Override
         protected Void doInBackground(ArrayList<ServerCommand>... commandArrays) {
-
+            Log.d("-ServerCommandManager-","Starting Asnyc");
             for (ArrayList<ServerCommand> commandArray: commandArrays) {
 
                 while (!commandArray.isEmpty()) {
@@ -170,6 +170,8 @@ public class ServerCommandManager {
                         command.execute();
                     }
                     catch (Exception e) {
+                        Log.d("-ServerCommandManager-"," cant execute command");
+
                         break;
                     }
 
@@ -177,6 +179,8 @@ public class ServerCommandManager {
 
                 }
             }
+            Log.d("-ServerCommandManager-","Finished Asnyc");
+
 
             return null;
         }
