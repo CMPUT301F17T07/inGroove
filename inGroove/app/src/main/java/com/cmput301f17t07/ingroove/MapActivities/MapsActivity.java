@@ -177,21 +177,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             return false;
         }
 
-        final int R = 6371; // Radius of the earth
+        double earthRadius = 6371000; //meters
+        double dLat = Math.toRadians(e.getLocation().latitude-mLastLocation.getLatitude());
+        double dLng = Math.toRadians(e.getLocation().longitude-mLastLocation.getLongitude());
+        double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(Math.toRadians(mLastLocation.getLatitude())) * Math.cos(Math.toRadians(e.getLocation().latitude)) *
+                        Math.sin(dLng/2) * Math.sin(dLng/2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        float dist = (float) (earthRadius * c);
 
-        double latDistance = Math.toRadians(e.getLocation().latitude - mLastLocation.getLatitude());
-        double lonDistance = Math.toRadians(e.getLocation().longitude - mLastLocation.getLongitude());
-        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
-                + Math.cos(Math.toRadians(mLastLocation.getLatitude())) * Math.cos(Math.toRadians(e.getLocation().latitude))
-                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        double distance = R * c * 1000; // convert to meters
-
-        double height = 0;
-
-        distance = Math.pow(distance, 2) + Math.pow(height, 2);
-
-        if (distance <= 5000){
+        if (dist <= 5000){
             return true;
         } else {
             return false;
