@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -50,6 +52,8 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
     TextView streak_txt;
     TextView start_date_txt;
     ListView Habits_list;
+    ImageButton edit_button;
+    Button unfollow_button;
 
     /**
      * Starts user activity and displays the users information with the option to edit.
@@ -79,6 +83,17 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
             streak_txt = (TextView) findViewById(R.id.usr_act_streak_txt);
             start_date_txt = (TextView) findViewById(R.id.usr_act_start_date);
             Habits_list = (ListView) findViewById(R.id.usr_act_friends);
+            edit_button = (ImageButton) findViewById(R.id.editUserButton);
+            unfollow_button = (Button) findViewById(R.id.unfollow_user_button);
+
+            // hide the edit user button
+            edit_button.setVisibility(View.INVISIBLE);
+
+            // if user is not following this user then hide the unfollow button
+            // @TODO make the unfollow button only visible if the user is following them
+            if (Boolean.FALSE) {
+                unfollow_button.setVisibility(View.INVISIBLE);
+            }
 
             // Load the layout with the user's data
             Drawable drawable = getResources().getDrawable(R.mipmap.ic_launcher_round);
@@ -96,11 +111,20 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
             streak_txt.setText("You've had " + Integer.valueOf(user.getStreak()) + " perfect days!");
             start_date_txt.setText("You've been getting in groove since " + user.getJoinDate().toString());
 
-
+            // deal with click on habits list
             Habits_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                     HabiListOnClick(position, v);
+                }
+            });
+
+            // deal with click on unfollow button
+            unfollow_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // data.unfollowUser(user)
+                    unfollow_button.setVisibility(View.INVISIBLE);
                 }
             });
 

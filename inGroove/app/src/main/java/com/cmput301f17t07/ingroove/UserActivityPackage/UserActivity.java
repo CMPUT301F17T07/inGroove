@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -57,6 +58,7 @@ public class UserActivity extends NavigationDrawerActivity  {
     TextView start_date_txt;
     ListView friends_list;
     ImageButton edit_user_button;
+    Button unfollow_button;
 
     /**
      * Starts user activity and displays the users information with the option to edit.
@@ -88,6 +90,10 @@ public class UserActivity extends NavigationDrawerActivity  {
             start_date_txt = (TextView) findViewById(R.id.usr_act_start_date);
             friends_list = (ListView) findViewById(R.id.usr_act_friends);
             edit_user_button = (ImageButton) findViewById(R.id.editUserButton);
+            unfollow_button = (Button) findViewById(R.id.unfollow_user_button);
+
+            // make the unfollow button invisable to user for their own page
+            unfollow_button.setVisibility(View.INVISIBLE);
 
             // Load the layout with the user's data
             Drawable drawable = getResources().getDrawable(R.mipmap.ic_launcher_round);
