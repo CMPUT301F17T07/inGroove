@@ -252,7 +252,7 @@ public interface DataManagerAPI {
      * @return a list of habits that contain the search query
      */
     //TODO: make search for user
-     int findHabits(User forUser, AsyncResultHandler handler);
+     int findHabits(User forUser, AsyncResultHandler<Habit> handler);
 
     /**
      * Search HabitEvents
@@ -261,10 +261,10 @@ public interface DataManagerAPI {
      * @return a list of habits that contain the search query
      */
     //TODO: make search for habit
-    int findHabitEvents(Habit forHabit, AsyncResultHandler handler);
+    int findHabitEvents(Habit forHabit, AsyncResultHandler<HabitEvent> handler);
 
     //TODO: make findHabitEvents search for User
-    int findHabitEvents(User forUser, AsyncResultHandler handler);
+    int findHabitEvents(User forUser, AsyncResultHandler<HabitEvent> handler);
 
 
     /**

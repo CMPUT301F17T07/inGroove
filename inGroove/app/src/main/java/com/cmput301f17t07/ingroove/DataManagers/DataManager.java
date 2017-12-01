@@ -525,7 +525,7 @@ public class DataManager implements DataManagerAPI {
      */
     @Override
     public int findHabits(User forUser, AsyncResultHandler handler) {
-//        habitManager.findHabits(handler, forUser);
+        habitManager.findHabits(handler, forUser);
         return 0;
     }
 
@@ -537,13 +537,14 @@ public class DataManager implements DataManagerAPI {
      * @return a list of habits that contain the search query
      */
     @Override
-    public int findHabitEvents(Habit forHabit, AsyncResultHandler handler) {
-//        habitEventManager.findHabitEvents(handler, forHabit);
+    public int findHabitEvents(Habit forHabit, AsyncResultHandler<HabitEvent> handler) {
+        habitEventManager.findHabitEvents(forHabit, handler);
         return 0;
     }
 
     @Override
     public int findHabitEvents(User forUser, AsyncResultHandler handler) {
+        habitEventManager.findHabitEvents(forUser, handler);
         return 0;
     }
 

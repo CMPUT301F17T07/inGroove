@@ -46,13 +46,7 @@ public class HabitManager {
     private static HabitManager instance = new HabitManager();
     private ArrayList<Habit> habits = new ArrayList<>();
 
-    public void findHabits(AsyncResultHandler handler, String query) {
 
-        GenericGetRequest<Habit> getReq = new GenericGetRequest(handler,Habit.class,"habit","name");
-        //GetRequest<Habit> get = new GetRequest<Habit>(Habit.class,"habit","name");
-        // TODO: check for connection before executing
-        getReq.execute(query);
-    }
 
     /**
      * Private constructor to ensure only one instance application wide
@@ -168,6 +162,11 @@ public class HabitManager {
         }
 
         return habits;
+    }
+
+    public void findHabits(AsyncResultHandler handler, User forUser) {
+        GenericGetRequest<Habit> getReq = new GenericGetRequest(handler,Habit.class,ServerCommandManager.HABIT_TYPE,"userID");
+        getReq.execute(forUser.getUserID());
     }
 
     /**
