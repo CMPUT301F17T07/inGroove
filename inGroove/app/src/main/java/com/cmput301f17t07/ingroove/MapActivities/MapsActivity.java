@@ -39,10 +39,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     DataManagerAPI data = DataManager.getInstance();
 
     // Bundle Keys
-    String USER_LOC_KEY = "user location";
-    String LOC_ARRAY_KEY = "array of locations";
-    String HIGHLIGHT_NEAR_KEY = "highlight nearby locations";
-    String FOLLOWS_KEY = "if the locations are yours or your followers";
+    public static final String USER_LOC_KEY = "user location";
+    public static final String LOC_ARRAY_KEY = "array of locations";
+    public static final String HIGHLIGHT_NEAR_KEY = "highlight nearby locations";
+    public static final String FOLLOWS_KEY = "if the locations are yours or your followers";
 
     private GoogleMap mMap = null;
 
@@ -83,11 +83,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onStart() {
         super.onStart();
 
+        /*
         if (!checkPermissions()) {
             requestPermissions();
         } else {
             getLastLocation();
         }
+        */
+
+        mLastLocation = (Location) this.getIntent().getSerializableExtra(USER_LOC_KEY);
+        Log.d("---MAPS ACTIVITY---", "last location" + mLastLocation.toString());
+
     }
 
 

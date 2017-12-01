@@ -94,7 +94,9 @@ public class MapOptionsActivity extends NavigationDrawerActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
+                intent.putExtra(MapsActivity.USER_LOC_KEY, mLastLocation);
                 getApplicationContext().startActivity(intent);
+
             }
         });
         view_follower_map.setOnClickListener(new View.OnClickListener() {
@@ -126,6 +128,7 @@ public class MapOptionsActivity extends NavigationDrawerActivity {
                             Log.w(TAG, "getLastLocation:exception", task.getException());
                             showSnackbar("getLastLocationException");
                         }
+
                     }
                 });
     }
