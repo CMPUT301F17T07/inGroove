@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResultHandle
             // Get the last day this streak was calculated for
             Date calc_date = user.getStreak_end();
 
-            /* if (DateUtils.isToday(calc_date.getTime())){
+            if (DateUtils.isToday(calc_date.getTime())){
                 Log.d("STREAK CALC: ", "No calc, last calc was today");
             } else if (isYesterday(calc_date)) {
                 Log.d("STREAK CALC: ", "Date was yesterday, updating");
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResultHandle
                 user.setStreak_end(new Date());
             }
             data.editUser(user);
-*/
+
 
             Intent intent = new Intent(getApplicationContext(), CurrentHabitsActivity.class);
             // Head to the Current Habits Activity as that is the chosen first screen
