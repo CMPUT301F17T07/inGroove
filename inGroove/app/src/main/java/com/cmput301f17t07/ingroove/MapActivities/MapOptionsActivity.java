@@ -24,6 +24,9 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.common.collect.Maps;
+
+import java.util.ArrayList;
 
 /**
  * The MapOptionsActivity allows the user to choose different types of maps
@@ -93,20 +96,65 @@ public class MapOptionsActivity extends NavigationDrawerActivity {
         view_my_map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
-                intent.putExtra(MapsActivity.USER_LOC_KEY, mLastLocation);
-                getApplicationContext().startActivity(intent);
+                if (mLastLocation == null) {
+                    // Default location is the university of alberta
+                    mLastLocation = new Location("");
+                    mLastLocation.setLatitude(53.5232);
+                    mLastLocation.setLongitude(-113.5263);
 
+                }
+                Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
+                intent = loadIntent(intent,mLastLocation,new ArrayList<Location>(),false);
+                getApplicationContext().startActivity(intent);
             }
         });
         view_follower_map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (mLastLocation == null) {
+                    // Default location is the university of alberta
+                    mLastLocation = new Location("");
+                    mLastLocation.setLatitude(53.5232);
+                    mLastLocation.setLongitude(-113.5263);
+                }
                 Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
+                intent = loadIntent(intent,mLastLocation,new ArrayList<Location>(),true);
                 getApplicationContext().startActivity(intent);
             }
         });
+
+        super.onCreateDrawer();
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(!checkPermissions()){
+            requestPermissions();
+        } else {
+            getLastLocation();
+        }
+    }
+
+    private Intent loadIntent(Intent intent, Location user_loc,
+                            ArrayList<Location> loc_array, boolean followers){
+        intent.putExtra(MapsActivity.USER_LOC_KEY, user_loc);
+        boolean center_on_user = false;
+        if(my_loc_switch.isChecked()){
+            center_on_user = true;
+        }
+        intent.putExtra(MapsActivity.CENTER_USER_LOC_KEY, center_on_user);
+        intent.putExtra(MapsActivity.FOLLOWS_KEY, loc_array);
+        boolean highlight_near = false;
+        if(highlight_near_switch.isChecked()){
+            highlight_near = true;
+        }
+        intent.putExtra(MapsActivity.HIGHLIGHT_NEAR_KEY, highlight_near);
+        intent.putExtra(MapsActivity.LOC_ARRAY_KEY, followers);
+
+        return intent;
+    }
+
 
     /**
      * Provides a simple way of getting a device's location and is well suited for
@@ -118,6 +166,8 @@ public class MapOptionsActivity extends NavigationDrawerActivity {
      */
     @SuppressWarnings("MissingPermission")
     private void getLastLocation() {
+        // Intent is optional, if non null it will be started once
+        // and if the location is received successfully
         mFusedLocationClient.getLastLocation()
                 .addOnCompleteListener(this, new OnCompleteListener<Location>() {
                     @Override
@@ -132,7 +182,6 @@ public class MapOptionsActivity extends NavigationDrawerActivity {
                     }
                 });
     }
-
     /**
      * Shows a {@link Snackbar} using {@code text}.
      *

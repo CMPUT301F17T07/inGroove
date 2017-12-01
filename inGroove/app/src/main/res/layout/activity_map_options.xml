@@ -116,7 +116,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="View Map" />
+
                 </LinearLayout>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="On the map, your location is shown in blue (if available), your habits are shown in yellow, and your followed habits are shown in red. Normal events are shown as circles, and highlighted events are stars." />
             </LinearLayout>
 
         </android.support.constraint.ConstraintLayout>

@@ -29,7 +29,7 @@
 
     // Location strings
     <string name="permission_rationale">Without these permissions map features will not work</string>
-    <string name="permission_denied_explanation">We need access to your location to enable this feature</string>
+    <string name="permission_denied_explanation">We need access to your location to enable some features</string>
     <string name="settings">SETTINGS</string>
 
 

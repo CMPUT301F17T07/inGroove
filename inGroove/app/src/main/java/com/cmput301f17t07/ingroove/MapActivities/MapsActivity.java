@@ -17,8 +17,10 @@ import android.view.View;
 import com.cmput301f17t07.ingroove.BuildConfig;
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
+import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
+import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -40,59 +42,39 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     // Bundle Keys
     public static final String USER_LOC_KEY = "user location";
+    public static final String CENTER_USER_LOC_KEY = "if centering on user location";
     public static final String LOC_ARRAY_KEY = "array of locations";
     public static final String HIGHLIGHT_NEAR_KEY = "highlight nearby locations";
     public static final String FOLLOWS_KEY = "if the locations are yours or your followers";
 
+    // Represents the google map fragment
     private GoogleMap mMap = null;
+    private boolean center_on_user;
+    private boolean highlight_near;
 
-    // Location Variables
-    private static final String TAG = MapsActivity.class.getSimpleName();
-    private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
-
-    /**
-     * Provides the entry point to the Fused Location Provider API.
-     */
-    private FusedLocationProviderClient mFusedLocationClient;
-
-    /**
-     * Represents a geographical location.
-     */
+    //Represents a geographical location.
     protected Location mLastLocation;
-    boolean map_rdy = false;
-    boolean loc_rdy = false;
-    boolean tot_rdy = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        mLastLocation = (Location) getIntent().getExtras().getParcelable(USER_LOC_KEY);
+        if (mLastLocation != null){
+            Log.d("---MAPS ACTIVITY---", "last location" + mLastLocation.toString());
+        }
+
+        center_on_user = getIntent().getExtras().getBoolean(CENTER_USER_LOC_KEY, false);
+        highlight_near = getIntent().getExtras().getBoolean(HIGHLIGHT_NEAR_KEY, false);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        // Location setup
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
 
-
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        /*
-        if (!checkPermissions()) {
-            requestPermissions();
-        } else {
-            getLastLocation();
-        }
-        */
-
-        mLastLocation = (Location) this.getIntent().getSerializableExtra(USER_LOC_KEY);
-        Log.d("---MAPS ACTIVITY---", "last location" + mLastLocation.toString());
 
     }
 
@@ -109,204 +91,112 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        map_rdy = true;
-
-        if (loc_rdy){
-            setup_map();
-        }
+        setup_map();
     }
 
     public void setup_map(){
-        if(tot_rdy){
-            return;
-        }
-        tot_rdy = true;
-        // We dont know which call will finish first, the map, or the location
-        // So each caller checks to see if the other has finished already and if
-        // so then sets up the map
         // @TODO One of the use cases is to see habit events of those the user follows within 5km
         // since this version doesn't support social aspects this code finds the events within
         // 5km of the user from the user him/her self.
         ArrayList<Habit> habits = data.getHabits();
 
-        // Add the user's own location as a blue marker
-        LatLng userLoc = new LatLng(mLastLocation.getLatitude(),mLastLocation.getLongitude());
-        mMap.addMarker(new MarkerOptions()
-                .position(userLoc)
-                .title("Your location")
-                .icon(BitmapDescriptorFactory
-                        .defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-        ArrayList<HabitEvent> close_events = data.getHabitEventsWithinRange(5, userLoc);
+        // Get all the users this user follows
+        data.getWhoThisUserFollows(data.getUser(), new AsyncResultHandler<User>() {
+            @Override
+            public void handleResult(ArrayList<User> result) {
+                // For each one
+                for(User u : result){
+                    // Get all their habit events with locations
+                    // Add those locations to the map
+                    data.findHabitEvents(u, new AsyncResultHandler<HabitEvent>() {
+                        @Override
+                        public void handleResult(ArrayList<HabitEvent> result) {
+                            for (HabitEvent e : result){
+                                LatLng loc = e.getLocation();
+                                if (loc != null){
+                                    if(eventNear(e)){
+                                        mMap.addMarker(new MarkerOptions()
+                                                .position(loc)
+                                                .title(e.getName())
+                                                .icon(BitmapDescriptorFactory
+                                                        .defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+                                    } else {
+                                        mMap.addMarker(new MarkerOptions()
+                                                .position(loc)
+                                                .title(e.getName()));
+                                    }
+
+                                }
+                            }
+
+                        }
+                    });
+                }
+            }
+        });
+
         ArrayList<HabitEvent> my_events = data.getHabitEvents();
 
 
-        // Add all User events as Yellow Markers
+        // Add all User events Markers
         for (HabitEvent e : my_events){
-            // @TODO Use the actual location instead of a random jitter around the U of A
             LatLng loc = e.getLocation();
             if (loc != null){
-                mMap.addMarker(new MarkerOptions()
-                        .position(loc)
-                        .title(e.getName())
-                        .icon(BitmapDescriptorFactory
-                                .defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+                if (eventNear(e)){
+                    mMap.addMarker(new MarkerOptions()
+                            .position(loc)
+                            .title(e.getName())
+                            .icon(BitmapDescriptorFactory
+                                    .defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+                } else {
+                    mMap.addMarker(new MarkerOptions()
+                            .position(loc)
+                            .title(e.getName()));
+                }
+
             }
 
         }
 
-        // Add close events from friends as default red markers
-        for (HabitEvent e : close_events){
-            // @TODO Use the actual location instead of a random jitter around the U of A
-            LatLng loc = e.getLocation();
-            if (loc != null){
-                mMap.addMarker(new MarkerOptions().position(loc).title(e.getName()));
-            }
-
+        // Add the user's own location as a blue marker if available
+        if(center_on_user){
+            LatLng userLoc = new LatLng(mLastLocation.getLatitude(),mLastLocation.getLongitude());
+            mMap.addMarker(new MarkerOptions()
+                    .position(userLoc)
+                    .title("Your location")
+                    .icon(BitmapDescriptorFactory
+                            .defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLoc, 10));
         }
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLoc, 10));
+
     }
 
-    /**
-     * Provides a simple way of getting a device's location and is well suited for
-     * applications that do not require a fine-grained location and that do not need location
-     * updates. Gets the best and most recent location currently available, which may be null
-     * in rare cases when a location is not available.
-     * <p>
-     * Note: this method should be called after location permission has been granted.
-     */
-    @SuppressWarnings("MissingPermission")
-    private void getLastLocation() {
-        mFusedLocationClient.getLastLocation()
-                .addOnCompleteListener(this, new OnCompleteListener<Location>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Location> task) {
-                        if (task.isSuccessful() && task.getResult() != null) {
-                            mLastLocation = task.getResult();
-                            if (map_rdy){
-                                setup_map();
-                            }
-                        } else {
-                            Log.w(TAG, "getLastLocation:exception", task.getException());
-                            showSnackbar("getLastLocationException");
-                        }
-                    }
-                });
-    }
-
-    /**
-     * Shows a {@link Snackbar} using {@code text}.
-     *
-     * @param text The Snackbar text.
-     */
-    private void showSnackbar(final String text) {
-        View container = findViewById(R.id.habitEventsActivityContainer);
-        if (container != null) {
-            Snackbar.make(container, text, Snackbar.LENGTH_LONG).show();
+    private boolean eventNear(HabitEvent e){
+        // Adapted from https://stackoverflow.com/questions/3694380/calculating-distance-between-two-points-using-latitude-longitude-what-am-i-doi
+        if (mLastLocation == null || !highlight_near){
+            return false;
         }
-    }
 
-    /**
-     * Shows a {@link Snackbar}.
-     *
-     * @param mainTextStringId The id for the string resource for the Snackbar text.
-     * @param actionStringId   The text of the action item.
-     * @param listener         The listener associated with the Snackbar action.
-     */
-    private void showSnackbar(final int mainTextStringId, final int actionStringId,
-                              View.OnClickListener listener) {
-        Snackbar.make(findViewById(android.R.id.content),
-                getString(mainTextStringId),
-                Snackbar.LENGTH_INDEFINITE)
-                .setAction(getString(actionStringId), listener).show();
-    }
+        final int R = 6371; // Radius of the earth
 
-    /**
-     * Return the current state of the permissions needed.
-     */
-    private boolean checkPermissions() {
-        int permissionState = ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_COARSE_LOCATION);
-        return permissionState == PackageManager.PERMISSION_GRANTED;
-    }
+        double latDistance = Math.toRadians(e.getLocation().latitude - mLastLocation.getLatitude());
+        double lonDistance = Math.toRadians(e.getLocation().longitude - mLastLocation.getLongitude());
+        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
+                + Math.cos(Math.toRadians(mLastLocation.getLatitude())) * Math.cos(Math.toRadians(e.getLocation().latitude))
+                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double distance = R * c * 1000; // convert to meters
 
-    private void startLocationPermissionRequest() {
-        ActivityCompat.requestPermissions(MapsActivity.this,
-                new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                REQUEST_PERMISSIONS_REQUEST_CODE);
-    }
+        double height = 0;
 
-    private void requestPermissions() {
-        boolean shouldProvideRationale =
-                ActivityCompat.shouldShowRequestPermissionRationale(this,
-                        Manifest.permission.ACCESS_COARSE_LOCATION);
+        distance = Math.pow(distance, 2) + Math.pow(height, 2);
 
-        // Provide an additional rationale to the user. This would happen if the user denied the
-        // request previously, but didn't check the "Don't ask again" checkbox.
-        if (shouldProvideRationale) {
-            Log.i(TAG, "Displaying permission rationale to provide additional context.");
-
-            showSnackbar(R.string.permission_rationale, android.R.string.ok,
-                    new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            // Request permission
-                            startLocationPermissionRequest();
-                        }
-                    });
-
+        if (distance <= 5000){
+            return true;
         } else {
-            Log.i(TAG, "Requesting permission");
-            // Request permission. It's possible this can be auto answered if device policy
-            // sets the permission in a given state or the user denied the permission
-            // previously and checked "Never ask again".
-            startLocationPermissionRequest();
+            return false;
         }
     }
 
-    /**
-     * Callback received when a permissions request has been completed.
-     */
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        Log.i(TAG, "onRequestPermissionResult");
-        if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
-            if (grantResults.length <= 0) {
-                // If user interaction was interrupted, the permission request is cancelled and you
-                // receive empty arrays.
-                Log.i(TAG, "User interaction was cancelled.");
-            } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission granted.
-                getLastLocation();
-            } else {
-                // Permission denied.
-
-                // Notify the user via a SnackBar that they have rejected a core permission for the
-                // app, which makes the Activity useless. In a real app, core permissions would
-                // typically be best requested during a welcome-screen flow.
-
-                // Additionally, it is important to remember that a permission might have been
-                // rejected without asking the user for permission (device policy or "Never ask
-                // again" prompts). Therefore, a user interface affordance is typically implemented
-                // when permissions are denied. Otherwise, your app could appear unresponsive to
-                // touches or interactions which have required permissions.
-                showSnackbar(R.string.permission_denied_explanation, R.string.settings,
-                        new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                // Build intent that displays the App settings screen.
-                                Intent intent = new Intent();
-                                intent.setAction(
-                                        Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                Uri uri = Uri.fromParts("package",
-                                        BuildConfig.APPLICATION_ID, null);
-                                intent.setData(uri);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intent);
-                            }
-                        });
-            }
-        }
-    }
 }
 
