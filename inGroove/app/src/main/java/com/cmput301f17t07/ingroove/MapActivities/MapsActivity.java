@@ -100,6 +100,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // 5km of the user from the user him/her self.
         ArrayList<Habit> habits = data.getHabits();
 
+        data.
+
         Log.d("--MAP--", "Test");
         // Get all the users this user follows
         data.getWhoThisUserFollows(data.getUser(), new AsyncResultHandler<User>() {
