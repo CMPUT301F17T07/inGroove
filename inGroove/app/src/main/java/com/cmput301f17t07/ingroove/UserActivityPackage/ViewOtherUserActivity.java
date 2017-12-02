@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.DataManagers.MockDataManager;
+import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
@@ -24,14 +25,14 @@ import com.cmput301f17t07.ingroove.navDrawer.NavigationDrawerActivity;
 import java.util.ArrayList;
 
 /**
- *  Displays the user's profile.
+ *  Displays the otherUser's profile.
  *
  *  @see EditUserActivity
  *  @see User
  */
 public class ViewOtherUserActivity extends NavigationDrawerActivity {
     /* IMPORTANT
-    This activity REQUIRES a valid serialized user object be sent via intent
+    This activity REQUIRES a valid serialized otherUser object be sent via intent
     to it. Otherwise it will simply exit
      */
     MockDataManager mData = MockDataManager.getInstance();
@@ -40,9 +41,9 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
     // Account data to display
     public static String user_key = "USR_ACNT";
     public static String return_user_key = "USR_ACNT_EDITED";
-    User user;
+    User otherUser;
 
-    // List of people the user follows.
+    // List of people the otherUser follows.
     ArrayList<Habit> HabitList;
 
     // Layout items
@@ -56,7 +57,7 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
     Button unfollow_button;
 
     /**
-     * Starts user activity and displays the users information with the option to edit.
+     * Starts otherUser activity and displays the users information with the option to edit.
      *
      * @param savedInstanceState
      */
@@ -65,13 +66,13 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
 
-        // Get the user to display
-        user = data.getPassedUser();
+        // Get the otherUser to display
+        otherUser = data.getPassedUser();
 
-        // make sure that the user is valid, else do activity
-        if (user == null){
-            // We don't have a user to display, just go back to the prior activity
-            Log.w("Warning/User:", "Issue with initializing the user.");
+        // make sure that the otherUser is valid, else do activity
+        if (otherUser == null){
+            // We don't have a otherUser to display, just go back to the prior activity
+            Log.w("Warning/User:", "Issue with initializing the otherUser.");
             finish();
             //data.addUser("test");
         } else {
@@ -86,30 +87,35 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
             edit_button = (ImageButton) findViewById(R.id.editUserButton);
             unfollow_button = (Button) findViewById(R.id.unfollow_user_button);
 
-            // hide the edit user button
+            // hide the edit otherUser button
             edit_button.setVisibility(View.INVISIBLE);
 
-            // if user is not following this user then hide the unfollow button
-            // @TODO make the unfollow button only visible if the user is following them
-            if (Boolean.FALSE) {
-                unfollow_button.setVisibility(View.INVISIBLE);
-            }
+            // check to see if the unfollow button should be displayed or not
+            data.getWhoThisUserFollows(otherUser, new AsyncResultHandler() {
+                @Override
+                public void handleResult(ArrayList result) {
+                    result = (ArrayList<User>) result;
+                    if (!result.contains(data.getUser())){
+                        unfollow_button.setVisibility(View.INVISIBLE);
+                    }
+                }
+            });
 
-            // Load the layout with the user's data
+            // Load the layout with the otherUser's data
             Drawable drawable = getResources().getDrawable(R.mipmap.ic_launcher_round);
             user_picture.setImageDrawable(drawable);
 
-            // Load the ListView with the habits of the passed in user
-            // HabitList = mData.getHabit(user);
+            // Load the ListView with the habits of the passed in otherUser
+            // HabitList = mData.getHabit(otherUser);
             HabitList = data.getHabits();
             LoadListView(HabitList);
 
-            name.setText(user.getName());
-            // @TODO THIS IS NOT THE USERNAME, the user object does not have a username field yet
+            name.setText(otherUser.getName());
+            // THIS IS NOT THE USERNAME, the otherUser object does not have a username field yet
             // but for now we just put the email so it has something slightly different
-            username.setText(user.getEmail());
-            streak_txt.setText("You've had " + Integer.valueOf(user.getStreak()) + " perfect days!");
-            start_date_txt.setText("You've been getting in groove since " + user.getJoinDate().toString());
+            username.setText(otherUser.getEmail());
+            streak_txt.setText("You've had " + Integer.valueOf(otherUser.getStreak()) + " perfect days!");
+            start_date_txt.setText("You've been getting in groove since " + otherUser.getJoinDate().toString());
 
             // deal with click on habits list
             Habits_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -123,7 +129,7 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
             unfollow_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // data.unfollowUser(user)
+                    data.unFollow(otherUser);
                     unfollow_button.setVisibility(View.INVISIBLE);
                 }
             });
@@ -133,7 +139,7 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
     }
 
     /**
-     * Refreshes user view.
+     * Refreshes otherUser view.
      *
      * @param requestCode
      * @param resultCode
@@ -145,14 +151,14 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
         if (requestCode == 1 && resultCode == RESULT_OK){
 
             // get returned info
-            user = this.data.getPassedUser();;
+            otherUser = this.data.getPassedUser();;
 
             // update view
-            name.setText(user.getName());
-            username.setText(user.getEmail());
+            name.setText(otherUser.getName());
+            username.setText(otherUser.getEmail());
 
             // update navigation menu
-            super.updateHeader(user.getName());
+            super.updateHeader(otherUser.getName());
         }
     }
 
