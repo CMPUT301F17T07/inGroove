@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -27,14 +28,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *  Displays the user's profile.
+ *  Displays the otherUser's profile.
  *
  *  @see EditUserActivity
  *  @see User
  */
 public class UserActivity extends NavigationDrawerActivity  {
     /* IMPORTANT
-    This activity REQUIRES a valid serialized user object be sent via intent
+    This activity REQUIRES a valid serialized otherUser object be sent via intent
     to it. Otherwise it will simply exit
      */
     MockDataManager mData = MockDataManager.getInstance();
@@ -45,7 +46,7 @@ public class UserActivity extends NavigationDrawerActivity  {
     public static String return_user_key = "USR_ACNT_EDITED";
     User user;
 
-    // List of people the user follows.
+    // List of people the otherUser follows.
     ArrayList<User> FollowsList;
 
     // Layout items
@@ -57,9 +58,10 @@ public class UserActivity extends NavigationDrawerActivity  {
     TextView start_date_txt;
     ListView friends_list;
     ImageButton edit_user_button;
+    Button unfollow_button;
 
     /**
-     * Starts user activity and displays the users information with the option to edit.
+     * Starts otherUser activity and displays the users information with the option to edit.
      *
      * @param savedInstanceState
      */
@@ -68,13 +70,13 @@ public class UserActivity extends NavigationDrawerActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
 
-        // Get the user to display
+        // Get the otherUser to display
         user = data.getUser();
 
-        // make sure that the user is valid, else do activity
+        // make sure that the otherUser is valid, else do activity
         if (user == null){
-            // We don't have a user to display, just go back to the prior activity
-            Log.w("Warning/User:", "Issue with initializing the user.");
+            // We don't have a otherUser to display, just go back to the prior activity
+            Log.w("Warning/User:", "Issue with initializing the otherUser.");
             finish();
             //data.addUser("test");
         } else {
@@ -88,13 +90,17 @@ public class UserActivity extends NavigationDrawerActivity  {
             start_date_txt = (TextView) findViewById(R.id.usr_act_start_date);
             friends_list = (ListView) findViewById(R.id.usr_act_friends);
             edit_user_button = (ImageButton) findViewById(R.id.editUserButton);
+            unfollow_button = (Button) findViewById(R.id.unfollow_user_button);
 
-            // Load the layout with the user's data
+            // make the unfollow button invisable to otherUser for their own page
+            unfollow_button.setVisibility(View.INVISIBLE);
+
+            // Load the layout with the otherUser's data
             Drawable drawable = getResources().getDrawable(R.mipmap.ic_launcher_round);
             user_picture.setImageDrawable(drawable);
 
-            // Load the ListView with the people the user follows
-            //FollowsList = mData.getWhoThisUserFollows(user);
+            // Load the ListView with the people the otherUser follows
+            //FollowsList = mData.getWhoThisUserFollows(otherUser);
             data.getWhoThisUserFollows(user, new AsyncResultHandler<User>() {
                  @Override
                  public void handleResult(ArrayList<User> result) {
@@ -104,7 +110,7 @@ public class UserActivity extends NavigationDrawerActivity  {
             LoadListView(FollowsList);
 
             name.setText(user.getName());
-            // @TODO THIS IS NOT THE USERNAME, the user object does not have a username field yet
+            // @TODO THIS IS NOT THE USERNAME, the otherUser object does not have a username field yet
             // but for now we just put the email so it has something slightly different
             username.setText("Email: " + user.getEmail());
             streak_txt.setText("You have a streak that is " + Integer.valueOf(user.getStreak()) + " day(s) long!");
@@ -134,7 +140,7 @@ public class UserActivity extends NavigationDrawerActivity  {
     }
 
     /**
-     * Refreshes user view.
+     * Refreshes otherUser view.
      *
      * @param requestCode
      * @param resultCode

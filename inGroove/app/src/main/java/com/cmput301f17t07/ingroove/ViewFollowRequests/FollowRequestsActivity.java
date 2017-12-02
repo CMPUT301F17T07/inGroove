@@ -36,6 +36,7 @@ public class FollowRequestsActivity extends NavigationDrawerActivity implements 
     ListView followListView;
 
     // set up adapter elements
+    FollowRequestAdapter adapter;
     ArrayList<User> followRequests = new ArrayList<User>();
 
     /**
@@ -54,14 +55,12 @@ public class FollowRequestsActivity extends NavigationDrawerActivity implements 
         // get follow requests
         data.getFollowRequests(this);
 
-        if (followRequests == null) {
+        /*if (followRequests == null) {
             followRequests = new ArrayList<User>();
-        }
-
-        Log.w("TEST TEST TEST", String.valueOf(followRequests.size()));
+        }*/
 
         // set adapter for list view
-        FollowRequestAdapter adapter = new FollowRequestAdapter(followRequests, this);
+        adapter = new FollowRequestAdapter(followRequests, this);
         followListView.setAdapter(adapter);
 
     }
@@ -73,6 +72,12 @@ public class FollowRequestsActivity extends NavigationDrawerActivity implements 
      */
     @Override
     public void handleResult(ArrayList<User> result) {
+
+        followRequests.clear();
         followRequests = result;
+        adapter = new FollowRequestAdapter(followRequests, this);
+        followListView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        
     }
 }
