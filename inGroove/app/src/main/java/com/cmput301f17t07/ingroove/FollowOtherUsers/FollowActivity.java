@@ -80,10 +80,12 @@ public class FollowActivity extends NavigationDrawerActivity {
                     @Override
                     public void handleResult(ArrayList result) {
 
-                        result = (ArrayList<User>) result;
-                        updateSearchResults(result);
-                        
-                        Log.i("Searching For Users", "Successfully found users.");
+                        if (result != null) {
+                            result = (ArrayList<User>) result;
+                            updateSearchResults(result);
+                            Log.i("Searching For Users", "Successfully found users.");
+                        }
+
                     }
                 });
 
@@ -93,10 +95,12 @@ public class FollowActivity extends NavigationDrawerActivity {
                     @Override
                     public void handleResult(ArrayList result) {
 
-                        result = (ArrayList<User>) result;
-                        updateSearchResults(result);
+                        if (result != null) {
+                            result = (ArrayList<User>) result;
+                            updateSearchResults(result);
+                            Log.i("Searching For Users", "Successfully found users.");
+                        }
 
-                        Log.i("Searching For Users", "Successfully found users.");
                     }
                 });
 
@@ -106,10 +110,12 @@ public class FollowActivity extends NavigationDrawerActivity {
                     @Override
                     public void handleResult(ArrayList result) {
 
-                        result = (ArrayList<User>) result;
-                        updateSearchResults(result);
+                        if (result != null) {
+                            result = (ArrayList<User>) result;
+                            updateSearchResults(result);
+                            Log.i("Searching For Users", "Successfully found users.");
+                        }
 
-                        Log.i("Searching For Users", "Successfully found users.");
                     }
                 });
 

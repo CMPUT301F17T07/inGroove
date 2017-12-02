@@ -114,11 +114,9 @@ public class FollowAdapter extends ArrayAdapter<User> implements View.OnClickLis
 
         }
 
-        viewHolder.userInfo.setText(user.getName());
+        viewHolder.userInfo.setText("User: " + user.getName() + "; Streak: " + user.getStreak());
         viewHolder.sendRequestButton.setOnClickListener(this);
         viewHolder.sendRequestButton.setTag(position);
-
-        Log.w("TEST TEST TEST", "User name = " + user.getName());
 
         return convertView;
     }
