@@ -262,7 +262,6 @@ public class HabitEvent implements Serializable, Identifiable{
      * @param habitID a String representing the habit ID
      * @see Habit
      */
-    // TODO: THIS METHOD SHOULD NEVER BE USED, ONCE AN EVENT IS LOGGED IT SHOULD NOT BE CHANGED
     public void setHabitID(String habitID) {
         this.habitID = habitID;
     }

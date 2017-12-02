@@ -126,7 +126,6 @@ public class HabitManager {
         habits.add(index, newHabit);
         saveLocal();
 
-        //TODO: update server
         ServerCommand updateHabitCommand = new AddHabitCommand(DataManager.getInstance().getUser(), newHabit);
         ServerCommandManager.getInstance().addCommand(updateHabitCommand);
 
@@ -142,7 +141,6 @@ public class HabitManager {
      * @return a list of habit objects
      * @see Habit
      */
-    //TODO: update so it gets habits for a user
     public ArrayList<Habit> getHabits() {
 
         if (habits.size() == 0) {

@@ -7,15 +7,23 @@ import com.cmput301f17t07.ingroove.Model.HabitEvent;
  * Created by Christopher Walter on 2017-11-22.
  */
 
-public class DeleteHabitEventCommand implements ServerCommand {
+public class DeleteHabitEventCommand extends ServerCommand {
 
     private HabitEvent habitEvent;
+    private int orderAdded;
 
 
     public DeleteHabitEventCommand(HabitEvent habitEvent) {
         this.habitEvent = habitEvent;
+        this.orderAdded = ServerCommandManager.getInstance().getTopIndex();
     }
 
+    /**
+     * @return its position on the command queue
+     */
+    public int getOrderAdded() {
+        return this.orderAdded;
+    }
 
     /**
      * Called when the command is at the top of the queue
@@ -43,5 +51,15 @@ public class DeleteHabitEventCommand implements ServerCommand {
     @Override
     public Boolean isUndoable() {
         return false;
+    }
+
+    /**
+     * String describing the command
+     *
+     * @return description
+     */
+    @Override
+    public String toString() {
+        return " DHEC with habitEvent named: " + habitEvent.getName();
     }
 }
