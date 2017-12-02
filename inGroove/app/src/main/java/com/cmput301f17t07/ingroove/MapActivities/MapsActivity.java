@@ -105,7 +105,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void handleResult(ArrayList<User> result) {
                 // For each one
+                Log.d("--MAP--", "Got "+ result.size() + " followers");
                 for(User u : result){
+                    Log.d("---MAP---", "For user " + u.getName()+ " with id " + u.getUserID());
                     // Get all their habit events with locations
                     // Add those locations to the map
                     data.findHabitEvents(u, new AsyncResultHandler<HabitEvent>() {

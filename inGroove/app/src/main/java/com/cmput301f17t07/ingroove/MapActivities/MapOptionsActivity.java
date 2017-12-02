@@ -535,7 +535,6 @@ public class MapOptionsActivity extends NavigationDrawerActivity {
                     public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
                         Log.i(TAG, "All location settings are satisfied.");
 
-                        //noinspection MissingPermission
                         mFusedLocationClient.requestLocationUpdates(mLocationRequest,
                                 mLocationCallback, Looper.myLooper());
 
@@ -581,7 +580,7 @@ public class MapOptionsActivity extends NavigationDrawerActivity {
     }
 
     /**
-     * Disables both buttons when functionality is disabled due to insuffucient location settings.
+     * Disables both buttons when functionality is disabled due to insufficient location settings.
      * Otherwise ensures that only one button is enabled at any time. The Start Updates button is
      * enabled if the user is not requesting location updates. The Stop Updates button is enabled
      * if the user is requesting location updates.
