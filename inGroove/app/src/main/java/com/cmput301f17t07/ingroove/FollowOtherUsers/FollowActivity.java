@@ -83,7 +83,8 @@ public class FollowActivity extends NavigationDrawerActivity {
                         if (result != null) {
                             result = (ArrayList<User>) result;
                             updateSearchResults(result);
-                            Log.i("Searching For Users", "Successfully found users.");
+                            Log.i("Searching For Users", "Successfully found "
+                                    + String.valueOf(result.size()) + " users.");
                         }
 
                     }
@@ -98,7 +99,8 @@ public class FollowActivity extends NavigationDrawerActivity {
                         if (result != null) {
                             result = (ArrayList<User>) result;
                             updateSearchResults(result);
-                            Log.i("Searching For Users", "Successfully found users.");
+                            Log.i("Searching For Users", "Successfully found "
+                                    + String.valueOf(result.size()) + " users.");
                         }
 
                     }
@@ -113,7 +115,8 @@ public class FollowActivity extends NavigationDrawerActivity {
                         if (result != null) {
                             result = (ArrayList<User>) result;
                             updateSearchResults(result);
-                            Log.i("Searching For Users", "Successfully found users.");
+                            Log.i("Searching For Users", "Successfully found "
+                                    + String.valueOf(result.size()) + " users.");
                         }
 
                     }
