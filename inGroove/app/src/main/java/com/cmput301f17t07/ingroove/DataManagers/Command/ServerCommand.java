@@ -39,4 +39,11 @@ public abstract class ServerCommand {
      */
     public abstract Boolean isUndoable();
 
+    /**
+     * String describing the command
+     *
+     * @return description
+     */
+    public abstract String toString();
+
 }

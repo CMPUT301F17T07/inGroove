@@ -1,5 +1,7 @@
 package com.cmput301f17t07.ingroove.DataManagers.Command;
 
+import android.util.Log;
+
 import com.cmput301f17t07.ingroove.DataManagers.HabitManager;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.User;
@@ -55,6 +57,7 @@ public class AddHabitCommand extends ServerCommand {
      */
     @Override
     public void execute() throws Exception {
+        Log.d("-- ADD H CMD --","Executing AHC with habit named: " + habit.getName());
         HabitManager.getInstance().addHabitToServer(habit);
     }
 
@@ -80,5 +83,9 @@ public class AddHabitCommand extends ServerCommand {
     @Override
     public Boolean isUndoable() {
         return isReversible;
+    }
+
+    public String toString() {
+        return "AHC with name: " + habit.getName();
     }
 }

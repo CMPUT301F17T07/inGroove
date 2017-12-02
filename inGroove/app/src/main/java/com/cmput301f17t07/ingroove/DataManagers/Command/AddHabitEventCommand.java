@@ -76,4 +76,14 @@ public class AddHabitEventCommand extends ServerCommand {
     public Boolean isUndoable() {
         return isReversible;
     }
+
+    /**
+     * String describing the command
+     *
+     * @return description
+     */
+    @Override
+    public String toString() {
+        return " AHEC with habitEvent named: " + habitEvent.getName();
+    }
 }

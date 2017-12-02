@@ -56,4 +56,14 @@ public class UpdateUserCommand extends ServerCommand {
     public Boolean isUndoable() {
         return null;
     }
+
+    /**
+     * String describing the command
+     *
+     * @return description
+     */
+    @Override
+    public String toString() {
+        return " UUC with user named: " + user.getName();
+    }
 }

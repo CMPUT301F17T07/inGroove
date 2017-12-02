@@ -52,4 +52,14 @@ public class DeleteHabitEventCommand extends ServerCommand {
     public Boolean isUndoable() {
         return false;
     }
+
+    /**
+     * String describing the command
+     *
+     * @return description
+     */
+    @Override
+    public String toString() {
+        return " DHEC with habitEvent named: " + habitEvent.getName();
+    }
 }

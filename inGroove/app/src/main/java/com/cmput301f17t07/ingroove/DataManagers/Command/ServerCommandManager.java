@@ -86,7 +86,6 @@ public class ServerCommandManager {
      * Constructs a new CommandManager, creates an empty queue on initialization
      */
     private ServerCommandManager() {
-        Log.d("--- CONST ---","Constructing");
         loadCommands();
     }
 
@@ -106,7 +105,8 @@ public class ServerCommandManager {
      */
     public void addCommand(ServerCommand command){
         commands.add(command);
-        //saveCommands();
+        Log.d("--- S_CMD_M ---","Adding" + command.toString() + ", now up to " + commands.size() + " cmds.");
+        saveCommands();
     }
 
     /**
@@ -193,7 +193,7 @@ public class ServerCommandManager {
     public static class ExecuteAsync extends AsyncTask<ArrayList<ServerCommand>, Void, Void> {
         @Override
         protected Void doInBackground(ArrayList<ServerCommand>... commandArrays) {
-            Log.d("-ServerCommandManager-","Starting Asnyc");
+            Log.d("--- S_CMD_M ---","Starting Async");
             for (ArrayList<ServerCommand> commandArray: commandArrays) {
 
                 while (!commandArray.isEmpty()) {
@@ -201,17 +201,20 @@ public class ServerCommandManager {
 
                     try {
                         command.execute();
+                        Log.d("--- S_CMD_M ---","Executed: " + command.toString());
+
+
                     }
                     catch (Exception e) {
-                        Log.d("-ServerCommandManager-"," cant execute command");
+                        Log.d("--- S_CMD_M ---","Unable to execute command");
 
                         break;
                     }
                     commandArray.remove(command);
+                    Log.d("--- S_CMD_M ---","Executed and removed cmd. " + commandArray.size() + " pending cmds.");
                 }
             }
-            Log.d("-ServerCommandManager-","Finished Asnyc");
-
+            Log.d("--- S_CMD_M ---","Finished Async");
 
             return null;
         }
@@ -222,8 +225,7 @@ public class ServerCommandManager {
      */
     private void loadCommands() {
 
-        Log.d("--- LOAD ---","Started loading some stuff");
-
+        Log.d("--- S_CMD_M ---","---------- LOADING COMMANDS FROM DISK ---------- ");
 
         ArrayList<AddHabitCommand> aHabit = new ArrayList<>();
         ArrayList<AddHabitEventCommand> aHabitEvent = new ArrayList<>();
@@ -233,8 +235,6 @@ public class ServerCommandManager {
 
         try {
 
-            Log.d("--- LOAD ---","trying to load some stuff");
-
             Context context = InGroove.getInstance();
             Gson gson = new Gson();
 
@@ -243,29 +243,43 @@ public class ServerCommandManager {
             Type listType1 = new TypeToken<ArrayList<AddHabitCommand>>(){}.getType();
             aHabit = gson.fromJson(in1, listType1);
 
+            for (AddHabitCommand cmd: aHabit) {
+                Log.d("--- AHC ---","Loaded: " + cmd.toString());
+            }
+
             FileInputStream fis2 = context.openFileInput(HABIT_EVENT_COMMAND);
             BufferedReader in2 = new BufferedReader(new InputStreamReader(fis2));
             Type listType2 = new TypeToken<ArrayList<AddHabitEventCommand>>(){}.getType();
             aHabitEvent = gson.fromJson(in2, listType2);
 
-            FileInputStream fis3 = context.openFileInput(DEL_HABIT_COMMAND);
-            BufferedReader in3 = new BufferedReader(new InputStreamReader(fis3));
-            Type listType3 = new TypeToken<ArrayList<DeleteHabitCommand>>(){}.getType();
-            delHabit = gson.fromJson(in3, listType3);
+            for (AddHabitEventCommand cmd: aHabitEvent) {
+                Log.d("--- S_CMD_M ---","Loaded: " + cmd.toString());
+            }
+
+
 
             FileInputStream fis4 = context.openFileInput(DEL_HABIT_EVENT_COMMAND);
             BufferedReader in4 = new BufferedReader(new InputStreamReader(fis4));
             Type listType4 = new TypeToken<ArrayList<DeleteHabitEventCommand>>(){}.getType();
             delHabitEvent = gson.fromJson(in4, listType4);
 
+            for (DeleteHabitEventCommand cmd: delHabitEvent) {
+                Log.d("--- S_CMD_M ---","Loaded: " + cmd.toString());
+            }
+
             FileInputStream fis5 = context.openFileInput(UPD_USER_COMMAND);
             BufferedReader in5 = new BufferedReader(new InputStreamReader(fis5));
             Type listType5 = new TypeToken<ArrayList<UpdateUserCommand>>(){}.getType();
             updUser = gson.fromJson(in5, listType5);
 
+            for (UpdateUserCommand cmd: updUser) {
+                Log.d("--- S_CMD_M ---","Loaded: " + cmd.toString());
+            }
+
+
 
         } catch (FileNotFoundException e) {
-            Log.d("--- LOAD ---","FAILED TO LOAD STUFFFFFF");
+            Log.d("--- S_CMD_M ---","FAILED TO LOAD COMMAND");
         }
 
         commands.addAll(aHabit);
@@ -283,7 +297,8 @@ public class ServerCommandManager {
             }
         });
 
-        Log.d("--- LOAD ---","finished loading some stuff");
+        Log.d("--- S_CMD_M ---","---------- Finished  loading " + commands.size() +  " cmds from disk ----------");
+
 
     }
 
@@ -292,8 +307,7 @@ public class ServerCommandManager {
      */
     public void saveCommands() {
 
-        Log.d("--- SAVE ---","Started saving some stuff");
-
+        Log.d("--- S_CMD_M ---","---------- SAVING " + commands.size() + " COMMANDS TO DISK ---------- ");
 
         ArrayList<AddHabitCommand> aHabit = new ArrayList<>();
         ArrayList<AddHabitEventCommand> aHabitEvent = new ArrayList<>();
@@ -346,10 +360,15 @@ public class ServerCommandManager {
             out5.flush();
 
         } catch (Exception e) {
-            Log.d("--- save ---","FAILED TO SAVE STUFFFFFF");
+            Log.d("--- S_CMD_M ---","FAILED TO SAVE CMDS.");
         }
 
-        Log.d("--- SAVE ---","Finished saving some stuff");
+        for (ServerCommand cmd: commands) {
+            Log.d("--- S_CMD_M ---","Saved:" + cmd.toString());
+        }
+        Log.d("--- S_CMD_M ---","---------- Finished  saving " + commands.size() +  " cmds to disk ----------");
+
+
 
     }
 }

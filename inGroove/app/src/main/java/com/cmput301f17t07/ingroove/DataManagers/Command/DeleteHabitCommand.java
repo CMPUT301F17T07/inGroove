@@ -56,4 +56,14 @@ public class DeleteHabitCommand extends ServerCommand {
     public Boolean isUndoable() {
         return false;
     }
+
+    /**
+     * String describing the command
+     *
+     * @return description
+     */
+    @Override
+    public String toString() {
+        return " DHC with habit named: " + habit.getName();
+    }
 }
