@@ -14,10 +14,12 @@ import com.cmput301f17t07.ingroove.Model.HabitEvent;
  * Created by Christopher Walter on 2017-11-09.
  */
 
-public class AddHabitEventCommand implements ServerCommand {
+public class AddHabitEventCommand extends ServerCommand {
 
     private HabitEvent habitEvent;
     private Boolean isReversible = false;
+    private int orderAdded;
+
 
     /**
      *
@@ -28,6 +30,14 @@ public class AddHabitEventCommand implements ServerCommand {
      */
     public AddHabitEventCommand(HabitEvent habitEvent) {
         this.habitEvent = habitEvent;
+        this.orderAdded = ServerCommandManager.getInstance().getTopIndex();
+    }
+
+    /**
+     * @return its position on the command queue
+     */
+    public int getOrderAdded() {
+        return this.orderAdded;
     }
 
     /**

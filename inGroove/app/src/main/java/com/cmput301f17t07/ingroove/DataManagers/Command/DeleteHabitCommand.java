@@ -7,12 +7,26 @@ import com.cmput301f17t07.ingroove.Model.Habit;
  * Created by Christopher Walter on 2017-11-23.
  */
 
-public class DeleteHabitCommand implements ServerCommand {
+public class DeleteHabitCommand extends ServerCommand {
 
     private Habit habit;
+    private int orderAdded;
 
+    /**
+     * Ctor
+     *
+     * @param habit the habit to be added
+     */
     public DeleteHabitCommand(Habit habit) {
         this.habit = habit;
+        this.orderAdded = ServerCommandManager.getInstance().getTopIndex();
+    }
+
+    /**
+     * @return its position on the command queue
+     */
+    public int getOrderAdded() {
+        return this.orderAdded;
     }
 
     /**
