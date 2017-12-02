@@ -79,6 +79,8 @@ public class FollowRequestAdapter extends ArrayAdapter<User> implements View.OnC
             case R.id.acceptFollowRequestButton:
                 // accept the follow request such that otherUser will now be following currentUser
                 result = data.acceptRequest(otherUser);
+                requestingFollowers.remove(otherUser);
+                notifyDataSetChanged();
                 if (result == Boolean.TRUE) {
                     Log.i("Follow Request Info", "Accepting follow request from " + otherUser.getName());
                 } else {
@@ -88,6 +90,8 @@ public class FollowRequestAdapter extends ArrayAdapter<User> implements View.OnC
             case R.id.rejectFollowRequestButton:
                 // reject the follow request from otherUser
                 result = data.rejectRequest(otherUser, this);
+                requestingFollowers.remove(otherUser);
+                notifyDataSetChanged();
                 if (result == Boolean.TRUE) {
                     Log.i("Follow Request Info", "Rejecting follow request from " + otherUser.getName());
                 } else {
