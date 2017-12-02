@@ -16,11 +16,12 @@ import com.cmput301f17t07.ingroove.Model.User;
  * Created by Christopher Walter on 2017-11-03.
  */
 
-public class AddHabitCommand implements ServerCommand {
+public class AddHabitCommand extends ServerCommand {
 
     private User user;
     private Habit habit;
     private Boolean isReversible =  false;
+    private int orderAdded;
 
     /**
      *
@@ -34,6 +35,14 @@ public class AddHabitCommand implements ServerCommand {
     public AddHabitCommand(User user, Habit habit) {
         this.user = user;
         this.habit = habit;
+        this.orderAdded = ServerCommandManager.getInstance().getTopIndex();
+    }
+
+    /**
+     * @return its position on the command queue
+     */
+    public int getOrderAdded() {
+        return this.orderAdded;
     }
 
     /**
