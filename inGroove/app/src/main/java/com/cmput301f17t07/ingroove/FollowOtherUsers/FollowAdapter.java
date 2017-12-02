@@ -33,6 +33,8 @@ public class FollowAdapter extends ArrayAdapter<User> implements View.OnClickLis
     ArrayList<User> searchResults;
     Context context;
 
+    Boolean successfullySent;
+
     /**
      *  ViewHolder functions as a convenient way/cache to access and store the needed data.
      */
@@ -48,7 +50,7 @@ public class FollowAdapter extends ArrayAdapter<User> implements View.OnClickLis
      * @param context the context
      */
     public FollowAdapter(ArrayList<User> searchResults, Context context) {
-        super(context, R.layout.list_item_activity_follow_requests, searchResults);
+        super(context, R.layout.list_item_follow_activity, searchResults);
         this.searchResults = searchResults;
         this.context = context;
     }
@@ -67,8 +69,16 @@ public class FollowAdapter extends ArrayAdapter<User> implements View.OnClickLis
         User otherUser = (User) getItem(position);
 
         if (v.getId()== R.id.sendFollowRequestButton) {
-            data.sendFollowRequest(otherUser);
-            Log.i("Follow Request Info", "Requesting to follow" + otherUser.getName());
+            successfullySent = data.sendFollowRequest(otherUser);
+
+            // check to see if the request was successfully sent and update list view to remove them
+            if (successfullySent) {
+                searchResults.remove(otherUser);
+                notifyDataSetChanged();
+                Log.i("Follow Request Info", "Requesting to follow" + otherUser.getName());
+            } else {
+                Log.i("Follow Request Info", "Unable to request to follow" + otherUser.getName());
+            }
         }
 
     }
@@ -107,6 +117,8 @@ public class FollowAdapter extends ArrayAdapter<User> implements View.OnClickLis
         viewHolder.userInfo.setText(user.getName());
         viewHolder.sendRequestButton.setOnClickListener(this);
         viewHolder.sendRequestButton.setTag(position);
+
+        Log.w("TEST TEST TEST", "User name = " + user.getName());
 
         return convertView;
     }
