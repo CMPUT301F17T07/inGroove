@@ -58,6 +58,8 @@ public class FollowRequestsActivity extends NavigationDrawerActivity implements 
             followRequests = new ArrayList<User>();
         }
 
+        Log.w("TEST TEST TEST", String.valueOf(followRequests.size()));
+
         // set adapter for list view
         FollowRequestAdapter adapter = new FollowRequestAdapter(followRequests, this);
         followListView.setAdapter(adapter);
