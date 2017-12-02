@@ -7,12 +7,26 @@ import com.cmput301f17t07.ingroove.Model.User;
  * Created by Christopher Walter on 2017-11-27.
  */
 
-public class UpdateUserCommand implements ServerCommand {
+public class UpdateUserCommand extends ServerCommand {
 
     private User user;
+    private int orderAdded;
 
+    /**
+     * default ctor
+     *
+     * @param user the user to be added to the server
+     */
     public UpdateUserCommand(User user) {
         this.user = user;
+        this.orderAdded = ServerCommandManager.getInstance().getTopIndex();
+    }
+
+    /**
+     * @return its position on the command queue
+     */
+    public int getOrderAdded() {
+        return this.orderAdded;
     }
 
     /**
@@ -41,5 +55,15 @@ public class UpdateUserCommand implements ServerCommand {
     @Override
     public Boolean isUndoable() {
         return null;
+    }
+
+    /**
+     * String describing the command
+     *
+     * @return description
+     */
+    @Override
+    public String toString() {
+        return " UUC with user named: " + user.getName();
     }
 }

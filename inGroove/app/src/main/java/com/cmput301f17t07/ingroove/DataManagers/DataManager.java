@@ -7,9 +7,11 @@ import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
 import com.cmput301f17t07.ingroove.DataManagers.Command.UpdateUserCommand;
+import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AcceptFollowRequestTask;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GenericDeleteFollowRequest;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GenericGetRequest;
+import com.cmput301f17t07.ingroove.Model.Follow;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.Model.User;
@@ -102,8 +104,6 @@ public class DataManager implements DataManagerAPI {
     @Override
     public boolean addUser(String userName, AsyncResultHandler handler) {
 
-        // TODO: Verify there is a network connection before attempting.
-
         user = new User(userName);
         ServerCommandManager.InitializeUserAsync addUserTask = new ServerCommandManager.InitializeUserAsync(handler);
         System.out.println("---- NEW USER ---- with name " + user.getName());
@@ -115,8 +115,7 @@ public class DataManager implements DataManagerAPI {
         return true;
     }
 
-    // TODO: CAN WE REMOVE THIS?
-    // TODO: NO, NO WE CANT
+
     public int editUser(User user) {
 
         user.setUserID(this.user.getUserID());
@@ -127,7 +126,6 @@ public class DataManager implements DataManagerAPI {
 
         ServerCommand updateUserCommand = new UpdateUserCommand(DataManager.getInstance().getUser());
         ServerCommandManager.getInstance().addCommand(updateUserCommand);
-
         ServerCommandManager.getInstance().execute();
         return 0;
     }
@@ -151,7 +149,6 @@ public class DataManager implements DataManagerAPI {
      * @see Habit
      */
     public ArrayList<Habit> getHabits() {
-        // TODO: if user != device user crash app with error
         return habitManager.getHabits();
     }
 
@@ -429,7 +426,13 @@ public class DataManager implements DataManagerAPI {
      */
     @Override
     public Boolean acceptRequest(User user) {
-        return null;
+        AcceptFollowRequestTask acc = new AcceptFollowRequestTask(ServerCommandManager.FOLLOW, this.user.getUserID());
+        acc.execute(user.getUserID());
+        rejectRequest(user, new AsyncResultHandler() {
+            @Override
+            public void handleResult(ArrayList result) {}
+        });
+        return true;
     }
 
     /**
@@ -440,11 +443,16 @@ public class DataManager implements DataManagerAPI {
      */
     @Override
     public Boolean rejectRequest(User user, AsyncResultHandler handler) {
-        GenericDeleteFollowRequest<Integer> del = new GenericDeleteFollowRequest<>(handler, "follow", this.user.getUserID(), false);
+        GenericDeleteFollowRequest<Integer> del = new GenericDeleteFollowRequest<>(handler, "follow", this.user.getUserID(), false, false);
         del.execute(user.getUserID());
         return true;
     }
 
+    @Override
+    public void unFollow(User user) {
+        GenericDeleteFollowRequest del = new GenericDeleteFollowRequest(null, ServerCommandManager.FOLLOW, this.getUser().getUserID(), true, true);
+        del.execute(user.getUserID());
+    }
 
     /**
      * Cancel a pending follow request
@@ -454,7 +462,7 @@ public class DataManager implements DataManagerAPI {
      */
     @Override
     public Boolean cancelRequest(User user, AsyncResultHandler handler) {
-        GenericDeleteFollowRequest<Integer> del = new GenericDeleteFollowRequest<>(handler, "follow", this.user.getUserID(), true);
+        GenericDeleteFollowRequest<Integer> del = new GenericDeleteFollowRequest<>(handler, "follow", this.user.getUserID(), true, false);
         del.execute(user.getUserID());
         return true;
     }
@@ -467,7 +475,6 @@ public class DataManager implements DataManagerAPI {
      * @return a list of the particular user's followers
      */
     @Override
-    // TODO: STILL TO IMPLEMENT
     public int getWhoThisUserFollows(User user, AsyncResultHandler handler) {
         RelationshipManager.getInstance().getWhoThisUserFollows(handler, user);
         return 0;
@@ -481,7 +488,6 @@ public class DataManager implements DataManagerAPI {
      * @return a list of users who follow the specified user
      */
     @Override
-    // TODO: STILL TO IMPLEMENT
     public int getWhoFollows(User user, AsyncResultHandler handler) {
         RelationshipManager.getInstance().getFollowersOf(handler, user.getUserID());
         return 0;
@@ -525,7 +531,7 @@ public class DataManager implements DataManagerAPI {
      */
     @Override
     public int findHabits(User forUser, AsyncResultHandler handler) {
-//        habitManager.findHabits(handler, forUser);
+        habitManager.findHabits(handler, forUser);
         return 0;
     }
 
@@ -537,13 +543,14 @@ public class DataManager implements DataManagerAPI {
      * @return a list of habits that contain the search query
      */
     @Override
-    public int findHabitEvents(Habit forHabit, AsyncResultHandler handler) {
-//        habitEventManager.findHabitEvents(handler, forHabit);
+    public int findHabitEvents(Habit forHabit, AsyncResultHandler<HabitEvent> handler) {
+        habitEventManager.findHabitEvents(forHabit, handler);
         return 0;
     }
 
     @Override
     public int findHabitEvents(User forUser, AsyncResultHandler handler) {
+        habitEventManager.findHabitEvents(forUser, handler);
         return 0;
     }
 
@@ -555,6 +562,8 @@ public class DataManager implements DataManagerAPI {
      * @return a list of the habit events
      */
     @Override
+    @Deprecated
+    //TODO: Remove this
     public ArrayList<HabitEvent> getHabitEventsWithinRange(int radius, LatLng centre) {
         return new ArrayList<HabitEvent>();
     }

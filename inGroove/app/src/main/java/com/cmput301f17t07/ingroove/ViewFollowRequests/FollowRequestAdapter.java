@@ -34,8 +34,7 @@ public class FollowRequestAdapter extends ArrayAdapter<User> implements View.OnC
     // https://www.journaldev.com/10416/android-listview-with-custom-adapter-example-tutorial
     // this tutorial was used to help implement this class
 
-    // DataManagerAPI data = DataManager.getInstance();
-    DataManagerAPI data = new MockDataManager();
+    DataManagerAPI data = DataManager.getInstance();
 
     ArrayList<User> requestingFollowers;
     Context context;
@@ -71,26 +70,32 @@ public class FollowRequestAdapter extends ArrayAdapter<User> implements View.OnC
 
         int position = (Integer) v.getTag();
         User otherUser = (User) getItem(position);
+        Boolean result;
+
+        // @TODO figure out why requests are not sending
 
         switch (v.getId()) {
 
             case R.id.acceptFollowRequestButton:
                 // accept the follow request such that otherUser will now be following currentUser
-                data.acceptRequest(otherUser);
-                Log.i("Follow Request Info", "Accepting follow request from " + otherUser.getName());
-                //requestingFollowers.remove(otherUser);
+                result = data.acceptRequest(otherUser);
+                if (result == Boolean.TRUE) {
+                    Log.i("Follow Request Info", "Accepting follow request from " + otherUser.getName());
+                } else {
+                    Log.i("Follow Request Info", "Unable to accept follow request from " + otherUser.getName());
+                }
                 break;
             case R.id.rejectFollowRequestButton:
                 // reject the follow request from otherUser
-                data.rejectRequest(otherUser, this);
-                Log.i("Follow Request Info", "Rejecting the follow request from " + otherUser.getName());
-                //requestingFollowers.remove(otherUser);
+                result = data.rejectRequest(otherUser, this);
+                if (result == Boolean.TRUE) {
+                    Log.i("Follow Request Info", "Rejecting follow request from " + otherUser.getName());
+                } else {
+                    Log.i("Follow Request Info", "Unable to reject follow request from " + otherUser.getName());
+                }
                 break;
 
         }
-
-        // now we need to remove the follow request from the list
-        //notifyDataSetChanged();
 
     }
 
@@ -134,6 +139,11 @@ public class FollowRequestAdapter extends ArrayAdapter<User> implements View.OnC
         return convertView;
     }
 
+    /**
+     * Get the new results for the adapter and notify that the data set has cahnged.
+     *
+     * @param result the new list of requesting followers
+     */
     @Override
     public void handleResult(ArrayList<User> result) {
         requestingFollowers = result;

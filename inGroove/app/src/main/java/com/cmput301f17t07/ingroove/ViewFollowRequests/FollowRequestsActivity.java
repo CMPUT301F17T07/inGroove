@@ -22,6 +22,7 @@ import com.cmput301f17t07.ingroove.navDrawer.NavigationDrawerActivity;
 import java.util.ArrayList;
 
 /**
+ * View allows the user to accept or reject follow requests that other users have sent them.
  *
  * @see FollowRequestsActivity
  * @see DataManagerAPI
@@ -29,8 +30,7 @@ import java.util.ArrayList;
  */
 public class FollowRequestsActivity extends NavigationDrawerActivity implements AsyncResultHandler<User> {
 
-    // DataManagerAPI data = DataManager.getInstance();
-    DataManagerAPI data = new MockDataManager();
+    DataManagerAPI data = DataManager.getInstance();
 
     // set up needed page element
     ListView followListView;
@@ -38,6 +38,11 @@ public class FollowRequestsActivity extends NavigationDrawerActivity implements 
     // set up adapter elements
     ArrayList<User> followRequests = new ArrayList<User>();
 
+    /**
+     * Sets up and initializes the follow request activity.
+     *
+     * @param savedInstanceState the saved instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +58,7 @@ public class FollowRequestsActivity extends NavigationDrawerActivity implements 
             followRequests = new ArrayList<User>();
         }
 
+        Log.w("TEST TEST TEST", String.valueOf(followRequests.size()));
 
         // set adapter for list view
         FollowRequestAdapter adapter = new FollowRequestAdapter(followRequests, this);
@@ -60,6 +66,11 @@ public class FollowRequestsActivity extends NavigationDrawerActivity implements 
 
     }
 
+    /**
+     * Get the new results for the follow requests that have been sent to the user.
+     *
+     * @param result the updated results
+     */
     @Override
     public void handleResult(ArrayList<User> result) {
         followRequests = result;

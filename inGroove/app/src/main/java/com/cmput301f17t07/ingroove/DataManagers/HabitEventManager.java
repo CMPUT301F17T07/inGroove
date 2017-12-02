@@ -131,11 +131,11 @@ public class HabitEventManager {
 
     /**
      * Returns an list of HabitEvents for a particular habit a User has
+     * !!! ONLY WORKS FOR THE LOCAL USERS HABITS !!!
      *
      * @param forHabit the habit for which the event history will be returned
      * @return a list of events for the specific habit
      */
-    // TODO: will this work for other users habits???
     public ArrayList<HabitEvent> getHabitEvents(Habit forHabit) {
         if (habitEvents.size() == 0) {
             loadHabitEvents();
@@ -165,7 +165,6 @@ public class HabitEventManager {
      *
      * @return a list of all events the user has logged
      */
-    // TODO: implement getting habits for other users
     public ArrayList<HabitEvent> getHabitEvents() {
         if (habitEvents.size() == 0) {
             loadHabitEvents();
@@ -174,7 +173,18 @@ public class HabitEventManager {
         return habitEvents;
     }
 
-    // TODO: change the name for the date
+    public void findHabitEvents(User forUser, AsyncResultHandler<HabitEvent> handler) {
+        GenericGetRequest<HabitEvent> get = new GenericGetRequest(handler, HabitEvent.class, ServerCommandManager.HABIT_EVENT_TYPE, "userID");
+        get.execute(forUser.getUserID());
+    }
+
+    public void findHabitEvents(Habit forHabit, AsyncResultHandler<HabitEvent> handler) {
+        GenericGetRequest<HabitEvent> get = new GenericGetRequest<>(handler, HabitEvent.class, ServerCommandManager.HABIT_EVENT_TYPE, "habitID");
+        get.execute(forHabit.getObjectID());
+    }
+
+
+
     /**
      * gets the Recent Events
      * @param user who's events you want
@@ -331,6 +341,9 @@ public class HabitEventManager {
             //saveLocal();
         } else if (result.isSucceeded()) {
             Log.d("---- ES -----","Successfully updated event name: " + habitEvent.getName() + " to ES.");
+        } else {
+            Log.d("---- ES -----","Something went wrong: " + result.getErrorMessage());
+
         }
     }
 
@@ -354,10 +367,6 @@ public class HabitEventManager {
 
     }
 
-    public void findHabitEvents(AsyncResultHandler handler, String query) {
-        GenericGetRequest<HabitEvent> get = new GenericGetRequest(handler, HabitEvent.class, ServerCommandManager.HABIT_EVENT_TYPE, "name");
-        get.execute(query);
-    }
 
 
 }

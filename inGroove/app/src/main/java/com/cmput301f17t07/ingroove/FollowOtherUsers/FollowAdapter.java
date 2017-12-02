@@ -28,11 +28,12 @@ import java.util.ArrayList;
 
 public class FollowAdapter extends ArrayAdapter<User> implements View.OnClickListener {
 
-    // DataManagerAPI data = DataManager.getInstance();
-    DataManagerAPI data = new MockDataManager();
+    DataManagerAPI data = DataManager.getInstance();
 
     ArrayList<User> searchResults;
     Context context;
+
+    Boolean successfullySent;
 
     /**
      *  ViewHolder functions as a convenient way/cache to access and store the needed data.
@@ -49,7 +50,7 @@ public class FollowAdapter extends ArrayAdapter<User> implements View.OnClickLis
      * @param context the context
      */
     public FollowAdapter(ArrayList<User> searchResults, Context context) {
-        super(context, R.layout.list_item_activity_follow_requests, searchResults);
+        super(context, R.layout.list_item_follow_activity, searchResults);
         this.searchResults = searchResults;
         this.context = context;
     }
@@ -68,8 +69,16 @@ public class FollowAdapter extends ArrayAdapter<User> implements View.OnClickLis
         User otherUser = (User) getItem(position);
 
         if (v.getId()== R.id.sendFollowRequestButton) {
-            data.sendFollowRequest(otherUser);
-            Log.i("Follow Request Info", "Requesting to follow" + otherUser.getName());
+            successfullySent = data.sendFollowRequest(otherUser);
+
+            // check to see if the request was successfully sent and update list view to remove them
+            if (successfullySent) {
+                searchResults.remove(otherUser);
+                notifyDataSetChanged();
+                Log.i("Follow Request Info", "Requesting to follow" + otherUser.getName());
+            } else {
+                Log.i("Follow Request Info", "Unable to request to follow" + otherUser.getName());
+            }
         }
 
     }
@@ -93,7 +102,7 @@ public class FollowAdapter extends ArrayAdapter<User> implements View.OnClickLis
 
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.list_item_activity_follow_requests, parent, false);
+            convertView = inflater.inflate(R.layout.list_item_follow_activity, parent, false);
 
             viewHolder.sendRequestButton = (ImageButton) convertView.findViewById(R.id.sendFollowRequestButton);
             viewHolder.userInfo = (TextView) convertView.findViewById(R.id.otherUsersInfo);
@@ -105,7 +114,7 @@ public class FollowAdapter extends ArrayAdapter<User> implements View.OnClickLis
 
         }
 
-        viewHolder.userInfo.setText(user.getName());
+        viewHolder.userInfo.setText("User: " + user.getName() + "; Streak: " + user.getStreak());
         viewHolder.sendRequestButton.setOnClickListener(this);
         viewHolder.sendRequestButton.setTag(position);
 

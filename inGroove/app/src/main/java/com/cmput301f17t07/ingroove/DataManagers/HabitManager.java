@@ -46,13 +46,7 @@ public class HabitManager {
     private static HabitManager instance = new HabitManager();
     private ArrayList<Habit> habits = new ArrayList<>();
 
-    public void findHabits(AsyncResultHandler handler, String query) {
 
-        GenericGetRequest<Habit> getReq = new GenericGetRequest(handler,Habit.class,"habit","name");
-        //GetRequest<Habit> get = new GetRequest<Habit>(Habit.class,"habit","name");
-        // TODO: check for connection before executing
-        getReq.execute(query);
-    }
 
     /**
      * Private constructor to ensure only one instance application wide
@@ -132,7 +126,6 @@ public class HabitManager {
         habits.add(index, newHabit);
         saveLocal();
 
-        //TODO: update server
         ServerCommand updateHabitCommand = new AddHabitCommand(DataManager.getInstance().getUser(), newHabit);
         ServerCommandManager.getInstance().addCommand(updateHabitCommand);
 
@@ -148,7 +141,6 @@ public class HabitManager {
      * @return a list of habit objects
      * @see Habit
      */
-    //TODO: update so it gets habits for a user
     public ArrayList<Habit> getHabits() {
 
         if (habits.size() == 0) {
@@ -168,6 +160,11 @@ public class HabitManager {
         }
 
         return habits;
+    }
+
+    public void findHabits(AsyncResultHandler handler, User forUser) {
+        GenericGetRequest<Habit> getReq = new GenericGetRequest(handler,Habit.class,ServerCommandManager.HABIT_TYPE,"userID");
+        getReq.execute(forUser.getUserID());
     }
 
     /**

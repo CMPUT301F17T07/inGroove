@@ -62,6 +62,9 @@
     <string name="streak_image">Picture to describe the users streak level</string>
     <string name="view_he_del_btn">Delete this habit event</string>
     <string name="view_he_edit_btn">Edit this habit event</string>
+    <string name="followName">Name:</string>
+    <string name="followStreak">Streak:</string>
+    <string name="followFindOtherUsers">Find Other Users:</string>
 
 
 </resources>
