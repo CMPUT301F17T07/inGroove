@@ -105,8 +105,6 @@ public interface DataManagerAPI {
      */
     int editHabitEvent(HabitEvent oldHabitEvent, HabitEvent newHabitEvent);
 
-    // TODO: CAN WE REMOVE THIS METHOD? WE DO NOT NEED IT.
-    // TODO: I ALREADY SAID WE CANT GET RID OF THIS
     int editUser(User user);
 
     /**
@@ -204,6 +202,12 @@ public interface DataManagerAPI {
     Boolean rejectRequest(User user, AsyncResultHandler handler);
 
     /**
+     * Unfollows the given user
+     * @param user the user to unfollow
+     */
+    void unFollow(User user);
+
+    /**
      * Get the users which the specified user follows
      *
      * @param user the user you want to get the followers of
@@ -251,7 +255,6 @@ public interface DataManagerAPI {
      * @param forUser the search query
      * @return a list of habits that contain the search query
      */
-    //TODO: make search for user
      int findHabits(User forUser, AsyncResultHandler<Habit> handler);
 
     /**
@@ -260,10 +263,8 @@ public interface DataManagerAPI {
      * @param forHabit the search query
      * @return a list of habits that contain the search query
      */
-    //TODO: make search for habit
     int findHabitEvents(Habit forHabit, AsyncResultHandler<HabitEvent> handler);
 
-    //TODO: make findHabitEvents search for User
     int findHabitEvents(User forUser, AsyncResultHandler<HabitEvent> handler);
 
 

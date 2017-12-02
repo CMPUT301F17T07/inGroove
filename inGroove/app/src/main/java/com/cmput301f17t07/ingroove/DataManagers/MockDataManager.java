@@ -23,7 +23,7 @@ import java.util.Date;
  *
  * Created by fraserbulbuc on 2017-11-07.
  */
-
+@Deprecated
 public class MockDataManager implements DataManagerAPI {
 
     /**
@@ -174,7 +174,6 @@ public class MockDataManager implements DataManagerAPI {
         return 0;
     }
 
-    // TODO: CAN WE REMOVE THIS?
     @Override
     public int editUser(User user) {
         return 0;
@@ -280,6 +279,15 @@ public class MockDataManager implements DataManagerAPI {
         return null;
     }
 
+    /**
+     * Unfollows the given user
+     *
+     * @param user the user to unfollow
+     */
+    @Override
+    public void unFollow(User user) {
+
+    }
 
     /**
      * Get the users which the specified user follows
@@ -293,10 +301,6 @@ public class MockDataManager implements DataManagerAPI {
         return 0;
     }
 
-    // TODO delete me
-    public ArrayList<User> getWhoThisUserFollows(User user) {
-        return Following;
-    }
 
 
 
@@ -310,10 +314,6 @@ public class MockDataManager implements DataManagerAPI {
     @Override
     public int getWhoFollows(User user, AsyncResultHandler handler) {
         return 0;
-    }
-    // @TODO delete me
-    public ArrayList<User> getWhoFollows(User user) {
-        return Following;
     }
 
 
