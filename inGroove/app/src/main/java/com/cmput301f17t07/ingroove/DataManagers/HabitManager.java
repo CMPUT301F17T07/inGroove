@@ -22,12 +22,12 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-
 import io.searchbox.core.Delete;
 import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
 
 /**
+ * [Model Class]
  * All responsibilities of data facade related to retrieving, creating, or modifying habit data are
  * relayed to the habit manager.
  *
@@ -45,8 +45,6 @@ public class HabitManager {
 
     private static HabitManager instance = new HabitManager();
     private ArrayList<Habit> habits = new ArrayList<>();
-
-
 
     /**
      * Private constructor to ensure only one instance application wide

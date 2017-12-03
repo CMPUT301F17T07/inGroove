@@ -3,6 +3,7 @@ package com.cmput301f17t07.ingroove.DataManagers;
 import android.app.Application;
 
 /**
+ * [Utility Class]
  *
  * Used to get a Context for save/Loading from files
  *
@@ -17,7 +18,6 @@ import android.app.Application;
  * @see HabitEventManager
  *
  */
-
 public class InGroove extends Application {
 
     private static InGroove instance;

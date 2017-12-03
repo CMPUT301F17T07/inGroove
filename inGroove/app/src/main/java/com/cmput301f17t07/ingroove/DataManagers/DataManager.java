@@ -26,14 +26,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-
 import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
 
 /**
+ * [Singleton Model Class]
  * Singleton class representing DataManager facade (relays calls as appropriate to individual classes
  * that manage habit, habitEvent, relationships, and user data)
  *

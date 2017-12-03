@@ -1,18 +1,17 @@
 package com.cmput301f17t07.ingroove.DataManagers;
 
 import android.arch.lifecycle.MutableLiveData;
-
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.google.android.gms.maps.model.LatLng;
-
 import java.util.ArrayList;
 import java.util.Date;
 
 /**
+ * [TESTING ONLY - Singleton Model Class]
  * A singleton instance of the DataManagerAPI for the frontend objects to interact with while the real data
  * manager is being created and tested. Returns hard coded objects for each method defined in the
  * interface
