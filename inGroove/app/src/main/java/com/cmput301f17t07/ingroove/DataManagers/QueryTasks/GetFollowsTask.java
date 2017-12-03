@@ -63,13 +63,8 @@ public class GetFollowsTask extends AsyncTask<String, Void, ArrayList<Follow>> i
 
         try {
 
-//            String query = "{\n" +
-//                "    \"query\" : {\n" +
-//                "        \"term\" : { \"followee\" : \"" + userIDs[0] + "\" }\n" +
-//                "    }\n" +
-//                "}";
-
             String query = "{\n" +
+                    "  \"size\" : 10000, \n" +
                     "   \"query\": {\n" +
                     "       \"bool\": {\n" +
                     "           \"must\": [\n" +
@@ -143,7 +138,7 @@ public class GetFollowsTask extends AsyncTask<String, Void, ArrayList<Follow>> i
 
     @Override
     public void handleResult(ArrayList<User> result) {
-        
+
         if ( returns < count) {
             followers.addAll(result);
             returns = returns + 1;
