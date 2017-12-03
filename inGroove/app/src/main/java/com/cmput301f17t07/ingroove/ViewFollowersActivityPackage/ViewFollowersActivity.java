@@ -13,6 +13,7 @@ import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.DataManagers.MockDataManager;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
 import com.cmput301f17t07.ingroove.Model.Habit;
+import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
 import com.cmput301f17t07.ingroove.UserActivityPackage.ViewOtherUserActivity;
@@ -25,13 +26,13 @@ import java.util.Map;
 public class ViewFollowersActivity extends NavigationDrawerActivity {
 
     DataManager ServerCommunicator = DataManager.getInstance();
-    MockDataManager mServerCommunicator = MockDataManager.getInstance();
 
     ListView FollowerViewer;
     Button FollowersButton;
     Button HabitsButton;
     User passed_user;
     ArrayList<User> FollowerList;
+    ArrayList<Habit> habitList;
     Boolean onFollowers;
 
     @Override
@@ -128,7 +129,7 @@ public class ViewFollowersActivity extends NavigationDrawerActivity {
 
     private void HabitsButtonOnClick(ArrayList<User> ListToProcess)
     {
-        ArrayList<Habit> habitList = new ArrayList<Habit>();
+        habitList = new ArrayList<Habit>();
         java.util.List<Map<String, String>> data = new ArrayList<Map<String, String>>();
 
         onFollowers = false;
@@ -138,16 +139,38 @@ public class ViewFollowersActivity extends NavigationDrawerActivity {
             return;
         }
 
+        // For every user that is followed
         for (User u : ListToProcess)
         {
-            //habitList = mServerCommunicator.getHabit(u);
+            ServerCommunicator.findHabits(u, new AsyncResultHandler<Habit>() {
+                @Override
+                public void handleResult(ArrayList<Habit> result) {
+                    // Get their habits
+                    for(Habit h : result){
+                        ServerCommunicator.findHabitEvents(h, new AsyncResultHandler<HabitEvent>() {
+                            @Override
+                            public void handleResult(ArrayList<HabitEvent> result) {
+                                // And their latest habit events
+                                HabitEvent latest = null;
+                                for (HabitEvent e : result){
+                                    if (latest == null){
+                                        latest = e;
+                                    } else if (latest.getDay().before(e.getDay())){
+                                        latest = e;
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+            });
             habitList = ServerCommunicator.getHabits();
             if(habitList == null || habitList.size() == 0)
                 continue;
             for(Habit h : habitList){
                 Map<String, String> datum = new HashMap<String, String>(2);
-                datum.put("title", h.getName());
-                datum.put("date", u.getName());
+                datum.put("title", u.getName());
+                datum.put("date", "Habit: " + h.getName());
                 data.add(datum);
             }
         }

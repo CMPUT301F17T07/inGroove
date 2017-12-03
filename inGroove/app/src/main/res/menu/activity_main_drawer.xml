@@ -28,7 +28,7 @@
             <item
                 android:id="@+id/nav_menu_view_followers"
                 android:icon="@drawable/ic_people_black_24dp"
-                android:title="My Followers" />
+                android:title="People I'm Following" />
             <item
                 android:id="@+id/nav_menu_follow_requests"
                 android:icon="@drawable/ic_mail_black_24dp"
