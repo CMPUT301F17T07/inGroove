@@ -384,6 +384,17 @@ public class MockDataManager implements DataManagerAPI {
     }
 
     /**
+     * returns an Array of SuperCombinedManagerObjectToManageTheMostRecentHabitForUser that holds the Habit and its most recent event for the User
+     *
+     * @param forUser the User to get the array of most recent events
+     * @param handler what to call when the results come back
+     */
+    @Override
+    public void findMostRecentEvent(User forUser, AsyncResultHandler handler) {
+        
+    }
+
+    /**
      * Get the habit events within a specified radius
      *
      * @param radius the radius in kilometers

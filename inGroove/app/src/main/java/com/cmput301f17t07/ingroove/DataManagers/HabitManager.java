@@ -162,7 +162,7 @@ public class HabitManager {
         return habits;
     }
 
-    public void findHabits(AsyncResultHandler handler, User forUser) {
+    public void findHabits(AsyncResultHandler<Habit> handler, User forUser) {
         GenericGetRequest<Habit> getReq = new GenericGetRequest(handler,Habit.class,ServerCommandManager.HABIT_TYPE,"userID");
         getReq.execute(forUser.getUserID());
     }
