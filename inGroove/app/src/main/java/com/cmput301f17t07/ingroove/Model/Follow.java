@@ -16,7 +16,6 @@ public class Follow {
     private Date requestedDate;
     private Date acceptedDate;
 
-
     /**
      * Default constructor
      *
@@ -28,6 +27,11 @@ public class Follow {
         this.followee = followee;
         this.accepted = Boolean.FALSE;
         acceptedDate = new Date();
+
+    }
+
+    public String getObjectID() {
+        return follower + followee;
     }
 
     /**
