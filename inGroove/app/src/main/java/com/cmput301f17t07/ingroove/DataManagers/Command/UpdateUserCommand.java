@@ -4,6 +4,9 @@ import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.Model.User;
 
 /**
+ * [Command Class]
+ * Command to update the user data on the server
+ *
  * Created by Christopher Walter on 2017-11-27.
  */
 

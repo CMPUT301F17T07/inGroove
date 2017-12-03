@@ -1,17 +1,16 @@
 package com.cmput301f17t07.ingroove.DataManagers.Command;
 
 import android.arch.lifecycle.MutableLiveData;
-
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.Model.SuperCombinedManagerObjectToManageTheMostRecentHabitForUser;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.google.android.gms.maps.model.LatLng;
-
 import java.util.ArrayList;
 
 /**
+ * [Facade Interface]
  * An interface which represents all the methods for frontend objects to interact with the data.
  * All frontend objects, which need data, should contain a reference to a DataManagerAPI object
  * so that they can call the methods listed below.
@@ -266,6 +265,12 @@ public interface DataManagerAPI {
      */
     int findHabitEvents(Habit forHabit, AsyncResultHandler<HabitEvent> handler);
 
+    /**
+     * Search HabitEvents
+     *
+     * @param forUser the search query
+     * @return a list of habits that contain the search query
+     */
     int findHabitEvents(User forUser, AsyncResultHandler<HabitEvent> handler);
 
     /**

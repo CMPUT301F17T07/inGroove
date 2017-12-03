@@ -1,13 +1,12 @@
 package com.cmput301f17t07.ingroove.DataManagers.Command;
 
 import android.util.Log;
-
 import com.cmput301f17t07.ingroove.DataManagers.HabitManager;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.User;
 
 /**
- *
+ * [Command Class]
  * AddHabit command subclasses ServerCommmand and represents a command object containing all
  * the data for a new habit to be added for a particular user. It also contains a reference to
  * its receiver which does the work of adding the habit when execute() is called.
@@ -85,6 +84,11 @@ public class AddHabitCommand extends ServerCommand {
         return isReversible;
     }
 
+    /**
+     * Description of the command
+     *
+     * @return string describing the command
+     */
     public String toString() {
         return "ADD HC with habit named: " + habit.getName();
     }

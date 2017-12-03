@@ -4,6 +4,9 @@ import com.cmput301f17t07.ingroove.DataManagers.HabitManager;
 import com.cmput301f17t07.ingroove.Model.Habit;
 
 /**
+ * [Command Class]
+ * Command to delete a habit from the server
+ *
  * Created by Christopher Walter on 2017-11-23.
  */
 
