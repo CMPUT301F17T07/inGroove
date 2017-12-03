@@ -4,29 +4,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ListView;
-
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
-import com.cmput301f17t07.ingroove.HabitStats.HabitStatsActivity;
 import com.cmput301f17t07.ingroove.Model.Day;
 import com.cmput301f17t07.ingroove.Model.Habit;
-import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.R;
-import com.cmput301f17t07.ingroove.ViewHabitEvent.ViewHabitEventActivity;
-
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
- * Boundary class to allow users to edit habits
+ * [Boundary Class]
+ * Activity to allow users to edit habits
  *
  * @see Habit
  */
@@ -58,8 +50,6 @@ public class EditHabitActivity extends AppCompatActivity {
 
     EditText habit_name;
     EditText habit_comment;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

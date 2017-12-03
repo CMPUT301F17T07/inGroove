@@ -6,13 +6,8 @@ package com.cmput301f17t07.ingroove.avehabit;
 
 public interface AddViewEditHabitContract {
 
-    public interface Viewable {
+    public interface Viewable {}
 
-    }
-
-
-    public interface Controlling {
-
-    }
+    public interface Controlling {}
 
 }

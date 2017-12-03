@@ -9,7 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.HabitEventsActivity;
@@ -18,9 +17,17 @@ import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.R;
 import com.cmput301f17t07.ingroove.ViewHabitEvent.ViewHabitEventActivity;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
+/**
+ * [Boundary Class]
+ * Activity to allow the user to view habits and their events
+ *
+ * @see HabitEvent
+ * @see Habit
+ * @see DataManagerAPI
+ */
 
 public class ViewHabitActivity extends AppCompatActivity {
 
@@ -33,8 +40,6 @@ public class ViewHabitActivity extends AppCompatActivity {
 
     // Information for getting habits from its children
     public static String edited_habit_key = "edited_habit";
-
-
 
     // Adaptor for the habit events list view
     ArrayList<String> hEL_Strings;
@@ -56,8 +61,6 @@ public class ViewHabitActivity extends AppCompatActivity {
     int HANDLE_EVENT_EDITS = 0;
     int EDIT_HABIT = 1;
     int REQUEST_LOG_EVENT = 2;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,7 +128,6 @@ public class ViewHabitActivity extends AppCompatActivity {
                 finish();
             }
         });
-
 
     }
 

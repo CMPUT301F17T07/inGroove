@@ -73,7 +73,7 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_habits);
         super.onCreateDrawer();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         habitsLoaded = true;
         adapterFilterBool = true;

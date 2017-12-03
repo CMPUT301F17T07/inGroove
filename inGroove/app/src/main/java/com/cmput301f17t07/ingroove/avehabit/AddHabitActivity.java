@@ -4,7 +4,6 @@ import android.app.DatePickerDialog;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -12,24 +11,21 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.DatePickerFragment;
 import com.cmput301f17t07.ingroove.Model.Day;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.R;
-
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Boundary class to allow the user to add a new habit
+ * [Boundary Class]
+ * Activity to allow the user to add a new habit
  *
  * @see Habit
+ * @see DataManagerAPI
  */
 public class AddHabitActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
@@ -50,7 +46,6 @@ public class AddHabitActivity extends AppCompatActivity implements DatePickerDia
 
     // Temporary Date storage while the user has not yet chosen a date
     private Date start_date;
-
 
     private EditText habit_name;
     private EditText habit_comment;
