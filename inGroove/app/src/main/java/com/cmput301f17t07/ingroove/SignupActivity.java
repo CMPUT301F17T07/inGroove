@@ -2,6 +2,7 @@ package com.cmput301f17t07.ingroove;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -41,6 +42,11 @@ public class SignupActivity extends AppCompatActivity {
         // Load the layout with the user's data
         Drawable drawable = getResources().getDrawable(R.mipmap.ic_launcher_round);
         welcome_image.setImageDrawable(drawable);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(SignupActivity.this);
+        builder.setTitle(R.string.signup_welcome).setMessage(R.string.signup_explanation);
+        builder.setPositiveButton(R.string.signup_dismiss, null);
+        builder.create().show();
 
         save_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

@@ -66,5 +66,10 @@
     <string name="followStreak">Streak:</string>
     <string name="followFindOtherUsers">Find Other Users:</string>
 
+    /* Sign in Alert Dialog */
+    <string name="signup_welcome">Welcome!</string>
+    <string name="signup_explanation">Please fill in your name and email to get started with inGroove. If you leave the fields blank, an empty profile will be set up which can be edited later on from within the app.</string>
+    <string name="signup_dismiss">Okay</string>
+
 
 </resources>
