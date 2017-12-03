@@ -16,6 +16,8 @@ import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 /**
@@ -46,6 +48,7 @@ public class FollowRequestAdapter extends ArrayAdapter<User> implements View.OnC
         ImageButton acceptButton;
         ImageButton rejectButton;
         TextView requesterInfo;
+        TextView requesterStreak;
     }
 
     /**
@@ -126,6 +129,7 @@ public class FollowRequestAdapter extends ArrayAdapter<User> implements View.OnC
             viewHolder.acceptButton = (ImageButton) convertView.findViewById(R.id.acceptFollowRequestButton);
             viewHolder.rejectButton = (ImageButton) convertView.findViewById(R.id.rejectFollowRequestButton);
             viewHolder.requesterInfo = (TextView) convertView.findViewById(R.id.followerInfo);
+            viewHolder.requesterStreak = (TextView) convertView.findViewById(R.id.followerStreak);
             convertView.setTag(viewHolder);
 
         } else {
@@ -135,6 +139,7 @@ public class FollowRequestAdapter extends ArrayAdapter<User> implements View.OnC
         }
 
         viewHolder.requesterInfo.setText(user.getName());
+        viewHolder.requesterStreak.setText("Current Streak: " + user.getStreak() + "    Max Streak: " + user.getMax_streak());
         viewHolder.acceptButton.setOnClickListener(this);
         viewHolder.acceptButton.setTag(position);
         viewHolder.rejectButton.setOnClickListener(this);
