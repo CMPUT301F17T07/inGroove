@@ -66,11 +66,7 @@ public class AcceptFollowRequestObjIDTask extends AsyncTask<String, Void, ArrayL
 
                 try {
                     DocumentResult result = ServerCommandManager.getClient().execute(index);
-                    if (result.isSucceeded()) {
-                        boolRes.add(Boolean.TRUE);
-                    } else {
-                        boolRes.add(Boolean.FALSE);
-                    }
+                    boolRes.add(result.isSucceeded());
                 } catch (Exception e) {
                     Log.d("--- ACCEPT_FOL_REQ_OBJ_ID ---", "Error querying elastic search." + e);
                     boolRes.add(Boolean.FALSE);
