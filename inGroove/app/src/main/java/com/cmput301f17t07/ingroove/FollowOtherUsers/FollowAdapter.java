@@ -40,6 +40,7 @@ public class FollowAdapter extends ArrayAdapter<User> implements View.OnClickLis
      */
     private static class ViewHolder {
         TextView userInfo;
+        TextView userStreak;
         ImageButton sendRequestButton;
     }
 
@@ -106,6 +107,7 @@ public class FollowAdapter extends ArrayAdapter<User> implements View.OnClickLis
 
             viewHolder.sendRequestButton = (ImageButton) convertView.findViewById(R.id.sendFollowRequestButton);
             viewHolder.userInfo = (TextView) convertView.findViewById(R.id.otherUsersInfo);
+            viewHolder.userStreak = (TextView) convertView.findViewById(R.id.otherUserStreak);
             convertView.setTag(viewHolder);
 
         } else {
@@ -114,7 +116,8 @@ public class FollowAdapter extends ArrayAdapter<User> implements View.OnClickLis
 
         }
 
-        viewHolder.userInfo.setText("User: " + user.getName() + "; Streak: " + user.getStreak());
+        viewHolder.userInfo.setText(user.getName());
+        viewHolder.userStreak.setText("Current Streak: " + user.getStreak() + "    Max Streak: " + user.getMax_streak());
         viewHolder.sendRequestButton.setOnClickListener(this);
         viewHolder.sendRequestButton.setTag(position);
 
