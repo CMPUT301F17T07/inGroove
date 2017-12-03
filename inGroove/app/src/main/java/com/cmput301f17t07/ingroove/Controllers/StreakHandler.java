@@ -5,5 +5,4 @@ package com.cmput301f17t07.ingroove.Controllers;
  */
 
 public class StreakHandler {
-
 }

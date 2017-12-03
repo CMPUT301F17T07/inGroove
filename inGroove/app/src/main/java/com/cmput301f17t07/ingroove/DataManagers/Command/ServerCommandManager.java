@@ -3,18 +3,15 @@ package com.cmput301f17t07.ingroove.DataManagers.Command;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.DataManagers.InGroove;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
-import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
 import com.searchly.jestdroid.JestDroidClient;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
@@ -23,21 +20,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import io.searchbox.core.DocumentResult;
-import io.searchbox.core.Index;
 
 /**
- * A singleton class to manage all the command objects and execute them when a network connection can
+ * [Singleton Model Class]
+ * A class to manage all the command objects and execute them when a network connection can
  * be established
  *
  * Created by Christopher Walter on 2017-11-03.
@@ -413,8 +403,6 @@ public class ServerCommandManager {
             Log.d("--- S_CMD_M ---","Saved:" + cmd.toString());
         }
         Log.d("--- S_CMD_M ---","---------- Finished  saving " + commands.size() +  " cmds to disk ----------");
-
-
 
     }
 }

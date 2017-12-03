@@ -3,24 +3,20 @@ package com.cmput301f17t07.ingroove.DataManagers.QueryTasks;
 import android.os.AsyncTask;
 import android.util.Log;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
-import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
-import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GenericGetRequest;
 import com.cmput301f17t07.ingroove.Model.Follow;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.searchly.jestdroid.JestDroidClient;
-import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
-
 import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
 
 /**
+ * [Model Class]
  * Parent task for getting users who currently, or are requesting to follow the current user
  *
  * Created by Fraser Bulbuc on 2017-11-26.
  */
-
 public class GetFollowsTask extends AsyncTask<String, Void, ArrayList<Follow>> implements AsyncResultHandler<User> {
 
     private AsyncResultHandler handler;
@@ -74,7 +70,6 @@ public class GetFollowsTask extends AsyncTask<String, Void, ArrayList<Follow>> i
                     "       }\n" +
                     "   }\n" +
                     "}";
-
 
             Search search = new Search.Builder(query).addIndex(ServerCommandManager.INDEX).addType(ServerCommandManager.FOLLOW).build();
 

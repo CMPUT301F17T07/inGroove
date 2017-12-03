@@ -1,10 +1,7 @@
 package com.cmput301f17t07.ingroove.DataManagers.Command;
 
-import android.support.annotation.NonNull;
-
-import java.util.Comparator;
-
 /**
+ * [Command Interface]
  * Command interface for all queue-able commands
  *
  * @see ServerCommandManager

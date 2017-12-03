@@ -12,7 +12,8 @@ import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
 
 /**
- * TODO: THIS CLASS IS NO LONGER NEEDED
+ * [Model Class]
+ * Used live data to return habits events from the server to the UI
  */
 
 @Deprecated
@@ -36,11 +37,9 @@ public class GetHabitEventTask extends AsyncTask<String, Void, ArrayList<HabitEv
                     "        \"wildcard\" : { \"name\" : \"" + searchParam[0] + "*\" }\n" +
                     "    }\n" +
                     "}";
-
         }
 
         Search search = new Search.Builder(query).addIndex("cmput301f17t07_ingroove").addType("habit_event").build();
-
 
         try {
             SearchResult result = ServerCommandManager.getClient().execute(search);

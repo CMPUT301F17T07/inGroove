@@ -5,16 +5,14 @@ import android.util.Log;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
 import com.cmput301f17t07.ingroove.Model.Follow;
 import com.searchly.jestdroid.JestDroidClient;
-
 import java.io.IOException;
-import java.util.Date;
-
 import io.searchbox.client.JestResult;
 import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Get;
 import io.searchbox.core.Index;
 
 /**
+ * [Model Class]
  * Async task to send a new follow object to Elastic Search
  *
  * Created by Fraser Bulbuc on 2017-11-26.

@@ -2,17 +2,15 @@ package com.cmput301f17t07.ingroove.DataManagers.QueryTasks;
 
 import android.os.AsyncTask;
 import android.util.Log;
-
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
 import com.searchly.jestdroid.JestDroidClient;
-
 import java.io.IOException;
 import java.util.ArrayList;
-
 import io.searchbox.core.Delete;
 import io.searchbox.core.DocumentResult;
 
 /**
+ * [Model Class]
  * Generic Delete request for follow objects from ElasticSearch
  *
  * Created by fraserbulbuc on 2017-11-28.
@@ -63,7 +61,6 @@ public class GenericDeleteFollowRequest extends AsyncTask<String, Void, ArrayLis
     @Override
     protected void onPostExecute(ArrayList<Boolean> booleans) {
         super.onPostExecute(booleans);
-
 //        resultHandler.handleResult(booleans);
     }
 }

@@ -13,20 +13,19 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
-import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.R;
-
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 /**
- * Boundary Class to allow users to edit habit events
+ * [Boundary Class]
+ * Activity to allow users to edit habit events
  *
  * @see HabitEvent
+ * @see DataManagerAPI
  *
  */
 public class EditHabitEventActivity extends AppCompatActivity {

@@ -6,20 +6,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.R;
-
 import org.joda.time.DateTime;
 import org.joda.time.Weeks;
-
 import java.util.ArrayList;
 import java.util.Date;
 
 /**
+ * [Boundary Class]
  * Displays some statistics for a given habit.
  *
  * Takes a passed habit and grabs the associated habit events. From there it

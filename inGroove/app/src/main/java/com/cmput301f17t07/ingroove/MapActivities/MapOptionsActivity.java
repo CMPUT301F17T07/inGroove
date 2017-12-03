@@ -12,17 +12,13 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import com.cmput301f17t07.ingroove.BuildConfig;
 import com.cmput301f17t07.ingroove.R;
 import com.cmput301f17t07.ingroove.navDrawer.NavigationDrawerActivity;
@@ -41,16 +37,16 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.common.collect.Maps;
-
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Locale;
 
 /**
+ * [Boundary Class]
  * The MapOptionsActivity allows the user to choose different types of maps
  * they might be interested in viewing
+ *
+ * @see MapsActivity
  */
 public class MapOptionsActivity extends NavigationDrawerActivity {
 
@@ -143,13 +139,6 @@ public class MapOptionsActivity extends NavigationDrawerActivity {
             }
         });
 
-
-
-
-
-
-
-
         mRequestingLocationUpdates = true;
         mLastUpdateTime = "";
 
@@ -164,13 +153,6 @@ public class MapOptionsActivity extends NavigationDrawerActivity {
         createLocationCallback();
         createLocationRequest();
         buildLocationSettingsRequest();
-
-
-
-
-
-
-
 
         super.onCreateDrawer();
     }
@@ -203,7 +185,6 @@ public class MapOptionsActivity extends NavigationDrawerActivity {
 
         return intent;
     }
-
 
     /**
      * Provides a simple way of getting a device's location and is well suited for

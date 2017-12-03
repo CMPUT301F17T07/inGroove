@@ -2,20 +2,19 @@ package com.cmput301f17t07.ingroove.DataManagers.QueryTasks;
 
 import android.os.AsyncTask;
 import android.util.Log;
-
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import java.util.ArrayList;
 import java.util.List;
-
 import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
 
 
 /**
- * TODO: THIS CLASS IS NO LONGER NEEDED
+ * [Model Class]
+ * Used live data to return habits for a user to the frontend
  */
 
 @Deprecated

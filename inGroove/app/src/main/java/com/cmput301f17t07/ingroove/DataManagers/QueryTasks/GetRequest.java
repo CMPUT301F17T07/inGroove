@@ -13,17 +13,18 @@ import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
 
 /**
+ * [Model Class]
  * Generic get request
  *
  * Retrieves all the objects of type T from Elastic Search
  * that have a property names matchingAttribute and a value
  * that contains the query within it.
  *
+ * All instance of this class should be replaced with an instance of GenericGetRequest
+ * used in combination with an instance of AsyncResultHandler
+ *
  * Created by Fraser Bulbuc on 2017-11-25.
  */
-
-// TODO: All instance of this class should be replaced with an instance of GenericGetRequest
-// TODO: used in combination with an instance of AsyncResultHandler
 @Deprecated
 public class GetRequest<T> extends AsyncTask<String, Void, ArrayList<T>> {
 
@@ -91,7 +92,6 @@ public class GetRequest<T> extends AsyncTask<String, Void, ArrayList<T>> {
     protected void onPostExecute(ArrayList<T> queryResult) {
         super.onPostExecute(queryResult);
 
-        // TODO: Need to check downcasts better
         switch (index) {
             case "habit":
                 DataManager.getInstance().getFindHabitsQueryResults().setValue((ArrayList<Habit>) queryResult);

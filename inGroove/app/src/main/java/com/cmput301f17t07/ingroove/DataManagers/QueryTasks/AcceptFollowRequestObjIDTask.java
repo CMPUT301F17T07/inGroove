@@ -2,23 +2,19 @@ package com.cmput301f17t07.ingroove.DataManagers.QueryTasks;
 
 import android.os.AsyncTask;
 import android.util.Log;
-
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
 import com.cmput301f17t07.ingroove.Model.Follow;
-
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-
 import io.searchbox.client.JestResult;
 import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Get;
 import io.searchbox.core.Index;
-import io.searchbox.core.Search;
-import io.searchbox.core.SearchResult;
 
 /**
- * Created by Fraser Bulbuc on 2017-12-02.
+ * [Model Class]
+ * Class that runs Async task to accept follow request and update server
+ *
  */
 
 public class AcceptFollowRequestObjIDTask extends AsyncTask<String, Void, ArrayList<Boolean>> {

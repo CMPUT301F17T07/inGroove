@@ -2,22 +2,19 @@ package com.cmput301f17t07.ingroove.DataManagers.QueryTasks;
 
 import android.os.AsyncTask;
 import android.util.Log;
-
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
 
 /**
+ * [Model Class]
  * A generic getRequest that retrieves data from the ElasticSearch server and notifies
  * the result handler on completion
  * 
  * Created by Fraser Bulbuc on 2017-11-26.
  */
-
 public class GenericGetRequest<T> extends AsyncTask<String, Void, ArrayList<T>> {
 
     private String type;

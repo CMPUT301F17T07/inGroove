@@ -7,9 +7,14 @@ import com.cmput301f17t07.ingroove.Model.Follow;
 import com.cmput301f17t07.ingroove.Model.User;
 
 /**
- * Created by Ashley on 2017-10-22.
+ * [Model Class]
+ * Class that managers the relationships between users. The class handles all interactions with follow
+ * objects and updates the server upon any changes.
+ *
+ * @see Follow
+ * @see User
+ *
  */
-
 public class RelationshipManager {
 
     private static RelationshipManager instance = new RelationshipManager();

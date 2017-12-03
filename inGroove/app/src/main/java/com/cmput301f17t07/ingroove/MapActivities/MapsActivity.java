@@ -1,20 +1,10 @@
 package com.cmput301f17t07.ingroove.MapActivities;
 
-import android.Manifest;
-import android.content.Intent;
-import android.content.pm.PackageManager;
+
 import android.location.Location;
-import android.net.Uri;
-import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-
-import com.cmput301f17t07.ingroove.BuildConfig;
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
@@ -22,8 +12,6 @@ import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -31,11 +19,17 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
 
+/**
+ * [Boundary Class]
+ * Displays a map of habit events on screen
+ *
+ * @see MapOptionsActivity
+ * @see HabitEvent
+ * @see DataManagerAPI
+ */
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     DataManagerAPI data = DataManager.getInstance();
@@ -73,11 +67,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-
-
-
     }
-
 
     /**
      * Manipulates the map once available.
