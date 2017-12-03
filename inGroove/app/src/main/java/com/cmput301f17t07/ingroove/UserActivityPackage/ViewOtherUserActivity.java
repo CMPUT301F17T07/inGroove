@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
-import com.cmput301f17t07.ingroove.DataManagers.MockDataManager;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.User;
@@ -35,7 +34,6 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
     This activity REQUIRES a valid serialized otherUser object be sent via intent
     to it. Otherwise it will simply exit
      */
-    MockDataManager mData = MockDataManager.getInstance();
     DataManagerAPI data = DataManager.getInstance();
 
     // Account data to display
@@ -49,9 +47,10 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
     // Layout items
     ImageView user_picture;
     TextView name;
-    TextView username;
+    TextView email;
     TextView streak_txt;
     TextView start_date_txt;
+    TextView follow_list_text;
     ListView Habits_list;
     ImageButton edit_button;
     Button unfollow_button;
@@ -80,9 +79,10 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
             // Setup layout vars
             user_picture = (ImageView) findViewById(R.id.usr_act_picture);
             name = (TextView) findViewById(R.id.usr_act_real_name);
-            username = (TextView) findViewById(R.id.usr_act_username);
+            email = (TextView) findViewById(R.id.usr_act_username);
             streak_txt = (TextView) findViewById(R.id.usr_act_streak_txt);
             start_date_txt = (TextView) findViewById(R.id.usr_act_start_date);
+            follow_list_text = (TextView) findViewById(R.id.usr_act_follow_txt);
             Habits_list = (ListView) findViewById(R.id.usr_act_friends);
             edit_button = (ImageButton) findViewById(R.id.editUserButton);
             unfollow_button = (Button) findViewById(R.id.unfollow_user_button);
@@ -111,17 +111,17 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
             LoadListView(HabitList);
 
             name.setText(otherUser.getName());
-            // THIS IS NOT THE USERNAME, the otherUser object does not have a email field yet
-            // but for now we just put the email so it has something slightly different
-            username.setText(otherUser.getEmail());
+            email.setText(otherUser.getEmail());
             streak_txt.setText("You've had " + Integer.valueOf(otherUser.getStreak()) + " perfect days!");
             start_date_txt.setText("You've been getting in groove since " + otherUser.getJoinDate().toString());
+
+            follow_list_text.setText("Here is a list of their current habits: ");
 
             // deal with click on habits list
             Habits_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                    HabiListOnClick(position, v);
+                    HabitListOnClick(position, v);
                 }
             });
 
@@ -155,7 +155,7 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
 
             // update view
             name.setText(otherUser.getName());
-            username.setText(otherUser.getEmail());
+            email.setText(otherUser.getEmail());
 
             // update navigation menu
             super.updateHeader(otherUser.getName());
@@ -181,9 +181,9 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
         Habits_list.setAdapter(gridViewArrayAdapter);
     }
 
-    private void HabiListOnClick(int position, View v)
+    private void HabitListOnClick(int position, View v)
     {
-        //Nothing here for now.  Maybe one day...
+        // Nothing here for now.  Maybe one day...
     }
 
 }

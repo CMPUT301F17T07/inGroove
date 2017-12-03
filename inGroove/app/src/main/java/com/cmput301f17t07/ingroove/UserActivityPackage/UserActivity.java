@@ -55,6 +55,7 @@ public class UserActivity extends NavigationDrawerActivity  {
     TextView streak_txt;
     TextView max_streak_txt;
     TextView start_date_txt;
+    TextView follow_list_text;
     ListView friends_list;
     ImageButton edit_user_button;
     Button unfollow_button;
@@ -86,6 +87,7 @@ public class UserActivity extends NavigationDrawerActivity  {
             streak_txt = (TextView) findViewById(R.id.usr_act_streak_txt);
             max_streak_txt = (TextView) findViewById(R.id.usr_act_max_streak_txt);
             start_date_txt = (TextView) findViewById(R.id.usr_act_start_date);
+            follow_list_text = (TextView) findViewById(R.id.usr_act_follow_txt);
             friends_list = (ListView) findViewById(R.id.usr_act_friends);
             edit_user_button = (ImageButton) findViewById(R.id.editUserButton);
             unfollow_button = (Button) findViewById(R.id.unfollow_user_button);
@@ -98,9 +100,9 @@ public class UserActivity extends NavigationDrawerActivity  {
             Drawable drawable = getResources().getDrawable(R.mipmap.ic_launcher_round);
             user_picture.setImageDrawable(drawable);
 
-            // Load the ListView with the people the otherUser follows
+            // Load the ListView with the people who follow the user
             //FollowsList = mData.getWhoThisUserFollows(otherUser);
-            data.getWhoThisUserFollows(user, new AsyncResultHandler<User>() {
+            data.getWhoFollows(user, new AsyncResultHandler<User>() {
                  @Override
                  public void handleResult(ArrayList<User> result) {
                      FollowsList = result;
@@ -117,6 +119,8 @@ public class UserActivity extends NavigationDrawerActivity  {
             SimpleDateFormat s_date_format = new SimpleDateFormat("dd MMM yyyy");
             start_date_txt.setText("You've been getting in groove since " + s_date_format.format(user.getJoinDate()));
 
+            follow_list_text.setText("Here is a list of people that are currently following you!");
+
             // for when the edit button is clicked
             edit_user_button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
@@ -126,12 +130,17 @@ public class UserActivity extends NavigationDrawerActivity  {
                 }
             });
 
+            // This gives the user the power to see the profile of users they have accepted follow
+            // requests from, however this is not a requirement and we do not know if we should
+            // allow it. @TODO determine if we should allow it
+            /*
             friends_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                     FollowerListOnClick(position, v);
                 }
             });
+            */
 
             super.onCreateDrawer();
         }
