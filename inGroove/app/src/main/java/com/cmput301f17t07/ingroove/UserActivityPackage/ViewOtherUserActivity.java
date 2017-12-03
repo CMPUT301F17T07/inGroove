@@ -95,7 +95,7 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
                 @Override
                 public void handleResult(ArrayList result) {
                     result = (ArrayList<User>) result;
-                    if (!result.contains(data.getUser())){
+                    if (result.contains(data.getUser())){
                         unfollow_button.setVisibility(View.INVISIBLE);
                     }
                 }
