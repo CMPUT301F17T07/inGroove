@@ -14,6 +14,7 @@ import com.cmput301f17t07.ingroove.DataManagers.MockDataManager;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
+import com.cmput301f17t07.ingroove.Model.SuperCombinedManagerObjectToManageTheMostRecentHabitForUser;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
 import com.cmput301f17t07.ingroove.UserActivityPackage.ViewOtherUserActivity;
@@ -34,6 +35,9 @@ public class ViewFollowersActivity extends NavigationDrawerActivity {
     ArrayList<User> FollowerList;
     ArrayList<Habit> habitList;
     Boolean onFollowers;
+
+    java.util.List<Map<String, String>> data;
+    SimpleAdapter habitAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +94,7 @@ public class ViewFollowersActivity extends NavigationDrawerActivity {
         if(List == null || List.size() == 0)
             return;
 
-        java.util.List<Map<String, String>> data = new ArrayList<Map<String, String>>();
+        data = new ArrayList<Map<String, String>>();
 
         for (User l : List)
         {
@@ -130,7 +134,7 @@ public class ViewFollowersActivity extends NavigationDrawerActivity {
     private void HabitsButtonOnClick(ArrayList<User> ListToProcess)
     {
         habitList = new ArrayList<Habit>();
-        java.util.List<Map<String, String>> data = new ArrayList<Map<String, String>>();
+        data = new ArrayList<Map<String, String>>();
 
         onFollowers = false;
 
@@ -139,49 +143,33 @@ public class ViewFollowersActivity extends NavigationDrawerActivity {
             return;
         }
 
-        // For every user that is followed
-        for (User u : ListToProcess)
-        {
-            ServerCommunicator.findHabits(u, new AsyncResultHandler<Habit>() {
-                @Override
-                public void handleResult(ArrayList<Habit> result) {
-                    // Get their habits
-                    for(Habit h : result){
-                        ServerCommunicator.findHabitEvents(h, new AsyncResultHandler<HabitEvent>() {
-                            @Override
-                            public void handleResult(ArrayList<HabitEvent> result) {
-                                // And their latest habit events
-                                HabitEvent latest = null;
-                                for (HabitEvent e : result){
-                                    if (latest == null){
-                                        latest = e;
-                                    } else if (latest.getDay().before(e.getDay())){
-                                        latest = e;
-                                    }
-                                }
-                            }
-                        });
-                    }
-                }
-            });
-            habitList = ServerCommunicator.getHabits();
-            if(habitList == null || habitList.size() == 0)
-                continue;
-            for(Habit h : habitList){
-                Map<String, String> datum = new HashMap<String, String>(2);
-                datum.put("title", u.getName());
-                datum.put("date", "Habit: " + h.getName());
-                data.add(datum);
-            }
-        }
-
-        SimpleAdapter adapter = new SimpleAdapter(this, data,
+        habitAdapter = new SimpleAdapter(this, data,
                 android.R.layout.simple_list_item_2,
                 new String[] {"title", "date"},
                 new int[] {android.R.id.text1,
                         android.R.id.text2});
 
-        fillListView(adapter);
+        fillListView(habitAdapter);
+
+        // For every user that is followed
+        for (User u : ListToProcess)
+        {
+            ServerCommunicator.findMostRecentEvent(u, new AsyncResultHandler<SuperCombinedManagerObjectToManageTheMostRecentHabitForUser>() {
+                @Override
+                public void handleResult(ArrayList<SuperCombinedManagerObjectToManageTheMostRecentHabitForUser> result) {
+                    for (SuperCombinedManagerObjectToManageTheMostRecentHabitForUser s : result){
+                        Map<String, String> datum = new HashMap<String, String>(2);
+                        datum.put("title", s.habitEvent.getName());
+                        datum.put("date", "Habit: " + s.habit.getName() + " by " + s.user.getName());
+                        data.add(datum);
+                    }
+                    habitAdapter.notifyDataSetChanged();
+                }
+            });
+
+        }
+
+
     }
 
     private void FollowerButtonOnClick()
