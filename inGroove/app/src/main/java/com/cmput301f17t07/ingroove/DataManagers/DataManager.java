@@ -539,7 +539,7 @@ public class DataManager implements DataManagerAPI {
                 handler.handleResult(aboveMin);
             }
         }, User.class, "user", "name");
-        get.execute(query);
+        get.execute(query.toLowerCase());
         return 0;
     }
 
