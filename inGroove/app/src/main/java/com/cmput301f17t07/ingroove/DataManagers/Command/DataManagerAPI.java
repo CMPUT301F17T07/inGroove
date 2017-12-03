@@ -5,6 +5,7 @@ import android.arch.lifecycle.MutableLiveData;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
+import com.cmput301f17t07.ingroove.Model.SuperCombinedManagerObjectToManageTheMostRecentHabitForUser;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -273,7 +274,7 @@ public interface DataManagerAPI {
      * @param forUser the User to get the array of most recent events
      * @param handler what to call when the results come back
      */
-    void findMostRecentEvent(User forUser, AsyncResultHandler handler);
+    void findMostRecentEvent(User forUser, AsyncResultHandler<SuperCombinedManagerObjectToManageTheMostRecentHabitForUser> handler);
 
 
     /**

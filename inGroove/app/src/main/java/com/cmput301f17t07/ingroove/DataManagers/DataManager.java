@@ -566,31 +566,56 @@ public class DataManager implements DataManagerAPI {
      * @param handler what to call when the results come back
      */
     @Override
-    public void findMostRecentEvent(final User forUser, final AsyncResultHandler handler) {
+    public void findMostRecentEvent(final User forUser, final AsyncResultHandler<SuperCombinedManagerObjectToManageTheMostRecentHabitForUser> handler) {
+        Log.d("FIND MOST RECENT EVENTS-- 1", "Starting");
+
         findHabits(forUser, new AsyncResultHandler<Habit>() {
 
             int total;
             @Override
             public void handleResult(ArrayList<Habit> result) {
-                total = result.size();
-                for (final Habit habit: result) {
-                    findHabitEvents(habit, new AsyncResultHandler<HabitEvent>() {
-                        @Override
-                        public void handleResult(ArrayList<HabitEvent> habitEvents) {
-                            HabitEvent mostRecentEvent = habitEvents.get(0);
-                            for (HabitEvent habitEvent : habitEvents) {
-                                if (mostRecentEvent.getDay().compareTo(habitEvent.getDay()) > 0){
-                                    mostRecentEvent = habitEvent;
+                if (result.size() == 0) {
+                    ArrayList<SuperCombinedManagerObjectToManageTheMostRecentHabitForUser> temp = new ArrayList<>();
+                    handler.handleResult(temp);
+                } else {
+                    total = result.size();
+                    Log.d("FIND MOST RECENT EVENTS-- 2", "Number of habits " + String.valueOf(total));
+
+                    for (final Habit habit: result) {
+                        findHabitEvents(habit, new AsyncResultHandler<HabitEvent>() {
+                            @Override
+                            public void handleResult(ArrayList<HabitEvent> habitEvents) {
+                                Log.d("FIND MOST RECENT EVENTS-- 3", "habitEvents size: " + String.valueOf(habitEvents.size()));
+                                if (habitEvents.size() == 0) {
+                                    ArrayList<SuperCombinedManagerObjectToManageTheMostRecentHabitForUser> temp = new ArrayList<>();
+                                    finalHandler.handleResult(temp);
+                                } else {
+                                    HabitEvent mostRecentEvent = habitEvents.get(0);
+                                    for (HabitEvent habitEvent : habitEvents) {
+                                        Log.d("FIND MOST RECENT EVENTS-- 3.1", "habitEvent on day: " + habitEvent.getDay().toString());
+                                        Log.d("FIND MOST RECENT EVENTS-- 3.2", "mostRecent : " + mostRecentEvent.getDay().toString());
+                                        Log.d("FIND MOST RECENT EVENTS-- 3.3", "mostRecent.compareTo(habitEvent) = : " + String.valueOf(mostRecentEvent.getDay().compareTo(habitEvent.getDay())));
+
+
+
+                                        if (mostRecentEvent.getDay().compareTo(habitEvent.getDay()) < 0){
+                                            mostRecentEvent = habitEvent;
+                                        }
+                                    }
+
+                                    Log.d("FIND MOST RECENT EVENTS-- 3.4", "mostRecent = : " + mostRecentEvent.getDay().toString());
+
+
+                                    SuperCombinedManagerObjectToManageTheMostRecentHabitForUser result = new SuperCombinedManagerObjectToManageTheMostRecentHabitForUser(forUser, habit, mostRecentEvent);
+                                    ArrayList<SuperCombinedManagerObjectToManageTheMostRecentHabitForUser> temp = new ArrayList<>();
+                                    temp.add(result);
+                                    finalHandler.handleResult(temp);
                                 }
                             }
-
-                            SuperCombinedManagerObjectToManageTheMostRecentHabitForUser result = new SuperCombinedManagerObjectToManageTheMostRecentHabitForUser(forUser, habit, mostRecentEvent);
-                            ArrayList<SuperCombinedManagerObjectToManageTheMostRecentHabitForUser> temp = new ArrayList<>();
-                            temp.add(result);
-                            finalHandler.handleResult(temp);
-                        }
-                    });
+                        });
+                    }
                 }
+
             }
 
             ArrayList<SuperCombinedManagerObjectToManageTheMostRecentHabitForUser> superCombinedManagerObjectToManageTheMostRecentHabitForUserArrayList = new ArrayList<>();
@@ -602,10 +627,15 @@ public class DataManager implements DataManagerAPI {
                 public void handleResult(ArrayList<SuperCombinedManagerObjectToManageTheMostRecentHabitForUser> result) {
                     if (count < total) {
                         count++;
-                        superCombinedManagerObjectToManageTheMostRecentHabitForUserArrayList.add(result.get(0));
+                        Log.d("FIND MOST RECENT EVENTS-- 4", "Adding: " + String.valueOf(result.size()) + " to the final return Array");
+                        if (result.size() != 0){
+                            superCombinedManagerObjectToManageTheMostRecentHabitForUserArrayList.add(result.get(0));
+                        }
                     }
 
                     if (count == total) {
+                        Log.d("FIND MOST RECENT EVENTS-- Finished", "Returning: " + String.valueOf(superCombinedManagerObjectToManageTheMostRecentHabitForUserArrayList.size()) + " results");
+
                         handler.handleResult(superCombinedManagerObjectToManageTheMostRecentHabitForUserArrayList);
                     }
                 }
