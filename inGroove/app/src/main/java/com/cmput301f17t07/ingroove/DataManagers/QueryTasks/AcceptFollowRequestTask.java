@@ -20,6 +20,7 @@ import io.searchbox.core.SearchResult;
  * Created by Fraser Bulbuc on 2017-11-30.
  */
 
+@Deprecated
 public class AcceptFollowRequestTask extends AsyncTask<String, Void, ArrayList<Boolean>> {
 
     private String type;
