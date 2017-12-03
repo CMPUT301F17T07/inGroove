@@ -8,11 +8,9 @@ import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
 import com.cmput301f17t07.ingroove.DataManagers.Command.UpdateUserCommand;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AcceptFollowRequestObjIDTask;
-import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AcceptFollowRequestTask;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GenericDeleteFollowRequest;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GenericGetRequest;
-import com.cmput301f17t07.ingroove.Model.Follow;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.Model.User;
@@ -449,14 +447,14 @@ public class DataManager implements DataManagerAPI {
      */
     @Override
     public Boolean rejectRequest(User user, AsyncResultHandler handler) {
-        GenericDeleteFollowRequest<Integer> del = new GenericDeleteFollowRequest<>(handler, "follow", this.user.getUserID(), false, false);
-        del.execute(user.getUserID());
+        GenericDeleteFollowRequest del = new GenericDeleteFollowRequest(user.getUserID(), handler);
+        del.execute(this.user.getUserID());
         return true;
     }
 
     @Override
     public void unFollow(User user) {
-        GenericDeleteFollowRequest del = new GenericDeleteFollowRequest(null, ServerCommandManager.FOLLOW, this.getUser().getUserID(), true, true);
+        GenericDeleteFollowRequest del = new GenericDeleteFollowRequest(this.getUser().getUserID(), null);
         del.execute(user.getUserID());
     }
 
@@ -468,7 +466,7 @@ public class DataManager implements DataManagerAPI {
      */
     @Override
     public Boolean cancelRequest(User user, AsyncResultHandler handler) {
-        GenericDeleteFollowRequest<Integer> del = new GenericDeleteFollowRequest<>(handler, "follow", this.user.getUserID(), true, false);
+        GenericDeleteFollowRequest del = new GenericDeleteFollowRequest(this.user.getUserID(), handler);
         del.execute(user.getUserID());
         return true;
     }

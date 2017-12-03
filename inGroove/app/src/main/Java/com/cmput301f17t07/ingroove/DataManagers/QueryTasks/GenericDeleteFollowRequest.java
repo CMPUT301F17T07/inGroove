@@ -2,87 +2,68 @@ package com.cmput301f17t07.ingroove.DataManagers.QueryTasks;
 
 import android.os.AsyncTask;
 import android.util.Log;
+
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
-import io.searchbox.core.DeleteByQuery;
+import com.searchly.jestdroid.JestDroidClient;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
+import io.searchbox.core.Delete;
+import io.searchbox.core.DocumentResult;
 
 /**
  * Generic Delete request for follow objects from ElasticSearch
  *
  * Created by fraserbulbuc on 2017-11-28.
  */
-public class GenericDeleteFollowRequest<T> extends AsyncTask<String, Void, Void> {
+public class GenericDeleteFollowRequest extends AsyncTask<String, Void, ArrayList<Boolean>> {
 
-    private String type;
-    private AsyncResultHandler<T> resultHandler;
-    private String currentUserID;
-    private boolean isFollower;   // true if cancelling, false if rejecting
-    private boolean isAccepted;
+    private AsyncResultHandler<Boolean> resultHandler;
+    private String followerID;
 
     /**
      * Default Ctor
+     *  @param resultHandler the result to update upon completion of the request
      *
-     * @param resultHandler the result to update upon completion of the request
-     * @param type the name of the index to query, for example: "habit" or "habit_event"
      */
-    public GenericDeleteFollowRequest(AsyncResultHandler<T> resultHandler, String type,
-                                      String currentUserID, boolean isFollower, boolean isAccepted) {
-        this.isFollower = isFollower;
-        this.isAccepted = isAccepted;
-        this.type = type;
+    public GenericDeleteFollowRequest(String followerID, AsyncResultHandler<Boolean> resultHandler) {
         this.resultHandler = resultHandler;
-        this.currentUserID = currentUserID;
+        this.followerID = followerID;
     }
 
     @Override
-    protected Void doInBackground(String... ids) {
+    protected ArrayList<Boolean> doInBackground(String... followeeIDs) {
         Log.d("--- GEN DEL FOL ---", "Trying to delete follow obj.");
+        ArrayList<Boolean> results = new ArrayList<>();
 
-        String query;
+        JestDroidClient client = ServerCommandManager.getClient();
 
-        if (isFollower) {
-            // isFollower true means the user is cancelling a request they have made
-            // i.e. they are the follower and the userID is that of the person they have
-            // request to follow--i.e. the followee
+        for (String followeeID : followeeIDs) {
 
-            query = "{\n" +
-                    "   \"query\": {\n" +
-                    "       \"bool\": {\n" +
-                    "           \"must\": [\n" +
-                    "               {\"match\": { \"follower\": \"" + currentUserID + "\" }},\n" +
-                    "               {\"match\": { \"followee\": \"" + ids[0] + "\" }},\n" +
-                    "               {\"match\": { \"accepted\":" + isAccepted + "}}\n" +
-                    "           ]\n" +
-                    "       }\n" +
-                    "   }\n" +
-                    "}";
-        } else {
-            // opposite of comment in true block, i.e. they are rejecting a request to follow them
-            // meaning they are the followee and the userID is that of the person requesting to follow
-            // them, i.e. the follower
+            Delete delete = new Delete.Builder(followerID + followeeID).index(ServerCommandManager.INDEX).type(ServerCommandManager.FOLLOW).build();
 
-            query = "{\n" +
-                    "   \"query\": {\n" +
-                    "       \"bool\": {\n" +
-                    "           \"must\": [\n" +
-                    "               {\"match\": { \"follower\": \"" + ids[0] + "\" }},\n" +
-                    "               {\"match\": { \"followee\": \"" + currentUserID + "\" }},\n" +
-                    "               {\"match\": { \"accepted\":" + isAccepted + "}}\n" +
-                    "           ]\n" +
-                    "       }\n" +
-                    "   }\n" +
-                    "}";
+            try {
+                DocumentResult result = client.execute(delete);
+                if (result.isSucceeded()) {
+                    results.add(true);
+                    Log.d("--- GEN DEL FOL ---", "Succeeded in deleting follow Request for ID: " + followerID + followeeID);
+                } else {
+                    results.add(false);
+                    Log.d("--- GEN DEL FOL ---", "Failed in deleting follow Request for ID: " + followerID + followeeID);
+                }
+            } catch (IOException e) {
+                results.add(false);
+                Log.d("--- GEN DEL FOL ---", "Error in deleting follow request with ID: " + followerID + followeeID + " error = " + e);
+            }
         }
-
-        DeleteByQuery del = new DeleteByQuery.Builder(query).addIndex(ServerCommandManager.INDEX).addType(type).build();
-
-        try {
-            ServerCommandManager.getClient().execute(del);
-            Log.d("--- GEN DEL FOL ---", "Should have deleted follow obj.");
-        }
-        catch (Exception e) {
-            Log.i("--- GEN DEL FOL ---", "Error: Something went wrong when we tried to communicate with the Elasticsearch server!" + e);
-        }
-        return null;
+        return results;
     }
 
+    @Override
+    protected void onPostExecute(ArrayList<Boolean> booleans) {
+        super.onPostExecute(booleans);
+
+//        resultHandler.handleResult(booleans);
+    }
 }
