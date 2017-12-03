@@ -72,42 +72,18 @@ public class FollowActivity extends NavigationDrawerActivity {
             searchText = nameSearchBox.getText().toString();
             streakText = streakSearchBox.getText().toString();
 
-            // check to make sure there are values in the edit texts and if there are not put
-            // the corresponding needed output in
-            if (streakText.matches("") && !searchText.matches("")) {
+            // make sure at least one is not empty
+            if (!streakText.matches("") || !searchText.matches("")) {
 
-                data.findUsers(0, searchText, Boolean.FALSE, new AsyncResultHandler() {
-                    @Override
-                    public void handleResult(ArrayList result) {
+                // validate the entries
+                if (streakText.matches("")) {       // steak is void, need to update it
+                    streakText = "0";
+                }
+                if (searchText.matches("")) {       // search text is void, need to update it
+                    searchText = "";
+                }
 
-                        if (result != null) {
-                            result = (ArrayList<User>) result;
-                            updateSearchResults(result);
-                            Log.i("Searching For Users", "Successfully found "
-                                    + String.valueOf(result.size()) + " users.");
-                        }
-
-                    }
-                });
-
-            } else if (!streakText.matches("") && searchText.matches("")) {
-
-                data.findUsers(Integer.valueOf(streakText), "", Boolean.FALSE, new AsyncResultHandler() {
-                    @Override
-                    public void handleResult(ArrayList result) {
-
-                        if (result != null) {
-                            result = (ArrayList<User>) result;
-                            updateSearchResults(result);
-                            Log.i("Searching For Users", "Successfully found "
-                                    + String.valueOf(result.size()) + " users.");
-                        }
-
-                    }
-                });
-
-            } else if (!streakText.matches("") && !searchText.matches("")) {
-
+                // search for the users
                 data.findUsers(Integer.valueOf(streakText), searchText, Boolean.FALSE, new AsyncResultHandler() {
                     @Override
                     public void handleResult(ArrayList result) {
@@ -115,13 +91,17 @@ public class FollowActivity extends NavigationDrawerActivity {
                         if (result != null) {
                             result = (ArrayList<User>) result;
                             updateSearchResults(result);
-                            Log.i("Searching For Users", "Successfully found "
+                            Log.i("Find People", "Searching for name = '" + searchText
+                                    + "' and streak = '" + streakText + "'");
+                            Log.i("Find People", "Successfully found "
                                     + String.valueOf(result.size()) + " users.");
                         }
-
                     }
                 });
-
+            } else {
+                // user searched for nothing, clear the listview
+                searchResults.clear();
+                followAdapter.notifyDataSetChanged();
             }
 
             }
