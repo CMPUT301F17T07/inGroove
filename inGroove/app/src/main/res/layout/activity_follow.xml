@@ -29,11 +29,11 @@
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
             android:text="@string/followFindOtherUsers"
+            android:textSize="24dp"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:textSize="24dp" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:layout_width="match_parent"
