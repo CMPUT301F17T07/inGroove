@@ -1,25 +1,21 @@
 package com.cmput301f17t07.ingroove.DataManagers.QueryTasks;
 
 import android.os.AsyncTask;
-import android.text.BoringLayout;
 import android.util.Log;
-
-import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
 import com.cmput301f17t07.ingroove.Model.Follow;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
 
 /**
- * Created by Fraser Bulbuc on 2017-11-30.
+ * [Model Class]
+ * Changes accepted to status to true for a follow request on the server
+ *
  */
-
 @Deprecated
 public class AcceptFollowRequestTask extends AsyncTask<String, Void, ArrayList<Boolean>> {
 
