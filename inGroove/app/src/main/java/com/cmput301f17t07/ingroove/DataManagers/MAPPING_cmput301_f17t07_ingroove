@@ -1,0 +1,123 @@
+{
+    "ingroove": {
+        "mappings": {
+            "follow": {
+                "properties": {
+                    "accepted": {
+                        "type": "boolean"
+                    },
+                    "acceptedDate": {
+                        "type": "date",
+                        "format": "dateOptionalTime"
+                    },
+                    "followee": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "follower": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    }
+                }
+            },
+            "user": {
+                "properties": {
+                    "comment": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "email": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "followee": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "follower": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "joinDate": {
+                        "type": "date",
+                        "format": "dateOptionalTime"
+                    },
+                    "name": {
+                        "type": "string",
+                    },
+                    "streak": {
+                        "type": "long"
+                    },
+                    "userID": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    }
+                }
+            },
+            "habit_event": {
+                "properties": {
+                    "comment": {
+                        "type": "string",
+                    },
+                    "day": {
+                        "type": "date",
+                        "format": "dateOptionalTime"
+                    },
+                    "eventID": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "habitID": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "name": {
+                        "type": "string",
+                    },
+                    "objectID": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "photo": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "userID": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    }
+                }
+            },
+            "habit": {
+                "properties": {
+                    "comment": {
+                        "type": "string",
+                    },
+                    "habitID": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "name": {
+                        "type": "string",
+                    },
+                    "objectID": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "repeatedDays": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "startDate": {
+                        "type": "date",
+                        "format": "dateOptionalTime"
+                    },
+                    "userID": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    }
+                }
+            }
+        }
+    }
+}
