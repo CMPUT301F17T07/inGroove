@@ -7,11 +7,10 @@ import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
 import com.cmput301f17t07.ingroove.DataManagers.Command.UpdateUserCommand;
-import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AcceptFollowRequestTask;
+import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AcceptFollowRequestObjIDTask;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GenericDeleteFollowRequest;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GenericGetRequest;
-import com.cmput301f17t07.ingroove.Model.Follow;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.Model.User;
@@ -26,6 +25,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+
 import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
 
@@ -426,15 +429,13 @@ public class DataManager implements DataManagerAPI {
      */
     @Override
     public Boolean acceptRequest(final User user) {
-        AcceptFollowRequestTask acc = new AcceptFollowRequestTask(ServerCommandManager.FOLLOW, this.user.getUserID(), new AsyncResultHandler<Boolean>() {
+        AcceptFollowRequestObjIDTask acc = new AcceptFollowRequestObjIDTask(ServerCommandManager.FOLLOW, this.user.getUserID(), new AsyncResultHandler<Boolean>() {
             @Override
             public void handleResult(ArrayList<Boolean> result) {
-                if (result.get(0)) {
-                    rejectRequest(user, new AsyncResultHandler() {
-                        @Override
-                        public void handleResult(ArrayList result) {
-                        }
-                    });
+                if (result.get(0) != null) {
+                    Log.d("--- DATA MNG ---", "Successfully accepted " + user.getName() + "'s follow request.");
+                } else {
+                    Log.d("--- DATA MNG ---", "Failed to accept " + user.getName() + "'s follow request.");
                 }
             }
         });
@@ -450,14 +451,14 @@ public class DataManager implements DataManagerAPI {
      */
     @Override
     public Boolean rejectRequest(User user, AsyncResultHandler handler) {
-        GenericDeleteFollowRequest<Integer> del = new GenericDeleteFollowRequest<>(handler, "follow", this.user.getUserID(), false, false);
-        del.execute(user.getUserID());
+        GenericDeleteFollowRequest del = new GenericDeleteFollowRequest(user.getUserID(), handler);
+        del.execute(this.user.getUserID());
         return true;
     }
 
     @Override
     public void unFollow(User user) {
-        GenericDeleteFollowRequest del = new GenericDeleteFollowRequest(null, ServerCommandManager.FOLLOW, this.getUser().getUserID(), true, true);
+        GenericDeleteFollowRequest del = new GenericDeleteFollowRequest(this.getUser().getUserID(), null);
         del.execute(user.getUserID());
     }
 
@@ -469,7 +470,7 @@ public class DataManager implements DataManagerAPI {
      */
     @Override
     public Boolean cancelRequest(User user, AsyncResultHandler handler) {
-        GenericDeleteFollowRequest<Integer> del = new GenericDeleteFollowRequest<>(handler, "follow", this.user.getUserID(), true, false);
+        GenericDeleteFollowRequest del = new GenericDeleteFollowRequest(this.user.getUserID(), handler);
         del.execute(user.getUserID());
         return true;
     }
@@ -510,8 +511,34 @@ public class DataManager implements DataManagerAPI {
      * @return a list of the users who meet the criteria
      */
     @Override
-    public int findUsers(int minStreak, String query, Boolean alreadyFollowing, AsyncResultHandler handler) {
-        GenericGetRequest<User> get = new GenericGetRequest<>(handler, User.class, "user","name");
+    public int findUsers(final int minStreak, String query, Boolean alreadyFollowing, final AsyncResultHandler handler) {
+        GenericGetRequest<User> get = new GenericGetRequest<>(new AsyncResultHandler<User>() {
+            @Override
+            public void handleResult(ArrayList<User> result) {
+
+                ArrayList<User> aboveMin = new ArrayList<>();
+
+                for (User user : result) {
+                    if (user.getMax_streak() >= minStreak) {
+                        aboveMin.add(user);
+                    }
+                }
+
+                Collections.sort(result, new Comparator<User>() {
+                    @Override
+                    public int compare(User u1, User u2) {
+                        if (u1.getMax_streak() > u2.getMax_streak()) {
+                            return -1;
+                        } else if (u1.getMax_streak() < u2.getMax_streak()) {
+                            return 1;
+                        }
+                        return 0;
+                    }
+                });
+
+                handler.handleResult(aboveMin);
+            }
+        }, User.class, "user", "name");
         get.execute(query);
         return 0;
     }

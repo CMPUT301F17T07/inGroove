@@ -53,6 +53,7 @@ public class GenericGetRequest<T> extends AsyncTask<String, Void, ArrayList<T>> 
         }
         else {
             query = "{\n" +
+                    "   \"size\" : 10000, \n" +
                     "    \"query\" : {\n" +
                     "        \"wildcard\" : { \"" + matchingAttribute + "\" : \"" + searchParam[0] + "*\" }\n" +
                     "    }\n" +
