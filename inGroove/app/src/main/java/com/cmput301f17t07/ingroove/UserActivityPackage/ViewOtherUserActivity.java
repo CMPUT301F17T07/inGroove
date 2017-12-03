@@ -111,7 +111,7 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
             LoadListView(HabitList);
 
             name.setText(otherUser.getName());
-            // THIS IS NOT THE USERNAME, the otherUser object does not have a username field yet
+            // THIS IS NOT THE USERNAME, the otherUser object does not have a email field yet
             // but for now we just put the email so it has something slightly different
             username.setText(otherUser.getEmail());
             streak_txt.setText("You've had " + Integer.valueOf(otherUser.getStreak()) + " perfect days!");

@@ -1,6 +1,5 @@
 package com.cmput301f17t07.ingroove.UserActivityPackage;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -38,7 +37,6 @@ public class UserActivity extends NavigationDrawerActivity  {
     This activity REQUIRES a valid serialized otherUser object be sent via intent
     to it. Otherwise it will simply exit
      */
-    MockDataManager mData = MockDataManager.getInstance();
     DataManagerAPI data = DataManager.getInstance();
 
     // Account data to display
@@ -48,11 +46,12 @@ public class UserActivity extends NavigationDrawerActivity  {
 
     // List of people the otherUser follows.
     ArrayList<User> FollowsList;
+    SimpleAdapter adapter;
 
     // Layout items
     ImageView user_picture;
     TextView name;
-    TextView username;
+    TextView email;
     TextView streak_txt;
     TextView max_streak_txt;
     TextView start_date_txt;
@@ -78,13 +77,12 @@ public class UserActivity extends NavigationDrawerActivity  {
             // We don't have a otherUser to display, just go back to the prior activity
             Log.w("Warning/User:", "Issue with initializing the otherUser.");
             finish();
-            //data.addUser("test");
         } else {
 
             // Setup layout vars
             user_picture = (ImageView) findViewById(R.id.usr_act_picture);
             name = (TextView) findViewById(R.id.usr_act_real_name);
-            username = (TextView) findViewById(R.id.usr_act_username);
+            email = (TextView) findViewById(R.id.usr_act_username);
             streak_txt = (TextView) findViewById(R.id.usr_act_streak_txt);
             max_streak_txt = (TextView) findViewById(R.id.usr_act_max_streak_txt);
             start_date_txt = (TextView) findViewById(R.id.usr_act_start_date);
@@ -94,6 +92,7 @@ public class UserActivity extends NavigationDrawerActivity  {
 
             // make the unfollow button invisable to otherUser for their own page
             unfollow_button.setVisibility(View.INVISIBLE);
+
 
             // Load the layout with the otherUser's data
             Drawable drawable = getResources().getDrawable(R.mipmap.ic_launcher_round);
@@ -105,14 +104,13 @@ public class UserActivity extends NavigationDrawerActivity  {
                  @Override
                  public void handleResult(ArrayList<User> result) {
                      FollowsList = result;
+                     LoadListView(FollowsList);
                  }
              });
-            LoadListView(FollowsList);
 
             name.setText(user.getName());
-            // @TODO THIS IS NOT THE USERNAME, the otherUser object does not have a username field yet
             // but for now we just put the email so it has something slightly different
-            username.setText("Email: " + user.getEmail());
+            email.setText("Email: " + user.getEmail());
             streak_txt.setText("You have a streak that is " + Integer.valueOf(user.getStreak()) + " day(s) long!");
             max_streak_txt.setText("Your max streak was " + Integer.valueOf(user.getMax_streak()) + " day(s) long!");
 
@@ -152,23 +150,27 @@ public class UserActivity extends NavigationDrawerActivity  {
         if (requestCode == 1 && resultCode == RESULT_OK){
 
             // get returned info
-            user = this.data.getPassedUser();;
+            user = this.data.getPassedUser();
 
             // update view
             name.setText(user.getName());
-            username.setText(user.getEmail());
+            email.setText(user.getEmail());
 
             // update navigation menu
             super.updateHeader(user.getName());
+
+
 
             //Update followings list
             this.data.getWhoThisUserFollows(user, new AsyncResultHandler<User>() {
                 @Override
                 public void handleResult(ArrayList<User> result) {
                     FollowsList = result;
+                    LoadListView(FollowsList);
                 }
             });
-            LoadListView(FollowsList);
+
+
         }
     }
 
@@ -192,7 +194,7 @@ public class UserActivity extends NavigationDrawerActivity  {
             ListData.add(datum);
         }
 
-        SimpleAdapter adapter = new SimpleAdapter(this, ListData,
+        adapter = new SimpleAdapter(this, ListData,
                 android.R.layout.simple_list_item_2,
                 new String[] {"title", "date"},
                 new int[] {android.R.id.text1,
