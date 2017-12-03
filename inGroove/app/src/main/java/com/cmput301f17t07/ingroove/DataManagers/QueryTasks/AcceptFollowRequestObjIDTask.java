@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import io.searchbox.client.JestResult;
 import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Get;
 import io.searchbox.core.Index;
@@ -43,24 +44,26 @@ public class AcceptFollowRequestObjIDTask extends AsyncTask<String, Void, ArrayL
 
         ArrayList<Follow> follow = new ArrayList<>();
         ArrayList<Boolean> boolRes = new ArrayList<>();
-        boolRes.add(Boolean.FALSE);
 
         String folID = ids[0] + currentUserID;
 
         Get get = new Get.Builder(ServerCommandManager.INDEX, folID).type(ServerCommandManager.FOLLOW).build();
 
         try {
-            DocumentResult res = ServerCommandManager.getClient().execute(get);
+            
+            JestResult res = ServerCommandManager.getClient().execute(get);
             Follow followResult = res.getSourceAsObject(Follow.class);
 
             if (res.isSucceeded() && followResult != null && followResult.getFollower().equals(ids[0])
                     && followResult.getFollowee().equals(currentUserID) && !followResult.getAccepted()) {
+
                 Log.d("--- ACCEPT_FOL_REQ_OBJ_ID ---", "Successfully retrieved follow object.");
 
                 followResult.setAcceptedDate(new Date());
                 followResult.setAccepted(true);
 
                 Index index = new Index.Builder(followResult).index(ServerCommandManager.INDEX).type(ServerCommandManager.FOLLOW).id(followResult.getObjectID()).build();
+
                 try {
                     DocumentResult result = ServerCommandManager.getClient().execute(index);
                     if (result.isSucceeded()) {
@@ -75,9 +78,11 @@ public class AcceptFollowRequestObjIDTask extends AsyncTask<String, Void, ArrayL
 
             } else {
                 Log.d("--- ACCEPT_FOL_REQ_OBJ_ID ---", "Failed to retrieve matching follow object.");
+                boolRes.add(Boolean.FALSE);
             }
         } catch (Exception e) {
             Log.i("--- ACCEPT_FOL_REQ_OBJ_ID ---", "Error querying elastic search." + e);
+            boolRes.add(Boolean.FALSE);
         }
 
         return boolRes;
