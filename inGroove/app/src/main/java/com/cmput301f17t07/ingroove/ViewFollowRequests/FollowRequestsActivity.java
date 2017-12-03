@@ -1,19 +1,10 @@
 package com.cmput301f17t07.ingroove.ViewFollowRequests;
 
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
-import com.cmput301f17t07.ingroove.DataManagers.MockDataManager;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
@@ -22,11 +13,13 @@ import com.cmput301f17t07.ingroove.navDrawer.NavigationDrawerActivity;
 import java.util.ArrayList;
 
 /**
- * View allows the user to accept or reject follow requests that other users have sent them.
+ * [Boundary Class]
+ *
+ * Activity allows the user to accept or reject follow requests that other users have sent them.
  *
  * @see FollowRequestsActivity
  * @see DataManagerAPI
- * @see DataManager
+ * @see User
  */
 public class FollowRequestsActivity extends NavigationDrawerActivity implements AsyncResultHandler<User> {
 

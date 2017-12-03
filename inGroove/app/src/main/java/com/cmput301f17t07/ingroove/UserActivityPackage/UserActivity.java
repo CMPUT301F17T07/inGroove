@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
-import com.cmput301f17t07.ingroove.DataManagers.MockDataManager;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
@@ -27,10 +25,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *  Displays the otherUser's profile.
+ * [Boundary Class]
+ *
+ *  Activity displays the otherUser's profile.
  *
  *  @see EditUserActivity
  *  @see User
+ *  @see DataManagerAPI
  */
 public class UserActivity extends NavigationDrawerActivity  {
     /* IMPORTANT

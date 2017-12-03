@@ -7,10 +7,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
+ * [Data Class]
+ *
  * Abstraction of an occurrence of completing a habit
  * All habit events have an ID and implement the Identifiable interface so that the ID can be accessed
  *
  * Each habit event may contain a name, comment, day, photo (optional), and location (optional)
+ *
+ * @see Identifiable
  *
  * Created by Adam Otto on ####-##-##.
  */

@@ -16,7 +16,10 @@ import com.cmput301f17t07.ingroove.Model.User;
 import java.util.ArrayList;
 
 /**
+ * [Testing Boundary Class]
  * This activity is used to test the data manager.
+ *
+ * @see DataManagerAPI
  */
 public class DataManagerTestingActivity extends AppCompatActivity  {
 

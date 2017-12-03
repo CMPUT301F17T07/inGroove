@@ -2,9 +2,8 @@
 package com.cmput301f17t07.ingroove;
 
 import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -34,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * [Boundary]
  * This activity is the main page of the app. It displays the users habits as well as passed
  * habits completed, presented by their habit events.
  *

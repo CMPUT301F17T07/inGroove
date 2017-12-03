@@ -4,11 +4,14 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
+ * [Data Class]
+ *
  * Abstraction of the application user.
  *
  * @see Habit
  * @see HabitEvent
  * @see Date
+ * @see Serializable
  *
  * Created by Ashley on 2017-10-22.
  */

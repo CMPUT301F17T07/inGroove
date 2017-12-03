@@ -19,7 +19,6 @@ import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.FollowOtherUsers.FollowActivity;
 import com.cmput301f17t07.ingroove.MapActivities.MapOptionsActivity;
-import com.cmput301f17t07.ingroove.MapActivities.MapsActivity;
 import com.cmput301f17t07.ingroove.R;
 import com.cmput301f17t07.ingroove.UserActivityPackage.UserActivity;
 import com.cmput301f17t07.ingroove.ViewFollowRequests.FollowRequestsActivity;
@@ -30,6 +29,13 @@ import com.cmput301f17t07.ingroove.ViewFollowersActivityPackage.ViewFollowersAct
  * Created by corey on 2017-11-04.
  */
 
+/**
+ * [Boundary Class]
+ *
+ * Activity that provides the navigation drawer
+ *
+ * @see DataManagerAPI
+ */
 @SuppressLint("Registered")
 public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{

@@ -2,17 +2,18 @@ package com.cmput301f17t07.ingroove;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.support.v4.app.DialogFragment;
 import android.os.Bundle;
-import android.widget.DatePicker;
+import android.support.v4.app.DialogFragment;
 
 import com.cmput301f17t07.ingroove.avehabit.AddHabitActivity;
 
 import java.util.Calendar;
 
 /**
+ * [Boundary Class]
  * This class is used to select a date from a calendar.  Useful for selecting when a habit should start or
  * When a habit should occur.
+ *
  */
 
 public class DatePickerFragment extends DialogFragment{

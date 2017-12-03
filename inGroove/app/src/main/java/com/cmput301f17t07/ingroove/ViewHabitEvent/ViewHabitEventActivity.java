@@ -2,25 +2,19 @@ package com.cmput301f17t07.ingroove.ViewHabitEvent;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.EditHabitEvent.EditHabitEventActivity;
-import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.R;
-import com.cmput301f17t07.ingroove.UserActivityPackage.EditUserActivity;
-import com.cmput301f17t07.ingroove.UserActivityPackage.UserActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -28,10 +22,15 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-/**
- * Created by corey on 2017-11-08.
- */
 
+/**
+ * [Boundary Class]
+ *
+ * Activity for viewing a HabitEvent
+ *
+ * @see HabitEvent
+ * @see DataManagerAPI
+ */
 public class ViewHabitEventActivity extends FragmentActivity implements OnMapReadyCallback {
     // Key for sending the habit event to this activity for display
     // This class REQUIRES a habit event be sent to 

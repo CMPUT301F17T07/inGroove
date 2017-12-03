@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
+ * [Data Class]
+ *
  * Representing a recurring action to be done. Habits have names and optional descriptions. They may
  * repeat at regular intervals each week, but can only occur once a day.
  *

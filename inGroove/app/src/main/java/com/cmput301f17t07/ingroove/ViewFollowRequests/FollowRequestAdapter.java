@@ -11,22 +11,21 @@ import android.widget.TextView;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
-import com.cmput301f17t07.ingroove.DataManagers.MockDataManager;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
 /**
+ * [Boundary Class]
+ *
  * The adapter for the ListView in the Follow Request Activity. Allows the user to press accept
  * and reject on the displayed follow requests.
  *
  * @see FollowRequestsActivity
- * @see DataManager
  * @see DataManagerAPI
+ * @see User
  *
  * Created by Ashley on 2017-10-30.
  */

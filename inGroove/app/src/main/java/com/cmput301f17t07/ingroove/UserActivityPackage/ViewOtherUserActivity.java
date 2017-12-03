@@ -24,10 +24,13 @@ import com.cmput301f17t07.ingroove.navDrawer.NavigationDrawerActivity;
 import java.util.ArrayList;
 
 /**
+ * [Boundary Class]
+ *
  *  Displays the otherUser's profile.
  *
  *  @see EditUserActivity
  *  @see User
+ *  @see DataManagerAPI
  */
 public class ViewOtherUserActivity extends NavigationDrawerActivity {
     /* IMPORTANT

@@ -8,6 +8,7 @@ import android.os.Bundle;
  *
  * At the moment, it is not implemented.
  */
+//TODO: is this being used?
 public class FollowRequestsActivity extends AppCompatActivity {
 
     @Override

@@ -3,6 +3,8 @@ package com.cmput301f17t07.ingroove.Model;
 import java.util.Date;
 
 /**
+ * [Data Class]
+ *
  * Represents the relationships between Users
  *
  * @see User

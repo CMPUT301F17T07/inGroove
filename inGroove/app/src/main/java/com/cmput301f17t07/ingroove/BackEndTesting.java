@@ -12,7 +12,14 @@ import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import java.util.Date;
 
 /**
+ * [Testing Boundary Class]
+ *
  * This activity is used to help test the back end of the program.
+ *
+ * @see DataManagerAPI
+ * @see ServerCommandManager
+ * @see HabitEvent
+ * @see Habit
  */
 public class BackEndTesting extends AppCompatActivity {
 

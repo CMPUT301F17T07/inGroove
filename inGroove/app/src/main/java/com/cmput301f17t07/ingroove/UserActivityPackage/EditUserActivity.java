@@ -3,14 +3,11 @@ package com.cmput301f17t07.ingroove.UserActivityPackage;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
@@ -19,10 +16,13 @@ import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
 
 /**
- * Allows the otherUser to edit their profile.
+ * [Boundary Class]
+ *
+ * Activity allows the User to edit their profile.
  *
  * @see User
  * @see UserActivity
+ * @see DataManagerAPI
  *
  * Created by Ashley on 2017-11-11.
  */

@@ -9,11 +9,10 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
+import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
-import com.cmput301f17t07.ingroove.DataManagers.MockDataManager;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
 import com.cmput301f17t07.ingroove.Model.Habit;
-import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.Model.SuperCombinedManagerObjectToManageTheMostRecentHabitForUser;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
@@ -24,9 +23,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * [Boundary Class]
+ *
+ * Activity for viewing who your following and their HabitEvents
+ *
+ * @see DataManagerAPI
+ * @see User
+ * @see Habit
+ * @see com.cmput301f17t07.ingroove.Model.HabitEvent
+ */
 public class ViewFollowersActivity extends NavigationDrawerActivity {
 
-    DataManager ServerCommunicator = DataManager.getInstance();
+    DataManagerAPI ServerCommunicator = DataManager.getInstance();
 
     ListView FollowerViewer;
     Button FollowersButton;
