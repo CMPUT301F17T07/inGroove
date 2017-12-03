@@ -64,6 +64,6 @@ public class UpdateUserCommand extends ServerCommand {
      */
     @Override
     public String toString() {
-        return " UUC with user named: " + user.getName();
+        return " UPD UC with user named: " + user.getName();
     }
 }

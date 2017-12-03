@@ -64,6 +64,6 @@ public class DeleteHabitCommand extends ServerCommand {
      */
     @Override
     public String toString() {
-        return " DHC with habit named: " + habit.getName();
+        return " DEL HC with habit named: " + habit.getName();
     }
 }

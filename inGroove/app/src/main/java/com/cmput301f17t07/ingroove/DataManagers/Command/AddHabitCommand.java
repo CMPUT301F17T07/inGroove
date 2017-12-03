@@ -86,6 +86,6 @@ public class AddHabitCommand extends ServerCommand {
     }
 
     public String toString() {
-        return "AHC with name: " + habit.getName();
+        return "ADD HC with habit named: " + habit.getName();
     }
 }

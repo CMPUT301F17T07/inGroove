@@ -84,6 +84,6 @@ public class AddHabitEventCommand extends ServerCommand {
      */
     @Override
     public String toString() {
-        return " AHEC with habitEvent named: " + habitEvent.getName();
+        return " ADD HEC with habitEvent named: " + habitEvent.getName();
     }
 }

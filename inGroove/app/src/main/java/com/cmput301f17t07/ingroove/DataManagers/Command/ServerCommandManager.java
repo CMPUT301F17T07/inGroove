@@ -27,6 +27,7 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -86,7 +87,6 @@ public class ServerCommandManager {
      * Constructs a new CommandManager, creates an empty queue on initialization
      */
     private ServerCommandManager() {
-        Log.d("--- S_CMD_M ---","Constructing");
         loadCommands();
     }
 
@@ -212,7 +212,7 @@ public class ServerCommandManager {
                         break;
                     }
                     commandArray.remove(command);
-                    Log.d("--- S_CMD_M ---","Executed and removed cmd. " + commandArray.size() + " pending cmds.");
+                    Log.d("--- S_CMD_M ---","Executed and removed " + command.toString() + " " + commandArray.size() + " outstanding cmds.");
                 }
             }
             Log.d("--- S_CMD_M ---","Finished Async");
@@ -227,8 +227,6 @@ public class ServerCommandManager {
             Log.d("--- S_CMD_M ---","Starting Post Execute");
             ServerCommandManager.getInstance().saveCommands();
             Log.d("--- S_CMD_M ---","Finished Post Execute");
-
-
         }
     }
 
@@ -257,7 +255,7 @@ public class ServerCommandManager {
             fis1.close();
 
             for (AddHabitCommand cmd: aHabit) {
-                Log.d("--- AHC ---","Loaded: " + cmd.toString());
+                Log.d("--- S_CMD_M ---","Loaded: " + cmd.toString());
             }
 
             FileInputStream fis2 = context.openFileInput(HABIT_EVENT_COMMAND);
@@ -279,8 +277,8 @@ public class ServerCommandManager {
             in3.close();
             fis3.close();
 
-            for (AddHabitCommand cmd: aHabit) {
-                Log.d("--- AHC ---","Loaded: " + cmd.toString());
+            for (DeleteHabitCommand cmd: delHabit) {
+                Log.d("--- S_CMD_M ---","Loaded: " + cmd.toString());
             }
 
 
@@ -319,19 +317,19 @@ public class ServerCommandManager {
         commands.addAll(delHabit);
         commands.addAll(delHabitEvent);
         commands.addAll(updUser);
-        commands.sort(new Comparator<ServerCommand>() {
+
+        Collections.sort(commands, new Comparator<ServerCommand>() {
             @Override
             public int compare(ServerCommand s1, ServerCommand s2) {
                 if (s1.getOrderAdded() > s2.getOrderAdded()) {
-                    return 0;
+                    return 1;
+                } else if (s1.getOrderAdded() < s2.getOrderAdded()) {
+                    return -1;
                 }
-                return 1;
+                return 0;
             }
         });
-
         Log.d("--- S_CMD_M ---","---------- Finished  loading " + commands.size() +  " cmds from disk ----------");
-
-
     }
 
     /**

@@ -60,6 +60,6 @@ public class DeleteHabitEventCommand extends ServerCommand {
      */
     @Override
     public String toString() {
-        return " DHEC with habitEvent named: " + habitEvent.getName();
+        return " DEL HEC with habitEvent named: " + habitEvent.getName();
     }
 }
