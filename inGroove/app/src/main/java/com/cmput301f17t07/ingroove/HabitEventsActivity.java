@@ -60,7 +60,12 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * This class is used to add new habit events to habits
+ * [Boundary Class]
+ * Activity used for logging a new habit event
+ *
+ * @see Habit
+ * @see HabitEvent
+ * @see DataManagerAPI
  */
 public class HabitEventsActivity extends AppCompatActivity {
     public static String habitevent_key = "habitevent_to_edit";
