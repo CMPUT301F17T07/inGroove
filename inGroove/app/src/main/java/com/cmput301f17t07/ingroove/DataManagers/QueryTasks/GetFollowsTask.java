@@ -54,6 +54,9 @@ public class GetFollowsTask extends AsyncTask<String, Void, ArrayList<Follow>> i
     @Override
     protected ArrayList<Follow> doInBackground(String... userIDs) {
 
+        Log.i("---GET FOLLOW TASK ---","Starting follow task");
+
+
         JestDroidClient client = ServerCommandManager.getClient();
 
         ArrayList<Follow> follows = new ArrayList<>();
@@ -96,6 +99,7 @@ public class GetFollowsTask extends AsyncTask<String, Void, ArrayList<Follow>> i
             Log.i("--- FOLLOW REQ ---","Could not retrieve follow requests.");
         }
 
+        Log.i("---GET FOLLOW TASK ---","Background finished with " + String.valueOf(follows.size()) + " results");
         return follows;
     }
 
@@ -103,6 +107,8 @@ public class GetFollowsTask extends AsyncTask<String, Void, ArrayList<Follow>> i
     @Override
     protected void onPostExecute(ArrayList<Follow> queryResult) {
         super.onPostExecute(queryResult);
+        Log.i("---GET FOLLOW TASK ---","Starting onPostExecute");
+
 
         if (queryResult != null) {
             this.count = queryResult.size();
@@ -118,8 +124,20 @@ public class GetFollowsTask extends AsyncTask<String, Void, ArrayList<Follow>> i
                     query = follow.getFollower();
                 }
                 get.execute(query);
+                Log.i("---GET FOLLOW TASK ---","Executing sub task");
+
             }
+            if (this.count == 0){
+                this.handler.handleResult(new ArrayList<User>());
+
+            }
+
+        } else {
+            this.handler.handleResult(new ArrayList<User>());
         }
+
+        Log.i("---GET FOLLOW TASK ---","Finished onPostExecute");
+
 
     }
 
@@ -132,6 +150,8 @@ public class GetFollowsTask extends AsyncTask<String, Void, ArrayList<Follow>> i
         }
 
         if (returns == count) {
+            Log.i("---GET FOLLOW TASK ---"," Calling Handler");
+
             handler.handleResult(followers);
         }
     }
