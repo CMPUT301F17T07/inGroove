@@ -1,6 +1,7 @@
 package com.cmput301f17t07.ingroove.DataManagers.QueryTasks;
 
 import android.os.AsyncTask;
+import android.text.BoringLayout;
 import android.util.Log;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommand;
@@ -19,25 +20,27 @@ import io.searchbox.core.SearchResult;
  * Created by Fraser Bulbuc on 2017-11-30.
  */
 
-public class AcceptFollowRequestTask extends AsyncTask<String, Void, ArrayList<Follow>> {
+public class AcceptFollowRequestTask extends AsyncTask<String, Void, ArrayList<Boolean>> {
 
     private String type;
     private String currentUserID;
     private String followID;
+    private AsyncResultHandler<Boolean> handler;
 
     /**
      * Default Ctor
      *
      * @param type the name of the index to query, for example: "habit" or "habit_event"
      */
-    public AcceptFollowRequestTask(String type, String currentUserID) {
+    public AcceptFollowRequestTask(String type, String currentUserID, AsyncResultHandler<Boolean> handler) {
         this.type = type;
         this.currentUserID = currentUserID;
+        this.handler = handler;
     }
 
 
     @Override
-    protected ArrayList<Follow> doInBackground(String... ids) {
+    protected ArrayList<Boolean> doInBackground(String... ids) {
 
         ArrayList<Follow> follow = new ArrayList<>();
 
@@ -64,30 +67,37 @@ public class AcceptFollowRequestTask extends AsyncTask<String, Void, ArrayList<F
                 follow.addAll(returned);
 
             } else {
-                Log.i(" ---- QUERY ----", "Failed to query ES: " + ids[0]);
+                Log.i("-- ACCEPT FOL REQ --", "Failed to query ES: " + ids[0]);
             }
         } catch (Exception e) {
-            Log.i("Error", "Something went wrong when we tried to communicate with the Elasticsearch server!");
+            Log.i("-- ACCEPT FOL REQ --", "Error: Something went wrong when we tried to communicate with the Elasticsearch server!" + e);
         }
-        return follow;
-    }
 
-    @Override
-    protected void onPostExecute(ArrayList<Follow> follows) {
-        super.onPostExecute(follows);
+        ArrayList<Boolean> result = new ArrayList<>();
 
-        if (follows.size() == 1) {
-            Follow fol =  follows.get(0);
+        if (follow.size() == 1) {
+            Follow fol =  follow.get(0);
             fol.setAccepted(true);
             fol.setAcceptedDate(new Date());
             Index index = new Index.Builder(fol).index(ServerCommandManager.INDEX).type(ServerCommandManager.FOLLOW).build();
             try {
                 ServerCommandManager.getClient().execute(index);
+                result.add(Boolean.TRUE);
             } catch (Exception e) {
-                Log.d("--- Accept ----", "Error accepting follow req.");
+                Log.d("-- ACCEPT FOL REQ --", "Error accepting follow req." + e);
+                result.add(Boolean.FALSE);
             }
         } else {
-            Log.d("--- Accept ---","Could not identify 1 follow request");
+            result.add(Boolean.FALSE);
         }
+
+
+        return result;
+    }
+
+    @Override
+    protected void onPostExecute(ArrayList<Boolean> isSucceded) {
+        super.onPostExecute(isSucceded);
+        handler.handleResult(isSucceded);
     }
 }

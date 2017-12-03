@@ -425,13 +425,20 @@ public class DataManager implements DataManagerAPI {
      * @return true if the acceptance was successful, false if not
      */
     @Override
-    public Boolean acceptRequest(User user) {
-        AcceptFollowRequestTask acc = new AcceptFollowRequestTask(ServerCommandManager.FOLLOW, this.user.getUserID());
-        acc.execute(user.getUserID());
-        rejectRequest(user, new AsyncResultHandler() {
+    public Boolean acceptRequest(final User user) {
+        AcceptFollowRequestTask acc = new AcceptFollowRequestTask(ServerCommandManager.FOLLOW, this.user.getUserID(), new AsyncResultHandler<Boolean>() {
             @Override
-            public void handleResult(ArrayList result) {}
+            public void handleResult(ArrayList<Boolean> result) {
+                if (result.get(0)) {
+                    rejectRequest(user, new AsyncResultHandler() {
+                        @Override
+                        public void handleResult(ArrayList result) {
+                        }
+                    });
+                }
+            }
         });
+        acc.execute(user.getUserID());
         return true;
     }
 

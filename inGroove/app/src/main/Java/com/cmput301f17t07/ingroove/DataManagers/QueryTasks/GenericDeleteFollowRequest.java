@@ -35,7 +35,7 @@ public class GenericDeleteFollowRequest<T> extends AsyncTask<String, Void, Void>
 
     @Override
     protected Void doInBackground(String... ids) {
-        Log.d("--- IN BGN ---", "Trying to delete follow obj.");
+        Log.d("--- GEN DEL FOL ---", "Trying to delete follow obj.");
 
         String query;
 
@@ -73,14 +73,14 @@ public class GenericDeleteFollowRequest<T> extends AsyncTask<String, Void, Void>
                     "}";
         }
 
-        DeleteByQuery del = new DeleteByQuery.Builder(query).addIndex("ingroove").addType(type).build();
+        DeleteByQuery del = new DeleteByQuery.Builder(query).addIndex(ServerCommandManager.INDEX).addType(type).build();
 
         try {
             ServerCommandManager.getClient().execute(del);
-            Log.d("--- IN BGN ---", "Should have deleted follow obj.");
+            Log.d("--- GEN DEL FOL ---", "Should have deleted follow obj.");
         }
         catch (Exception e) {
-            Log.i("Error", "Something went wrong when we tried to communicate with the Elasticsearch server!");
+            Log.i("--- GEN DEL FOL ---", "Error: Something went wrong when we tried to communicate with the Elasticsearch server!" + e);
         }
         return null;
     }
