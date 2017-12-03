@@ -13,6 +13,7 @@ import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GenericDeleteFollowRe
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GenericGetRequest;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
+import com.cmput301f17t07.ingroove.Model.SuperCombinedManagerObjectToManageTheMostRecentHabitForUser;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
@@ -534,7 +535,7 @@ public class DataManager implements DataManagerAPI {
      * @return a list of habits that contain the search query
      */
     @Override
-    public int findHabits(User forUser, AsyncResultHandler handler) {
+    public int findHabits(User forUser, AsyncResultHandler<Habit> handler) {
         habitManager.findHabits(handler, forUser);
         return 0;
     }
@@ -556,6 +557,62 @@ public class DataManager implements DataManagerAPI {
     public int findHabitEvents(User forUser, AsyncResultHandler handler) {
         habitEventManager.findHabitEvents(forUser, handler);
         return 0;
+    }
+
+    /**
+     * returns an Array of SuperCombinedManagerObjectToManageTheMostRecentHabitForUser that holds the Habit and its most recent event for the User
+     *
+     * @param forUser the User to get the array of most recent events
+     * @param handler what to call when the results come back
+     */
+    @Override
+    public void findMostRecentEvent(final User forUser, final AsyncResultHandler handler) {
+        findHabits(forUser, new AsyncResultHandler<Habit>() {
+
+            int total;
+            @Override
+            public void handleResult(ArrayList<Habit> result) {
+                total = result.size();
+                for (final Habit habit: result) {
+                    findHabitEvents(habit, new AsyncResultHandler<HabitEvent>() {
+                        @Override
+                        public void handleResult(ArrayList<HabitEvent> habitEvents) {
+                            HabitEvent mostRecentEvent = habitEvents.get(0);
+                            for (HabitEvent habitEvent : habitEvents) {
+                                if (mostRecentEvent.getDay().compareTo(habitEvent.getDay()) > 0){
+                                    mostRecentEvent = habitEvent;
+                                }
+                            }
+
+                            SuperCombinedManagerObjectToManageTheMostRecentHabitForUser result = new SuperCombinedManagerObjectToManageTheMostRecentHabitForUser(forUser, habit, mostRecentEvent);
+                            ArrayList<SuperCombinedManagerObjectToManageTheMostRecentHabitForUser> temp = new ArrayList<>();
+                            temp.add(result);
+                            finalHandler.handleResult(temp);
+                        }
+                    });
+                }
+            }
+
+            ArrayList<SuperCombinedManagerObjectToManageTheMostRecentHabitForUser> superCombinedManagerObjectToManageTheMostRecentHabitForUserArrayList = new ArrayList<>();
+
+            AsyncResultHandler<SuperCombinedManagerObjectToManageTheMostRecentHabitForUser> finalHandler = new AsyncResultHandler<SuperCombinedManagerObjectToManageTheMostRecentHabitForUser>() {
+                int count = 0;
+
+                @Override
+                public void handleResult(ArrayList<SuperCombinedManagerObjectToManageTheMostRecentHabitForUser> result) {
+                    if (count < total) {
+                        count++;
+                        superCombinedManagerObjectToManageTheMostRecentHabitForUserArrayList.add(result.get(0));
+                    }
+
+                    if (count == total) {
+                        handler.handleResult(superCombinedManagerObjectToManageTheMostRecentHabitForUserArrayList);
+                    }
+                }
+            };
+
+
+        });
     }
 
     /**
