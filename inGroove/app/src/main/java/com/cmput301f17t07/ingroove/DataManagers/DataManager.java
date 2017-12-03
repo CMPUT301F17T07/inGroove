@@ -25,6 +25,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+
 import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
 
@@ -507,8 +511,34 @@ public class DataManager implements DataManagerAPI {
      * @return a list of the users who meet the criteria
      */
     @Override
-    public int findUsers(int minStreak, String query, Boolean alreadyFollowing, AsyncResultHandler handler) {
-        GenericGetRequest<User> get = new GenericGetRequest<>(handler, User.class, "user","name");
+    public int findUsers(final int minStreak, String query, Boolean alreadyFollowing, final AsyncResultHandler handler) {
+        GenericGetRequest<User> get = new GenericGetRequest<>(new AsyncResultHandler<User>() {
+            @Override
+            public void handleResult(ArrayList<User> result) {
+
+                ArrayList<User> aboveMin = new ArrayList<>();
+
+                for (User user : result) {
+                    if (user.getMax_streak() >= minStreak) {
+                        aboveMin.add(user);
+                    }
+                }
+
+                Collections.sort(result, new Comparator<User>() {
+                    @Override
+                    public int compare(User u1, User u2) {
+                        if (u1.getMax_streak() > u2.getMax_streak()) {
+                            return -1;
+                        } else if (u1.getMax_streak() < u2.getMax_streak()) {
+                            return 1;
+                        }
+                        return 0;
+                    }
+                });
+
+                handler.handleResult(aboveMin);
+            }
+        }, User.class, "user", "name");
         get.execute(query);
         return 0;
     }
