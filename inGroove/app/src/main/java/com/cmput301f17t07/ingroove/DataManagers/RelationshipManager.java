@@ -54,18 +54,6 @@ public class RelationshipManager {
 
     }
 
-    public Boolean isUserFollowedBy(int follower, int followee) {
-        // will query elastic search to to see if a user is followed by
-        // the other user
-        return Boolean.TRUE;
-    }
-
-    public Boolean isUserFollowing(int follower, int followee) {
-        // will query elastic search to see if user is following the
-        // other user
-
-        return Boolean.TRUE;
-    }
 
     public int sendFollowRequest(User userRequestingToFollow, User userBeingFollowed) {
         Follow follow = new Follow(userRequestingToFollow.getUserID(), userBeingFollowed.getUserID());
@@ -78,7 +66,4 @@ public class RelationshipManager {
         }
     }
 
-    public void acceptFollowRequest(int follower, int followee) {
-        // accept a follow request
-    }
 }
