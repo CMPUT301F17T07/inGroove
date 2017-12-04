@@ -110,7 +110,6 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
                 {
                     gridViewSimpleAdapter.getFilter().filter(filterByString);
                     habitViewer.setAdapter(gridViewSimpleAdapter);
-                    adapterFilterBool = true;
                 }
                 return false;
             }
@@ -172,6 +171,9 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
      */
     private void gridViewOnClickEvent(View v, int position)
     {
+        searchBox.setQuery("", false);
+        searchBox.clearFocus();
+        adapterFilterBool = true;
         if(habitsLoaded) {
             String habitName = "";
             Object ob = habitViewer.getAdapter().getItem(position);
