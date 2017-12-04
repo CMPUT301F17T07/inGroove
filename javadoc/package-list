@@ -1,0 +1,15 @@
+com.cmput301f17t07.ingroove
+com.cmput301f17t07.ingroove.DataManagers
+com.cmput301f17t07.ingroove.DataManagers.Command
+com.cmput301f17t07.ingroove.DataManagers.QueryTasks
+com.cmput301f17t07.ingroove.EditHabitEvent
+com.cmput301f17t07.ingroove.FollowOtherUsers
+com.cmput301f17t07.ingroove.HabitStats
+com.cmput301f17t07.ingroove.MapActivities
+com.cmput301f17t07.ingroove.Model
+com.cmput301f17t07.ingroove.UserActivityPackage
+com.cmput301f17t07.ingroove.ViewFollowRequests
+com.cmput301f17t07.ingroove.ViewFollowersActivityPackage
+com.cmput301f17t07.ingroove.ViewHabitEvent
+com.cmput301f17t07.ingroove.avehabit
+com.cmput301f17t07.ingroove.navDrawer
