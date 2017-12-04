@@ -19,6 +19,8 @@ import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
+import com.cmput301f17t07.ingroove.ViewHabitEvent.ViewOtherUsersHabitEventActivity;
+import com.cmput301f17t07.ingroove.avehabit.ViewOtherUserHabitActivity;
 import com.cmput301f17t07.ingroove.navDrawer.NavigationDrawerActivity;
 
 import java.text.SimpleDateFormat;
@@ -196,6 +198,9 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
     private void HabitListOnClick(int position, View v)
     {
         // Nothing here for now.  Maybe one day...
+        data.setPassedHabit(HabitList.get(position));
+        Intent intent = new Intent(v.getContext(), ViewOtherUserHabitActivity.class);
+        startActivity(intent);
     }
 
 }
