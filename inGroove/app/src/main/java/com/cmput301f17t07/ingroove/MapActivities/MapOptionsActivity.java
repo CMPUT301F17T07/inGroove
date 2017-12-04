@@ -46,6 +46,9 @@ import java.util.Date;
  * The MapOptionsActivity allows the user to choose different types of maps
  * they might be interested in viewing
  *
+ * Uses code from android example projects.
+ * See https://github.com/googlesamples/android-play-location/tree/master/LocationUpdates
+ *
  * @see MapsActivity
  */
 public class MapOptionsActivity extends NavigationDrawerActivity {
@@ -66,8 +69,9 @@ public class MapOptionsActivity extends NavigationDrawerActivity {
 
     Switch my_loc_switch;
     Switch highlight_near_switch;
-    Button view_my_map;
-    Button view_follower_map;
+    Switch inc_usr_evnts_switch;
+    Switch inc_followed_events_switch;
+    Button view_map_btn;
 
 
     @Override
@@ -81,8 +85,9 @@ public class MapOptionsActivity extends NavigationDrawerActivity {
         // Set up Interface variables
         my_loc_switch = (Switch) findViewById(R.id.mo_center_on_loc_switch);
         highlight_near_switch = (Switch) findViewById(R.id.mo_nearby_switch);
-        view_my_map = (Button) findViewById(R.id.mo_view_my_map_btn);
-        view_follower_map = (Button) findViewById(R.id.mo_view_followed_map_btn);
+        inc_followed_events_switch = (Switch) findViewById(R.id.mo_followee_habs_switch);
+        inc_usr_evnts_switch = (Switch) findViewById(R.id.mo_user_habs_switch);
+        view_map_btn = (Button) findViewById(R.id.mo_view_map_btn);
 
         // Supply on click listeners
         my_loc_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -109,7 +114,7 @@ public class MapOptionsActivity extends NavigationDrawerActivity {
                 }
             }
         });
-        view_my_map.setOnClickListener(new View.OnClickListener() {
+        view_map_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (mLastLocation == null) {
@@ -120,21 +125,7 @@ public class MapOptionsActivity extends NavigationDrawerActivity {
 
                 }
                 Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
-                intent = loadIntent(intent,mLastLocation,new ArrayList<Location>(),false);
-                getApplicationContext().startActivity(intent);
-            }
-        });
-        view_follower_map.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mLastLocation == null) {
-                    // Default location is the university of alberta
-                    mLastLocation = new Location("");
-                    mLastLocation.setLatitude(53.5232);
-                    mLastLocation.setLongitude(-113.5263);
-                }
-                Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
-                intent = loadIntent(intent,mLastLocation,new ArrayList<Location>(),true);
+                intent = loadIntent(intent,mLastLocation,new ArrayList<Location>());
                 getApplicationContext().startActivity(intent);
             }
         });
@@ -167,21 +158,30 @@ public class MapOptionsActivity extends NavigationDrawerActivity {
         }
     }
 
-    private Intent loadIntent(Intent intent, Location user_loc,
-                            ArrayList<Location> loc_array, boolean followers){
+    private Intent loadIntent(Intent intent, Location user_loc, ArrayList<Location> loc_array){
+        // Load up the bundle for the maps activity according to the selected options
         intent.putExtra(MapsActivity.USER_LOC_KEY, user_loc);
         boolean center_on_user = false;
         if(my_loc_switch.isChecked()){
             center_on_user = true;
         }
         intent.putExtra(MapsActivity.CENTER_USER_LOC_KEY, center_on_user);
-        intent.putExtra(MapsActivity.FOLLOWS_KEY, loc_array);
+        intent.putExtra(MapsActivity.LOC_ARRAY_KEY, loc_array);
         boolean highlight_near = false;
         if(highlight_near_switch.isChecked()){
             highlight_near = true;
         }
         intent.putExtra(MapsActivity.HIGHLIGHT_NEAR_KEY, highlight_near);
-        intent.putExtra(MapsActivity.LOC_ARRAY_KEY, followers);
+        boolean followee_habs = false;
+        if (inc_followed_events_switch.isChecked()){
+            followee_habs = true;
+        }
+        intent.putExtra(MapsActivity.FOLLOWEE_HABS_KEY, followee_habs);
+        boolean user_habs = false;
+        if (inc_usr_evnts_switch.isChecked()){
+            user_habs = true;
+        }
+        intent.putExtra(MapsActivity.USERS_HABS_KEY, user_habs);
 
         return intent;
     }

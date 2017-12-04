@@ -21,6 +21,7 @@ import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
 import com.cmput301f17t07.ingroove.navDrawer.NavigationDrawerActivity;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
@@ -53,6 +54,7 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
     TextView email;
     TextView streak_txt;
     TextView start_date_txt;
+    TextView max_streak_txt;
     TextView follow_list_text;
     ListView Habits_list;
     ImageButton edit_button;
@@ -85,6 +87,7 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
             email = (TextView) findViewById(R.id.usr_act_username);
             streak_txt = (TextView) findViewById(R.id.usr_act_streak_txt);
             start_date_txt = (TextView) findViewById(R.id.usr_act_start_date);
+            max_streak_txt = (TextView) findViewById(R.id.usr_act_max_streak_txt);
             follow_list_text = (TextView) findViewById(R.id.usr_act_follow_txt);
             Habits_list = (ListView) findViewById(R.id.usr_act_friends);
             edit_button = (ImageButton) findViewById(R.id.editUserButton);
@@ -109,15 +112,21 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
             user_picture.setImageDrawable(drawable);
 
             // Load the ListView with the habits of the passed in otherUser
-            // HabitList = mData.getHabit(otherUser);
-            HabitList = data.getHabits();
-            LoadListView(HabitList);
+            data.findHabits(otherUser, new AsyncResultHandler<Habit>() {
+                @Override
+                public void handleResult(ArrayList<Habit> result) {
+                    HabitList = result;
+                    LoadListView(HabitList);
+                }
+            });
+
 
             name.setText(otherUser.getName());
             email.setText(otherUser.getEmail());
-            streak_txt.setText("You've had " + Integer.valueOf(otherUser.getStreak()) + " perfect days!");
-            start_date_txt.setText("You've been getting in groove since " + otherUser.getJoinDate().toString());
-
+            streak_txt.setText("They have a streak that is " + Integer.valueOf(otherUser.getStreak()) + " day(s) long.");
+            SimpleDateFormat s_date_format = new SimpleDateFormat("dd MMM yyyy");
+            start_date_txt.setText("They've been getting in groove since " + s_date_format.format(otherUser.getJoinDate()));
+            max_streak_txt.setText("Their max streak was " + otherUser.getStreak() + "day(s) long");
             follow_list_text.setText("Here is a list of their current habits: ");
 
             // deal with click on habits list

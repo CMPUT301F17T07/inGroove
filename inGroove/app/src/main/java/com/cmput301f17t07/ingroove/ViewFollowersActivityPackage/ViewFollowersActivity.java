@@ -13,10 +13,12 @@ import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
 import com.cmput301f17t07.ingroove.Model.Habit;
+import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.Model.SuperCombinedManagerObjectToManageTheMostRecentHabitForUser;
 import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
 import com.cmput301f17t07.ingroove.UserActivityPackage.ViewOtherUserActivity;
+import com.cmput301f17t07.ingroove.ViewHabitEvent.ViewOtherUsersHabitEventActivity;
 import com.cmput301f17t07.ingroove.navDrawer.NavigationDrawerActivity;
 
 import java.util.ArrayList;
@@ -42,7 +44,7 @@ public class ViewFollowersActivity extends NavigationDrawerActivity {
     Button HabitsButton;
     User passed_user;
     ArrayList<User> FollowerList;
-    ArrayList<Habit> habitList;
+    ArrayList<HabitEvent> habitEventList;
     Boolean onFollowers;
 
     java.util.List<Map<String, String>> data;
@@ -137,12 +139,16 @@ public class ViewFollowersActivity extends NavigationDrawerActivity {
             ServerCommunicator.setPassedUser(FollowerList.get(position));
             Intent upcomingIntent = new Intent(v.getContext(), ViewOtherUserActivity.class);
             startActivityForResult(upcomingIntent, 0);
+        } else {
+            ServerCommunicator.setPassedHabitEvent(habitEventList.get(position));
+            Intent upcomingIntent = new Intent(v.getContext(), ViewOtherUsersHabitEventActivity.class);
+            startActivity(upcomingIntent);
         }
     }
 
     private void HabitsButtonOnClick(ArrayList<User> ListToProcess)
     {
-        habitList = new ArrayList<Habit>();
+        habitEventList = new ArrayList<HabitEvent>();
         data = new ArrayList<Map<String, String>>();
 
         onFollowers = false;
@@ -166,11 +172,13 @@ public class ViewFollowersActivity extends NavigationDrawerActivity {
             ServerCommunicator.findMostRecentEvent(u, new AsyncResultHandler<SuperCombinedManagerObjectToManageTheMostRecentHabitForUser>() {
                 @Override
                 public void handleResult(ArrayList<SuperCombinedManagerObjectToManageTheMostRecentHabitForUser> result) {
+
                     for (SuperCombinedManagerObjectToManageTheMostRecentHabitForUser s : result){
                         Map<String, String> datum = new HashMap<String, String>(2);
                         datum.put("title", s.habitEvent.getName());
                         datum.put("date", "Habit: " + s.habit.getName() + " by " + s.user.getName());
                         data.add(datum);
+                        habitEventList.add(s.habitEvent);
                     }
                     habitAdapter.notifyDataSetChanged();
                 }
@@ -184,6 +192,7 @@ public class ViewFollowersActivity extends NavigationDrawerActivity {
     private void FollowerButtonOnClick()
     {
         onFollowers = true;
+        fillFollowersListView(new ArrayList<User>());
         ServerCommunicator.getWhoThisUserFollows(passed_user, new AsyncResultHandler<User>() {
             @Override
             public void handleResult(ArrayList<User> result) {

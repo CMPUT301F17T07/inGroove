@@ -26,6 +26,9 @@ import java.util.ArrayList;
  * [Boundary Class]
  * Displays a map of habit events on screen
  *
+ * Uses code from android example projects.
+ * See https://github.com/googlesamples/android-play-location/tree/master/LocationUpdates
+ *
  * @see MapOptionsActivity
  * @see HabitEvent
  * @see DataManagerAPI
@@ -39,12 +42,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public static final String CENTER_USER_LOC_KEY = "if centering on user location";
     public static final String LOC_ARRAY_KEY = "array of locations";
     public static final String HIGHLIGHT_NEAR_KEY = "highlight nearby locations";
-    public static final String FOLLOWS_KEY = "if the locations are yours or your followers";
+    public static final String FOLLOWEE_HABS_KEY = "if the map should include habits from those you follow";
+    public static final String USERS_HABS_KEY = "if the map should include your habits";
 
     // Represents the google map fragment
     private GoogleMap mMap = null;
     private boolean center_on_user;
     private boolean highlight_near;
+    private boolean show_followee_habs;
+    private boolean show_usr_habs;
 
     //Represents a geographical location.
     protected Location mLastLocation;
@@ -61,6 +67,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         center_on_user = getIntent().getExtras().getBoolean(CENTER_USER_LOC_KEY, false);
         highlight_near = getIntent().getExtras().getBoolean(HIGHLIGHT_NEAR_KEY, false);
+        show_followee_habs = getIntent().getExtras().getBoolean(FOLLOWEE_HABS_KEY, true);
+        show_usr_habs = getIntent().getExtras().getBoolean(USERS_HABS_KEY, true);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -90,7 +98,54 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // 5km of the user from the user him/her self.
         ArrayList<Habit> habits = data.getHabits();
 
-        Log.d("--MAP--", "Test");
+        if(show_followee_habs){
+            add_followee_habit_markers();
+        }
+
+        if(show_usr_habs){
+            add_user_habit_markers();
+        }
+
+
+        // Add the user's own location as a blue marker if available
+        if(center_on_user){
+            LatLng userLoc = new LatLng(mLastLocation.getLatitude(),mLastLocation.getLongitude());
+            mMap.addMarker(new MarkerOptions()
+                    .position(userLoc)
+                    .title("Your location")
+                    .icon(BitmapDescriptorFactory
+                            .defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLoc, 10));
+        }
+
+    }
+
+    private void add_user_habit_markers() {
+        ArrayList<HabitEvent> my_events = data.getHabitEvents();
+        // Add all User events Markers
+        for (HabitEvent e : my_events){
+            LatLng loc = e.getLocation();
+            if (loc != null){
+                if (eventNear(e)){
+                    mMap.addMarker(new MarkerOptions()
+                            .position(loc)
+                            .title(e.getName())
+                            .icon(BitmapDescriptorFactory
+                                    .defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                } else {
+                    mMap.addMarker(new MarkerOptions()
+                            .position(loc)
+                            .title(e.getName())
+                            .icon(BitmapDescriptorFactory
+                                    .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                }
+
+            }
+
+        }
+    }
+
+    private void add_followee_habit_markers() {
         // Get all the users this user follows
         data.getWhoThisUserFollows(data.getUser(), new AsyncResultHandler<User>() {
             @Override
@@ -112,56 +167,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                                 .position(loc)
                                                 .title(e.getName())
                                                 .icon(BitmapDescriptorFactory
-                                                        .defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+                                                        .defaultMarker(BitmapDescriptorFactory.HUE_RED)));
                                     } else {
                                         mMap.addMarker(new MarkerOptions()
                                                 .position(loc)
-                                                .title(e.getName()));
+                                                .title(e.getName())
+                                                .icon(BitmapDescriptorFactory
+                                                        .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
                                     }
-
                                 }
                             }
-
                         }
                     });
                 }
             }
         });
-
-        ArrayList<HabitEvent> my_events = data.getHabitEvents();
-
-
-        // Add all User events Markers
-        for (HabitEvent e : my_events){
-            LatLng loc = e.getLocation();
-            if (loc != null){
-                if (eventNear(e)){
-                    mMap.addMarker(new MarkerOptions()
-                            .position(loc)
-                            .title(e.getName())
-                            .icon(BitmapDescriptorFactory
-                                    .defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
-                } else {
-                    mMap.addMarker(new MarkerOptions()
-                            .position(loc)
-                            .title(e.getName()));
-                }
-
-            }
-
-        }
-
-        // Add the user's own location as a blue marker if available
-        if(center_on_user){
-            LatLng userLoc = new LatLng(mLastLocation.getLatitude(),mLastLocation.getLongitude());
-            mMap.addMarker(new MarkerOptions()
-                    .position(userLoc)
-                    .title("Your location")
-                    .icon(BitmapDescriptorFactory
-                            .defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLoc, 10));
-        }
-
     }
 
     private boolean eventNear(HabitEvent e){
@@ -178,6 +198,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         Math.sin(dLng/2) * Math.sin(dLng/2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
         float dist = (float) (earthRadius * c);
+        Log.d("---DISTANCE CALCULATION---", "Distance was computed as " + dist);
 
         if (dist <= 5000){
             return true;

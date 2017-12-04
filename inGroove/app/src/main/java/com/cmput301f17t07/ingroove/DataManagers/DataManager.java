@@ -78,6 +78,7 @@ public class DataManager implements DataManagerAPI {
      * @return the singleton instance of DataManager
      */
     public static DataManager getInstance(){
+        ServerCommandManager.getInstance().execute();
         return instance;
     }
 
