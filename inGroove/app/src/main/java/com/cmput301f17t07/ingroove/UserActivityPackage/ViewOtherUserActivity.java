@@ -54,6 +54,7 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
     TextView email;
     TextView streak_txt;
     TextView start_date_txt;
+    TextView max_streak_txt;
     TextView follow_list_text;
     ListView Habits_list;
     ImageButton edit_button;
@@ -86,6 +87,7 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
             email = (TextView) findViewById(R.id.usr_act_username);
             streak_txt = (TextView) findViewById(R.id.usr_act_streak_txt);
             start_date_txt = (TextView) findViewById(R.id.usr_act_start_date);
+            max_streak_txt = (TextView) findViewById(R.id.usr_act_max_streak_txt);
             follow_list_text = (TextView) findViewById(R.id.usr_act_follow_txt);
             Habits_list = (ListView) findViewById(R.id.usr_act_friends);
             edit_button = (ImageButton) findViewById(R.id.editUserButton);
@@ -110,17 +112,21 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
             user_picture.setImageDrawable(drawable);
 
             // Load the ListView with the habits of the passed in otherUser
-            // HabitList = mData.getHabit(otherUser);
-            HabitList = data.getHabits();
-            LoadListView(HabitList);
+            data.findHabits(otherUser, new AsyncResultHandler<Habit>() {
+                @Override
+                public void handleResult(ArrayList<Habit> result) {
+                    HabitList = result;
+                    LoadListView(HabitList);
+                }
+            });
+
 
             name.setText(otherUser.getName());
             email.setText(otherUser.getEmail());
             streak_txt.setText("They have a streak that is " + Integer.valueOf(otherUser.getStreak()) + " day(s) long.");
             SimpleDateFormat s_date_format = new SimpleDateFormat("dd MMM yyyy");
             start_date_txt.setText("They've been getting in groove since " + s_date_format.format(otherUser.getJoinDate()));
-
-
+            max_streak_txt.setText("Their max streak was " + otherUser.getStreak() + "day(s) long");
             follow_list_text.setText("Here is a list of their current habits: ");
 
             // deal with click on habits list
@@ -133,6 +139,7 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
 
             // deal with click on unfollow button
             unfollow_button.setOnClickListener(new View.OnClickListener() {
+                @Override
                 public void onClick(View view) {
                     data.unFollow(otherUser);
                     unfollow_button.setVisibility(View.INVISIBLE);
