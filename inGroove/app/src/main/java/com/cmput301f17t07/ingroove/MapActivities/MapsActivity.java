@@ -49,6 +49,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap = null;
     private boolean center_on_user;
     private boolean highlight_near;
+    private boolean show_followee_habs;
+    private boolean show_usr_habs;
 
     //Represents a geographical location.
     protected Location mLastLocation;
@@ -65,6 +67,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         center_on_user = getIntent().getExtras().getBoolean(CENTER_USER_LOC_KEY, false);
         highlight_near = getIntent().getExtras().getBoolean(HIGHLIGHT_NEAR_KEY, false);
+        show_followee_habs = getIntent().getExtras().getBoolean(FOLLOWEE_HABS_KEY, true);
+        show_usr_habs = getIntent().getExtras().getBoolean(USERS_HABS_KEY, true);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -94,64 +98,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // 5km of the user from the user him/her self.
         ArrayList<Habit> habits = data.getHabits();
 
-        Log.d("--MAP--", "Test");
-        // Get all the users this user follows
-        data.getWhoThisUserFollows(data.getUser(), new AsyncResultHandler<User>() {
-            @Override
-            public void handleResult(ArrayList<User> result) {
-            // For each one
-            Log.d("--MAP--", "Got "+ result.size() + " followers");
-            for(User u : result){
-                Log.d("---MAP---", "For user " + u.getName()+ " with id " + u.getUserID());
-                // Get all their habit events with locations
-                // Add those locations to the map
-                data.findHabitEvents(u, new AsyncResultHandler<HabitEvent>() {
-                    @Override
-                    public void handleResult(ArrayList<HabitEvent> result) {
-                    for (HabitEvent e : result){
-                        LatLng loc = e.getLocation();
-                        if (loc != null){
-                            if(eventNear(e)){
-                                mMap.addMarker(new MarkerOptions()
-                                        .position(loc)
-                                        .title(e.getName())
-                                        .icon(BitmapDescriptorFactory
-                                                .defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
-                            } else {
-                                mMap.addMarker(new MarkerOptions()
-                                        .position(loc)
-                                        .title(e.getName()));
-                            }
-                        }
-                    }
-                    }
-                });
-            }
-            }
-        });
-
-        ArrayList<HabitEvent> my_events = data.getHabitEvents();
-
-
-        // Add all User events Markers
-        for (HabitEvent e : my_events){
-            LatLng loc = e.getLocation();
-            if (loc != null){
-                if (eventNear(e)){
-                    mMap.addMarker(new MarkerOptions()
-                            .position(loc)
-                            .title(e.getName())
-                            .icon(BitmapDescriptorFactory
-                                    .defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
-                } else {
-                    mMap.addMarker(new MarkerOptions()
-                            .position(loc)
-                            .title(e.getName()));
-                }
-
-            }
-
+        if(show_followee_habs){
+            add_followee_habit_markers();
         }
+
+        if(show_usr_habs){
+            add_user_habit_markers();
+        }
+
 
         // Add the user's own location as a blue marker if available
         if(center_on_user){
@@ -164,6 +118,70 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLoc, 10));
         }
 
+    }
+
+    private void add_user_habit_markers() {
+        ArrayList<HabitEvent> my_events = data.getHabitEvents();
+        // Add all User events Markers
+        for (HabitEvent e : my_events){
+            LatLng loc = e.getLocation();
+            if (loc != null){
+                if (eventNear(e)){
+                    mMap.addMarker(new MarkerOptions()
+                            .position(loc)
+                            .title(e.getName())
+                            .icon(BitmapDescriptorFactory
+                                    .defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                } else {
+                    mMap.addMarker(new MarkerOptions()
+                            .position(loc)
+                            .title(e.getName())
+                            .icon(BitmapDescriptorFactory
+                                    .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                }
+
+            }
+
+        }
+    }
+
+    private void add_followee_habit_markers() {
+        // Get all the users this user follows
+        data.getWhoThisUserFollows(data.getUser(), new AsyncResultHandler<User>() {
+            @Override
+            public void handleResult(ArrayList<User> result) {
+                // For each one
+                Log.d("--MAP--", "Got "+ result.size() + " followers");
+                for(User u : result){
+                    Log.d("---MAP---", "For user " + u.getName()+ " with id " + u.getUserID());
+                    // Get all their habit events with locations
+                    // Add those locations to the map
+                    data.findHabitEvents(u, new AsyncResultHandler<HabitEvent>() {
+                        @Override
+                        public void handleResult(ArrayList<HabitEvent> result) {
+                            for (HabitEvent e : result){
+                                LatLng loc = e.getLocation();
+                                if (loc != null){
+                                    if(eventNear(e)){
+                                        mMap.addMarker(new MarkerOptions()
+                                                .position(loc)
+                                                .title(e.getName())
+                                                .icon(BitmapDescriptorFactory
+                                                        .defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                                    } else {
+                                        mMap.addMarker(new MarkerOptions()
+                                                .position(loc)
+                                                .title(e.getName())
+                                                .icon(BitmapDescriptorFactory
+                                                        .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+        });
     }
 
     private boolean eventNear(HabitEvent e){
@@ -180,6 +198,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         Math.sin(dLng/2) * Math.sin(dLng/2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
         float dist = (float) (earthRadius * c);
+        Log.d("---DISTANCE CALCULATION---", "Distance was computed as " + dist);
 
         if (dist <= 5000){
             return true;
