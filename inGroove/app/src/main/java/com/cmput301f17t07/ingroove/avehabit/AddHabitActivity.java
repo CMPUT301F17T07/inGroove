@@ -17,6 +17,8 @@ import com.cmput301f17t07.ingroove.DatePickerFragment;
 import com.cmput301f17t07.ingroove.Model.Day;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.R;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -71,7 +73,8 @@ public class AddHabitActivity extends AppCompatActivity implements DatePickerDia
 
         // Set up a default date
         start_date = new Date();
-        date_text.setText(start_date.toString());
+        SimpleDateFormat s_date_format = new SimpleDateFormat("dd MMM yyyy");
+        date_text.setText(s_date_format.format(start_date));
 
         // Get the buttons to add on click listeners
         save_button = (Button) findViewById(R.id.add_save_btn);
@@ -106,7 +109,9 @@ public class AddHabitActivity extends AppCompatActivity implements DatePickerDia
     public void onDateSet(DatePicker view, int year, int month, int day) {
         // The date picker fragment has returned a date
         start_date = new Date(year, month, day);
-        date_text.setText(start_date.toString());
+        SimpleDateFormat s_date_format = new SimpleDateFormat("dd MMM yyyy");
+        date_text.setText(s_date_format.format(start_date));
+
     }
 
     /**

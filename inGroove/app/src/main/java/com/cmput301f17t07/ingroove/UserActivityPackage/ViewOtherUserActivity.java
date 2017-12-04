@@ -21,6 +21,7 @@ import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
 import com.cmput301f17t07.ingroove.navDrawer.NavigationDrawerActivity;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
@@ -115,8 +116,10 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
 
             name.setText(otherUser.getName());
             email.setText(otherUser.getEmail());
-            streak_txt.setText("You've had " + Integer.valueOf(otherUser.getStreak()) + " perfect days!");
-            start_date_txt.setText("You've been getting in groove since " + otherUser.getJoinDate().toString());
+            streak_txt.setText("They have a streak that is " + Integer.valueOf(otherUser.getStreak()) + " day(s) long.");
+            SimpleDateFormat s_date_format = new SimpleDateFormat("dd MMM yyyy");
+            start_date_txt.setText("They've been getting in groove since " + s_date_format.format(otherUser.getJoinDate()));
+
 
             follow_list_text.setText("Here is a list of their current habits: ");
 
@@ -130,7 +133,6 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
 
             // deal with click on unfollow button
             unfollow_button.setOnClickListener(new View.OnClickListener() {
-                @Override
                 public void onClick(View view) {
                     data.unFollow(otherUser);
                     unfollow_button.setVisibility(View.INVISIBLE);
