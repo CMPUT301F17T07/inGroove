@@ -83,19 +83,18 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-
                     <TextView
-                        android:id="@+id/mo_view_my_map_text"
+                        android:id="@+id/mo_followee_habs_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="View a map of all your habit events" />
+                        android:text="Show events from those users that I follow" />
 
-                    <Button
-                        android:id="@+id/mo_view_my_map_btn"
+                    <Switch
+                        android:id="@+id/mo_followee_habs_switch"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="View Map" />
+                        android:text="Switch" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -103,20 +102,18 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-
                     <TextView
-                        android:id="@+id/mo_view_followed_map_text"
+                        android:id="@+id/mo_user_habs_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="View a map of events from those you follow" />
+                        android:text="Show my own events" />
 
-                    <Button
-                        android:id="@+id/mo_view_followed_map_btn"
+                    <Switch
+                        android:id="@+id/mo_user_habs_switch"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="View Map" />
-
+                        android:text="Switch" />
                 </LinearLayout>
 
                 <Space
@@ -127,6 +124,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="On the map, your location is shown in blue (if available), your habits are shown in yellow, and your followed habits are shown in red. Normal events are shown as circles, and highlighted events are stars." />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp" />
+
+                <Button
+                    android:id="@+id/mo_view_map_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="View Map" />
+
             </LinearLayout>
 
         </android.support.constraint.ConstraintLayout>

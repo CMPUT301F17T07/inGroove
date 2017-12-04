@@ -42,7 +42,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public static final String CENTER_USER_LOC_KEY = "if centering on user location";
     public static final String LOC_ARRAY_KEY = "array of locations";
     public static final String HIGHLIGHT_NEAR_KEY = "highlight nearby locations";
-    public static final String FOLLOWS_KEY = "if the locations are yours or your followers";
+    public static final String FOLLOWEE_HABS_KEY = "if the map should include habits from those you follow";
+    public static final String USERS_HABS_KEY = "if the map should include your habits";
 
     // Represents the google map fragment
     private GoogleMap mMap = null;
