@@ -98,9 +98,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // 5km of the user from the user him/her self.
         ArrayList<Habit> habits = data.getHabits();
 
-        add_followee_habit_markers();
+        if(show_followee_habs){
+            add_followee_habit_markers();
+        }
 
-        add_user_habit_markers();
+        if(show_usr_habs){
+            add_user_habit_markers();
+        }
+
 
         // Add the user's own location as a blue marker if available
         if(center_on_user){
@@ -126,11 +131,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             .position(loc)
                             .title(e.getName())
                             .icon(BitmapDescriptorFactory
-                                    .defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+                                    .defaultMarker(BitmapDescriptorFactory.HUE_RED)));
                 } else {
                     mMap.addMarker(new MarkerOptions()
                             .position(loc)
-                            .title(e.getName()));
+                            .title(e.getName())
+                            .icon(BitmapDescriptorFactory
+                                    .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
                 }
 
             }
@@ -160,11 +167,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                                 .position(loc)
                                                 .title(e.getName())
                                                 .icon(BitmapDescriptorFactory
-                                                        .defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+                                                        .defaultMarker(BitmapDescriptorFactory.HUE_RED)));
                                     } else {
                                         mMap.addMarker(new MarkerOptions()
                                                 .position(loc)
-                                                .title(e.getName()));
+                                                .title(e.getName())
+                                                .icon(BitmapDescriptorFactory
+                                                        .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
                                     }
                                 }
                             }
@@ -189,6 +198,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         Math.sin(dLng/2) * Math.sin(dLng/2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
         float dist = (float) (earthRadius * c);
+        Log.d("---DISTANCE CALCULATION---", "Distance was computed as " + dist);
 
         if (dist <= 5000){
             return true;
