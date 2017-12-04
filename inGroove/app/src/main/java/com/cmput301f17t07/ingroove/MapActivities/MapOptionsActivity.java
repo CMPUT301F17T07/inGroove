@@ -46,6 +46,9 @@ import java.util.Date;
  * The MapOptionsActivity allows the user to choose different types of maps
  * they might be interested in viewing
  *
+ * Uses code from android example projects.
+ * See https://github.com/googlesamples/android-play-location/tree/master/LocationUpdates
+ *
  * @see MapsActivity
  */
 public class MapOptionsActivity extends NavigationDrawerActivity {

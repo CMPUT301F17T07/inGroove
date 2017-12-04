@@ -26,6 +26,9 @@ import java.util.ArrayList;
  * [Boundary Class]
  * Displays a map of habit events on screen
  *
+ * Uses code from android example projects.
+ * See https://github.com/googlesamples/android-play-location/tree/master/LocationUpdates
+ *
  * @see MapOptionsActivity
  * @see HabitEvent
  * @see DataManagerAPI
