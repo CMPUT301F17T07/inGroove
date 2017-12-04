@@ -2,14 +2,14 @@
 package com.cmput301f17t07.ingroove;
 
 import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.SearchView;
 import android.widget.SimpleAdapter;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
@@ -23,10 +23,8 @@ import com.cmput301f17t07.ingroove.avehabit.AddHabitActivity;
 import com.cmput301f17t07.ingroove.avehabit.ViewHabitActivity;
 import com.cmput301f17t07.ingroove.navDrawer.NavigationDrawerActivity;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -34,47 +32,87 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * [Boundary]
+ * This activity is the main page of the app. It displays the users habits as well as passed
+ * habits completed, presented by their habit events.
+ *
+ * @see ViewHabitEventActivity
+ * @see AddHabitActivity
+ * @see ViewHabitActivity
+ * @see DataManager
+ * @see DataManagerAPI
+ */
 public class CurrentHabitsActivity extends NavigationDrawerActivity{
 
+    // Initialize variables.
     DataManagerAPI ServerCommunicator9000 = DataManager.getInstance();
-    //DataManagerAPI ServerCommunicator9000 = new MockDataManager().getInstance();
+    private User currentUser;
 
     private GridView habitViewer;
     ArrayAdapter<String> gridViewArrayAdapter;
+    SimpleAdapter gridViewSimpleAdapter;
 
     private Button b_upcoming;
     private Button b_finished;
     private Button b_listHabits;
     private FloatingActionButton b_addHabit;
 
+    private SearchView searchBox;
+
+    //These two lists are used to hold the users habits and habit events.
     private ArrayList<Habit> HabitHolder;
     private ArrayList<HabitEvent> HabitEventHolder;
     //This bool is used to determine if we edit Habits or Habit Events.
     private boolean habitsLoaded;
-
+    //This bool is used to determine which adapter is used for the filter.
+    private boolean adapterFilterBool;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_habits);
         super.onCreateDrawer();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         habitsLoaded = true;
-
-        //From the HabitManager, get a list of todays habits
-        //Ex: HabitHolder = HabitManager.getToday(userID);
-        //This code only uses the MockDataManager.  So it will need to be changed later.  In the meantime it should populate HabitHolder with some habits that will be displayed.
-
+        adapterFilterBool = true;
         HabitEventHolder = new ArrayList<HabitEvent>();
 
-        //Initilize the GridView
+        currentUser = ServerCommunicator9000.getUser();
+
+        //Initialize the GridView
         habitViewer = (GridView) findViewById(R.id.HabitViewer);
 
         habitViewer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 gridViewOnClickEvent(v, position);
+            }
+        });
+
+        // Initialize the SearchView and set the on query listener.
+        searchBox = (SearchView) findViewById(R.id.SearchHabitsBox);
+        searchBox.setVisibility(View.VISIBLE);
+        searchBox.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String filterByString) {
+                if (adapterFilterBool) {
+                    gridViewArrayAdapter.getFilter().filter(filterByString);
+                    habitViewer.setAdapter(gridViewArrayAdapter);
+                }
+                else
+                {
+                    gridViewSimpleAdapter.getFilter().filter(filterByString);
+                    habitViewer.setAdapter(gridViewSimpleAdapter);
+                    adapterFilterBool = true;
+                }
+                return false;
             }
         });
 
@@ -87,6 +125,9 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
         b_upcoming.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //Habit Manager: Grab Future Habits
+                //searchBox.setVisibility(View.INVISIBLE);
+                searchBox.setQuery("", false);
+                searchBox.clearFocus();
                 upcomingButtonClick();
             }
         });
@@ -94,12 +135,17 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
         b_finished.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //Habit Manager: Grab Past Habit events
+                //searchBox.setVisibility(View.INVISIBLE);
+                searchBox.setQuery("", false);
+                searchBox.clearFocus();
                 finishedButtonClick();
             }
         });
 
         b_addHabit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                searchBox.setQuery("", false);
+                searchBox.clearFocus();
                 Intent upcomingIntent = new Intent(v.getContext(), AddHabitActivity.class);
                 startActivityForResult(upcomingIntent, 0);
             }
@@ -107,7 +153,12 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
 
         b_listHabits.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                HabitHolder = ServerCommunicator9000.getHabit(new User("T-Rex Joe", "trexjoe@hotmail.com"));
+                searchBox.setVisibility(View.VISIBLE);
+                searchBox.setQuery("", false);
+                searchBox.clearFocus();
+                habitsLoaded = true;
+                adapterFilterBool = true;
+                HabitHolder = ServerCommunicator9000.getHabits();
                 PopulateGridView_Habits(HabitHolder);
             }
         });
@@ -115,7 +166,7 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
 
     /**
      * This method handles the on click event for the gridview.
-     * It behaves differently based on wheter the user is looking at habits or habit events.
+     * It behaves differently based on whether the user is looking at habits or habit events.
      * @param position: The position in either the HabitHolder or HabitEventHolder array list we are looking in.
      * @param v: The view needed to start a new activity.
      */
@@ -135,12 +186,13 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
             else
                 return;
             Intent upcomingIntent = new Intent(v.getContext(), ViewHabitActivity.class);
-            upcomingIntent.putExtra(ViewHabitActivity.habit_to_view_key, findHabit(habitName));
+            ServerCommunicator9000.setPassedHabit(findHabit(habitName));
             startActivityForResult(upcomingIntent, 0);
         }
         else {
+            Object habitEvent = habitViewer.getItemAtPosition(position);
             Intent upcomingIntent = new Intent(v.getContext(), ViewHabitEventActivity.class);
-            upcomingIntent.putExtra(ViewHabitEventActivity.he_key, HabitEventHolder.get(position));
+            ServerCommunicator9000.setPassedHabitEvent(findHabitEvent(habitEvent));
             startActivityForResult(upcomingIntent, 0);
             habitsLoaded = true;
         }
@@ -161,6 +213,24 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
     }
 
     /**
+     *This method is used to find the habitEvent given the HabitEvents name and date.
+     */
+    private HabitEvent findHabitEvent(Object thing)
+    {
+        Map<String, String> habitEvent = (Map<String, String>)thing;
+        for (HabitEvent he : HabitEventHolder)
+        {
+            if(he.getDay().toString().equals(habitEvent.get("date")))
+            {
+                if(he.getName().equals(habitEvent.get("title"))) {
+                    return he;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
      * This method is used when the Finished button is clicked.
      * at the moment it will grab the first 20 habit events related to habits and display them
      * onto the gridview.
@@ -169,6 +239,7 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
     {
         //ArrayList<HabitEvent> he_list = ServerCommunicator9000.getHabitEvents();
         habitsLoaded = false;
+        adapterFilterBool = false;
         HabitEventHolder = new ArrayList<>();
         int i = 1;
         for (Habit a : HabitHolder) {
@@ -185,6 +256,13 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
             if (i > 20)
                 break;
         }
+        Collections.sort(HabitEventHolder, new Comparator<HabitEvent>() {
+            @Override
+            public int compare(HabitEvent o1, HabitEvent o2) {
+                return o2.getDay().compareTo(o1.getDay());
+            }
+        });
+
         PopulateGridView_HabitEvents(HabitEventHolder);
     }
 
@@ -193,15 +271,21 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
      */
     private void upcomingButtonClick() {
         habitsLoaded = true;
-        habitViewer.setAdapter(sortHabitsByDay(HabitHolder));
+        adapterFilterBool = false;
+        gridViewSimpleAdapter = sortHabitsByDay(HabitHolder);
+        fillGridView(gridViewSimpleAdapter);
     }
 
     /**
      * A selection sort for the habits based on dates.  Used for the upcoming button.
+     * Creates a list of habits showing what day of the week they need to be done, chonologically.
+     * It only shows the habits that need to be compeleted in the following week.
+     * Returns an adapter that can be used to update a listview/gridview.
      * @param HabitList
      */
     private SimpleAdapter sortHabitsByDay(ArrayList<Habit> HabitList)
     {
+        //Initilize variables
         ArrayList<String> Monday = new ArrayList<String>();
         ArrayList<String> Tuesday = new ArrayList<String>();
         ArrayList<String> Wednesday = new ArrayList<String>();
@@ -316,14 +400,22 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
      * @param HabitEventList: A list of habit events that will be added to the gridview.
      */
     private void PopulateGridView_HabitEvents(ArrayList<HabitEvent> HabitEventList) {
-        ArrayList<String> gv_GridItems = new ArrayList<String>();
+        //ArrayList<String> gv_GridItems = new ArrayList<String>();
+        List<Map<String, String>> data = new ArrayList<Map<String, String>>();
         for (int i = 0; i < HabitEventList.size(); i++) {
-            if(HabitEventList.get(i).getName() != null && !HabitEventList.get(i).getName().isEmpty())
-                gv_GridItems.add(HabitEventList.get(i).getName());
-            else
-                gv_GridItems.add("Nameless HabitEvent");
+
+            Map<String, String> datum = new HashMap<String, String>(2);
+            datum.put("title", HabitEventList.get(i).getName());
+            datum.put("date", HabitEventList.get(i).getDay().toString());
+            data.add(datum);
         }
-        fillGridView(gv_GridItems);
+
+        SimpleAdapter adapter = new SimpleAdapter(this, data,
+                android.R.layout.simple_list_item_2,
+                new String[] {"title", "date"},
+                new int[] {android.R.id.text1,
+                        android.R.id.text2});
+        fillGridView((SimpleAdapter) adapter);
     }
 
     /**
@@ -338,13 +430,23 @@ public class CurrentHabitsActivity extends NavigationDrawerActivity{
     }
 
     /**
+     * This method populates the gridview with a pre-assembled adapter.
+     * @param adapter
+     */
+    private void fillGridView(SimpleAdapter adapter)
+    {
+        gridViewSimpleAdapter = adapter;
+        habitViewer.setAdapter(adapter);
+    }
+
+    /**
      * Override the onStart method so that it will re-populate the gridview.
      */
     @Override
     public void onStart(){
         super.onStart();
 
-        HabitHolder = ServerCommunicator9000.getHabit(new User("T-Rex Joe", "trexjoe@hotmail.com"));
+        HabitHolder = ServerCommunicator9000.getHabits();
         PopulateGridView_Habits(HabitHolder);
     }
 }

@@ -25,6 +25,13 @@
     <string name="save_habit">Save</string>
     <string name="delete_habit">Delete</string>
     <string name="cancel_habit">Cancel</string>
+    <string name="pick_habit_start">Choose Start Date</string>
+
+    // Location strings
+    <string name="permission_rationale">Without these permissions map features will not work</string>
+    <string name="permission_denied_explanation">We need access to your location to enable some features</string>
+    <string name="settings">SETTINGS</string>
+
 
     // main body
     <string name="habit_name_hint">Habit Name</string>
@@ -53,6 +60,16 @@
     <string name="reject_request">Reject the request by this user to follow you</string>
     <string name="send_request">Send a request to follow this user</string>
     <string name="streak_image">Picture to describe the users streak level</string>
+    <string name="view_he_del_btn">Delete this habit event</string>
+    <string name="view_he_edit_btn">Edit this habit event</string>
+    <string name="followName">Name:</string>
+    <string name="followStreak">Streak:</string>
+    <string name="followFindOtherUsers">Find Other Users:</string>
+
+    /* Sign in Alert Dialog */
+    <string name="signup_welcome">Welcome!</string>
+    <string name="signup_explanation">Please fill in your name and email to get started with inGroove. If you leave the fields blank, an empty profile will be set up which can be edited later on from within the app.</string>
+    <string name="signup_dismiss">Okay</string>
 
 
 </resources>

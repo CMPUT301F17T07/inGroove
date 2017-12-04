@@ -22,14 +22,12 @@
         <activity android:name=".avehabit.AddViewEditHabitActivity" />
         <activity android:name=".HabitStats.HabitStatsActivity" />
         <activity android:name=".HabitEventsActivity" />
-        <activity android:name=".ViewMapActivity" />
         <activity android:name=".FollowOtherUsers.FollowActivity" />
         <activity android:name=".ViewFollowRequests.FollowRequestsActivity" />
         <activity android:name=".UserActivityPackage.UserActivity" />
         <activity android:name=".UserActivityPackage.EditUserActivity" />
         <activity android:name=".ViewFollowersActivityPackage.ViewFollowersActivity" />
         <activity android:name=".ViewHabitEvent.ViewHabitEventActivity" />
-        <activity android:name=".FollowRequestsActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -50,14 +48,17 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MapsActivity"
+            android:name=".MapActivities.MapsActivity"
             android:label="@string/title_activity_maps" />
         <activity android:name=".BackEndTesting" />
         <activity android:name=".DataManagerTestingActivity" />
         <activity android:name=".avehabit.AddHabitActivity" />
         <activity android:name=".avehabit.EditHabitActivity" />
         <activity android:name=".avehabit.ViewHabitActivity" />
-        <activity android:name=".EditHabitEvent.EditHabitEventActivity"></activity>
+        <activity android:name=".EditHabitEvent.EditHabitEventActivity" />
+        <activity android:name=".UserActivityPackage.ViewOtherUserActivity" />
+        <activity android:name=".SignupActivity" />
+        <activity android:name=".MapActivities.MapOptionsActivity"></activity>
     </application>
 
 </manifest>

@@ -4,6 +4,7 @@ import com.cmput301f17t07.ingroove.DataManagers.HabitEventManager;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
 
 /**
+ * [Command Class]
  * AddHabitEvent command subclasses ServerCommmand and represents a command object containing all
  * the data for a new habitEvent to be added for a particular user. It also contains a reference to
  * its receiver which does the work of adding the habitEvent when execute() is called.
@@ -14,10 +15,12 @@ import com.cmput301f17t07.ingroove.Model.HabitEvent;
  * Created by Christopher Walter on 2017-11-09.
  */
 
-public class AddHabitEventCommand implements ServerCommand {
+public class AddHabitEventCommand extends ServerCommand {
 
     private HabitEvent habitEvent;
     private Boolean isReversible = false;
+    private int orderAdded;
+
 
     /**
      *
@@ -28,6 +31,14 @@ public class AddHabitEventCommand implements ServerCommand {
      */
     public AddHabitEventCommand(HabitEvent habitEvent) {
         this.habitEvent = habitEvent;
+        this.orderAdded = ServerCommandManager.getInstance().getTopIndex();
+    }
+
+    /**
+     * @return its position on the command queue
+     */
+    public int getOrderAdded() {
+        return this.orderAdded;
     }
 
     /**
@@ -65,5 +76,15 @@ public class AddHabitEventCommand implements ServerCommand {
     @Override
     public Boolean isUndoable() {
         return isReversible;
+    }
+
+    /**
+     * String describing the command
+     *
+     * @return description
+     */
+    @Override
+    public String toString() {
+        return " ADD HEC with habitEvent named: " + habitEvent.getName();
     }
 }

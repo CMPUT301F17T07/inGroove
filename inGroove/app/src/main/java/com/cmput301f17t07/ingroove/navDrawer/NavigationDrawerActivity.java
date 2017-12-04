@@ -18,7 +18,7 @@ import com.cmput301f17t07.ingroove.CurrentHabitsActivity;
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
 import com.cmput301f17t07.ingroove.FollowOtherUsers.FollowActivity;
-import com.cmput301f17t07.ingroove.MapsActivity;
+import com.cmput301f17t07.ingroove.MapActivities.MapOptionsActivity;
 import com.cmput301f17t07.ingroove.R;
 import com.cmput301f17t07.ingroove.UserActivityPackage.UserActivity;
 import com.cmput301f17t07.ingroove.ViewFollowRequests.FollowRequestsActivity;
@@ -29,6 +29,13 @@ import com.cmput301f17t07.ingroove.ViewFollowersActivityPackage.ViewFollowersAct
  * Created by corey on 2017-11-04.
  */
 
+/**
+ * [Boundary Class]
+ *
+ * Activity that provides the navigation drawer
+ *
+ * @see DataManagerAPI
+ */
 @SuppressLint("Registered")
 public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -93,6 +100,12 @@ public class NavigationDrawerActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Creates a new intent based on what the user selected in the navigation drawer.
+     * Can be used to quickly navigate through the app, instead using buttons or the back button.
+     * @param item
+     * @return
+     */
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -116,12 +129,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
             Intent intent = new Intent(getApplicationContext(), FollowRequestsActivity.class);
             getApplicationContext().startActivity(intent);
         } else if (id == R.id.nav_menu_map) {
-            Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
+            Intent intent = new Intent(getApplicationContext(), MapOptionsActivity.class);
             getApplicationContext().startActivity(intent);
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

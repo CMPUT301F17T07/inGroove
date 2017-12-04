@@ -4,11 +4,14 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
+ * [Data Class]
+ *
  * Abstraction of the application user.
  *
  * @see Habit
  * @see HabitEvent
  * @see Date
+ * @see Serializable
  *
  * Created by Ashley on 2017-10-22.
  */
@@ -21,6 +24,9 @@ public class User implements Serializable {
     private String userID;
     private Date joinDate;
     private int streak;
+    private Date streak_start;
+    private Date streak_end;
+    private int max_streak;
 
     /**
      * Default constructor, make a new user
@@ -31,12 +37,15 @@ public class User implements Serializable {
      * @param streak current streak
      * @see Date
      */
-    public User(String name, String email, Date joinDate, int streak, String uid) {
+    public User(String name, String email, Date joinDate, int streak, String uid, Date streak_start, Date streak_end, int max_streak) {
         this.name = name;
         this.email = email;
         this.joinDate = joinDate;
         this.streak = streak;
         this.userID = uid;
+        this.streak_start = streak_start;
+        this.streak_end = streak_end;
+        this.max_streak = max_streak;
     }
 
     /**
@@ -47,7 +56,7 @@ public class User implements Serializable {
      * @see Date
      */
     public User(String name, String email) {
-        this(name, email, new Date(), 0, "");
+        this(name, email, new Date(), 0, "", new Date(), new Date(), 0);
     }
 
     /**
@@ -151,6 +160,53 @@ public class User implements Serializable {
         this.streak = streak;
     }
 
+    /**
+     * Get the date the current streak of the user started from
+     * @return
+     */
+    public Date getStreak_start() {
+        return streak_start;
+    }
+
+    /**
+     * Set the date the users current streak starts from
+     * @param streak_start
+     */
+    public void setStreak_start(Date streak_start) {
+        this.streak_start = streak_start;
+    }
+
+    /**
+     * Get the date the users current streak was last calculated up to
+     * @return streak end calculation date
+     */
+    public Date getStreak_end() {
+        return streak_end;
+    }
+
+    /**
+     * Set the date the users current streak was last calculated up to
+     * @param streak_end the new streak end calculation date
+     */
+    public void setStreak_end(Date streak_end) {
+        this.streak_end = streak_end;
+    }
+
+    /**
+     * Get the value of the users max streak
+     * @return max streak value
+     */
+    public int getMax_streak() {
+        return max_streak;
+    }
+
+    /**
+     * Set the value of the max streak
+     * @param max_streak the new max streak value
+     */
+    public void setMax_streak(int max_streak) {
+        this.max_streak = max_streak;
+    }
 
     /**
      * Override the equals method for comparison purposes, ensure that de-serialized users can still

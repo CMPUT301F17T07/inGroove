@@ -3,14 +3,11 @@ package com.cmput301f17t07.ingroove.UserActivityPackage;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
@@ -19,10 +16,13 @@ import com.cmput301f17t07.ingroove.Model.User;
 import com.cmput301f17t07.ingroove.R;
 
 /**
- * Allows the user to edit their profile.
+ * [Boundary Class]
+ *
+ * Activity allows the User to edit their profile.
  *
  * @see User
  * @see UserActivity
+ * @see DataManagerAPI
  *
  * Created by Ashley on 2017-11-11.
  */
@@ -46,7 +46,7 @@ public class EditUserActivity extends AppCompatActivity {
     ImageView userImage;
 
     /**
-     * Allows the user to change their info or return to the user activity page
+     * Allows the otherUser to change their info or return to the otherUser activity page
      *
      * @param savedInstanceState
      */
@@ -66,10 +66,10 @@ public class EditUserActivity extends AppCompatActivity {
             // editUserImage = (ImageButton) findViewById(R.id.editImageButton);
             userImage = (ImageView) findViewById(R.id.userImageView);
 
-            // fill them in with the current info for user
+            // fill them in with the current info for otherUser
             userName.setText(user.getName());
             userEmail.setText(user.getEmail());
-            Drawable drawable = getResources().getDrawable(R.drawable.austin);
+            Drawable drawable = getResources().getDrawable(R.mipmap.ic_launcher_round);
             userImage.setImageDrawable(drawable);
 
             final Context context = this.getApplicationContext();
@@ -81,14 +81,14 @@ public class EditUserActivity extends AppCompatActivity {
                     nameText = userName.getText().toString();
                     emailText = userEmail.getText().toString();
 
-                    // update the user
+                    // update the otherUser
                     user.setName(nameText);
                     user.setEmail(emailText);
                     data.editUser(user);
 
                     // return back to UserActivity
                     Intent returnIntent = new Intent(context, UserActivity.class);
-                    returnIntent.putExtra(UserActivity.return_user_key, user);
+                    data.setPassedUser(user);
                     setResult(RESULT_OK, returnIntent);
                     finish();
                 }
@@ -97,7 +97,7 @@ public class EditUserActivity extends AppCompatActivity {
             // back button is pressed, do not save changes
             goBack.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    // don't need to save anything, just return user as is
+                    // don't need to save anything, just return otherUser as is
 
                     // return back to UserActivity
                     Intent returnIntent = new Intent(context, UserActivity.class);
@@ -106,7 +106,7 @@ public class EditUserActivity extends AppCompatActivity {
                 }
             });
 
-            // change the image for the user
+            // change the image for the otherUser
             // editUserImage.setOnClickListener(new View.OnClickListener() {
             //    public void onClick(View v) {
             //

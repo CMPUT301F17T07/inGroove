@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 /**
- * Generates a unique ID using a guessing and check scheme for new object being inserted into a list
+ * [Utility Class]
+ * Generates a unique ID using a guessing and check scheme for new objects being inserted into a list
  * of Identifiable objects
  *
  * @see Identifiable
@@ -13,10 +14,10 @@ import java.util.UUID;
  *
  * Created by Fraser Bulbuc on 2017-11-10.
  */
-
 public class UniqueIDGenerator {
 
     private ArrayList<? extends Identifiable> objs;
+    private final int LENGTH_OF_ID = 5;
 
     /**
      * Constructs a new UniqueIDGenerator instance
@@ -39,7 +40,7 @@ public class UniqueIDGenerator {
 
             // guess an ID
             String uniqueID = UUID.randomUUID().toString();
-            uniqueID = uniqueID.replace("-","");
+            uniqueID = uniqueID.replace("-","").substring(0, Math.min(uniqueID.length(), LENGTH_OF_ID));
 
             // check if it is unique
             if (objs.size()>=0 && isUnique(uniqueID)) {
@@ -58,12 +59,10 @@ public class UniqueIDGenerator {
      */
     private boolean isUnique(String guessedID) {
         for ( Identifiable identifiable: objs) {
-            if (guessedID.equals(identifiable.getID())) {
+            if (guessedID.equals(identifiable.getObjectID())) {
                 return false;
             }
         }
         return true;
     }
-
-
 }

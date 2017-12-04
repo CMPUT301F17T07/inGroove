@@ -3,50 +3,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group>
         <item
             android:id="@+id/nav_menu_account"
-            android:icon="@drawable/ic_add_black_24dp"
+            android:icon="@drawable/ic_account_box_black_24dp"
             android:title="Account" />
         <item
             android:id="@+id/nav_menu_current_habits"
-            android:icon="@mipmap/ic_launcher"
+            android:icon="@drawable/ic_playlist_add_black_24dp"
             android:title="My Habits" />
         <item
-            android:id="@+id/nav_menu_view_followers"
-            android:icon="@mipmap/ic_launcher"
-            android:title="My Followers" />
-        <item
-            android:id="@+id/nav_menu_find_people"
-            android:icon="@mipmap/ic_launcher"
-            android:title="Find People" />
-        <item
-            android:id="@+id/nav_menu_follow_requests"
-            android:icon="@mipmap/ic_launcher"
-            android:title="Follow Requests" />
-        <item
             android:id="@+id/nav_menu_map"
-            android:icon="@mipmap/ic_launcher"
+            android:icon="@drawable/ic_map_black_24dp"
             android:title="Map" />
 
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Social">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@mipmap/ic_launcher"
-                android:title="Share" />
+                android:id="@+id/nav_menu_find_people"
+                android:icon="@drawable/ic_search_black_24dp"
+                android:title="Find People" />
             <item
-                android:id="@+id/nav_send"
-                android:icon="@mipmap/ic_launcher"
-                android:title="Send" />
+                android:id="@+id/nav_menu_view_followers"
+                android:icon="@drawable/ic_people_black_24dp"
+                android:title="People I'm Following" />
+            <item
+                android:id="@+id/nav_menu_follow_requests"
+                android:icon="@drawable/ic_mail_black_24dp"
+                android:title="Follow Requests" />
         </menu>
     </item>
 
 </menu>
-
-<!-- Old menu headers for reference, @TODO delete
-<?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-</menu> -->

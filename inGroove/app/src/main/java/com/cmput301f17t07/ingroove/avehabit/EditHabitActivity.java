@@ -4,27 +4,24 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ListView;
-
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
 import com.cmput301f17t07.ingroove.DataManagers.DataManager;
-import com.cmput301f17t07.ingroove.HabitStats.HabitStatsActivity;
 import com.cmput301f17t07.ingroove.Model.Day;
 import com.cmput301f17t07.ingroove.Model.Habit;
-import com.cmput301f17t07.ingroove.Model.HabitEvent;
 import com.cmput301f17t07.ingroove.R;
-import com.cmput301f17t07.ingroove.ViewHabitEvent.ViewHabitEventActivity;
-
 import java.util.ArrayList;
-import java.util.Date;
 
+/**
+ * [Boundary Class]
+ * Activity to allow users to edit habits
+ *
+ * @see Habit
+ */
 public class EditHabitActivity extends AppCompatActivity {
 
     DataManagerAPI data = DataManager.getInstance();
@@ -54,16 +51,13 @@ public class EditHabitActivity extends AppCompatActivity {
     EditText habit_name;
     EditText habit_comment;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_habit);
-        Bundle bundle = this.getIntent().getExtras();
-        if (bundle != null){
-            passed_habit = (Habit) bundle.getSerializable(habit_key);
-        } else {
+        passed_habit = data.getPassedHabit();
+
+        if (passed_habit == null ){
             // We must have a habit to edit, we might crash otherwise
             setResult(RESULT_CANCELED);
             finish();
@@ -118,7 +112,7 @@ public class EditHabitActivity extends AppCompatActivity {
             public void onClick(View v) {
                 saveHabit();
                 Intent returnIntent = new Intent(context, EditHabitActivity.class);
-                returnIntent.putExtra(ViewHabitActivity.edited_habit_key, new_habit);
+                data.setPassedHabit(new_habit);
                 setResult(RESULT_OK, returnIntent);
                 finish();
             }
@@ -127,6 +121,11 @@ public class EditHabitActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Save the edits to storage through the data manager
+     *
+     * @see DataManagerAPI
+     */
     private void saveHabit(){
 
         String name = habit_name.getText().toString();

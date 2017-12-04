@@ -1,12 +1,21 @@
 package com.cmput301f17t07.ingroove.DataManagers;
 
+import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.util.Log;
 import com.cmput301f17t07.ingroove.DataManagers.Command.DataManagerAPI;
+import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommand;
 import com.cmput301f17t07.ingroove.DataManagers.Command.ServerCommandManager;
+import com.cmput301f17t07.ingroove.DataManagers.Command.UpdateUserCommand;
+import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AcceptFollowRequestObjIDTask;
+import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.AsyncResultHandler;
+import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GenericDeleteFollowRequest;
+import com.cmput301f17t07.ingroove.DataManagers.QueryTasks.GenericGetRequest;
 import com.cmput301f17t07.ingroove.Model.Habit;
 import com.cmput301f17t07.ingroove.Model.HabitEvent;
+import com.cmput301f17t07.ingroove.Model.SuperCombinedManagerObjectToManageTheMostRecentHabitForUser;
 import com.cmput301f17t07.ingroove.Model.User;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -17,10 +26,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
 
 /**
+ * [Singleton Model Class]
  * Singleton class representing DataManager facade (relays calls as appropriate to individual classes
  * that manage habit, habitEvent, relationships, and user data)
  *
@@ -44,6 +56,10 @@ public class DataManager implements DataManagerAPI {
 
     // current user
     private User user;
+    private User passedUser;
+    private Habit passedHabit;
+    private HabitEvent passedHabitEvent;
+
 
     /**
      * Private constructor to instantiate a new singleton object
@@ -82,36 +98,38 @@ public class DataManager implements DataManagerAPI {
 
     /**
      * Adds a new user to storage.
+     * only called once on start up
      *
-     * @param s a string representing the user's username
-     * @return 0 if success, -1 if any issues
+     * @param userName a string representing the user's username
+     * @return true if success, false if any issues
      * @see User
      */
     @Override
-    public String addUser(String s) {
+    public boolean addUser(String userName, AsyncResultHandler handler) {
 
-        // TODO: Verify there is a network connection before attempting.
-
-        user = new User(s);
-        ServerCommandManager.AddUserAsync addUserTask = new ServerCommandManager.AddUserAsync();
+        user = new User(userName);
+        ServerCommandManager.InitializeUserAsync addUserTask = new ServerCommandManager.InitializeUserAsync(handler);
         System.out.println("---- NEW USER ---- with name " + user.getName());
         addUserTask.execute(user);
         System.out.println("---- NEW USER ---- with name " + user.getName());
 
-        saveLocal();
+//        saveLocal();
 
-        return s;
+        return true;
     }
 
-    // TODO: CAN WE REMOVE THIS?
+
     public int editUser(User user) {
+
+        user.setUserID(this.user.getUserID());
 
         this.user = user;
         
         saveLocal();
 
-        // TODO: push to server;
-
+        ServerCommand updateUserCommand = new UpdateUserCommand(DataManager.getInstance().getUser());
+        ServerCommandManager.getInstance().addCommand(updateUserCommand);
+        ServerCommandManager.getInstance().execute();
         return 0;
     }
 
@@ -130,11 +148,10 @@ public class DataManager implements DataManagerAPI {
     /**
      * Relays habit to be added to the habit manager
      *
-     * @param user the user for which the habits should be retrieved
      * @return a list of habit objects
      * @see Habit
      */
-    public ArrayList<Habit> getHabit(User user) {
+    public ArrayList<Habit> getHabits() {
         return habitManager.getHabits();
     }
 
@@ -152,14 +169,13 @@ public class DataManager implements DataManagerAPI {
     /**
      * Retrieves the habitEvents for a particular user from the habitEventManager
      *
-     * @param forUser the user in which the habitEvents are wanted
      * @return a list of all the habitEvents a user has
      * @see HabitEvent
      * @see User
      */
     @Override
-    public ArrayList<HabitEvent> getHabitEvents(User forUser) {
-        return habitEventManager.getHabitEvents(forUser);
+    public ArrayList<HabitEvent> getHabitEvents() {
+        return habitEventManager.getHabitEvents();
     }
 
     /**
@@ -235,6 +251,69 @@ public class DataManager implements DataManagerAPI {
     }
 
     /**
+     * used to pass users between activities
+     * only returns the user once and then returns null til a new user is set by setPassedUser(User passedUser)
+     *
+     * @return the last user passed using setPassedUser(User passedUser)
+     */
+    public User getPassedUser() {
+        User temp = passedUser;
+        passedUser = null;
+        return temp;
+    }
+
+    /**
+     * used to pass users between activities
+     *
+     * @param passedUser the user to be passed, is return by getPassedUser()
+     */
+    public void setPassedUser(User passedUser) {
+        this.passedUser = passedUser;
+    }
+
+    /**
+     * used to pass habit between activities
+     * only returns the habit once and then returns null til a new user is set by setPassedHabit(Habit passedHabit)
+     *
+     * @return the last habit passed using setPassedHabit(Habit passedHabit)
+     */
+    public Habit getPassedHabit() {
+        Habit temp = passedHabit;
+        passedHabit = null;
+        return temp;
+    }
+
+    /**
+     * used to pass users between activities
+     *
+     * @param passedHabit the user to be passed, is return by getPassedHabit()
+     */
+    public void setPassedHabit(Habit passedHabit) {
+        this.passedHabit = passedHabit;
+    }
+
+    /**
+     * used to pass habitEvents between activities
+     * only returns the habitEvent once and then returns null til a new user is set by setPassedHabitEvent(HabitEvent passedHabitEvent)
+     *
+     * @return the last habit passed using setPassedHabitEvent(HabitEvent passedHabitEvent)
+     */
+    public HabitEvent getPassedHabitEvent() {
+        HabitEvent temp = passedHabitEvent;
+        passedHabitEvent = null;
+        return temp;
+    }
+
+    /**
+     * used to pass users between activities
+     *
+     * @param passedHabitEvent the user to be passed, is return by getPassedHabitEvent()
+     */
+    public void setPassedHabitEvent(HabitEvent passedHabitEvent) {
+        this.passedHabitEvent = passedHabitEvent;
+    }
+
+    /**
      * Save a local copy of the user information on the disk for offline use of the application
      *
      * @see Gson
@@ -300,21 +379,360 @@ public class DataManager implements DataManagerAPI {
      * @see User
      * @see ServerCommandManager
      */
-    public void addUserToServer(User user) {
+    public void addUserToServer(User user) throws Exception {
 
-        Index index = new Index.Builder(user).index("cmput301f17t07_ingroove").type("user").build();
+        boolean isNew = true;
 
-        try {
-            DocumentResult result = ServerCommandManager.getClient().execute(index);
-            if (result.isSucceeded()) {
-                user.setUserID(result.getId());
-                saveLocal();
-            }
+        Index.Builder builder = new Index.Builder(user).index(ServerCommandManager.INDEX).type(ServerCommandManager.USER_TYPE);
+
+        if (user.getUserID() != null && !user.getUserID().isEmpty()){
+            builder.id(user.getUserID());
+            isNew = false;
         }
-        catch (Exception e) {
+
+        Index index = builder.build();
+
+        DocumentResult result = ServerCommandManager.getClient().execute(index);
+        if (result.isSucceeded() && isNew) {
+            user.setUserID(result.getId());
+            saveLocal();
+
+        } else if (result.isSucceeded()) {
+            saveLocal();
+        } else {
+            Exception e = new Exception("Failed to add User to ES");
+
             Log.d("---- USER ----"," Failed to add user with name " + user.getName() + " to server. Caught " + e);
+
+            throw e;
         }
     }
+
+    /*  ------------------------- TODO: METHODS BELOW THIS HAVE YET TO BE IMPLEMENTED ------------------------- */
+
+    /**
+     * Retrieve the current users who want to follow the current user
+     *
+     * @return an array list of users who want to follow the current user
+     */
+    @Override
+    public int getFollowRequests(AsyncResultHandler resultHandler) {
+        RelationshipManager.getInstance().getFollowRequests(resultHandler, this.user.getUserID());
+        return 0;
+    }
+
+    /**
+     * Accept a follow request by a user
+     *
+     * @param user the user that is allowed to follow the current user
+     * @return true if the acceptance was successful, false if not
+     */
+    @Override
+    public Boolean acceptRequest(final User user) {
+        AcceptFollowRequestObjIDTask acc = new AcceptFollowRequestObjIDTask(ServerCommandManager.FOLLOW, this.user.getUserID(), new AsyncResultHandler<Boolean>() {
+            @Override
+            public void handleResult(ArrayList<Boolean> result) {
+                if (result.get(0) != null) {
+                    Log.d("--- DATA MNG ---", "Successfully accepted " + user.getName() + "'s follow request.");
+                } else {
+                    Log.d("--- DATA MNG ---", "Failed to accept " + user.getName() + "'s follow request.");
+                }
+            }
+        });
+        acc.execute(user.getUserID());
+        return true;
+    }
+
+    /**
+     * Reject a pending follow request
+     *
+     * @param user
+     * @return true if the rejection was successful, false if not
+     */
+    @Override
+    public Boolean rejectRequest(User user, AsyncResultHandler handler) {
+        GenericDeleteFollowRequest del = new GenericDeleteFollowRequest(user.getUserID(), handler);
+        del.execute(this.user.getUserID());
+        return true;
+    }
+
+    @Override
+    public void unFollow(User user) {
+        GenericDeleteFollowRequest del = new GenericDeleteFollowRequest(this.getUser().getUserID(), null);
+        del.execute(user.getUserID());
+    }
+
+    /**
+     * Cancel a pending follow request
+     *
+     * @param user
+     * @return true if the rejection was successful, false if not
+     */
+    @Override
+    public Boolean cancelRequest(User user, AsyncResultHandler handler) {
+        GenericDeleteFollowRequest del = new GenericDeleteFollowRequest(this.user.getUserID(), handler);
+        del.execute(user.getUserID());
+        return true;
+    }
+
+    /**
+     * Get the users which the specified user follows
+     *
+     * @param user    the user you want to get the followers of
+     * @param handler
+     * @return a list of the particular user's followers
+     */
+    @Override
+    public int getWhoThisUserFollows(User user, AsyncResultHandler handler) {
+        RelationshipManager.getInstance().getWhoThisUserFollows(handler, user);
+        return 0;
+    }
+
+    /**
+     * Gets the followers of a particular user
+     *
+     * @param user    a list of users who follow the specified user
+     * @param handler
+     * @return a list of users who follow the specified user
+     */
+    @Override
+    public int getWhoFollows(User user, AsyncResultHandler handler) {
+        RelationshipManager.getInstance().getFollowersOf(handler, user.getUserID());
+        return 0;
+    }
+
+    /**
+     * Search users
+     *
+     * @param minStreak        the min streak to include
+     * @param query            the search query
+     * @param alreadyFollowing if true, do not include the users you are already following
+     * @param handler
+     * @return a list of the users who meet the criteria
+     */
+    @Override
+    public int findUsers(final int minStreak, String query, Boolean alreadyFollowing, final AsyncResultHandler handler) {
+        GenericGetRequest<User> get = new GenericGetRequest<>(new AsyncResultHandler<User>() {
+            @Override
+            public void handleResult(ArrayList<User> result) {
+
+                ArrayList<User> aboveMin = new ArrayList<>();
+
+                for (User user : result) {
+                    if (user.getMax_streak() >= minStreak) {
+                        aboveMin.add(user);
+                    }
+                }
+
+                Collections.sort(result, new Comparator<User>() {
+                    @Override
+                    public int compare(User u1, User u2) {
+                        if (u1.getMax_streak() > u2.getMax_streak()) {
+                            return -1;
+                        } else if (u1.getMax_streak() < u2.getMax_streak()) {
+                            return 1;
+                        }
+                        return 0;
+                    }
+                });
+
+                handler.handleResult(aboveMin);
+            }
+        }, User.class, "user", "name");
+        get.execute(query.toLowerCase());
+        return 0;
+    }
+
+    /**
+     * Send a request to follow the user
+     *
+     * @param user the user the current user wants to follow
+     * @return true if success, false if not
+     */
+    @Override
+    public Boolean sendFollowRequest(User user) {
+        if (RelationshipManager.getInstance().sendFollowRequest(this.user, user) != -1) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Search Habits
+     *
+     * @param forUser the search query
+     * @return a list of habits that contain the search query
+     */
+    @Override
+    public int findHabits(User forUser, AsyncResultHandler<Habit> handler) {
+        habitManager.findHabits(handler, forUser);
+        return 0;
+    }
+
+    /**
+     * Search HabitEvents
+     *
+     * @param forHabit   the search query
+     * @param handler
+     * @return a list of habits that contain the search query
+     */
+    @Override
+    public int findHabitEvents(Habit forHabit, AsyncResultHandler<HabitEvent> handler) {
+        habitEventManager.findHabitEvents(forHabit, handler);
+        return 0;
+    }
+
+    @Override
+    public int findHabitEvents(User forUser, AsyncResultHandler handler) {
+        habitEventManager.findHabitEvents(forUser, handler);
+        return 0;
+    }
+
+    /**
+     * returns an Array of SuperCombinedManagerObjectToManageTheMostRecentHabitForUser that holds the Habit and its most recent event for the User
+     *
+     * @param forUser the User to get the array of most recent events
+     * @param handler what to call when the results come back
+     */
+    @Override
+    public void findMostRecentEvent(final User forUser, final AsyncResultHandler<SuperCombinedManagerObjectToManageTheMostRecentHabitForUser> handler) {
+        Log.d("FIND MOST RECENT EVENTS-- 1", "Starting");
+
+        findHabits(forUser, new AsyncResultHandler<Habit>() {
+
+            int total;
+            @Override
+            public void handleResult(ArrayList<Habit> result) {
+                if (result.size() == 0) {
+                    ArrayList<SuperCombinedManagerObjectToManageTheMostRecentHabitForUser> temp = new ArrayList<>();
+                    handler.handleResult(temp);
+                } else {
+                    total = result.size();
+                    Log.d("FIND MOST RECENT EVENTS-- 2", "Number of habits " + String.valueOf(total));
+
+                    for (final Habit habit: result) {
+                        findHabitEvents(habit, new AsyncResultHandler<HabitEvent>() {
+                            @Override
+                            public void handleResult(ArrayList<HabitEvent> habitEvents) {
+                                Log.d("FIND MOST RECENT EVENTS-- 3", "habitEvents size: " + String.valueOf(habitEvents.size()));
+                                if (habitEvents.size() == 0) {
+                                    ArrayList<SuperCombinedManagerObjectToManageTheMostRecentHabitForUser> temp = new ArrayList<>();
+                                    finalHandler.handleResult(temp);
+                                } else {
+                                    HabitEvent mostRecentEvent = habitEvents.get(0);
+                                    for (HabitEvent habitEvent : habitEvents) {
+                                        Log.d("FIND MOST RECENT EVENTS-- 3.1", "habitEvent on day: " + habitEvent.getDay().toString());
+                                        Log.d("FIND MOST RECENT EVENTS-- 3.2", "mostRecent : " + mostRecentEvent.getDay().toString());
+                                        Log.d("FIND MOST RECENT EVENTS-- 3.3", "mostRecent.compareTo(habitEvent) = : " + String.valueOf(mostRecentEvent.getDay().compareTo(habitEvent.getDay())));
+
+
+
+                                        if (mostRecentEvent.getDay().compareTo(habitEvent.getDay()) < 0){
+                                            mostRecentEvent = habitEvent;
+                                        }
+                                    }
+
+                                    Log.d("FIND MOST RECENT EVENTS-- 3.4", "mostRecent = : " + mostRecentEvent.getDay().toString());
+
+
+                                    SuperCombinedManagerObjectToManageTheMostRecentHabitForUser result = new SuperCombinedManagerObjectToManageTheMostRecentHabitForUser(forUser, habit, mostRecentEvent);
+                                    ArrayList<SuperCombinedManagerObjectToManageTheMostRecentHabitForUser> temp = new ArrayList<>();
+                                    temp.add(result);
+                                    finalHandler.handleResult(temp);
+                                }
+                            }
+                        });
+                    }
+                }
+
+            }
+
+            ArrayList<SuperCombinedManagerObjectToManageTheMostRecentHabitForUser> superCombinedManagerObjectToManageTheMostRecentHabitForUserArrayList = new ArrayList<>();
+
+            AsyncResultHandler<SuperCombinedManagerObjectToManageTheMostRecentHabitForUser> finalHandler = new AsyncResultHandler<SuperCombinedManagerObjectToManageTheMostRecentHabitForUser>() {
+                int count = 0;
+
+                @Override
+                public void handleResult(ArrayList<SuperCombinedManagerObjectToManageTheMostRecentHabitForUser> result) {
+                    if (count < total) {
+                        count++;
+                        Log.d("FIND MOST RECENT EVENTS-- 4", "Adding: " + String.valueOf(result.size()) + " to the final return Array");
+                        if (result.size() != 0){
+                            superCombinedManagerObjectToManageTheMostRecentHabitForUserArrayList.add(result.get(0));
+                        }
+                    }
+
+                    if (count == total) {
+                        Log.d("FIND MOST RECENT EVENTS-- Finished", "Returning: " + String.valueOf(superCombinedManagerObjectToManageTheMostRecentHabitForUserArrayList.size()) + " results");
+
+                        handler.handleResult(superCombinedManagerObjectToManageTheMostRecentHabitForUserArrayList);
+                    }
+                }
+            };
+
+
+        });
+    }
+
+    /**
+     * Get the habit events within a specified radius
+     *
+     * @param radius the radius in kilometers
+     * @param centre the centre of the circle to find habit events within
+     * @return a list of the habit events
+     */
+    @Override
+    @Deprecated
+    //TODO: Remove this
+    public ArrayList<HabitEvent> getHabitEventsWithinRange(int radius, LatLng centre) {
+        return new ArrayList<HabitEvent>();
+    }
+
+
+    /**
+     * LiveData Object for findHabitRequests
+     */
+    private MutableLiveData<ArrayList<Habit>> findHabitsQueryResults;
+    private MutableLiveData<ArrayList<HabitEvent>> findHabitEventsQueryResults;
+    private MutableLiveData<ArrayList<User>> findUserQueryResults;
+
+    /**
+     * Access to get the queried habits
+     *
+     * @return the list of most recent habit query results
+     */
+    public MutableLiveData<ArrayList<Habit>> getFindHabitsQueryResults() {
+        if (findHabitsQueryResults == null) {
+            findHabitsQueryResults = new MutableLiveData<>();
+        }
+        return findHabitsQueryResults;
+    }
+
+    /**
+     * Access to get the queried habitEvents
+     *
+     * @return the list of the most recent habitEvent query results
+     */
+    public MutableLiveData<ArrayList<HabitEvent>> getFindHabitEventsQueryResults() {
+        if (findHabitEventsQueryResults == null) {
+            findHabitEventsQueryResults = new MutableLiveData<>();
+        }
+        return findHabitEventsQueryResults;
+    }
+
+    /**
+     * Access to get the queried users
+     *
+     * @return the list of the most recent user query results
+     */
+    public MutableLiveData<ArrayList<User>> getFindUserQueryResults() {
+        if (findUserQueryResults == null) {
+            findUserQueryResults = new MutableLiveData<>();
+        }
+        return findUserQueryResults;
+    }
+
+
 
 }
 

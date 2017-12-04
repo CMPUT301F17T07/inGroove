@@ -5,4 +5,4 @@
     android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.cmput301f17t07.ingroove.MapsActivity" />
+    tools:context="com.cmput301f17t07.ingroove.MapActivities.MapsActivity" />

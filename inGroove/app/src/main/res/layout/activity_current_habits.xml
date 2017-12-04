@@ -64,6 +64,11 @@
 
                 </LinearLayout>
 
+                <SearchView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/SearchHabitsBox" />
+
                 <GridView
                     android:id="@+id/HabitViewer"
                     android:layout_width="match_parent"
@@ -84,7 +89,7 @@
                 app:fabSize="mini"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:srcCompat="@drawable/ic_add_black_24dp" />
+                app:srcCompat="@drawable/ic_add_white_24dp" />
 
         </android.support.constraint.ConstraintLayout>
     </android.support.constraint.ConstraintLayout>

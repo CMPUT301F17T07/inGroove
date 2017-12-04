@@ -126,7 +126,7 @@ public class HabitEventManagerTest {
     public void testGetCompletionPercentageSince() {
 //        HabitEventManager eventManager = HabitEventManager.getInstance();
 //
-//        User user = new User("Test", "test@test.com", 0);
+//        User user = new User("Test", "test@test.com");
 //
 //        HabitEvent missedEvent = new HabitEvent("test", null, new Date(), null, 0, 0, user.getUserID(), null, Boolean.FALSE);
 //
