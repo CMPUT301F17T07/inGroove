@@ -99,36 +99,34 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         data.getWhoThisUserFollows(data.getUser(), new AsyncResultHandler<User>() {
             @Override
             public void handleResult(ArrayList<User> result) {
-                // For each one
-                Log.d("--MAP--", "Got "+ result.size() + " followers");
-                for(User u : result){
-                    Log.d("---MAP---", "For user " + u.getName()+ " with id " + u.getUserID());
-                    // Get all their habit events with locations
-                    // Add those locations to the map
-                    data.findHabitEvents(u, new AsyncResultHandler<HabitEvent>() {
-                        @Override
-                        public void handleResult(ArrayList<HabitEvent> result) {
-                            for (HabitEvent e : result){
-                                LatLng loc = e.getLocation();
-                                if (loc != null){
-                                    if(eventNear(e)){
-                                        mMap.addMarker(new MarkerOptions()
-                                                .position(loc)
-                                                .title(e.getName())
-                                                .icon(BitmapDescriptorFactory
-                                                        .defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
-                                    } else {
-                                        mMap.addMarker(new MarkerOptions()
-                                                .position(loc)
-                                                .title(e.getName()));
-                                    }
-
-                                }
+            // For each one
+            Log.d("--MAP--", "Got "+ result.size() + " followers");
+            for(User u : result){
+                Log.d("---MAP---", "For user " + u.getName()+ " with id " + u.getUserID());
+                // Get all their habit events with locations
+                // Add those locations to the map
+                data.findHabitEvents(u, new AsyncResultHandler<HabitEvent>() {
+                    @Override
+                    public void handleResult(ArrayList<HabitEvent> result) {
+                    for (HabitEvent e : result){
+                        LatLng loc = e.getLocation();
+                        if (loc != null){
+                            if(eventNear(e)){
+                                mMap.addMarker(new MarkerOptions()
+                                        .position(loc)
+                                        .title(e.getName())
+                                        .icon(BitmapDescriptorFactory
+                                                .defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+                            } else {
+                                mMap.addMarker(new MarkerOptions()
+                                        .position(loc)
+                                        .title(e.getName()));
                             }
-
                         }
-                    });
-                }
+                    }
+                    }
+                });
+            }
             }
         });
 
