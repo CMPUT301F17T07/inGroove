@@ -172,7 +172,7 @@ public class UserActivity extends NavigationDrawerActivity  {
 
 
             //Update followings list
-            this.data.getWhoThisUserFollows(user, new AsyncResultHandler<User>() {
+            this.data.getWhoFollows(user, new AsyncResultHandler<User>() {
                 @Override
                 public void handleResult(ArrayList<User> result) {
                     FollowsList = result;
