@@ -46,6 +46,7 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
     public static String user_key = "USR_ACNT";
     public static String return_user_key = "USR_ACNT_EDITED";
     User otherUser;
+    boolean isFollowing;
 
     // List of people the otherUser follows.
     ArrayList<Habit> HabitList;
@@ -75,6 +76,10 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
         // Get the otherUser to display
         otherUser = data.getPassedUser();
 
+        Intent intent = getIntent();
+        isFollowing = intent.getBooleanExtra("isFollowing", true);
+
+
         // make sure that the otherUser is valid, else do activity
         if (otherUser == null){
             // We don't have a otherUser to display, just go back to the prior activity
@@ -98,29 +103,53 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
             // hide the edit otherUser button
             edit_button.setVisibility(View.INVISIBLE);
 
-            // check to see if the unfollow button should be displayed or not
-            data.getWhoThisUserFollows(otherUser, new AsyncResultHandler() {
-                @Override
-                public void handleResult(ArrayList result) {
-                    result = (ArrayList<User>) result;
-                    if (result.contains(data.getUser())){
-                        unfollow_button.setVisibility(View.INVISIBLE);
+
+            if (isFollowing){
+                // check to see if the unfollow button should be displayed or not
+                data.getWhoThisUserFollows(data.getUser(), new AsyncResultHandler<User>() {
+                    @Override
+                    public void handleResult(ArrayList<User> result) {
+                        if (!result.contains(otherUser)){
+                            unfollow_button.setVisibility(View.INVISIBLE);
+                        }
                     }
-                }
-            });
+                });
+
+            } else if (!isFollowing){
+                unfollow_button.setText("Reject Follower");
+
+            }
+
+            // check to see if the unfollow button should be displayed or not
+//            data.getWhoThisUserFollows(otherUser, new AsyncResultHandler<User>() {
+//                @Override
+//                public void handleResult(ArrayList<User> result) {
+//                    Log.d("VIEW OTHER USERS", "reutrfndsajfkdsa");
+//                    if (result.contains(data.getUser())){
+//                        Log.d("VIEW OTHER USERS", "result contains");
+//
+//                        unfollow_button.setVisibility(View.INVISIBLE);
+//                    }
+//                }
+//            });
 
             // Load the layout with the otherUser's data
             Drawable drawable = getResources().getDrawable(R.mipmap.ic_launcher_round);
             user_picture.setImageDrawable(drawable);
 
-            // Load the ListView with the habits of the passed in otherUser
-            data.findHabits(otherUser, new AsyncResultHandler<Habit>() {
-                @Override
-                public void handleResult(ArrayList<Habit> result) {
-                    HabitList = result;
-                    LoadListView(HabitList);
-                }
-            });
+            if (isFollowing){
+                // Load the ListView with the habits of the passed in otherUser
+                data.findHabits(otherUser, new AsyncResultHandler<Habit>() {
+                    @Override
+                    public void handleResult(ArrayList<Habit> result) {
+                        HabitList = result;
+                        LoadListView(HabitList);
+                    }
+                });
+                follow_list_text.setText("Here is a list of their current habits: ");
+            } else {
+                follow_list_text.setVisibility(View.INVISIBLE);
+            }
 
 
             name.setText(otherUser.getName());
@@ -129,7 +158,6 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
             SimpleDateFormat s_date_format = new SimpleDateFormat("dd MMM yyyy");
             start_date_txt.setText("They've been getting in groove since " + s_date_format.format(otherUser.getJoinDate()));
             max_streak_txt.setText("Their max streak was " + otherUser.getStreak() + "day(s) long");
-            follow_list_text.setText("Here is a list of their current habits: ");
 
             // deal with click on habits list
             Habits_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -143,7 +171,16 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
             unfollow_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    data.unFollow(otherUser);
+                    if (isFollowing) {
+                        data.unFollow(otherUser);
+                    } else {
+                        data.rejectRequest(otherUser, new AsyncResultHandler() {
+                            @Override
+                            public void handleResult(ArrayList result) {
+                                //doesn't need to get the result
+                            }
+                        });
+                    }
                     unfollow_button.setVisibility(View.INVISIBLE);
                 }
             });
@@ -197,7 +234,6 @@ public class ViewOtherUserActivity extends NavigationDrawerActivity {
 
     private void HabitListOnClick(int position, View v)
     {
-        // Nothing here for now.  Maybe one day...
         data.setPassedHabit(HabitList.get(position));
         Intent intent = new Intent(v.getContext(), ViewOtherUserHabitActivity.class);
         startActivity(intent);
