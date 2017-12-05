@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -134,14 +135,14 @@ public class UserActivity extends NavigationDrawerActivity  {
             // This gives the user the power to see the profile of users they have accepted follow
             // requests from, however this is not a requirement and we do not know if we should
             // allow it. @TODO determine if we should allow it
-            /*
+
             friends_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                     FollowerListOnClick(position, v);
                 }
             });
-            */
+
 
             super.onCreateDrawer();
         }
@@ -172,7 +173,7 @@ public class UserActivity extends NavigationDrawerActivity  {
 
 
             //Update followings list
-            this.data.getWhoThisUserFollows(user, new AsyncResultHandler<User>() {
+            this.data.getWhoFollows(user, new AsyncResultHandler<User>() {
                 @Override
                 public void handleResult(ArrayList<User> result) {
                     FollowsList = result;
@@ -226,6 +227,7 @@ public class UserActivity extends NavigationDrawerActivity  {
     {
         data.setPassedUser(FollowsList.get(position));
         Intent upcomingIntent = new Intent(v.getContext(), ViewOtherUserActivity.class);
+        upcomingIntent.putExtra("isFollowing", false);
         startActivityForResult(upcomingIntent, 0);
 
     }

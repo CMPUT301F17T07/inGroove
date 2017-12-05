@@ -138,6 +138,7 @@ public class ViewFollowersActivity extends NavigationDrawerActivity {
         if(onFollowers) {
             ServerCommunicator.setPassedUser(FollowerList.get(position));
             Intent upcomingIntent = new Intent(v.getContext(), ViewOtherUserActivity.class);
+            upcomingIntent.putExtra("isFollowing", true);
             startActivityForResult(upcomingIntent, 0);
         } else {
             ServerCommunicator.setPassedHabitEvent(habitEventList.get(position));
