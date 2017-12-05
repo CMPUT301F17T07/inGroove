@@ -282,36 +282,4 @@ public interface DataManagerAPI {
     void findMostRecentEvent(User forUser, AsyncResultHandler<SuperCombinedManagerObjectToManageTheMostRecentHabitForUser> handler);
 
 
-    /**
-     * Get the habit events within a specified radius
-     *
-     * @param radius the radius in kilometers
-     * @param centre the centre of the circle to find habit events within
-     * @return a list of the habit events
-     */
-    ArrayList<HabitEvent> getHabitEventsWithinRange(int radius, LatLng centre);
-
-    /**
-     * Get the LiveData object holding the query results
-     *
-     * @return a LiveData object representing the query results
-     */
-    MutableLiveData<ArrayList<Habit>> getFindHabitsQueryResults();
-
-    /**
-     * Get the LiveData object holding the query results
-     *
-     * @return a LiveData object representing the query results
-     */
-    MutableLiveData<ArrayList<HabitEvent>> getFindHabitEventsQueryResults();
-
-
-    /**
-     * Access to get the queried users
-     *
-     * @return the list of the most recent user query results
-     */
-     MutableLiveData<ArrayList<User>> getFindUserQueryResults();
-
-
 }

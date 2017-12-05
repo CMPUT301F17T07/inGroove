@@ -675,64 +675,6 @@ public class DataManager implements DataManagerAPI {
         });
     }
 
-    /**
-     * Get the habit events within a specified radius
-     *
-     * @param radius the radius in kilometers
-     * @param centre the centre of the circle to find habit events within
-     * @return a list of the habit events
-     */
-    @Override
-    @Deprecated
-    //TODO: Remove this
-    public ArrayList<HabitEvent> getHabitEventsWithinRange(int radius, LatLng centre) {
-        return new ArrayList<HabitEvent>();
-    }
-
-
-    /**
-     * LiveData Object for findHabitRequests
-     */
-    private MutableLiveData<ArrayList<Habit>> findHabitsQueryResults;
-    private MutableLiveData<ArrayList<HabitEvent>> findHabitEventsQueryResults;
-    private MutableLiveData<ArrayList<User>> findUserQueryResults;
-
-    /**
-     * Access to get the queried habits
-     *
-     * @return the list of most recent habit query results
-     */
-    public MutableLiveData<ArrayList<Habit>> getFindHabitsQueryResults() {
-        if (findHabitsQueryResults == null) {
-            findHabitsQueryResults = new MutableLiveData<>();
-        }
-        return findHabitsQueryResults;
-    }
-
-    /**
-     * Access to get the queried habitEvents
-     *
-     * @return the list of the most recent habitEvent query results
-     */
-    public MutableLiveData<ArrayList<HabitEvent>> getFindHabitEventsQueryResults() {
-        if (findHabitEventsQueryResults == null) {
-            findHabitEventsQueryResults = new MutableLiveData<>();
-        }
-        return findHabitEventsQueryResults;
-    }
-
-    /**
-     * Access to get the queried users
-     *
-     * @return the list of the most recent user query results
-     */
-    public MutableLiveData<ArrayList<User>> getFindUserQueryResults() {
-        if (findUserQueryResults == null) {
-            findUserQueryResults = new MutableLiveData<>();
-        }
-        return findUserQueryResults;
-    }
-
 
 
 }

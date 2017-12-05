@@ -393,45 +393,4 @@ public class MockDataManager implements DataManagerAPI {
         
     }
 
-    /**
-     * Get the habit events within a specified radius
-     *
-     * @param radius the radius in kilometers
-     * @param centre the centre of the circle to find habit events within
-     * @return a list of the habit events
-     */
-    @Override
-    public ArrayList<HabitEvent> getHabitEventsWithinRange(int radius, LatLng centre) {
-        return null;
-    }
-
-    /**
-     * Get the LiveData object holding the query results
-     *
-     * @return a LiveData object representing the query results
-     */
-    @Override
-    public MutableLiveData<ArrayList<Habit>> getFindHabitsQueryResults() {
-        return null;
-    }
-
-    /**
-     * Get the LiveData object holding the query results
-     *
-     * @return a LiveData object representing the query results
-     */
-    @Override
-    public MutableLiveData<ArrayList<HabitEvent>> getFindHabitEventsQueryResults() {
-        return null;
-    }
-
-    /**
-     * Access to get the queried users
-     *
-     * @return the list of the most recent user query results
-     */
-    @Override
-    public MutableLiveData<ArrayList<User>> getFindUserQueryResults() {
-        return null;
-    }
 }
