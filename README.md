@@ -21,4 +21,4 @@ Completing habits at their designated time(s) will add to a habit streak. A user
 * [Google Gson](https://github.com/google/gson)
 
 ### Demo Video
-https://www.youtube.com/watch?v=LktlAM8cMn4
+https://www.youtube.com/watch?v=r7lAwd6OdiY
