@@ -123,7 +123,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="On the map, your location is shown in blue (if available), your habits are shown in yellow, and your followed habits are shown in red. Normal events are shown as circles, and highlighted events are stars." />
+                    android:text="On the map, your location is shown in blue (if available), Habit events (yours or your followed people) are shown in green. If you have chosen to highlight nearby events they will be shown in red instead." />
 
                 <Space
                     android:layout_width="match_parent"
